@@ -6,13 +6,9 @@
   "module": "dist/index.esm.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "clean": "rimraf dist",
-    "build": "npm run clean && node build.js && tsc --emitDeclarationOnly --outDir dist",
-    "build-s": "node esbuild-build.js  && tsc --emitDeclarationOnly",
-    "start": "node esbuild-serve.js -w",
-    "start2": "node esbuild-serve2.js -w",
-    "buildu": "node esbuild.config.js",
-    "startu": "node esbuild.config.js -w"
+    "clean-dist": "rimraf dist",
+    "build-package": "npm run clean-dist && node esbuild.config.js && tsc --emitDeclarationOnly --outDir dist",
+    "start": "node esbuild-serve.js -w"
   },
   "type": "module",
   "author": "",
