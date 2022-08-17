@@ -1,4 +1,4 @@
-import styled from '@emotion/styled/macro';
+import styled from 'styled-components';
 import { genSpaces } from '../utils';
 import { Paddings, Margins } from '../types';
 

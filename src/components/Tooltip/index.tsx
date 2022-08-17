@@ -1,5 +1,6 @@
-import { useState, PropsWithChildren } from 'react';
-import styled from '@emotion/styled/macro';
+import React, { useState, PropsWithChildren } from 'react';
+
+import styled from 'styled-components';
 import { adjustColor } from '../utils';
 
 const TRANSITION_TIME = '300ms';

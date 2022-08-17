@@ -1,14 +1,15 @@
-import styled from '@emotion/styled/macro';
+import React, { useState } from 'react';
+import styled from 'styled-components';
 import { Popover } from 'react-tiny-popover';
-import { useState } from 'react';
+
 import { Bell } from '@emotion-icons/octicons';
 import NotificationFeed from '../NotificationFeed';
 
-const BellContainer = styled.div({
-  position: 'relative',
-  cursor: 'pointer',
-  width: 'fit-content',
-});
+const BellContainer = styled.div`
+  position: relative;
+  cursor: pointer;
+  width: fit-content;
+`;
 
 const NotificationBell = () => {
   const [feedOpen, setFeedOpen] = useState(false);

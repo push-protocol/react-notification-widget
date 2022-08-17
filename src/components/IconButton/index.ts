@@ -1,4 +1,4 @@
-import styled from '@emotion/styled/macro';
+import styled from 'styled-components';
 
 const IconButton = styled.div(({ theme }) => ({
   borderRadius: '50%',

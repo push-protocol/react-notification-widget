@@ -1,12 +1,12 @@
 import React from 'react';
 import { useTheme } from '@emotion/react';
-import styled from '@emotion/styled/macro';
+import styled from 'styled-components';
 import { Clock } from '@emotion-icons/octicons';
-import { EpnsNotification } from '../../context/NotificationsContext';
 import Flex from '../layout/Flex';
 import Text from '../Text';
 import Tooltip from '../Tooltip';
 import { adjustColor } from '../utils';
+import { EpnsNotification } from 'context/NotificationsContext';
 
 type PropsT = {
   notification: EpnsNotification;

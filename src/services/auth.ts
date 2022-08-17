@@ -4,7 +4,7 @@ import { publicProvider } from 'wagmi/providers/public';
 
 const { chains, provider } = configureChains(
   [chain.mainnet],
-    [alchemyProvider({ }), publicProvider()]
+  [alchemyProvider({}), publicProvider()]
 );
 
 const wagmiClient = createClient({

@@ -1,14 +1,15 @@
-import styled from '@emotion/styled/macro';
-import { useState } from 'react';
+import React, { useState } from 'react';
+import styled from 'styled-components';
+
 import { Gear, ArrowLeft } from '@emotion-icons/octicons';
 import { useTheme } from '@emotion/react';
-import { useNotificationsContext } from '../../context/NotificationsContext';
 import Flex from '../layout/Flex';
 import Text from '../Text';
 import NotificationFeedItem from '../NotificationFeedItem';
 import IconButton from '../IconButton';
 import Spinner from '../Spinner';
 import NotificationSettings from '../NotificationSettings';
+import { useNotificationsContext } from 'context/NotificationsContext';
 
 const FeedContainer = styled.div(({ theme }) => ({
   width: 400,
@@ -26,17 +27,16 @@ const FeedContainer = styled.div(({ theme }) => ({
   },
 }));
 
-const NotificationsFeeItemContainer = styled(Flex)({
-  height: 380,
-  gap: 8,
-  flexDirection: 'column',
-  overflowY: 'auto',
-  msOverflowStyle: 'none',
-  scrollbarWidth: 'none',
-  '&::-webkit-scrollbar': {
-    display: 'none',
+const NotificationsFeeItemContainer = styled(Flex)`
+  height: 380px;
+  gap: 8px;
+  flex-direction: column;
+  overflow-y: auto;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    display: none;
   },
-});
+`;
 
 const NotificationFeed = () => {
   const { notifications, isLoading } = useNotificationsContext();

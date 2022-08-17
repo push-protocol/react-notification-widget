@@ -1,27 +1,30 @@
-const { build } = require("esbuild");
-const { dependencies } = require("./package.json");
+const { build } = require('esbuild');
+const { dependencies } = require('./package.json');
 
-const entryFile = "src/App.tsx";
+const entryFile = 'src/index.tsx';
 
 const shared = {
-    bundle: true,
-    entryPoints: [entryFile],
-    external: Object.keys(dependencies),
-    logLevel: "info",
-    minify: true,
-    sourcemap: true
-}
+  bundle: true,
+  entryPoints: [entryFile],
+  external: Object.keys(dependencies),
+  logLevel: 'info',
+  minify: true,
+  sourcemap: true,
+  loader: {
+    '.js': 'jsx',
+  },
+};
 
 build({
-    ...shared,
-    format: "esm",
-    outfile: "./dist/index.esm.js",
-    target: ["esnext", "node12.22.0"]
-})
+  ...shared,
+  format: 'esm',
+  outfile: './dist/index.esm.js',
+  target: ['esnext', 'node12.22.0'],
+});
 
 build({
-    ...shared,
-    format: "cjs",
-    outfile: "./dist/index.cjs.js",
-    target: ["esnext", "node12.22.0"]
-})
+  ...shared,
+  format: 'cjs',
+  outfile: './dist/index.cjs.js',
+  target: ['esnext', 'node12.22.0'],
+});
