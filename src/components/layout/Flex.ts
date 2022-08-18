@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { genSpaces } from '../utils';
+import { conditionalRenderProp, genSpaces, renderStringNumValue } from '../utils';
 import { Paddings, Margins } from '../types';
 
 type PropsT = {
@@ -12,18 +12,18 @@ type PropsT = {
 } & Paddings &
   Margins;
 
-const Flex = styled.div<PropsT>(
-  ({ theme, direction, height, width, gap, justifyContent, alignItems, ...rest }) => ({
-    backgroundColor: theme.colors.bg.main,
-    display: 'flex',
-    height,
-    width,
-    flexDirection: direction,
-    gap: typeof gap === 'number' ? theme.spacing(gap) : gap,
-    ...genSpaces(theme, rest),
-    alignItems,
-    justifyContent,
-  })
-);
+const Flex = styled.div<PropsT>`
+  ${({ theme, direction, height, width, gap, justifyContent, alignItems, ...rest }) => `
+    ${conditionalRenderProp('background-color', theme.colors.bg.main)};
+    display: flex;
+    ${conditionalRenderProp('height', renderStringNumValue(height))};
+    ${conditionalRenderProp('width', renderStringNumValue(width))};
+    ${conditionalRenderProp('flex-direction', direction)};
+    ${conditionalRenderProp('gap', renderStringNumValue(gap, theme.spacing))};
+    ${conditionalRenderProp('align-items', alignItems)};
+    ${conditionalRenderProp('justify-content', justifyContent)};
+    ${genSpaces(theme, rest)}
+  `};
+`;
 
 export default Flex;

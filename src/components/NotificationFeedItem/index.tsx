@@ -1,6 +1,5 @@
 import React from 'react';
-import { useTheme } from '@emotion/react';
-import styled from 'styled-components';
+import styled, { useTheme } from 'styled-components';
 import { Clock } from '@emotion-icons/octicons';
 import Flex from '../layout/Flex';
 import Text from '../Text';

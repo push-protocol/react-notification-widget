@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
-
+import styled, { useTheme } from 'styled-components';
 import { Gear, ArrowLeft } from '@emotion-icons/octicons';
-import { useTheme } from '@emotion/react';
 import Flex from '../layout/Flex';
 import Text from '../Text';
 import NotificationFeedItem from '../NotificationFeedItem';
@@ -11,21 +9,18 @@ import Spinner from '../Spinner';
 import NotificationSettings from '../NotificationSettings';
 import { useNotificationsContext } from 'context/NotificationsContext';
 
-const FeedContainer = styled.div(({ theme }) => ({
-  width: 400,
-  height: 460,
-  overflowY: 'auto',
-  zIndex: 9999,
-  borderRadius: 5,
-  border: '1px solid lightgray',
-  boxShadow: ' -1px -1px 1px rgba(0, 0, 0, 0.2)',
-  backgroundColor: theme.colors.bg.main,
-  msOverflowStyle: 'none',
-  scrollbarWidth: 'none',
-  '&::-webkit-scrollbar': {
-    display: 'none',
-  },
-}));
+const FeedContainer = styled.div`
+  width: 400px;
+  height: 460px;
+  overflow-y: auto;
+  border-radius: ${(props) => props.theme.borderRadius};
+  border: 1px solid lightgray;
+  box-shadow: -1px -1px 1px rgba(0, 0, 0, 0.2);
+  background-color: ${(props) => props.theme.colors.bg.main};
+  &::-webkit-scrollbar {
+    display: none;
+  }
+`;
 
 const NotificationsFeeItemContainer = styled(Flex)`
   height: 380px;
@@ -35,7 +30,7 @@ const NotificationsFeeItemContainer = styled(Flex)`
   -ms-overflow-style: none;
   &::-webkit-scrollbar {
     display: none;
-  },
+  }
 `;
 
 const NotificationFeed = () => {

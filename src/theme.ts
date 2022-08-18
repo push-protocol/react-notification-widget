@@ -1,7 +1,7 @@
-import { Theme } from '@emotion/react';
+import { DefaultTheme } from 'styled-components';
 
-declare module '@emotion/react' {
-  export interface Theme {
+declare module 'styled-components' {
+  export interface DefaultTheme {
     mode: 'dark' | 'white';
     spacing: (units: number) => number;
     borderRadius: string;
@@ -19,7 +19,7 @@ declare module '@emotion/react' {
   }
 }
 
-const theme: Theme = {
+const theme: DefaultTheme = {
   mode: 'dark',
   spacing: (units) => units * 8,
   borderRadius: '5px',

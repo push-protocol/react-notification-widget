@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { Margins, Paddings } from '../types';
-import { genSpaces } from '../utils';
+import { conditionalRenderProp, genSpaces, renderStringNumValue } from '../utils';
 
 const sizes = {
   xs: 10,
@@ -18,10 +18,12 @@ type TextProps = {
 } & Margins &
   Paddings;
 
-const Text = styled.p<TextProps>(({ theme, size, color, ...rest }) => ({
-  color: color ? theme.colors.text[color] : theme.colors.text.primary,
-  fontSize: size ? sizes[size] : sizes.md,
-  ...genSpaces(theme, rest),
-}));
+const Text = styled.p<TextProps>`
+  ${({ theme, size, color, ...rest }) => `
+    ${conditionalRenderProp('color', color ? theme.colors.text[color] : theme.colors.text.primary)};
+    ${conditionalRenderProp('font-size', renderStringNumValue(size ? sizes[size] : sizes.md))};
+    ${genSpaces(theme, rest)}
+  `};
+`;
 
 export default Text;

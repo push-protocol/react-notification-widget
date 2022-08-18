@@ -1,5 +1,21 @@
-import { Theme } from '@emotion/react';
+import { DefaultTheme, css } from 'styled-components';
 import { Margins, Paddings } from './types';
+
+const renderStringNumValue = (value?: string | number, spacing?: (units: number) => number) => {
+  if (typeof value === 'number') {
+    return `${spacing ? spacing(value) : value}px`;
+  } else {
+    return value;
+  }
+};
+
+const conditionalRenderProp = (key: string, value?: string | number) => {
+  if (value) {
+    return `${key}: ${value}`;
+  } else {
+    return '';
+  }
+};
 
 const adjustColor = (color: string, amount: number) => {
   return (
@@ -12,20 +28,24 @@ const adjustColor = (color: string, amount: number) => {
   );
 };
 
-const spacingOrConstant = (spacingFunc: any, numOrStr?: number | string) =>
-  typeof numOrStr === 'number' ? spacingFunc(numOrStr) : numOrStr;
+const genSpaces = (
+  theme: DefaultTheme,
+  { p, pb, pl, pt, pr, m, mt, mb, ml, mr }: Margins & Paddings
+) => {
+  const value = css`
+    ${conditionalRenderProp('margin', renderStringNumValue(m, theme.spacing))};
+    ${conditionalRenderProp('margin-left', renderStringNumValue(ml, theme.spacing))};
+    ${conditionalRenderProp('margin-right', renderStringNumValue(mr, theme.spacing))};
+    ${conditionalRenderProp('margin-top', renderStringNumValue(mt, theme.spacing))};
+    ${conditionalRenderProp('margin-bottom', renderStringNumValue(mb, theme.spacing))};
+    ${conditionalRenderProp('padding', renderStringNumValue(p, theme.spacing))};
+    ${conditionalRenderProp('padding-top', renderStringNumValue(pt, theme.spacing))};
+    ${conditionalRenderProp('padding-bottom', renderStringNumValue(pb, theme.spacing))};
+    ${conditionalRenderProp('padding-right', renderStringNumValue(pr, theme.spacing))};
+    ${conditionalRenderProp('padding-left', renderStringNumValue(pl, theme.spacing))};
+  `;
 
-const genSpaces = (theme: Theme, { p, pb, pl, pt, pr, m, mt, mb, ml, mr }: Margins & Paddings) => ({
-  margin: spacingOrConstant(theme.spacing, m),
-  marginLeft: spacingOrConstant(theme.spacing, ml),
-  marginRight: spacingOrConstant(theme.spacing, mr),
-  marginTop: spacingOrConstant(theme.spacing, mt),
-  marginBottom: spacingOrConstant(theme.spacing, mb),
-  ...(p && { padding: spacingOrConstant(theme.spacing, p) }),
-  paddingTop: spacingOrConstant(theme.spacing, pt),
-  paddingBottom: spacingOrConstant(theme.spacing, pb),
-  paddingRight: spacingOrConstant(theme.spacing, pr),
-  paddingLeft: spacingOrConstant(theme.spacing, pl),
-});
+  return value.join('');
+};
 
-export { adjustColor, genSpaces };
+export { adjustColor, genSpaces, renderStringNumValue, conditionalRenderProp };

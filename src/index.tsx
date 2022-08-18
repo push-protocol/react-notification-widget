@@ -1,5 +1,5 @@
 import React from 'react';
-import { ThemeProvider } from '@emotion/react';
+import { ThemeProvider } from 'styled-components';
 import { WagmiConfig } from 'wagmi';
 import NotificationBell from './components/NotificationBell';
 import theme from './theme';
