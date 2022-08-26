@@ -13,9 +13,11 @@ const Button = styled.button<ButtonProps>`
     };
     transition: .2s background ease, .2s transform ease;
     background: ${variant === 'outlined' ? 'transparent' : theme.colors.primary};
-    ${conditionalRenderProp('border-radius', theme.borderRadius)};
+    ${conditionalRenderProp('border-radius', theme.borderRadius.md)};
     cursor: pointer;
-    border: 1px solid ${theme.colors.primary};
+    border: none;
+    font-weight: 600;
+    font-size: ${theme.fontSize.lg};
     padding: ${theme.spacing(1)}px ${theme.spacing(3)}px;
     color: ${theme.colors.text.primary};
     ${genSpaces(theme, rest)}

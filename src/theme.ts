@@ -4,7 +4,18 @@ declare module 'styled-components' {
   export interface DefaultTheme {
     mode: 'dark' | 'white';
     spacing: (units: number) => number;
-    borderRadius: string;
+    borderRadius: {
+      xs: string;
+      sm: string;
+      md: string;
+      lg: string;
+    };
+    fontSize: {
+      sm: string;
+      md: string;
+      lg: string;
+      xl: string;
+    };
     colors: {
       bg: {
         main: string;
@@ -15,6 +26,9 @@ declare module 'styled-components' {
         primary: string;
         secondary: string;
       };
+      border: {
+        main: string;
+      };
     };
   }
 }
@@ -22,14 +36,26 @@ declare module 'styled-components' {
 const theme: DefaultTheme = {
   mode: 'dark',
   spacing: (units) => units * 8,
-  borderRadius: '5px',
+  borderRadius: {
+    xs: '4px',
+    sm: '6px',
+    md: '8px',
+    lg: '4px',
+  },
+  fontSize: { sm: '12px', md: '14px', lg: '16px', xl: '18px' },
   colors: {
-    text: { secondary: 'lightgray', primary: '#fff' },
-    bg: {
-      main: '#1a1f2d',
+    text: {
+      primary: '#fff',
+      secondary: '#748094',
     },
-    primary: '#386ff9',
-    secondary: 'aqua',
+    bg: {
+      main: '#242C3C',
+    },
+    primary: '#3E64F0',
+    secondary: '#C23EF0',
+    border: {
+      main: '#353943',
+    },
   },
 };
 

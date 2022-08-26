@@ -13,7 +13,7 @@ const FeedContainer = styled.div`
   width: 400px;
   height: 460px;
   overflow-y: auto;
-  border-radius: ${(props) => props.theme.borderRadius};
+  border-radius: ${(props) => props.theme.borderRadius.md};
   border: 1px solid lightgray;
   box-shadow: -1px -1px 1px rgba(0, 0, 0, 0.2);
   background-color: ${(props) => props.theme.colors.bg.main};

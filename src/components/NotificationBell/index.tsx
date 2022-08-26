@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Popover } from 'react-tiny-popover';
-
 import { Bell } from '@emotion-icons/octicons';
 import NotificationFeed from '../NotificationFeed';
+import { Subscribe } from 'screens';
+import { Layout } from 'components/layout/Layout';
 
 const BellContainer = styled.div`
   position: relative;
@@ -21,7 +22,12 @@ const NotificationBell = () => {
         onClickOutside={() => setFeedOpen(false)}
         isOpen={feedOpen}
         positions={['bottom', 'left', 'right']}
-        content={<NotificationFeed />}
+        // content={<NotificationFeed />}
+        content={
+          <Layout>
+            <Subscribe />
+          </Layout>
+        }
       >
         <BellContainer onClick={() => setFeedOpen(!feedOpen)}>
           {/*TODO: add back once a time-based read counter is implemented*/}
