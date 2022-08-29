@@ -4961,6 +4961,11 @@ react-use@^17.3.1:
     ts-easing "^0.2.0"
     tslib "^2.1.0"
 
+react-verification-input@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/react-verification-input/-/react-verification-input-3.1.0.tgz#e68d0e4fcc88c66dd582a2576af485233290682e"
+  integrity sha512-7LfbeSpmBXOx2B4xAQYx3cxbF82llzDx8vAWx1XxX89rOvFjX0BHqHBQEAc/+KMHmHVcLN4J7tbCl5NbQ2ACEg==
+
 react@^18.2.0:
   version "18.2.0"
   resolved "https://registry.yarnpkg.com/react/-/react-18.2.0.tgz#555bd98592883255fa00de14f1151a917b5d77d5"

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 const Container = styled.div`
   border-radius: 3px;
-  background: ${({ theme }) => theme.colors.secondary};
+  background: ${({ theme }) => theme.colors.secondary.dark};
   color: white;
   text-transform: uppercase;
   padding: 2px 4px;

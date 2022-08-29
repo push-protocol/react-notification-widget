@@ -1,8 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
+import Flex from 'components/layout/Flex';
 import Button from 'components/Button';
 import Text from 'components/Text';
 import NewTag from 'components/NewTag';
+import SubscribeDescription from 'screens/subscribe/components/SubscribeDescription';
+import SubscribeInfo from 'screens/subscribe/components/SubscribeInfo';
 
 const Container = styled.div`
   width: 100%;
@@ -19,13 +22,22 @@ const StyledNewTag = styled(NewTag)`
 export const Subscribe = () => {
   return (
     <Container>
-      <div>
+      <Flex alignItems={'center'} direction={'column'} mb={4}>
         <StyledNewTag />
-        <Text size={'xl'}>Wallet-to-wallet notifications</Text>
-      </div>
-      <div>
+        <Text size={'xl'} weight={700}>
+          Wallet-to-wallet notifications
+        </Text>
+      </Flex>
+      <Flex alignItems={'center'} direction={'column'} mb={4}>
+        <SubscribeInfo />
+        <SubscribeDescription />
+      </Flex>
+      <Flex width={'100%'} alignItems={'center'} direction={'column'} gap={1}>
         <Button>Subscribe</Button>
-      </div>
+        <Text size={'sm'} color={'secondary'} opacity={0.8} align={'center'}>
+          You will need to sign a message to prove ownership of your wallet.
+        </Text>
+      </Flex>
     </Container>
   );
 };

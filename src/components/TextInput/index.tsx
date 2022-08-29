@@ -6,15 +6,17 @@ import Text from '../Text';
 import { adjustColor } from '../utils';
 
 const Input = styled.input<{ width?: string | number }>(({ theme, width }) => ({
-  border: '1px solid transparent',
+  border: '2px solid transparent',
   transition: 'border-color 0.5s ease ',
+  fontSize: '16px',
   borderRadius: 6,
-  width: width || 250,
+  width: width || '100%',
   padding: `${theme.spacing(1.5)}px ${theme.spacing(2)}px`,
   backgroundColor: adjustColor(theme.colors.bg.main, theme.mode === 'dark' ? -20 : 20),
   color: theme.colors.text.primary,
   '&:focus': {
-    borderColor: theme.colors.primary,
+    outline: 'none',
+    border: `2px solid ${theme.colors.primary.lighter}`,
   },
 }));
 
@@ -36,15 +38,15 @@ const TextInput = (props: TextInputProps) => {
   };
 
   return (
-    <div>
+    <Flex width={'100%'}>
       {props.title && (
         <Text ml={props.leftIcon && 4} mb={1.5} color={'secondary'} size={'lg'}>
           {props.title}
         </Text>
       )}
-      <Flex alignItems={'center'} gap={1}>
+      <Flex alignItems={'center'} gap={1} width={'100%'}>
         {props.leftIcon}
-        <div>
+        <Flex width={'100%'}>
           <Input
             width={props.width}
             value={value}
@@ -52,9 +54,9 @@ const TextInput = (props: TextInputProps) => {
             type={props.type || 'text'}
             placeholder={props.placeholder}
           />
-        </div>
+        </Flex>
       </Flex>
-    </div>
+    </Flex>
   );
 };
 

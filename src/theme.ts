@@ -20,14 +20,26 @@ declare module 'styled-components' {
       bg: {
         main: string;
       };
-      primary: string;
-      secondary: string;
+      primary: {
+        dark: string;
+        light: string;
+        lighter: string;
+      };
+      secondary: {
+        dark: string;
+      };
       text: {
         primary: string;
         secondary: string;
       };
       border: {
         main: string;
+      };
+      gray: {
+        darker: string;
+        dark: string;
+        light: string;
+        lighter: string;
       };
     };
   }
@@ -46,15 +58,27 @@ const theme: DefaultTheme = {
   colors: {
     text: {
       primary: '#fff',
-      secondary: '#748094',
+      secondary: '#E7E7E7',
     },
     bg: {
       main: '#242C3C',
     },
-    primary: '#3E64F0',
-    secondary: '#C23EF0',
+    primary: {
+      dark: '#3E64F0',
+      light: '#5278FF',
+      lighter: '#6481F2',
+    },
+    secondary: {
+      dark: '#C23EF0',
+    },
     border: {
       main: '#353943',
+    },
+    gray: {
+      darker: '#4D5565',
+      dark: '#424A5A',
+      light: '#565E6E',
+      lighter: '#576274',
     },
   },
 };

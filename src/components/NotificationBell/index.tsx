@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Popover } from 'react-tiny-popover';
 import { Bell } from '@emotion-icons/octicons';
 import NotificationFeed from '../NotificationFeed';
-import { Subscribe } from 'screens';
+import { ConnectEmail, EmailVerified, NoWallet, Subscribe, VerifyEmail } from 'screens';
 import { Layout } from 'components/layout/Layout';
 
 const BellContainer = styled.div`
@@ -25,7 +25,7 @@ const NotificationBell = () => {
         // content={<NotificationFeed />}
         content={
           <Layout>
-            <Subscribe />
+            <VerifyEmail />
           </Layout>
         }
       >
