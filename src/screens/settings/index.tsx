@@ -5,7 +5,7 @@ import Text from 'components/Text';
 import { Bell } from 'components/icons';
 import Flex from 'components/layout/Flex';
 import HideEmailCheckbox from 'screens/settings/components/HideEmailCheckbox';
-import EnterEmail from 'screens/settings/components/EnterEmail';
+import EmailInput from 'screens/settings/components/EmailInput';
 import isEmailValid from 'helpers/functions/isEmailValid';
 
 const Container = styled.div`
@@ -65,7 +65,7 @@ export const Settings = () => {
           We will alert you when new messages are received in your wallet.
         </Text>
       </Flex>
-      <EnterEmail onChange={setEmail} isValid={isEmailValid(email)} />
+      <EmailInput onChange={setEmail} isValid={isEmailValid(email)} />
       <HideEmailCheckbox checked={hideEmail} onChange={setHideEmail} />
     </Container>
   );

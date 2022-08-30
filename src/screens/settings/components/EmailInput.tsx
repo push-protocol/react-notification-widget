@@ -23,7 +23,7 @@ type EnterEmailProps = {
   onChange(value: string): void;
 };
 
-const EnterEmail = ({ isValid, onChange }: EnterEmailProps) => {
+const EmailInput = ({ isValid, onChange }: EnterEmailProps) => {
   return (
     <Flex
       justifyContent={'center'}
@@ -46,4 +46,4 @@ const EnterEmail = ({ isValid, onChange }: EnterEmailProps) => {
   );
 };
 
-export default EnterEmail;
+export default EmailInput;
