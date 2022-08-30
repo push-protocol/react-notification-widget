@@ -16,7 +16,7 @@ type HideEmailProps = {
   onChange(value: boolean): void;
 };
 
-const HideEmail = ({ checked, onChange }: HideEmailProps) => {
+const HideEmailCheckbox = ({ checked, onChange }: HideEmailProps) => {
   return (
     <Flex justifyContent={'center'} gap={4}>
       <Flex direction={'column'} gap={0.2}>
@@ -39,4 +39,4 @@ const HideEmail = ({ checked, onChange }: HideEmailProps) => {
   );
 };
 
-export default HideEmail;
+export default HideEmailCheckbox;

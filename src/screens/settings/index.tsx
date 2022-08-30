@@ -4,7 +4,7 @@ import Button from 'components/Button';
 import Text from 'components/Text';
 import { Bell } from 'components/icons';
 import Flex from 'components/layout/Flex';
-import HideEmail from 'screens/settings/components/HideEmail';
+import HideEmailCheckbox from 'screens/settings/components/HideEmailCheckbox';
 import EnterEmail from 'screens/settings/components/EnterEmail';
 import isEmailValid from 'helpers/functions/isEmailValid';
 
@@ -66,7 +66,7 @@ export const Settings = () => {
         </Text>
       </Flex>
       <EnterEmail onChange={setEmail} isValid={isEmailValid(email)} />
-      <HideEmail checked={hideEmail} onChange={setHideEmail} />
+      <HideEmailCheckbox checked={hideEmail} onChange={setHideEmail} />
     </Container>
   );
 };
