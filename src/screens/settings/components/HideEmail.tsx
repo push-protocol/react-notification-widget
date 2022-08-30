@@ -29,7 +29,7 @@ const HideEmail = ({ checked, onChange }: HideEmailProps) => {
           </Text>
         </Flex>
         <Text size={'sm'} color={'secondary'} opacity={0.8}>
-          Shapeshift will not have access to your email. Learn more
+          If checked, Shapeshift will not have access to your email. Learn more
         </Text>
       </Flex>
       <Flex>
