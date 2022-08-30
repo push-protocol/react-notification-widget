@@ -4,9 +4,9 @@ import Button from 'components/Button';
 import Text from 'components/Text';
 import { Bell } from 'components/icons';
 import Flex from 'components/layout/Flex';
-import HideEmail from 'screens/connectEmail/components/HideEmail';
-import EnterEmail from 'screens/connectEmail/components/EnterEmail';
-import isEmailValid from 'helpers/functions/is-email-valid';
+import HideEmail from 'screens/settings/components/HideEmail';
+import EnterEmail from 'screens/settings/components/EnterEmail';
+import isEmailValid from 'helpers/functions/isEmailValid';
 
 const Container = styled.div`
   width: 100%;
@@ -14,14 +14,6 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-`;
-
-const NextButton = styled(Button)`
-  height: 27px;
-  width: 44px;
-  font-size: 12px;
-  padding: 0;
-  border-radius: ${({ theme }) => theme.borderRadius.xs};
 `;
 
 const HeaderIconContainer = styled.div`
@@ -42,14 +34,23 @@ const HeaderIcon = styled.div`
   background: ${({ theme }) => theme.colors.primary.dark};
 `;
 
-export const ConnectEmail = () => {
+export const Settings = () => {
   const [hideEmail, setHideEmail] = useState(true);
   const [email, setEmail] = useState('');
 
   return (
     <Container>
       <Flex justifyContent={'end'} width={'100%'}>
-        <NextButton variant={'gray'}>Skip</NextButton>
+        <Button
+          variant={'gray'}
+          width={'44px'}
+          height={'27px'}
+          fontSize={'sm'}
+          p={0}
+          borderRadius={'xs'}
+        >
+          Skip
+        </Button>
       </Flex>
       <Flex justifyContent={'center'} alignItems={'center'} direction={'column'} mb={2}>
         <HeaderIconContainer>

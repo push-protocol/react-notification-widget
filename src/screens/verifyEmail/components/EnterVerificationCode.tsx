@@ -29,10 +29,10 @@ const InputWrapper = styled.div`
         background: transparent;
         border-radius: ${({ theme }) => theme.borderRadius.md};
         color: white;
-        border: 1px solid ${({ theme }) => theme.colors.gray.lighter};
+        border: 1px solid ${({ theme }) => theme.colors.gray[200]};
       }
       .vi__character--inactive {
-        border: 1px solid ${({ theme }) => theme.colors.gray.lighter};
+        border: 1px solid ${({ theme }) => theme.colors.gray[200]};
       }
       .vi__character--selected {
         border: 2px solid ${({ theme }) => theme.colors.primary.lighter};
@@ -59,7 +59,7 @@ const EnterVerificationCode = ({ onChange }: EnterVerificationCodeProps) => {
     >
       <Flex mb={2} width={'100%'}>
         <InputWrapper>
-          <VerificationInput length={4} placeholder={''} onChange={onChange} />
+          <VerificationInput length={6} placeholder={''} onChange={onChange} />
         </InputWrapper>
       </Flex>
       <Text size={'sm'} color={'secondary'} opacity={0.8}>

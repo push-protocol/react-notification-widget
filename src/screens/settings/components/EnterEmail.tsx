@@ -18,14 +18,6 @@ const ButtonWrapper = styled.div`
   padding: 10px;
 `;
 
-const StyledButton = styled(Button)`
-  height: 27px;
-  width: 49px;
-  font-size: 12px;
-  padding: 0;
-  border-radius: ${({ theme }) => theme.borderRadius.xs};
-`;
-
 type EnterEmailProps = {
   isValid?: boolean;
   onChange(value: string): void;
@@ -44,7 +36,9 @@ const EnterEmail = ({ isValid, onChange }: EnterEmailProps) => {
         <TextInput placeholder={'email@example.com'} onValueChange={(value) => onChange(value)} />
         {isValid && (
           <ButtonWrapper>
-            <StyledButton>Save</StyledButton>
+            <Button width={'44px'} height={'27px'} fontSize={'sm'} p={0} borderRadius={'xs'}>
+              Save
+            </Button>
           </ButtonWrapper>
         )}
       </Wrapper>

@@ -2,7 +2,7 @@ import React, { ReactNode } from 'react';
 import styled from 'styled-components';
 
 const LayoutContainer = styled.div`
-  width: 338px;
+  width: 350px;
   box-sizing: border-box;
   min-height: 250px;
   overflow-y: auto;

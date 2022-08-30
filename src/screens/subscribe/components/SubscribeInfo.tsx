@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Text from 'components/Text';
 import { Dots, ExportWallet } from 'components/icons';
-import formatUserAddress from 'helpers/functions/format-user-address';
+import formatUserAddress from 'helpers/functions/formatUserAddress';
 
 const Container = styled.div`
   display: flex;

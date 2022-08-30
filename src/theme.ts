@@ -36,10 +36,11 @@ declare module 'styled-components' {
         main: string;
       };
       gray: {
-        darker: string;
-        dark: string;
-        light: string;
-        lighter: string;
+        100: string;
+        200: string;
+        300: string;
+        400: string;
+        500: string;
       };
     };
   }
@@ -75,10 +76,11 @@ const theme: DefaultTheme = {
       main: '#353943',
     },
     gray: {
-      darker: '#4D5565',
-      dark: '#424A5A',
-      light: '#565E6E',
-      lighter: '#576274',
+      100: '#646F82',
+      200: '#576274',
+      300: '#565E6E',
+      400: '#4D5565',
+      500: '#424A5A',
     },
   },
 };

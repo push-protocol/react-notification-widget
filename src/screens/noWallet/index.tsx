@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Button from 'components/Button';
 import Text from 'components/Text';
-import { Check } from 'components/icons';
+import { Wallet } from 'components/icons';
 import Flex from 'components/layout/Flex';
 
 const Container = styled.div`
@@ -20,28 +20,20 @@ const HeaderIconContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background: ${({ theme }) => theme.colors.gray.darker};
+  background: ${({ theme }) => theme.colors.bg.main};
   margin-bottom: ${({ theme }) => theme.spacing(1.5)}px;
 `;
 
-const HeaderIcon = styled.div`
-  height: 24px;
-  width: 24px;
-  border-radius: 100px;
-`;
-
 const StyledText = styled(Text)`
-  color: ${({ theme }) => theme.colors.gray.darker};
+  color: ${({ theme }) => theme.colors.gray[400]};
 `;
 
 export const NoWallet = () => {
   return (
     <Container>
-      <Flex justifyContent={'center'} alignItems={'center'} direction={'column'} mb={8} mt={3}>
+      <Flex justifyContent={'center'} alignItems={'center'} direction={'column'} mb={16} mt={8}>
         <HeaderIconContainer>
-          <HeaderIcon>
-            <Check />
-          </HeaderIcon>
+          <Wallet />
         </HeaderIconContainer>
         <StyledText size={'xl'} weight={700} mb={0.5}>
           Wallet not connected

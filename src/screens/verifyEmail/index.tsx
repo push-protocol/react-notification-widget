@@ -14,14 +14,6 @@ const Container = styled.div`
   align-items: center;
 `;
 
-const NextButton = styled(Button)`
-  height: 27px;
-  width: 44px;
-  font-size: 12px;
-  padding: 0;
-  border-radius: ${({ theme }) => theme.borderRadius.xs};
-`;
-
 const HeaderIconContainer = styled.div`
   height: 40px;
   width: 40px;
@@ -46,7 +38,16 @@ export const VerifyEmail = () => {
   return (
     <Container>
       <Flex justifyContent={'end'} width={'100%'}>
-        <NextButton variant={'gray'}>Skip</NextButton>
+        <Button
+          variant={'gray'}
+          width={'44px'}
+          height={'27px'}
+          fontSize={'sm'}
+          p={0}
+          borderRadius={'xs'}
+        >
+          Skip
+        </Button>
       </Flex>
       <Flex justifyContent={'center'} alignItems={'center'} direction={'column'} mb={2}>
         <HeaderIconContainer>
