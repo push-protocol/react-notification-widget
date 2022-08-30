@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Popover } from 'react-tiny-popover';
 import { Bell } from '@emotion-icons/octicons';
 import NotificationFeed from '../NotificationFeed';
-import { EmailVerified, NoWallet, Settings, Subscribe, VerifyEmail, Feed } from 'screens';
+import { EmailVerified, WalletDisconnected, Settings, Subscribe, VerifyEmail, Feed } from 'screens';
 import { Layout } from 'components/layout/Layout';
 
 const BellContainer = styled.div`

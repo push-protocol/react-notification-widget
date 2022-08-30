@@ -28,7 +28,7 @@ const StyledText = styled(Text)`
   color: ${({ theme }) => theme.colors.gray[400]};
 `;
 
-export const NoWallet = () => {
+export const WalletDisconnected = () => {
   return (
     <Container>
       <Flex justifyContent={'center'} alignItems={'center'} direction={'column'} mb={16} mt={8}>
