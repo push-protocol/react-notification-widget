@@ -36,11 +36,16 @@ declare module 'styled-components' {
         main: string;
       };
       gray: {
+        20: string;
         100: string;
         200: string;
         300: string;
         400: string;
         500: string;
+      };
+      bell: {
+        background: string;
+        hoverBackground: string;
       };
     };
   }
@@ -76,11 +81,17 @@ const theme: DefaultTheme = {
       main: '#353943',
     },
     gray: {
+      20: '#B1BCCE',
       100: '#646F82',
       200: '#576274',
       300: '#565E6E',
       400: '#4D5565',
       500: '#424A5A',
+    },
+    bell: {
+      background: '#2F3747',
+      hoverBackground:
+        'linear-gradient(0deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.15)), #2F3747',
     },
   },
 };

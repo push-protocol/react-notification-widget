@@ -21,6 +21,6 @@ interface LayoutProps {
   children?: ReactNode;
 }
 
-export const Layout = ({ children }: LayoutProps) => {
+export const WidgetContainer = ({ children }: LayoutProps) => {
   return <LayoutContainer>{children}</LayoutContainer>;
 };

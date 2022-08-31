@@ -1,12 +1,12 @@
 import React from 'react';
 import { ThemeProvider } from 'styled-components';
 import { WagmiConfig } from 'wagmi';
-import NotificationBell from './components/NotificationBell';
 import theme from './theme';
 import { NotificationsProvider } from 'context/NotificationsContext';
 import { wagmiClient } from 'services/auth';
 import './index.css';
 import { RouterProvider } from 'context/RouterContext';
+import Widget from 'components/Widget';
 
 function App() {
   return (
@@ -15,7 +15,7 @@ function App() {
         <NotificationsProvider>
           <RouterProvider>
             <div style={{ height: '100vh', width: '100vw' }}>
-              <NotificationBell />
+              <Widget />
             </div>
           </RouterProvider>
         </NotificationsProvider>

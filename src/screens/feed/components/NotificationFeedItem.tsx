@@ -5,6 +5,8 @@ import { EpnsNotification } from 'context/NotificationsContext';
 import Flex from 'components/layout/Flex';
 import Text from 'components/Text';
 import { NavigationTabs } from 'screens/feed/components/FeedNavigation';
+import Link from 'components/Link';
+import { Globe } from 'components/icons';
 
 const Container = styled(Flex)`
   border-bottom: 1px solid #2e3646;
@@ -55,6 +57,12 @@ const Image = styled.img`
   object-fit: contain;
 `;
 
+const IconContainer = styled.div`
+  width: 12px;
+  height: 12px;
+  display: flex;
+`;
+
 type NotificationFeedItemProps = {
   notification: EpnsNotification;
   active: NavigationTabs;
@@ -100,9 +108,18 @@ const NotificationFeedItem = ({ notification, active }: NotificationFeedItemProp
           {moment(notification.timestamp).fromNow()}
         </Text>
         {notification?.url && (
-          <Text size={'sm'} color={'secondary'} opacity={0.2}>
-            {notification?.url}
-          </Text>
+          <Flex gap={0.5} alignItems={'center'}>
+            <Link url={notification?.url}>
+              <IconContainer>
+                <Globe />
+              </IconContainer>
+            </Link>
+            <Link url={notification?.url}>
+              <Text size={'sm'} color={'secondary'} opacity={0.2}>
+                {notification?.url}
+              </Text>
+            </Link>
+          </Flex>
         )}
       </Flex>
     </Container>

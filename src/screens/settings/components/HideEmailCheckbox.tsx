@@ -4,6 +4,7 @@ import Flex from 'components/layout/Flex';
 import { Lock } from 'components/icons';
 import Text from 'components/Text';
 import Checkbox from 'components/Checkbox';
+import Link from 'components/Link';
 
 const LockIcon = styled.div`
   width: 11px;
@@ -17,6 +18,11 @@ type HideEmailProps = {
 };
 
 const HideEmailCheckbox = ({ checked, onChange }: HideEmailProps) => {
+  const handleLearnMore = () => {
+    // TODO: if local text append needed handle here, or replace onClick with url
+    console.log('learn more');
+  };
+
   return (
     <Flex justifyContent={'center'} gap={4}>
       <Flex direction={'column'} gap={0.2}>
@@ -29,7 +35,10 @@ const HideEmailCheckbox = ({ checked, onChange }: HideEmailProps) => {
           </Text>
         </Flex>
         <Text size={'sm'} color={'secondary'} opacity={0.8}>
-          If checked, Shapeshift will not have access to your email. Learn more
+          If checked, Shapeshift will not have access to your email.{' '}
+          <Link onClick={handleLearnMore} fontWeight={600}>
+            Learn more.
+          </Link>
         </Text>
       </Flex>
       <Flex>
