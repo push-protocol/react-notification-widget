@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Button from 'components/Button';
 import Text from 'components/Text';
 import { Bell } from 'components/icons';
 import Flex from 'components/layout/Flex';
 import EnterVerificationCode from 'screens/verifyEmail/components/EnterVerificationCode';
+import { Routes, useRouterContext } from 'context/RouterContext';
 
 const Container = styled.div`
   width: 100%;
@@ -34,6 +35,16 @@ const HeaderIcon = styled.div`
 
 export const VerifyEmail = () => {
   const [code, setCode] = useState('');
+  const { setRoute } = useRouterContext();
+
+  const handleVerify = () => {
+    // TODO: Verify code
+    setRoute(Routes.NotificationsFeed);
+  };
+
+  const handleSkip = () => {
+    setRoute(Routes.NotificationsFeed);
+  };
 
   return (
     <Container>
@@ -45,6 +56,7 @@ export const VerifyEmail = () => {
           fontSize={'sm'}
           p={0}
           borderRadius={'xs'}
+          onClick={handleSkip}
         >
           Skip
         </Button>

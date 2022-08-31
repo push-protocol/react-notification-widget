@@ -6,6 +6,7 @@ import Text from 'components/Text';
 import NewTag from 'components/NewTag';
 import SubscribeDescription from 'screens/subscribe/components/SubscribeDescription';
 import SubscribeInfo from 'screens/subscribe/components/SubscribeInfo';
+import { Routes, useRouterContext } from 'context/RouterContext';
 
 const Container = styled.div`
   width: 100%;
@@ -20,6 +21,12 @@ const StyledNewTag = styled(NewTag)`
 `;
 
 export const Subscribe = () => {
+  const { setRoute } = useRouterContext();
+
+  const handleSubscribe = () => {
+    setRoute(Routes.Settings);
+  };
+
   return (
     <Container>
       <Flex alignItems={'center'} direction={'column'} mb={4}>
@@ -33,7 +40,7 @@ export const Subscribe = () => {
         <SubscribeDescription />
       </Flex>
       <Flex width={'100%'} alignItems={'center'} direction={'column'} gap={1}>
-        <Button>Subscribe</Button>
+        <Button onClick={handleSubscribe}>Subscribe</Button>
         <Text size={'sm'} color={'secondary'} opacity={0.8} align={'center'}>
           You will need to sign a message to prove ownership of your wallet.
         </Text>

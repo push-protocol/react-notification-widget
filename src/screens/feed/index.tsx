@@ -5,6 +5,7 @@ import { Settings } from 'components/icons';
 import Flex from 'components/layout/Flex';
 import FeedNavigation, { NavigationTabs } from 'screens/feed/components/FeedNavigation';
 import NotificationFeed from 'screens/feed/components/NotificationFeed';
+import { Routes, useRouterContext } from 'context/RouterContext';
 
 const Container = styled.div`
   width: 100%;
@@ -26,7 +27,12 @@ const SettingsIcon = styled.div`
 `;
 
 export const Feed = () => {
+  const { setRoute } = useRouterContext();
   const [activeTab, setActiveTab] = useState(NavigationTabs.client);
+
+  const handleViewSettings = () => {
+    setRoute(Routes.Settings);
+  };
 
   return (
     <Container>
@@ -34,7 +40,7 @@ export const Feed = () => {
         <Text size={'xl'} weight={700}>
           Notifications
         </Text>
-        <SettingsIcon>
+        <SettingsIcon onClick={handleViewSettings}>
           <Settings />
         </SettingsIcon>
       </Flex>

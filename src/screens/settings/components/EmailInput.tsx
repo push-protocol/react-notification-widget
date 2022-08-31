@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Flex from 'components/layout/Flex';
 import TextInput from 'components/TextInput';
 import Button from 'components/Button';
+import { Routes } from 'context/RouterContext';
 
 const Wrapper = styled.div`
   position: relative;
@@ -21,9 +22,10 @@ const ButtonWrapper = styled.div`
 type EnterEmailProps = {
   isValid?: boolean;
   onChange(value: string): void;
+  handleSave(): void;
 };
 
-const EmailInput = ({ isValid, onChange }: EnterEmailProps) => {
+const EmailInput = ({ isValid, onChange, handleSave }: EnterEmailProps) => {
   return (
     <Flex
       justifyContent={'center'}
@@ -36,7 +38,14 @@ const EmailInput = ({ isValid, onChange }: EnterEmailProps) => {
         <TextInput placeholder={'email@example.com'} onValueChange={(value) => onChange(value)} />
         {isValid && (
           <ButtonWrapper>
-            <Button width={'44px'} height={'27px'} fontSize={'sm'} p={0} borderRadius={'xs'}>
+            <Button
+              width={'44px'}
+              height={'27px'}
+              fontSize={'sm'}
+              p={0}
+              borderRadius={'xs'}
+              onClick={handleSave}
+            >
               Save
             </Button>
           </ButtonWrapper>

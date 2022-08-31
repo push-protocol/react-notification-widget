@@ -2,9 +2,8 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Popover } from 'react-tiny-popover';
 import { Bell } from '@emotion-icons/octicons';
-import NotificationFeed from '../NotificationFeed';
-import { EmailVerified, WalletDisconnected, Settings, Subscribe, VerifyEmail, Feed } from 'screens';
 import { Layout } from 'components/layout/Layout';
+import { useRouterContext } from 'context/RouterContext';
 
 const BellContainer = styled.div`
   position: relative;
@@ -14,7 +13,7 @@ const BellContainer = styled.div`
 
 const NotificationBell = () => {
   const [feedOpen, setFeedOpen] = useState(false);
-
+  const { Component } = useRouterContext();
   return (
     // wrapped in div to avoid flex child issues
     <div>
@@ -22,10 +21,9 @@ const NotificationBell = () => {
         onClickOutside={() => setFeedOpen(false)}
         isOpen={feedOpen}
         positions={['bottom', 'left', 'right']}
-        // content={<NotificationFeed />}
         content={
           <Layout>
-            <Feed />
+            <Component />
           </Layout>
         }
       >

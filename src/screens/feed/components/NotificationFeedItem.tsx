@@ -4,10 +4,39 @@ import styled from 'styled-components';
 import { EpnsNotification } from 'context/NotificationsContext';
 import Flex from 'components/layout/Flex';
 import Text from 'components/Text';
+import { NavigationTabs } from 'screens/feed/components/FeedNavigation';
 
 const Container = styled(Flex)`
   border-bottom: 1px solid #2e3646;
   padding: 8px 0;
+`;
+
+const Header = styled(Flex)`
+  position: relative;
+`;
+
+const SenderImage = styled.div`
+  height: 40px;
+  width: 40px;
+  border-radius: 100px;
+  background: ${({ theme }) => theme.colors.primary.light};
+  img {
+    height: 100%;
+    width: 100%;
+  }
+`;
+
+const UnreadNotification = styled.div`
+  height: 8px;
+  width: 8px;
+  border-radius: 100px;
+  position: absolute;
+  left: -10px;
+  background: ${({ theme }) => theme.colors.primary.light};
+  cursor: pointer;
+  &:active {
+    background: ${({ theme }) => theme.colors.primary.lighter};
+  }
 `;
 
 const Message = styled(Text)`
@@ -28,14 +57,33 @@ const Image = styled.img`
 
 type NotificationFeedItemProps = {
   notification: EpnsNotification;
+  active: NavigationTabs;
 };
 
-const NotificationFeedItem = ({ notification }: NotificationFeedItemProps) => {
+const NotificationFeedItem = ({ notification, active }: NotificationFeedItemProps) => {
+  const isAllPage = active === NavigationTabs.all;
+  const isUnread = moment(notification.timestamp).isSame(new Date(), 'week'); //TODO: update with correct logic
+
+  const markAsRead = () => {
+    console.log('mark as read', notification.title); //TODO: handle mark as read without redirection
+  };
+
   return (
     <Container direction={'column'} gap={0.5}>
-      <Text size={'lg'} weight={700}>
-        {notification.title}
-      </Text>
+      <Header gap={0.5} alignItems={'center'}>
+        {isAllPage && <SenderImage />}
+        <Flex direction={'column'}>
+          {isAllPage && (
+            <Text size={'md'} weight={500}>
+              Sender
+            </Text>
+          )}
+          <Text size={'lg'} weight={700}>
+            {notification.title}
+          </Text>
+        </Flex>
+        {isUnread && <UnreadNotification onClick={markAsRead} />}
+      </Header>
       <Message size={'md'} weight={600}>
         {notification.message}
       </Message>

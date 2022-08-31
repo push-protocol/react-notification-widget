@@ -7,6 +7,7 @@ import Flex from 'components/layout/Flex';
 import HideEmailCheckbox from 'screens/settings/components/HideEmailCheckbox';
 import EmailInput from 'screens/settings/components/EmailInput';
 import isEmailValid from 'helpers/functions/isEmailValid';
+import { Routes, useRouterContext } from 'context/RouterContext';
 
 const Container = styled.div`
   width: 100%;
@@ -37,6 +38,15 @@ const HeaderIcon = styled.div`
 export const Settings = () => {
   const [hideEmail, setHideEmail] = useState(true);
   const [email, setEmail] = useState('');
+  const { setRoute } = useRouterContext();
+
+  const handleSave = () => {
+    setRoute(Routes.VerifyEmail);
+  };
+
+  const handleSkip = () => {
+    setRoute(Routes.NotificationsFeed);
+  };
 
   return (
     <Container>
@@ -48,6 +58,7 @@ export const Settings = () => {
           fontSize={'sm'}
           p={0}
           borderRadius={'xs'}
+          onClick={handleSkip}
         >
           Skip
         </Button>
@@ -65,7 +76,7 @@ export const Settings = () => {
           We will alert you when new messages are received in your wallet.
         </Text>
       </Flex>
-      <EmailInput onChange={setEmail} isValid={isEmailValid(email)} />
+      <EmailInput onChange={setEmail} isValid={isEmailValid(email)} handleSave={handleSave} />
       <HideEmailCheckbox checked={hideEmail} onChange={setHideEmail} />
     </Container>
   );
