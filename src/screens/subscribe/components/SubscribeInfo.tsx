@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Text from 'components/Text';
 import { Dots, ExportWallet } from 'components/icons';
 import formatUserAddress from 'helpers/functions/formatUserAddress';
+import { useChannelContext } from 'context/ChannelContext';
 
 const Container = styled.div`
   display: flex;
@@ -30,6 +31,12 @@ const FromWalletIcon = styled.div`
   align-items: center;
   justify-content: center;
   text-align: center;
+  overflow: hidden;
+  img {
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
+  }
 `;
 
 const WalletText = styled.div`
@@ -51,12 +58,16 @@ const SeparatorIcon = styled.div`
 `;
 
 const SubscribeInfo = () => {
+  const { channel, name, icon } = useChannelContext();
+
   return (
     <Container>
       <WalletContainer>
-        <FromWalletIcon>User Icon</FromWalletIcon>
+        <FromWalletIcon>
+          <img src={icon} alt="channel icon" />
+        </FromWalletIcon>
         <WalletText>
-          <Text size={'sm'}>Shapeshift.eth</Text>
+          <Text size={'sm'}>{channel || name}</Text>
         </WalletText>
       </WalletContainer>
       <Separator>

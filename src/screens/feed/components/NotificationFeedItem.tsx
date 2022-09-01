@@ -22,6 +22,7 @@ const SenderImage = styled.div`
   width: 40px;
   border-radius: 100px;
   background: ${({ theme }) => theme.colors.primary.light};
+  overflow: hidden;
   img {
     height: 100%;
     width: 100%;

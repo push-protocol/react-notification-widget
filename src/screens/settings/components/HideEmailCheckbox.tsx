@@ -5,6 +5,7 @@ import { Lock } from 'components/icons';
 import Text from 'components/Text';
 import Checkbox from 'components/Checkbox';
 import Link from 'components/Link';
+import { useChannelContext } from 'context/ChannelContext';
 
 const LockIcon = styled.div`
   width: 11px;
@@ -18,6 +19,8 @@ type HideEmailProps = {
 };
 
 const HideEmailCheckbox = ({ checked, onChange }: HideEmailProps) => {
+  const { name } = useChannelContext();
+
   const handleLearnMore = () => {
     // TODO: if local text append needed handle here, or replace onClick with url
     console.log('learn more');
@@ -35,7 +38,7 @@ const HideEmailCheckbox = ({ checked, onChange }: HideEmailProps) => {
           </Text>
         </Flex>
         <Text size={'sm'} color={'secondary'} opacity={0.8}>
-          If checked, Shapeshift will not have access to your email.{' '}
+          If checked, {name} will not have access to your email.{' '}
           <Link onClick={handleLearnMore} fontWeight={600}>
             Learn more.
           </Link>

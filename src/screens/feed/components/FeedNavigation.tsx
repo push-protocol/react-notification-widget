@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Flex from 'components/layout/Flex';
 import Text from 'components/Text';
 import { Boxes } from 'components/icons';
+import { useChannelContext } from 'context/ChannelContext';
 
 const NavigationItem = styled.div<{ padding?: number; isActive?: boolean }>`
   height: 36px;
@@ -25,6 +26,11 @@ const ClientFeedIcon = styled.div`
   width: 24px;
   border-radius: 100px;
   overflow: hidden;
+  img {
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
+  }
 `;
 
 const AllFeedIcon = styled.div`
@@ -43,6 +49,8 @@ interface FeedNavigationProps {
 }
 
 const FeedNavigation = ({ active, setActive }: FeedNavigationProps) => {
+  const { name, icon } = useChannelContext();
+
   return (
     <Flex width={'100%'} mb={2} gap={1.3}>
       <NavigationItem
@@ -52,9 +60,9 @@ const FeedNavigation = ({ active, setActive }: FeedNavigationProps) => {
         }}
       >
         <ClientFeedIcon>
-          <Boxes />
+          <img src={icon} alt="channel icon" />
         </ClientFeedIcon>
-        <Text>Shapeshift</Text>
+        <Text>{name}</Text>
       </NavigationItem>
       <NavigationItem
         padding={2}
