@@ -2,13 +2,19 @@
   "name": "notification-widget",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/index.tsx",
+  "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "clean-dist": "rimraf dist",
-    "build-package": "npm run clean-dist && node esbuild.config.js && tsc --emitDeclarationOnly --outDir dist",
+    "build-package": "npm run clean-dist && node esbuild.config.js && tsc --emitDeclarationOnly --outFile dist/index.js",
     "start": "node esbuild-serve.js -w"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.esm.js",
+      "require": "./dist/index.cjs.js"
+    }
   },
   "type": "module",
   "author": "",
