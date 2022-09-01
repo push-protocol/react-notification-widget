@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { CenteredContainer } from 'components/layout/CenteredContainer';
 import Flex from 'components/layout/Flex';
 import Button from 'components/Button';
 import Text from 'components/Text';
@@ -7,14 +8,6 @@ import NewTag from 'components/NewTag';
 import SubscribeDescription from 'screens/subscribe/components/SubscribeDescription';
 import SubscribeInfo from 'screens/subscribe/components/SubscribeInfo';
 import { Routes, useRouterContext } from 'context/RouterContext';
-
-const Container = styled.div`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
 
 const StyledNewTag = styled(NewTag)`
   margin-bottom: ${({ theme }) => theme.spacing(1)}px;
@@ -28,7 +21,7 @@ export const Subscribe = () => {
   };
 
   return (
-    <Container>
+    <CenteredContainer>
       <Flex alignItems={'center'} direction={'column'} mb={4}>
         <StyledNewTag />
         <Text size={'xl'} weight={700}>
@@ -45,6 +38,6 @@ export const Subscribe = () => {
           You will need to sign a message to prove ownership of your wallet.
         </Text>
       </Flex>
-    </Container>
+    </CenteredContainer>
   );
 };

@@ -1,19 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+import { CenteredContainer } from 'components/layout/CenteredContainer';
 import Button from 'components/Button';
 import Text from 'components/Text';
 import { Bell } from 'components/icons';
 import Flex from 'components/layout/Flex';
 import EnterVerificationCode from 'screens/verifyEmail/components/EnterVerificationCode';
 import { Routes, useRouterContext } from 'context/RouterContext';
-
-const Container = styled.div`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
 
 const HeaderIconContainer = styled.div`
   height: 40px;
@@ -47,7 +40,7 @@ export const VerifyEmail = () => {
   };
 
   return (
-    <Container>
+    <CenteredContainer>
       <Flex justifyContent={'end'} width={'100%'}>
         <Button
           variant={'gray'}
@@ -75,6 +68,6 @@ export const VerifyEmail = () => {
         </Text>
       </Flex>
       <EnterVerificationCode onChange={setCode} />
-    </Container>
+    </CenteredContainer>
   );
 };

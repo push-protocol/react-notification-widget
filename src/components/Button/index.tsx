@@ -7,10 +7,10 @@ const fontSizes = {
   md: '16px',
 };
 
-const BUTTON_TYPES = 'gray' || 'primary' || 'outlined';
+type ButtonVariant = 'gray' | 'primary' | 'outlined';
 
 type ButtonProps = {
-  variant?: typeof BUTTON_TYPES;
+  variant?: ButtonVariant;
   fontSize?: keyof typeof fontSizes;
   height?: string | number;
   width?: string | number;

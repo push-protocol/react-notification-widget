@@ -12,8 +12,8 @@ const CheckBoxLabel = styled.label`
   position: absolute;
   top: 0;
   left: 0;
-  width: 42px;
-  height: 26px;
+  width: 100%;
+  height: 100%;
   border-radius: 15px;
   background: #bebebe;
   cursor: pointer;
@@ -28,7 +28,7 @@ const CheckBoxLabel = styled.label`
     transition: 0.2s;
   }
 `;
-const CheckBox = styled.input`
+const CheckBox = styled.input<{ disabled?: boolean }>`
   opacity: 0;
   z-index: 1;
   border-radius: 15px;
@@ -46,18 +46,23 @@ const CheckBox = styled.input`
       transition: 0.2s;
     }
   }
+  &:disabled + ${CheckBoxLabel} {
+    cursor: default;
+  }
 `;
 
 type CheckboxProps = {
   checked: boolean;
   onChange(value: boolean): void;
+  disabled?: boolean;
 } & Margins &
   Paddings;
 
-const Checkbox = ({ checked, onChange }: CheckboxProps) => {
+const Checkbox = ({ checked, onChange, disabled }: CheckboxProps) => {
   return (
     <CheckBoxWrapper>
       <CheckBox
+        disabled={disabled}
         id="checkbox"
         type="checkbox"
         checked={checked}

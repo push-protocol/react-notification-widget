@@ -23,7 +23,6 @@ const HideEmailCheckbox = ({ checked, onChange }: HideEmailProps) => {
 
   const handleLearnMore = () => {
     // TODO: if local text append needed handle here, or replace onClick with url
-    console.log('learn more');
   };
 
   return (
@@ -45,7 +44,7 @@ const HideEmailCheckbox = ({ checked, onChange }: HideEmailProps) => {
         </Text>
       </Flex>
       <Flex>
-        <Checkbox checked={checked} onChange={(checked) => onChange(checked)} />
+        <Checkbox checked={checked} onChange={(checked) => onChange(checked)} disabled={true} />
       </Flex>
     </Flex>
   );

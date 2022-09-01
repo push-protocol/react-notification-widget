@@ -36,7 +36,7 @@ declare module 'styled-components' {
         main: string;
       };
       gray: {
-        20: string;
+        50: string;
         100: string;
         200: string;
         300: string;
@@ -81,7 +81,7 @@ const theme: DefaultTheme = {
       main: '#353943',
     },
     gray: {
-      20: '#B1BCCE',
+      50: '#B1BCCE',
       100: '#646F82',
       200: '#576274',
       300: '#565E6E',

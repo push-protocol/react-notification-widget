@@ -5,10 +5,10 @@ import Text from 'components/Text';
 import { Boxes } from 'components/icons';
 import { useChannelContext } from 'context/ChannelContext';
 
-const NavigationItem = styled.div<{ padding?: number; isActive?: boolean }>`
+const NavigationItem = styled.div<{ isActive?: boolean }>`
   height: 36px;
   border-radius: 40px;
-  padding: ${({ theme, padding }) => theme.spacing(padding || 1)}px;
+  padding: ${({ theme }) => theme.spacing(2)}px;
   gap: ${({ theme }) => theme.spacing(1)}px;
   box-sizing: border-box;
   display: flex;
@@ -39,24 +39,24 @@ const AllFeedIcon = styled.div`
 `;
 
 export enum NavigationTabs {
-  client,
-  all,
+  App,
+  All,
 }
 
 interface FeedNavigationProps {
-  active: NavigationTabs;
-  setActive(active: NavigationTabs): void;
+  activeTab: NavigationTabs;
+  setActiveTab(active: NavigationTabs): void;
 }
 
-const FeedNavigation = ({ active, setActive }: FeedNavigationProps) => {
+const FeedNavigation = ({ activeTab, setActiveTab }: FeedNavigationProps) => {
   const { name, icon } = useChannelContext();
 
   return (
-    <Flex width={'100%'} mb={2} gap={1.3}>
+    <Flex width={'100%'} mb={2} gap={1.5}>
       <NavigationItem
-        isActive={active === NavigationTabs.client}
+        isActive={activeTab === NavigationTabs.App}
         onClick={() => {
-          setActive(NavigationTabs.client);
+          setActiveTab(NavigationTabs.App);
         }}
       >
         <ClientFeedIcon>
@@ -65,10 +65,9 @@ const FeedNavigation = ({ active, setActive }: FeedNavigationProps) => {
         <Text>{name}</Text>
       </NavigationItem>
       <NavigationItem
-        padding={2}
-        isActive={active === NavigationTabs.all}
+        isActive={activeTab === NavigationTabs.All}
         onClick={() => {
-          setActive(NavigationTabs.all);
+          setActiveTab(NavigationTabs.All);
         }}
       >
         <AllFeedIcon>

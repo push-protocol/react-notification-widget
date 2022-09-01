@@ -40,6 +40,7 @@ type NotificationBellProps<T> = {
   setOpen: (cb: (value: T) => T) => void;
 };
 
+// eslint-disable-next-line react/display-name
 const NotificationBell = forwardRef<HTMLDivElement, NotificationBellProps<boolean>>(
   ({ setOpen }: NotificationBellProps<boolean>, ref) => {
     const isNew = false;

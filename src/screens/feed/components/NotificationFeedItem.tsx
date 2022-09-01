@@ -1,12 +1,15 @@
 import React from 'react';
-import moment from 'moment';
+import dayjs, { extend } from 'dayjs';
 import styled from 'styled-components';
+import relativeTime from 'dayjs/plugin/relativeTime';
 import { EpnsNotification } from 'context/NotificationsContext';
 import Flex from 'components/layout/Flex';
 import Text from 'components/Text';
 import { NavigationTabs } from 'screens/feed/components/FeedNavigation';
 import Link from 'components/Link';
 import { Globe } from 'components/icons';
+
+extend(relativeTime);
 
 const Container = styled(Flex)`
   border-bottom: 1px solid #2e3646;
@@ -70,8 +73,8 @@ type NotificationFeedItemProps = {
 };
 
 const NotificationFeedItem = ({ notification, active }: NotificationFeedItemProps) => {
-  const isAllPage = active === NavigationTabs.all;
-  const isUnread = moment(notification.timestamp).isSame(new Date(), 'week'); //TODO: update with correct logic
+  const isAllPage = active === NavigationTabs.All;
+  const isUnread = dayjs(notification.timestamp).isSame(new Date(), 'week'); //TODO: update with correct logic
 
   const markAsRead = () => {
     console.log('mark as read', notification.title); //TODO: handle mark as read without redirection
@@ -106,7 +109,7 @@ const NotificationFeedItem = ({ notification, active }: NotificationFeedItemProp
       </ImageContainer>
       <Flex justifyContent={'space-between'}>
         <Text size={'sm'} color={'secondary'} opacity={0.2}>
-          {moment(notification.timestamp).fromNow()}
+          {dayjs(notification.timestamp).fromNow()}
         </Text>
         {notification?.url && (
           <Flex gap={0.5} alignItems={'center'}>

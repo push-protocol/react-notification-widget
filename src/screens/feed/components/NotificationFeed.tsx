@@ -25,8 +25,6 @@ type NotificationFeedProps = {
 const NotificationFeed = ({ active }: NotificationFeedProps) => {
   const { notifications, isLoading } = useNotificationsContext();
 
-  console.log(notifications, '??');
-
   if (isLoading) {
     return (
       <Flex height={150} justifyContent={'center'} alignItems={'center'} pb={3}>

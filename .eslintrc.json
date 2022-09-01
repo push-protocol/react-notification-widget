@@ -49,8 +49,7 @@
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
     "no-use-before-define": "warn",
-    "@typescript-eslint/no-var-requires": "off",
-    "react/display-name": "off"
+    "@typescript-eslint/no-var-requires": "off"
   },
   "settings": {
     "import/resolver": {

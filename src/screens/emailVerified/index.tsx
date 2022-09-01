@@ -1,17 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
+import { CenteredContainer } from 'components/layout/CenteredContainer';
 import Button from 'components/Button';
 import Text from 'components/Text';
 import { Check } from 'components/icons';
 import Flex from 'components/layout/Flex';
-
-const Container = styled.div`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
 
 const HeaderIconContainer = styled.div`
   height: 40px;
@@ -32,7 +25,7 @@ const HeaderIcon = styled.div`
 
 export const EmailVerified = () => {
   return (
-    <Container>
+    <CenteredContainer>
       <Flex justifyContent={'center'} alignItems={'center'} direction={'column'} mb={8} mt={3}>
         <HeaderIconContainer>
           <HeaderIcon>
@@ -46,6 +39,6 @@ export const EmailVerified = () => {
       <Flex width={'100%'} mb={3}>
         <Button>Continue</Button>
       </Flex>
-    </Container>
+    </CenteredContainer>
   );
 };
