@@ -5,7 +5,6 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import { EpnsNotification } from 'context/NotificationsContext';
 import Flex from 'components/layout/Flex';
 import Text from 'components/Text';
-import { NavigationTabs } from 'screens/feed/components/FeedNavigation';
 import Link from 'components/Link';
 import { Globe } from 'components/icons';
 
@@ -69,11 +68,10 @@ const IconContainer = styled.div`
 
 type NotificationFeedItemProps = {
   notification: EpnsNotification;
-  active: NavigationTabs;
+  showSenderDetails: boolean;
 };
 
-const NotificationFeedItem = ({ notification, active }: NotificationFeedItemProps) => {
-  const isAllPage = active === NavigationTabs.All;
+const NotificationFeedItem = ({ notification, showSenderDetails }: NotificationFeedItemProps) => {
   const isUnread = dayjs(notification.timestamp).isSame(new Date(), 'week'); //TODO: update with correct logic
 
   const markAsRead = () => {
@@ -83,9 +81,9 @@ const NotificationFeedItem = ({ notification, active }: NotificationFeedItemProp
   return (
     <Container direction={'column'} gap={0.5}>
       <Header gap={0.5} alignItems={'center'}>
-        {isAllPage && <SenderImage />}
+        {showSenderDetails && <SenderImage />}
         <Flex direction={'column'}>
-          {isAllPage && (
+          {showSenderDetails && (
             <Text size={'md'} weight={500}>
               Sender
             </Text>

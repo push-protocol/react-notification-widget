@@ -36,7 +36,13 @@ const NotificationFeed = ({ active }: NotificationFeedProps) => {
   return (
     <Container width={'100%'} direction={'column'} mb={2} gap={2}>
       {notifications.map((notification, index) => {
-        return <NotificationFeedItem key={index} notification={notification} active={active} />;
+        return (
+          <NotificationFeedItem
+            key={index}
+            notification={notification}
+            showSenderDetails={active === NavigationTabs.All}
+          />
+        );
       })}
     </Container>
   );
