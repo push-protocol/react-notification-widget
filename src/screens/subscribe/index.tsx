@@ -17,7 +17,7 @@ export const Subscribe = () => {
   const { setRoute } = useRouterContext();
 
   const handleSubscribe = () => {
-    setRoute(Routes.Settings);
+    setRoute(Routes.ConnectEmail);
   };
 
   return (

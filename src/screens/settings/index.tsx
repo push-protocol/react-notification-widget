@@ -32,7 +32,7 @@ const HeaderIcon = styled.div`
 export const Settings = () => {
   const [hideEmail, setHideEmail] = useState(true);
   const [email, setEmail] = useState('');
-  const { setRoute } = useRouterContext();
+  const { setRoute, setRouteProps, activeRoute } = useRouterContext();
 
   const [saveEmail, { loading }] = useSaveUserEmailMutation({
     onCompleted() {
@@ -44,6 +44,9 @@ export const Settings = () => {
   });
 
   const handleSave = () => {
+    setRouteProps({ email: email });
+
+    // setRoute(Routes.VerifyEmail);
     saveEmail();
   };
 
@@ -63,7 +66,7 @@ export const Settings = () => {
           borderRadius={'xs'}
           onClick={handleSkip}
         >
-          Skip
+          {activeRoute === Routes.Settings ? 'Back' : 'Skip'}
         </Button>
       </Flex>
       <Flex justifyContent={'center'} alignItems={'center'} direction={'column'} mb={2}>
@@ -79,7 +82,12 @@ export const Settings = () => {
           We will alert you when new messages are received in your wallet.
         </Text>
       </Flex>
-      <EmailInput onChange={setEmail} isValid={isEmailValid(email)} handleSave={handleSave} />
+      <EmailInput
+        onChange={setEmail}
+        value={email}
+        isValid={isEmailValid(email)}
+        handleSave={handleSave}
+      />
       <HideEmailCheckbox checked={hideEmail} onChange={setHideEmail} />
     </CenteredContainer>
   );

@@ -20,12 +20,13 @@ const ButtonWrapper = styled.div`
 `;
 
 type EnterEmailProps = {
+  value?: string;
   isValid?: boolean;
   onChange(value: string): void;
   handleSave(): void;
 };
 
-const EmailInput = ({ isValid, onChange, handleSave }: EnterEmailProps) => {
+const EmailInput = ({ isValid, value, onChange, handleSave }: EnterEmailProps) => {
   return (
     <Flex
       justifyContent={'center'}
@@ -35,7 +36,11 @@ const EmailInput = ({ isValid, onChange, handleSave }: EnterEmailProps) => {
       mb={2}
     >
       <Wrapper>
-        <TextInput placeholder={'email@example.com'} onValueChange={(value) => onChange(value)} />
+        <TextInput
+          placeholder={'email@example.com'}
+          value={value}
+          onValueChange={(value) => onChange(value)}
+        />
         {isValid && (
           <ButtonWrapper>
             <Button

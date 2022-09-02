@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import VerificationInput from 'react-verification-input';
 import Flex from 'components/layout/Flex';
 import Text from 'components/Text';
 import Button from 'components/Button';
+import useCountDown from 'helpers/hooks/useCountDown';
 
 const ResendButton = styled(Button)`
   height: 27px;
@@ -45,7 +46,11 @@ type EnterVerificationCodeProps = {
   onChange(value: string): void;
 };
 
+const RESEND_DURATION = 60;
+
 const EnterVerificationCode = ({ onChange }: EnterVerificationCodeProps) => {
+  const { time, resetTimer } = useCountDown({ seconds: RESEND_DURATION });
+
   return (
     <Flex
       justifyContent={'center'}
@@ -62,9 +67,13 @@ const EnterVerificationCode = ({ onChange }: EnterVerificationCodeProps) => {
           <VerificationInput length={6} placeholder={''} onChange={onChange} />
         </InputWrapper>
       </Flex>
-      <Text size={'sm'} color={'secondary'} opacity={0.8}>
-        Sending a new code in 55s
-      </Text>
+      {time ? (
+        <Text size={'sm'} color={'secondary'} opacity={0.8}>
+          Sending a new code in {time}s
+        </Text>
+      ) : (
+        <Button onClick={() => resetTimer()}>Resend</Button>
+      )}
     </Flex>
   );
 };

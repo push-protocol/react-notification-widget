@@ -22,6 +22,7 @@ const Input = styled.input<{ width?: string | number }>(({ theme, width }) => ({
 
 type TextInputProps = {
   title?: string;
+  value?: string;
   placeholder?: string;
   width?: string | number;
   leftIcon?: ReactElement;
@@ -30,7 +31,7 @@ type TextInputProps = {
 };
 
 const TextInput = (props: TextInputProps) => {
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState(props.value);
 
   const onChange: ChangeEventHandler<HTMLInputElement> = (e) => {
     setValue(e.target.value);

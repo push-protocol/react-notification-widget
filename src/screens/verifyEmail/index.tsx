@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { CenteredContainer } from 'components/layout/CenteredContainer';
 import Button from 'components/Button';
@@ -7,6 +7,9 @@ import { Bell } from 'components/icons';
 import Flex from 'components/layout/Flex';
 import EnterVerificationCode from 'screens/verifyEmail/components/EnterVerificationCode';
 import { Routes, useRouterContext } from 'context/RouterContext';
+import { useSaveUserEmailMutation } from 'screens/settings/operations.generated';
+import { useValidateUserEmailMutation } from 'screens/verifyEmail/operations.generated';
+import Spinner from 'components/Spinner';
 
 const HeaderIconContainer = styled.div`
   height: 40px;
@@ -28,12 +31,27 @@ const HeaderIcon = styled.div`
 
 export const VerifyEmail = () => {
   const [code, setCode] = useState('');
-  const { setRoute } = useRouterContext();
+  const { setRoute, setRouteProps, props } = useRouterContext();
 
-  const handleVerify = () => {
-    // TODO: Verify code
-    setRoute(Routes.NotificationsFeed);
-  };
+  const [validateEmail, { loading }] = useValidateUserEmailMutation({
+    onCompleted() {
+      setRoute(Routes.NotificationsFeed);
+      setRouteProps({});
+    },
+  });
+
+  useEffect(() => {
+    if (code.length === 6 && props?.email) {
+      validateEmail({
+        variables: {
+          input: {
+            email: props.email,
+            code: code,
+          },
+        },
+      });
+    }
+  }, [code, props, validateEmail]);
 
   const handleSkip = () => {
     setRoute(Routes.NotificationsFeed);
@@ -67,7 +85,7 @@ export const VerifyEmail = () => {
           Sent to jhon.doe@gmail.com
         </Text>
       </Flex>
-      <EnterVerificationCode onChange={setCode} />
+      {loading ? <Spinner /> : <EnterVerificationCode onChange={setCode} />}
     </CenteredContainer>
   );
 };

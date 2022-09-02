@@ -12,16 +12,23 @@ import { EmailVerified, Feed, Settings, Subscribe, VerifyEmail, WalletDisconnect
 enum Routes {
   Subscribe = 'Subscribe',
   Settings = 'Settings',
+  ConnectEmail = 'ConnectEmail',
   NotificationsFeed = 'NotificationsFeed',
   VerifyEmail = 'VerifyEmail',
   EmailVerified = 'EmailVerified',
   WalletDisconnected = 'WalletDisconnected',
 }
 
+type RouterProps = {
+  [key: string]: string;
+};
+
 type RouterContext = {
   activeRoute: Routes;
   setRoute(route: Routes): void;
+  setRouteProps(props: RouterProps): void;
   Component: ElementType;
+  props?: RouterProps;
 };
 
 const RouterContext = createContext<RouterContext>({
@@ -30,6 +37,7 @@ const RouterContext = createContext<RouterContext>({
 
 const RouterProvider = ({ children }: { children: ReactNode }) => {
   const [active, setActive] = useState(Routes.Subscribe);
+  const [routerProps, setRouterProps] = useState<RouterProps>({});
   const { isConnected: isLoggedIn } = useAccount();
 
   useEffect(() => {
@@ -45,9 +53,14 @@ const RouterProvider = ({ children }: { children: ReactNode }) => {
     setActive(route);
   };
 
+  const handleChangeRouterProps = (props: RouterProps) => {
+    setRouterProps(props);
+  };
+
   const RouteScreens = {
     [Routes.Subscribe]: Subscribe,
     [Routes.Settings]: Settings,
+    [Routes.ConnectEmail]: Settings,
     [Routes.NotificationsFeed]: Feed,
     [Routes.VerifyEmail]: VerifyEmail,
     [Routes.EmailVerified]: EmailVerified,
@@ -59,7 +72,9 @@ const RouterProvider = ({ children }: { children: ReactNode }) => {
       value={{
         activeRoute: active,
         setRoute: handleChangeRoute,
+        setRouteProps: handleChangeRouterProps,
         Component: RouteScreens[active],
+        props: routerProps,
       }}
     >
       {children}
