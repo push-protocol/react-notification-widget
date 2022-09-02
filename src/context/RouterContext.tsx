@@ -7,7 +7,9 @@ import React, {
   useEffect,
 } from 'react';
 import { useAccount } from 'wagmi';
+import { channels } from '@epnsproject/frontend-sdk-staging';
 import { EmailVerified, Feed, Settings, Subscribe, VerifyEmail, WalletDisconnected } from 'screens';
+import { useChannelContext } from 'context/ChannelContext';
 
 enum Routes {
   Subscribe = 'Subscribe',
@@ -38,16 +40,23 @@ const RouterContext = createContext<RouterContext>({
 const RouterProvider = ({ children }: { children: ReactNode }) => {
   const [active, setActive] = useState(Routes.Subscribe);
   const [routerProps, setRouterProps] = useState<RouterProps>({});
-  const { isConnected: isLoggedIn } = useAccount();
+  const { isConnected: isLoggedIn, address } = useAccount();
+  const [isSubscribed, setIsSubscribed] = useState(false);
+  const { addr } = useChannelContext();
+
+  useEffect(() => {
+    channels.isUserSubscribed(address, addr).then((res: boolean) => {
+      setIsSubscribed(res);
+    });
+  }, [addr, address]);
 
   useEffect(() => {
     if (!isLoggedIn) {
       setActive(Routes.WalletDisconnected);
     } else {
-      //TODO: handle case when user is already opted in and redirect directly to the feed
-      setActive(Routes.Subscribe);
+      isSubscribed ? setActive(Routes.NotificationsFeed) : setActive(Routes.Subscribe);
     }
-  }, [isLoggedIn]);
+  }, [isLoggedIn, isSubscribed]);
 
   const handleChangeRoute = (route: Routes) => {
     setActive(route);

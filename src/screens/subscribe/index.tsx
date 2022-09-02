@@ -1,5 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
+import { channels, api } from '@epnsproject/frontend-sdk-staging';
+import { useAccount, useSigner } from 'wagmi';
 import { CenteredContainer } from 'components/layout/CenteredContainer';
 import Flex from 'components/layout/Flex';
 import Button from 'components/Button';
@@ -8,6 +10,8 @@ import NewTag from 'components/NewTag';
 import SubscribeDescription from 'screens/subscribe/components/SubscribeDescription';
 import SubscribeInfo from 'screens/subscribe/components/SubscribeInfo';
 import { Routes, useRouterContext } from 'context/RouterContext';
+import { useChannelContext } from 'context/ChannelContext';
+import { CHAIN_ID } from 'global/const';
 
 const StyledNewTag = styled(NewTag)`
   margin-bottom: ${({ theme }) => theme.spacing(1)}px;
@@ -15,9 +19,15 @@ const StyledNewTag = styled(NewTag)`
 
 export const Subscribe = () => {
   const { setRoute } = useRouterContext();
+  const { addr: channelAddress } = useChannelContext();
+  const { address: userAddress } = useAccount();
+  const { data: signer } = useSigner();
 
-  const handleSubscribe = () => {
-    setRoute(Routes.ConnectEmail);
+  const handleSubscribe = async () => {
+    return await channels.optIn(signer, channelAddress, CHAIN_ID, userAddress, {
+      onSuccess: () => setRoute(Routes.ConnectEmail),
+      env: 'staging',
+    });
   };
 
   return (
