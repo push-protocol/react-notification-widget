@@ -1,0 +1,5 @@
+mutation SaveUserEmail ($input: UserEmailUpdateInput!) {
+    userEmailUpdate(input: $input) {
+        success
+    }
+}

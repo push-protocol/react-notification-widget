@@ -1,4 +1,12 @@
-import React, { createContext, useContext, ReactNode, useState, ElementType } from 'react';
+import React, {
+  createContext,
+  useContext,
+  ReactNode,
+  useState,
+  ElementType,
+  useEffect,
+} from 'react';
+import { useAccount } from 'wagmi';
 import { EmailVerified, Feed, Settings, Subscribe, VerifyEmail, WalletDisconnected } from 'screens';
 
 enum Routes {
@@ -22,6 +30,16 @@ const RouterContext = createContext<RouterContext>({
 
 const RouterProvider = ({ children }: { children: ReactNode }) => {
   const [active, setActive] = useState(Routes.Subscribe);
+  const { isConnected: isLoggedIn } = useAccount();
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      setActive(Routes.WalletDisconnected);
+    } else {
+      //TODO: handle case when user is already opted in and redirect directly to the feed
+      setActive(Routes.Subscribe);
+    }
+  }, [isLoggedIn]);
 
   const handleChangeRoute = (route: Routes) => {
     setActive(route);

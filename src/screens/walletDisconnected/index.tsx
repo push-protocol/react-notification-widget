@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useConnect } from 'wagmi';
 import { CenteredContainer } from 'components/layout/CenteredContainer';
 import Button from 'components/Button';
 import Text from 'components/Text';
@@ -22,6 +23,8 @@ const StyledText = styled(Text)`
 `;
 
 export const WalletDisconnected = () => {
+  const { connect, connectors, isLoading, pendingConnector } = useConnect();
+
   return (
     <CenteredContainer>
       <Flex justifyContent={'center'} alignItems={'center'} direction={'column'} mb={16} mt={8}>
@@ -32,8 +35,18 @@ export const WalletDisconnected = () => {
           Wallet not connected
         </StyledText>
       </Flex>
-      <Flex width={'100%'}>
-        <Button>Connect Wallet</Button>
+      <Flex width={'100%'} direction={'column'}>
+        {connectors.map((connector) => (
+          <Button
+            disabled={!connector.ready}
+            key={connector.id}
+            onClick={() => connect({ connector })}
+          >
+            Connect Wallet
+            {!connector.ready && ' (unsupported)'}
+            {isLoading && connector.id === pendingConnector?.id && ' (connecting)'}
+          </Button>
+        ))}
       </Flex>
     </CenteredContainer>
   );

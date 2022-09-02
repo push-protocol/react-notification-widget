@@ -9,6 +9,7 @@ import HideEmailCheckbox from 'screens/settings/components/HideEmailCheckbox';
 import EmailInput from 'screens/settings/components/EmailInput';
 import isEmailValid from 'helpers/functions/isEmailValid';
 import { Routes, useRouterContext } from 'context/RouterContext';
+import { useSaveUserEmailMutation } from 'screens/settings/operations.generated';
 
 const HeaderIconContainer = styled.div`
   height: 40px;
@@ -33,8 +34,17 @@ export const Settings = () => {
   const [email, setEmail] = useState('');
   const { setRoute } = useRouterContext();
 
+  const [saveEmail, { loading }] = useSaveUserEmailMutation({
+    onCompleted() {
+      setRoute(Routes.VerifyEmail);
+    },
+    variables: {
+      input: { email: email },
+    },
+  });
+
   const handleSave = () => {
-    setRoute(Routes.VerifyEmail);
+    saveEmail();
   };
 
   const handleSkip = () => {

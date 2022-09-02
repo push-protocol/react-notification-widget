@@ -8,16 +8,24 @@ export type EpnsChannelInfo = {
   memberCount?: number;
 };
 
+const emptyChannel = {
+  addr: '',
+  icon: '',
+  name: '',
+};
+
 const ChannelContext = createContext<EpnsChannelInfo>({} as EpnsChannelInfo);
 
 const ChannelProvider = ({
   channel,
   children,
 }: {
-  channel: EpnsChannelInfo;
+  channel?: EpnsChannelInfo;
   children: ReactNode;
 }) => {
-  return <ChannelContext.Provider value={channel}>{children}</ChannelContext.Provider>;
+  return (
+    <ChannelContext.Provider value={channel || emptyChannel}>{children}</ChannelContext.Provider>
+  );
 };
 
 function useChannelContext() {
