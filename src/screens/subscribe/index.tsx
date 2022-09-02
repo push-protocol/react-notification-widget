@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { channels, api } from '@epnsproject/frontend-sdk-staging';
+import { channels } from '@epnsproject/frontend-sdk-staging';
 import { useAccount, useSigner } from 'wagmi';
 import { CenteredContainer } from 'components/layout/CenteredContainer';
 import Flex from 'components/layout/Flex';

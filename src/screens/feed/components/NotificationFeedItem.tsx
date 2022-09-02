@@ -75,7 +75,7 @@ const NotificationFeedItem = ({ notification, showSenderDetails }: NotificationF
   const isUnread = dayjs(notification.timestamp).isSame(new Date(), 'week'); //TODO: update with correct logic
 
   const markAsRead = () => {
-    console.log('mark as read', notification.title); //TODO: handle mark as read without redirection
+    //TODO: handle mark as read without redirection
   };
 
   return (
