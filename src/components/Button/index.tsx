@@ -1,23 +1,68 @@
-import styled from 'styled-components';
+import styled, { css, DefaultTheme } from 'styled-components';
 import { Margins, Paddings } from '../types';
-import { genSpaces, adjustColor, conditionalRenderProp } from '../utils';
+import { genSpaces, renderStringNumValue } from '../utils';
 
-type ButtonProps = { variant?: 'outlined' } & Margins & Paddings;
+const fontSizes = {
+  sm: '12px',
+  md: '16px',
+};
+
+type ButtonVariant = 'gray' | 'primary' | 'outlined';
+
+type ButtonProps = {
+  variant?: ButtonVariant;
+  fontSize?: keyof typeof fontSizes;
+  height?: string | number;
+  width?: string | number;
+  borderRadius?: 'xs' | 'md';
+} & Margins &
+  Paddings;
+
+const variantStyles = (variant = 'primary', theme: DefaultTheme): any =>
+  ({
+    primary: css`
+      background: ${theme.colors.primary.dark};
+      &:hover {
+        background: ${theme.colors.primary.light};
+        border-color: ${theme.colors.primary.light};
+      }
+    `,
+    gray: css`
+      background: ${theme.colors.gray[500]};
+      &:hover {
+        background: ${theme.colors.gray[300]};
+        border-color: ${theme.colors.gray[300]};
+      }
+    `,
+    outlined: css`
+      background-color: transparent;
+    `,
+  }[variant]);
 
 const Button = styled.button<ButtonProps>`
-  ${({ theme, variant, ...rest }) => `
-    &:hover {
-      background: ${variant === 'outlined' ? undefined : adjustColor(theme.colors.primary, -20)};
-      borderColor: ${adjustColor(theme.colors.primary, -20)};
+  ${({
+    theme,
+    variant = 'primary',
+    width = '100%',
+    height = '39px',
+    fontSize = 'md',
+    borderRadius = 'md',
+    ...rest
+  }) => `
+    &:active {
       transform: translateY(1px);
     };
-    transition: .2s background ease, .2s transform ease;
-    background: ${variant === 'outlined' ? 'transparent' : theme.colors.primary};
-    ${conditionalRenderProp('border-radius', theme.borderRadius)};
+    transition: .1s background ease, .1s transform ease;
+    border-radius: ${theme.borderRadius[borderRadius]};
     cursor: pointer;
-    border: 1px solid ${theme.colors.primary};
+    border: none;
+    font-weight: 600;
+    font-size: ${fontSizes[fontSize]};
     padding: ${theme.spacing(1)}px ${theme.spacing(3)}px;
     color: ${theme.colors.text.primary};
+    width: ${renderStringNumValue(width)};
+    height: ${renderStringNumValue(height)};
+    ${variantStyles(variant, theme).join('')}
     ${genSpaces(theme, rest)}
   `};
 `;
