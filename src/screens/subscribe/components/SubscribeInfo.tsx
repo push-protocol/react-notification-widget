@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useAccount } from 'wagmi';
 import Text from 'components/Text';
 import { Dots, ExportWallet } from 'components/icons';
 import formatUserAddress from 'helpers/functions/formatUserAddress';
@@ -59,6 +60,7 @@ const SeparatorIcon = styled.div`
 
 const SubscribeInfo = () => {
   const { channel, name, icon } = useChannelContext();
+  const { address } = useAccount();
 
   return (
     <Container>
@@ -67,7 +69,7 @@ const SubscribeInfo = () => {
           <img src={icon} alt="channel icon" />
         </FromWalletIcon>
         <WalletText>
-          <Text size={'sm'}>{channel || name}</Text>
+          <Text size={'sm'}>{channel ? formatUserAddress(channel) : name}</Text>
         </WalletText>
       </WalletContainer>
       <Separator>
@@ -80,7 +82,7 @@ const SubscribeInfo = () => {
           <ExportWallet />
         </WalletIcon>
         <WalletText>
-          <Text size={'sm'}>{formatUserAddress('0x7d0ashf0saha0sf102hf21927d')}</Text>
+          <Text size={'sm'}>{formatUserAddress(address)}</Text>
         </WalletText>
       </WalletContainer>
     </Container>

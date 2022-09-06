@@ -28,13 +28,13 @@ function App({ partnerKey }: AppProps) {
       <WagmiConfig client={wagmiClient}>
         <ChannelProvider channel={channel}>
           <NotificationsProvider>
-            <RouterProvider>
-              <ApolloProvider client={apolloClient}>
+            <ApolloProvider client={apolloClient}>
+              <RouterProvider>
                 <div style={{ height: '100vh', width: '100vw' }}>
                   <Widget />
                 </div>
-              </ApolloProvider>
-            </RouterProvider>
+              </RouterProvider>
+            </ApolloProvider>
           </NotificationsProvider>
         </ChannelProvider>
       </WagmiConfig>

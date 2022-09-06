@@ -33,9 +33,11 @@ export const Settings = () => {
   const [hideEmail, setHideEmail] = useState(true);
   const [email, setEmail] = useState('');
   const { setRoute, setRouteProps, activeRoute } = useRouterContext();
+  const { login } = useRouterContext();
 
   const [saveEmail, { loading }] = useSaveUserEmailMutation({
     onCompleted() {
+      setRouteProps({ email: email });
       setRoute(Routes.VerifyEmail);
     },
     variables: {
@@ -43,10 +45,8 @@ export const Settings = () => {
     },
   });
 
-  const handleSave = () => {
-    setRouteProps({ email: email });
-
-    // setRoute(Routes.VerifyEmail);
+  const handleSave = async () => {
+    await login();
     saveEmail();
   };
 

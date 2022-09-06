@@ -29,10 +29,7 @@ const NotificationsContext = createContext<NotificationsContext>({
 } as NotificationsContext);
 
 export const NotificationsProvider = ({ children }: { children: ReactNode }) => {
-  const {
-    isConnected: isLoggedIn,
-    address: userAddress = '0x35C79717FFDc2d2b6c79fC6DbF6FA3FF157E5Df9',
-  } = useAccount();
+  const { isConnected: isLoggedIn, address: userAddress } = useAccount();
   const [isChannelOwner, setIsChannelOwner] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [notifications, setNotifications] = useState<EpnsNotification[]>([]);

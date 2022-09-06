@@ -82,7 +82,7 @@ export const VerifyEmail = () => {
           Enter verification code
         </Text>
         <Text size={'md'} align={'center'}>
-          Sent to jhon.doe@gmail.com
+          Sent to {props?.email}
         </Text>
       </Flex>
       {loading ? <Spinner /> : <EnterVerificationCode onChange={setCode} />}

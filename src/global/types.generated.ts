@@ -190,7 +190,9 @@ export type Workflow = {
   __typename?: 'Workflow';
   audience?: Maybe<Audience>;
   channelAddress: Scalars['String'];
+  commsChannelId: Scalars['String'];
   createdAt: Scalars['DateTime'];
+  createdByAddress: Scalars['String'];
   id: Scalars['String'];
   isActive: Scalars['Boolean'];
   message?: Maybe<MessageStep>;

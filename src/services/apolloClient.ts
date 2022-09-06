@@ -1,7 +1,7 @@
 import { ApolloClient, InMemoryCache, from, HttpLink } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import { onError } from '@apollo/client/link/error';
-import { PUBLIC_GQL_ENDPOINT, SIGNED_AUTH_KEY } from 'global/const';
+import { PUBLIC_GQL_ENDPOINT, LOCALSTORAGE_AUTH_KEY } from 'global/const';
 
 const httpMainApiLink = new HttpLink({
   uri: PUBLIC_GQL_ENDPOINT,
@@ -9,17 +9,17 @@ const httpMainApiLink = new HttpLink({
 
 const createTokenLink = () =>
   setContext(async () => {
-    const authParams = localStorage.getItem(SIGNED_AUTH_KEY);
+    const authParams = localStorage.getItem(LOCALSTORAGE_AUTH_KEY);
 
     return {
       headers: {
-        ...(authParams && { 'x-signed-auth': authParams }),
+        ...(authParams && { Authorization: `Bearer ${authParams}` }),
       },
     };
   });
 
 function removeToken() {
-  localStorage.removeItem(SIGNED_AUTH_KEY);
+  localStorage.removeItem(LOCALSTORAGE_AUTH_KEY);
 }
 
 const ErrorHandlingLink = onError(({ graphQLErrors }) => {
