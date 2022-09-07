@@ -5,6 +5,7 @@ export type EnvironmentContextType = {
   env: EnvType;
   chainId: number;
   gqlEndpoint: string;
+  epnsEnv: string;
 };
 
 export const EnvironmentContext = createContext<EnvironmentContextType>(
@@ -31,12 +32,19 @@ export const EnvironmentProvider = ({
     prod: 1,
   };
 
+  const epnsEnvMap: { [key in EnvType]: string } = {
+    dev: 'staging',
+    staging: 'staging',
+    prod: 'prod',
+  };
+
   return (
     <EnvironmentContext.Provider
       value={{
         env: env,
         chainId: chainIdMap[env],
         gqlEndpoint: gqlEndpointMap[env],
+        epnsEnv: epnsEnvMap[env],
       }}
     >
       {children}

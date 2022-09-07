@@ -49,11 +49,12 @@ const RouterContext = createContext<RouterContext>({
 const isUserSubscribed = async (
   userAddress: string,
   channelAddress: string,
+  env: string,
   chainId: number
 ): Promise<boolean> => {
   let subscribers: string[] = await epns.channels._getSubscribers({
     channel: `eip155:${chainId}:${channelAddress}`,
-    env: 'staging',
+    env: env,
   });
   subscribers = subscribers.map((s) => s.toLowerCase());
   return subscribers.indexOf(userAddress.toLowerCase()) !== -1;
@@ -73,7 +74,7 @@ const RouterProvider = ({ children }: { children: ReactNode }) => {
   const [isLoading, setIsLoading] = useState(false);
   const { login: _login } = useAuthenticate();
   const [error, setError] = useState(false);
-  const { env, chainId } = useEnvironment();
+  const { env, epnsEnv, chainId } = useEnvironment();
   const { data: signer } = useSigner();
 
   useEffect(() => {
@@ -83,7 +84,7 @@ const RouterProvider = ({ children }: { children: ReactNode }) => {
 
     (async () => {
       setIsLoading(true);
-      setIsSubscribed(await isUserSubscribed(address as string, channel, chainId));
+      setIsSubscribed(await isUserSubscribed(address as string, channel, epnsEnv, chainId));
       setIsLoading(false);
     })();
   }, [channel, address, isConnected]);
@@ -143,7 +144,7 @@ const RouterProvider = ({ children }: { children: ReactNode }) => {
       signer: signer as any,
       channelAddress: `eip155:${chainId}:${channel}`,
       userAddress: `eip155:${chainId}:${address}`,
-      env,
+      env: epnsEnv,
     });
     setIsLoading(false);
 
