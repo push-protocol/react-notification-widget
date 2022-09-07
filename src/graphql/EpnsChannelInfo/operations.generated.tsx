@@ -4,17 +4,17 @@ import { gql } from '@apollo/client';
 import * as ApolloReactCommon from '@apollo/client';
 import * as ApolloReactHooks from '@apollo/client';
 const defaultOptions = {} as const;
-export type CommsChannelQueryVariables = Types.Exact<{
-  input: Types.CommsChannelByPartnerKeyInput;
+export type PartnerInfoQueryVariables = Types.Exact<{
+  input: Types.PartnerInfoInput;
 }>;
 
 
-export type CommsChannelQuery = { __typename?: 'Query', commsChannelByPartnerKey: { __typename?: 'CommsChannel', id: string, channelAddress: string, logo?: string | null, name: string } };
+export type PartnerInfoQuery = { __typename?: 'Query', partnerInfo: { __typename?: 'CommsChannel', id: string, channelAddress: string, logo?: string | null, name: string } };
 
 
-export const CommsChannelDocument = gql`
-    query CommsChannel($input: CommsChannelByPartnerKeyInput!) {
-  commsChannelByPartnerKey(input: $input) {
+export const PartnerInfoDocument = gql`
+    query PartnerInfo($input: PartnerInfoInput!) {
+  partnerInfo(input: $input) {
     id
     channelAddress
     logo
@@ -24,29 +24,29 @@ export const CommsChannelDocument = gql`
     `;
 
 /**
- * __useCommsChannelQuery__
+ * __usePartnerInfoQuery__
  *
- * To run a query within a React component, call `useCommsChannelQuery` and pass it any options that fit your needs.
- * When your component renders, `useCommsChannelQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `usePartnerInfoQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePartnerInfoQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useCommsChannelQuery({
+ * const { data, loading, error } = usePartnerInfoQuery({
  *   variables: {
  *      input: // value for 'input'
  *   },
  * });
  */
-export function useCommsChannelQuery(baseOptions: ApolloReactHooks.QueryHookOptions<CommsChannelQuery, CommsChannelQueryVariables>) {
+export function usePartnerInfoQuery(baseOptions: ApolloReactHooks.QueryHookOptions<PartnerInfoQuery, PartnerInfoQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return ApolloReactHooks.useQuery<CommsChannelQuery, CommsChannelQueryVariables>(CommsChannelDocument, options);
+        return ApolloReactHooks.useQuery<PartnerInfoQuery, PartnerInfoQueryVariables>(PartnerInfoDocument, options);
       }
-export function useCommsChannelLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<CommsChannelQuery, CommsChannelQueryVariables>) {
+export function usePartnerInfoLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<PartnerInfoQuery, PartnerInfoQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return ApolloReactHooks.useLazyQuery<CommsChannelQuery, CommsChannelQueryVariables>(CommsChannelDocument, options);
+          return ApolloReactHooks.useLazyQuery<PartnerInfoQuery, PartnerInfoQueryVariables>(PartnerInfoDocument, options);
         }
-export type CommsChannelQueryHookResult = ReturnType<typeof useCommsChannelQuery>;
-export type CommsChannelLazyQueryHookResult = ReturnType<typeof useCommsChannelLazyQuery>;
-export type CommsChannelQueryResult = ApolloReactCommon.QueryResult<CommsChannelQuery, CommsChannelQueryVariables>;
+export type PartnerInfoQueryHookResult = ReturnType<typeof usePartnerInfoQuery>;
+export type PartnerInfoLazyQueryHookResult = ReturnType<typeof usePartnerInfoLazyQuery>;
+export type PartnerInfoQueryResult = ApolloReactCommon.QueryResult<PartnerInfoQuery, PartnerInfoQueryVariables>;

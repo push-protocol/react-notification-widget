@@ -1,5 +1,5 @@
 import React, { createContext, useContext, ReactNode, useState, useEffect } from 'react';
-import { useCommsChannelQuery } from 'graphql/EpnsChannelInfo/operations.generated';
+import { usePartnerInfoQuery } from 'graphql/EpnsChannelInfo/operations.generated';
 
 export type EpnsChannelInfo = {
   icon: string;
@@ -17,7 +17,7 @@ const ChannelContext = createContext<EpnsChannelInfo>({} as EpnsChannelInfo);
 
 const ChannelProvider = ({ partnerKey, children }: { partnerKey: string; children: ReactNode }) => {
   const [channel, setChannel] = useState<EpnsChannelInfo>();
-  const { data } = useCommsChannelQuery({
+  const { data } = usePartnerInfoQuery({
     variables: {
       input: { partnerApiKey: partnerKey },
     },
@@ -26,9 +26,9 @@ const ChannelProvider = ({ partnerKey, children }: { partnerKey: string; childre
   useEffect(() => {
     if (!data) return;
     setChannel({
-      channel: data.commsChannelByPartnerKey.channelAddress,
-      icon: data.commsChannelByPartnerKey.logo as string,
-      name: data.commsChannelByPartnerKey.name,
+      channel: data.partnerInfo.channelAddress,
+      icon: data.partnerInfo.logo as string,
+      name: data.partnerInfo.name,
     });
   }, [data]);
 

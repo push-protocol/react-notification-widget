@@ -1,5 +1,5 @@
-query CommsChannel ($input: CommsChannelByPartnerKeyInput!) {
-    commsChannelByPartnerKey(input: $input) {
+query PartnerInfo ($input: PartnerInfoInput!) {
+    partnerInfo(input: $input) {
         id,
         channelAddress,
         logo,

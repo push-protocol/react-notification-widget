@@ -45,10 +45,6 @@ export type CommsChannel = {
   updatedAt: Scalars['DateTime'];
 };
 
-export type CommsChannelByPartnerKeyInput = {
-  partnerApiKey: Scalars['String'];
-};
-
 export enum CommsChannelType {
   Epns = 'EPNS'
 }
@@ -155,16 +151,20 @@ export type NonceGenerateInput = {
   userAddress: Scalars['String'];
 };
 
+export type PartnerInfoInput = {
+  partnerApiKey: Scalars['String'];
+};
+
 export type Query = {
   __typename?: 'Query';
-  commsChannelByPartnerKey: CommsChannel;
   me: User;
+  partnerInfo: CommsChannel;
   workflows: Array<Workflow>;
 };
 
 
-export type QueryCommsChannelByPartnerKeyArgs = {
-  input: CommsChannelByPartnerKeyInput;
+export type QueryPartnerInfoArgs = {
+  input: PartnerInfoInput;
 };
 
 export type Trigger = {
