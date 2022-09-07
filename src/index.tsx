@@ -1,44 +1,44 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { ThemeProvider } from 'styled-components';
-import { WagmiConfig } from 'wagmi';
-import { ApolloProvider } from '@apollo/client';
+import { createClient, WagmiConfig } from 'wagmi';
 import theme from './theme';
 import { NotificationsProvider } from 'context/NotificationsContext';
-import { wagmiClient } from 'services/auth';
 import './index.css';
 import { RouterProvider } from 'context/RouterContext';
 import Widget from 'components/Widget';
-import { ChannelProvider, EpnsChannelInfo } from 'context/ChannelContext';
-import { getTempChannelInfo } from 'graphql/EpnsChannelInfo/temp';
-import { apolloClient } from 'services/apolloClient';
+import { ChannelProvider } from 'context/ChannelContext';
+import { EnvironmentProvider, EnvType } from 'context/EnvironmentContext';
+import { ApolloProvider } from 'context/ApolloProvider';
 
 type AppProps = {
   partnerKey: string;
+  env?: EnvType;
+  provider: any;
 };
 
-function App({ partnerKey }: AppProps) {
-  const [channel, setChannel] = useState<EpnsChannelInfo>();
-
-  useEffect(() => {
-    getTempChannelInfo(partnerKey).then((result) => setChannel(result));
-  }, [partnerKey]);
-
+function App({ partnerKey, env, provider }: AppProps) {
+  const wagmiClient = createClient({
+    autoConnect: true,
+    provider,
+  });
   return (
-    <ThemeProvider theme={theme}>
-      <WagmiConfig client={wagmiClient}>
-        <ChannelProvider channel={channel}>
-          <NotificationsProvider>
-            <RouterProvider>
-              <ApolloProvider client={apolloClient}>
-                <div style={{ height: '100vh', width: '100vw' }}>
-                  <Widget />
-                </div>
-              </ApolloProvider>
-            </RouterProvider>
-          </NotificationsProvider>
-        </ChannelProvider>
-      </WagmiConfig>
-    </ThemeProvider>
+    <EnvironmentProvider env={env}>
+      <ThemeProvider theme={theme}>
+        <WagmiConfig client={wagmiClient}>
+          <ApolloProvider>
+            <ChannelProvider partnerKey={partnerKey}>
+              <NotificationsProvider>
+                <RouterProvider>
+                  <div style={{ height: '100vh', width: '100vw' }}>
+                    <Widget />
+                  </div>
+                </RouterProvider>
+              </NotificationsProvider>
+            </ChannelProvider>
+          </ApolloProvider>
+        </WagmiConfig>
+      </ThemeProvider>
+    </EnvironmentProvider>
   );
 }
 

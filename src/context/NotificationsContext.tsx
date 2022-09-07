@@ -1,7 +1,8 @@
 import React, { createContext, useContext, ReactNode, useState, useEffect } from 'react';
 
 import { useAccount } from 'wagmi';
-import { api } from '@epnsproject/frontend-sdk-staging';
+import * as epns from '@epnsproject/sdk-restapi';
+import { useEnvironment } from './EnvironmentContext';
 
 export type EpnsNotification = {
   title: string;
@@ -29,30 +30,35 @@ const NotificationsContext = createContext<NotificationsContext>({
 } as NotificationsContext);
 
 export const NotificationsProvider = ({ children }: { children: ReactNode }) => {
-  const {
-    isConnected: isLoggedIn,
-    address: userAddress = '0x35C79717FFDc2d2b6c79fC6DbF6FA3FF157E5Df9',
-  } = useAccount();
+  const { isConnected: isLoggedIn, address: userAddress } = useAccount();
   const [isChannelOwner, setIsChannelOwner] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [notifications, setNotifications] = useState<EpnsNotification[]>([]);
+  const { chainId, epnsEnv } = useEnvironment();
 
   useEffect(() => {
     if (userAddress) {
       setIsLoading(true);
-      api.fetchNotifications(userAddress, 1000, 1).then(async (notificationsRaw: any) => {
-        const notifs = notificationsRaw.results?.map(({ epoch, payload: { data } }: any) => ({
-          timestamp: epoch,
-          title: data.asub,
-          message: data.amsg,
-          app: data.app,
-          icon: data.icon,
-          url: data.url,
-          cta: data.acta,
-        }));
-        setNotifications(notifs || []);
-        setIsLoading(false);
-      });
+      epns.user
+        .getFeeds({
+          user: `eip155:${chainId}:${userAddress}`,
+          env: epnsEnv,
+          page: 1,
+          limit: 1000,
+        })
+        .then((result) => {
+          const notifs = result?.map((item: any) => ({
+            title: item.notification.title,
+            message: item.message,
+            app: item.app,
+            icon: item.icon,
+            url: item.url,
+            cta: item.cta,
+            timestamp: new Date().toISOString(),
+          }));
+          setNotifications(notifs || []);
+          setIsLoading(false);
+        });
     }
   }, [isLoggedIn, userAddress]);
 

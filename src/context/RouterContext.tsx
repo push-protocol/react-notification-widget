@@ -6,10 +6,14 @@ import React, {
   ElementType,
   useEffect,
 } from 'react';
-import { useAccount } from 'wagmi';
-import { channels } from '@epnsproject/frontend-sdk-staging';
+import { useAccount, useSigner } from 'wagmi';
+import * as epns from '@epnsproject/sdk-restapi';
+import { useEnvironment } from './EnvironmentContext';
 import { EmailVerified, Feed, Settings, Subscribe, VerifyEmail, WalletDisconnected } from 'screens';
 import { useChannelContext } from 'context/ChannelContext';
+import { LOCALSTORAGE_AUTH_KEY } from 'global/const';
+import { useAuthenticate } from 'hooks/auth/useAuthenticate';
+import { Auth } from 'screens/auth';
 
 enum Routes {
   Subscribe = 'Subscribe',
@@ -19,6 +23,7 @@ enum Routes {
   VerifyEmail = 'VerifyEmail',
   EmailVerified = 'EmailVerified',
   WalletDisconnected = 'WalletDisconnected',
+  Auth = 'Auth',
 }
 
 type RouterProps = {
@@ -27,43 +32,133 @@ type RouterProps = {
 
 type RouterContext = {
   activeRoute: Routes;
-  setRoute(route: Routes): void;
-  setRouteProps(props: RouterProps): void;
+  subscribe(): void;
+  setRoute(route: Routes, props?: RouterProps): void;
   Component: ElementType;
   props?: RouterProps;
+  isLoading: boolean;
+  error: boolean;
+  isLoggedIn: boolean;
+  login(): void;
 };
 
 const RouterContext = createContext<RouterContext>({
   activeRoute: Routes.Subscribe,
 } as RouterContext);
 
+const isUserSubscribed = async (args: {
+  userAddress: string;
+  channelAddress: string;
+  env: string;
+  chainId: number;
+}): Promise<boolean> => {
+  const { userAddress, channelAddress, env, chainId } = args;
+  let subscribers: string[] = await epns.channels._getSubscribers({
+    channel: `eip155:${chainId}:${channelAddress}`,
+    env: env,
+  });
+  subscribers = subscribers.map((s) => s.toLowerCase());
+  return subscribers.indexOf(userAddress.toLowerCase()) !== -1;
+};
+
+const shouldLogin = () => {
+  return !localStorage.getItem(LOCALSTORAGE_AUTH_KEY);
+};
+
 const RouterProvider = ({ children }: { children: ReactNode }) => {
   const [active, setActive] = useState(Routes.Subscribe);
   const [routerProps, setRouterProps] = useState<RouterProps>({});
-  const { isConnected: isLoggedIn, address } = useAccount();
+  const { isConnected, address } = useAccount();
   const [isSubscribed, setIsSubscribed] = useState(false);
-  const { addr } = useChannelContext();
+  const { channel } = useChannelContext();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const { login: _login } = useAuthenticate();
+  const [error, setError] = useState(false);
+  const { epnsEnv, chainId } = useEnvironment();
+  const { data: signer } = useSigner();
 
   useEffect(() => {
-    channels.isUserSubscribed(address, addr).then((res: boolean) => {
-      setIsSubscribed(res);
-    });
-  }, [addr, address]);
-
-  useEffect(() => {
-    if (!isLoggedIn) {
-      setActive(Routes.WalletDisconnected);
-    } else {
-      isSubscribed ? setActive(Routes.NotificationsFeed) : setActive(Routes.Subscribe);
+    if (!isConnected || !channel) {
+      return;
     }
-  }, [isLoggedIn, isSubscribed]);
 
-  const handleChangeRoute = (route: Routes) => {
+    (async () => {
+      setIsLoading(true);
+      setIsSubscribed(
+        await isUserSubscribed({
+          userAddress: address as string,
+          channelAddress: channel,
+          env: epnsEnv,
+          chainId,
+        })
+      );
+      setIsLoading(false);
+    })();
+  }, [channel, address, isConnected]);
+
+  useEffect(() => {
+    if (!isConnected) {
+      logout();
+      setActive(Routes.WalletDisconnected);
+      return;
+    }
+
+    if (!isSubscribed) {
+      setActive(Routes.Subscribe);
+      return;
+    }
+
+    if (!isLoggedIn && localStorage.getItem(LOCALSTORAGE_AUTH_KEY)) {
+      setIsLoggedIn(true);
+      return;
+    }
+
+    setActive(Routes.NotificationsFeed);
+  }, [isConnected, isSubscribed, isLoggedIn]);
+
+  const setRouteWithParams = (route: Routes, props?: RouterProps) => {
     setActive(route);
+    if (props) setRouterProps(props);
   };
 
-  const handleChangeRouterProps = (props: RouterProps) => {
-    setRouterProps(props);
+  const login = async () => {
+    if (isLoggedIn || !shouldLogin()) return;
+    setIsLoading(true);
+    setError(false);
+    setActive(Routes.Auth);
+
+    try {
+      const result = await _login(channel);
+      localStorage.setItem(LOCALSTORAGE_AUTH_KEY, result.token);
+      setIsLoggedIn(true);
+    } catch (e) {
+      setError(true);
+    }
+
+    setIsLoading(false);
+  };
+
+  const logout = () => {
+    localStorage.removeItem(LOCALSTORAGE_AUTH_KEY);
+    setIsSubscribed(false);
+    setError(false);
+    setIsLoading(false);
+  };
+
+  const subscribe = async () => {
+    setIsLoading(true);
+    const response = await epns.channels.subscribe({
+      signer: signer as any,
+      channelAddress: `eip155:${chainId}:${channel}`,
+      userAddress: `eip155:${chainId}:${address}`,
+      env: epnsEnv,
+    });
+    setIsLoading(false);
+
+    if (response.status == 'success') {
+      setIsSubscribed(true);
+    }
   };
 
   const RouteScreens = {
@@ -74,16 +169,21 @@ const RouterProvider = ({ children }: { children: ReactNode }) => {
     [Routes.VerifyEmail]: VerifyEmail,
     [Routes.EmailVerified]: EmailVerified,
     [Routes.WalletDisconnected]: WalletDisconnected,
+    [Routes.Auth]: Auth,
   };
 
   return (
     <RouterContext.Provider
       value={{
         activeRoute: active,
-        setRoute: handleChangeRoute,
-        setRouteProps: handleChangeRouterProps,
+        subscribe,
+        setRoute: setRouteWithParams,
         Component: RouteScreens[active],
         props: routerProps,
+        isLoading,
+        error,
+        isLoggedIn,
+        login,
       }}
     >
       {children}

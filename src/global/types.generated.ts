@@ -33,6 +33,22 @@ export type BatchActionResponse = {
   count: Scalars['Float'];
 };
 
+export type CommsChannel = {
+  __typename?: 'CommsChannel';
+  channelAddress: Scalars['String'];
+  createdAt: Scalars['DateTime'];
+  id: Scalars['String'];
+  logo?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
+  partnerApiKey: Scalars['String'];
+  type: CommsChannelType;
+  updatedAt: Scalars['DateTime'];
+};
+
+export enum CommsChannelType {
+  Epns = 'EPNS'
+}
+
 export type ContractTriggerInput = {
   contractAddress: Scalars['String'];
   eventName: Scalars['String'];
@@ -81,8 +97,8 @@ export type Mutation = {
   __typename?: 'Mutation';
   messageSend: Scalars['Boolean'];
   nonceGenerate: Nonce;
-  userEmailUpdate: Array<GeneralResolverResponse>;
-  userEmailValidate: Array<GeneralResolverResponse>;
+  userEmailUpdate: GeneralResolverResponse;
+  userEmailValidate: GeneralResolverResponse;
   userLogin: UserLoginPayload;
   workflowCreate: Workflow;
   workflowDelete: BatchActionResponse;
@@ -135,10 +151,20 @@ export type NonceGenerateInput = {
   userAddress: Scalars['String'];
 };
 
+export type PartnerInfoInput = {
+  partnerApiKey: Scalars['String'];
+};
+
 export type Query = {
   __typename?: 'Query';
   me: User;
+  partnerInfo: CommsChannel;
   workflows: Array<Workflow>;
+};
+
+
+export type QueryPartnerInfoArgs = {
+  input: PartnerInfoInput;
 };
 
 export type Trigger = {
@@ -190,7 +216,9 @@ export type Workflow = {
   __typename?: 'Workflow';
   audience?: Maybe<Audience>;
   channelAddress: Scalars['String'];
+  commsChannelId: Scalars['String'];
   createdAt: Scalars['DateTime'];
+  createdByAddress: Scalars['String'];
   id: Scalars['String'];
   isActive: Scalars['Boolean'];
   message?: Maybe<MessageStep>;

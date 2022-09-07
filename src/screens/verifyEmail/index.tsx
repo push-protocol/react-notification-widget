@@ -31,12 +31,11 @@ const HeaderIcon = styled.div`
 
 export const VerifyEmail = () => {
   const [code, setCode] = useState('');
-  const { setRoute, setRouteProps, props } = useRouterContext();
+  const { setRoute, props } = useRouterContext();
 
   const [validateEmail, { loading }] = useValidateUserEmailMutation({
     onCompleted() {
-      setRoute(Routes.NotificationsFeed);
-      setRouteProps({});
+      setRoute(Routes.NotificationsFeed, {});
     },
   });
 
@@ -82,7 +81,7 @@ export const VerifyEmail = () => {
           Enter verification code
         </Text>
         <Text size={'md'} align={'center'}>
-          Sent to jhon.doe@gmail.com
+          Sent to {props?.email}
         </Text>
       </Flex>
       {loading ? <Spinner /> : <EnterVerificationCode onChange={setCode} />}
