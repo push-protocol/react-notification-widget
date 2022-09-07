@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, ReactElement } from 'react';
 import { ThemeProvider } from 'styled-components';
 import { WagmiConfig } from 'wagmi';
 import { ApolloProvider } from '@apollo/client';
@@ -14,6 +14,7 @@ import { apolloClient } from 'services/apolloClient';
 
 type AppProps = {
   partnerKey: string;
+  NotificationButton?: ReactElement;
 };
 
 function App({ partnerKey }: AppProps) {

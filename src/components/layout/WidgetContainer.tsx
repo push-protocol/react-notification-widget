@@ -1,7 +1,13 @@
 import React, { ReactNode } from 'react';
 import styled from 'styled-components';
+import { SCREEN_SIZES } from '../../global/const';
 
 const LayoutContainer = styled.div`
+  @media (max-width: ${SCREEN_SIZES.mobile}px) {
+    width: 100vw;
+    height: 100vh;
+    border-radius: 0;
+  }
   width: 350px;
   box-sizing: border-box;
   min-height: 250px;
