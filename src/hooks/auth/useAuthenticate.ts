@@ -1,6 +1,7 @@
 import { useAccount, useSigner } from 'wagmi';
 import { SiweMessage } from 'siwe';
 import { useNonceGenerateMutation, useUserLoginMutation } from 'screens/auth/operations.generated';
+import { useEnvironment } from 'context/EnvironmentContext';
 
 type SignatureMessage = {
   domain: string;
@@ -20,6 +21,7 @@ export const useAuthenticate = () => {
   const [generateNonce] = useNonceGenerateMutation();
   const [loginUser] = useUserLoginMutation();
   const signer = useSigner();
+  const { chainId } = useEnvironment();
 
   const login = async (channelAddress: string) => {
     const nonce = await getNonce();
@@ -49,7 +51,7 @@ export const useAuthenticate = () => {
       statement: 'Sign in with Ethereum to the app',
       uri: location.origin,
       version: '1',
-      chainId: 1,
+      chainId: chainId,
       nonce: nonce,
       issuedAt: new Date().toISOString(),
     };

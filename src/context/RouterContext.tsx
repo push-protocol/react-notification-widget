@@ -8,9 +8,10 @@ import React, {
 } from 'react';
 import { useAccount, useSigner } from 'wagmi';
 import * as epns from '@epnsproject/sdk-restapi';
+import { useEnvironment } from './EnvironmentContext';
 import { EmailVerified, Feed, Settings, Subscribe, VerifyEmail, WalletDisconnected } from 'screens';
 import { useChannelContext } from 'context/ChannelContext';
-import { CHAIN_ID, ENV, LOCALSTORAGE_AUTH_KEY } from 'global/const';
+import { LOCALSTORAGE_AUTH_KEY } from 'global/const';
 import { useAuthenticate } from 'hooks/auth/useAuthenticate';
 import { Auth } from 'screens/auth';
 
@@ -32,12 +33,12 @@ type RouterProps = {
 type RouterContext = {
   activeRoute: Routes;
   subscribe(): void;
-  setRoute(route: Routes): void;
-  setRouteProps(props: RouterProps): void;
+  setRoute(route: Routes, props?: RouterProps): void;
   Component: ElementType;
   props?: RouterProps;
   isLoading: boolean;
   error: boolean;
+  isLoggedIn: boolean;
   login(): void;
 };
 
@@ -45,12 +46,17 @@ const RouterContext = createContext<RouterContext>({
   activeRoute: Routes.Subscribe,
 } as RouterContext);
 
-const isUserSubscribed = async (userAddress: string, channelAddress: string): Promise<boolean> => {
-  const subscribers: string[] = await epns.channels._getSubscribers({
-    channel: `eip155:${CHAIN_ID}:${channelAddress}`,
-    env: ENV,
+const isUserSubscribed = async (
+  userAddress: string,
+  channelAddress: string,
+  chainId: number
+): Promise<boolean> => {
+  let subscribers: string[] = await epns.channels._getSubscribers({
+    channel: `eip155:${chainId}:${channelAddress}`,
+    env: 'staging',
   });
-  return subscribers.indexOf(userAddress) !== -1;
+  subscribers = subscribers.map((s) => s.toLowerCase());
+  return subscribers.indexOf(userAddress.toLowerCase()) !== -1;
 };
 
 const shouldLogin = () => {
@@ -62,25 +68,25 @@ const RouterProvider = ({ children }: { children: ReactNode }) => {
   const [routerProps, setRouterProps] = useState<RouterProps>({});
   const { isConnected, address } = useAccount();
   const [isSubscribed, setIsSubscribed] = useState(false);
-  const { addr } = useChannelContext();
+  const { channel } = useChannelContext();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { login: _login } = useAuthenticate();
   const [error, setError] = useState(false);
-
+  const { env, chainId } = useEnvironment();
   const { data: signer } = useSigner();
 
   useEffect(() => {
-    if (!isConnected || !addr) {
+    if (!isConnected || !channel) {
       return;
     }
 
     (async () => {
       setIsLoading(true);
-      setIsSubscribed(await isUserSubscribed(address as string, addr));
+      setIsSubscribed(await isUserSubscribed(address as string, channel, chainId));
       setIsLoading(false);
     })();
-  }, [addr, address, isConnected]);
+  }, [channel, address, isConnected]);
 
   useEffect(() => {
     if (!isConnected) {
@@ -94,12 +100,6 @@ const RouterProvider = ({ children }: { children: ReactNode }) => {
       return;
     }
 
-    // if (!isLoggedIn && isSubscribed && shouldLogin()) {
-    //   setActive(Routes.Auth);
-    //   login();
-    //   return;
-    // }
-
     if (!isLoggedIn && localStorage.getItem(LOCALSTORAGE_AUTH_KEY)) {
       setIsLoggedIn(true);
       return;
@@ -108,12 +108,9 @@ const RouterProvider = ({ children }: { children: ReactNode }) => {
     setActive(Routes.NotificationsFeed);
   }, [isConnected, isSubscribed, isLoggedIn]);
 
-  const handleChangeRoute = (route: Routes) => {
+  const setRouteWithParams = (route: Routes, props?: RouterProps) => {
     setActive(route);
-  };
-
-  const handleChangeRouterProps = (props: RouterProps) => {
-    setRouterProps(props);
+    if (props) setRouterProps(props);
   };
 
   const login = async () => {
@@ -123,7 +120,7 @@ const RouterProvider = ({ children }: { children: ReactNode }) => {
     setActive(Routes.Auth);
 
     try {
-      const result = await _login(addr);
+      const result = await _login(channel);
       localStorage.setItem(LOCALSTORAGE_AUTH_KEY, result.token);
       setIsLoggedIn(true);
     } catch (e) {
@@ -144,9 +141,9 @@ const RouterProvider = ({ children }: { children: ReactNode }) => {
     setIsLoading(true);
     const response = await epns.channels.subscribe({
       signer: signer as any,
-      channelAddress: `eip155:${CHAIN_ID}:${addr}`,
-      userAddress: `eip155:${CHAIN_ID}:${address}`,
-      env: ENV,
+      channelAddress: `eip155:${chainId}:${channel}`,
+      userAddress: `eip155:${chainId}:${address}`,
+      env,
     });
     setIsLoading(false);
 
@@ -171,12 +168,12 @@ const RouterProvider = ({ children }: { children: ReactNode }) => {
       value={{
         activeRoute: active,
         subscribe,
-        setRoute: handleChangeRoute,
-        setRouteProps: handleChangeRouterProps,
+        setRoute: setRouteWithParams,
         Component: RouteScreens[active],
         props: routerProps,
         isLoading,
         error,
+        isLoggedIn,
         login,
       }}
     >

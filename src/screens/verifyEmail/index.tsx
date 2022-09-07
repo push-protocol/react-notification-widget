@@ -31,12 +31,11 @@ const HeaderIcon = styled.div`
 
 export const VerifyEmail = () => {
   const [code, setCode] = useState('');
-  const { setRoute, setRouteProps, props } = useRouterContext();
+  const { setRoute, props } = useRouterContext();
 
   const [validateEmail, { loading }] = useValidateUserEmailMutation({
     onCompleted() {
-      setRoute(Routes.NotificationsFeed);
-      setRouteProps({});
+      setRoute(Routes.NotificationsFeed, {});
     },
   });
 

@@ -1,0 +1,8 @@
+query CommsChannel ($input: CommsChannelByPartnerKeyInput!) {
+    commsChannelByPartnerKey(input: $input) {
+        id,
+        channelAddress,
+        logo,
+        name
+    }
+}

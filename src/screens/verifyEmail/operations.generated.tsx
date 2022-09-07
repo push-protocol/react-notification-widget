@@ -9,7 +9,7 @@ export type ValidateUserEmailMutationVariables = Types.Exact<{
 }>;
 
 
-export type ValidateUserEmailMutation = { __typename?: 'Mutation', userEmailValidate: Array<{ __typename?: 'GeneralResolverResponse', success: boolean }> };
+export type ValidateUserEmailMutation = { __typename?: 'Mutation', userEmailValidate: { __typename?: 'GeneralResolverResponse', success: boolean } };
 
 
 export const ValidateUserEmailDocument = gql`

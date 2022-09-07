@@ -6,6 +6,6 @@ const root = createRoot(document.getElementById('root') as HTMLElement);
 
 root.render(
   <React.StrictMode>
-    <App partnerKey={'randomPartnerKey'} />
+    <App partnerKey={'e76f1b54-891e-49e8-b406-74750f60f560'} env={'dev'} />
   </React.StrictMode>
 );

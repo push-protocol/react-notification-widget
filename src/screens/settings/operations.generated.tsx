@@ -9,7 +9,7 @@ export type SaveUserEmailMutationVariables = Types.Exact<{
 }>;
 
 
-export type SaveUserEmailMutation = { __typename?: 'Mutation', userEmailUpdate: Array<{ __typename?: 'GeneralResolverResponse', success: boolean }> };
+export type SaveUserEmailMutation = { __typename?: 'Mutation', userEmailUpdate: { __typename?: 'GeneralResolverResponse', success: boolean } };
 
 
 export const SaveUserEmailDocument = gql`

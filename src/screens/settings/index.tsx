@@ -32,13 +32,12 @@ const HeaderIcon = styled.div`
 export const Settings = () => {
   const [hideEmail, setHideEmail] = useState(true);
   const [email, setEmail] = useState('');
-  const { setRoute, setRouteProps, activeRoute } = useRouterContext();
-  const { login } = useRouterContext();
+  const { setRoute, activeRoute } = useRouterContext();
+  const { login, isLoggedIn } = useRouterContext();
 
   const [saveEmail, { loading }] = useSaveUserEmailMutation({
     onCompleted() {
-      setRouteProps({ email: email });
-      setRoute(Routes.VerifyEmail);
+      setRoute(Routes.VerifyEmail, { email: email });
     },
     variables: {
       input: { email: email },
@@ -46,7 +45,7 @@ export const Settings = () => {
   });
 
   const handleSave = async () => {
-    await login();
+    if (!isLoggedIn) return await login();
     saveEmail();
   };
 
