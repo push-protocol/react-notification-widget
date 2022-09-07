@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { ThemeProvider } from 'styled-components';
-import { WagmiConfig } from 'wagmi';
+import { createClient, WagmiConfig } from 'wagmi';
 import theme from './theme';
 import { NotificationsProvider } from 'context/NotificationsContext';
-import { wagmiClient } from 'services/auth';
 import './index.css';
 import { RouterProvider } from 'context/RouterContext';
 import Widget from 'components/Widget';
@@ -14,9 +13,14 @@ import { ApolloProvider } from 'context/ApolloProvider';
 type AppProps = {
   partnerKey: string;
   env?: EnvType;
+  provider: any;
 };
 
-function App({ partnerKey, env }: AppProps) {
+function App({ partnerKey, env, provider }: AppProps) {
+  const wagmiClient = createClient({
+    autoConnect: true,
+    provider,
+  });
   return (
     <EnvironmentProvider env={env}>
       <ThemeProvider theme={theme}>
