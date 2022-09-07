@@ -6,6 +6,7 @@ import { useEnvironment } from './EnvironmentContext';
 
 export type EpnsNotification = {
   title: string;
+  timestamp: string;
   message: string;
   app: string;
   icon?: string;
@@ -46,7 +47,6 @@ export const NotificationsProvider = ({ children }: { children: ReactNode }) => 
           limit: 1000,
         })
         .then((result) => {
-          console.log(result);
           const notifs = result?.map((item: any) => ({
             title: item.notification.title,
             message: item.message,
@@ -54,6 +54,7 @@ export const NotificationsProvider = ({ children }: { children: ReactNode }) => 
             icon: item.icon,
             url: item.url,
             cta: item.cta,
+            timestamp: new Date().toISOString(),
           }));
           setNotifications(notifs || []);
           setIsLoading(false);
