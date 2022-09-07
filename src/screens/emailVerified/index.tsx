@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Routes, useRouterContext } from '../../context/RouterContext';
 import { CenteredContainer } from 'components/layout/CenteredContainer';
 import Button from 'components/Button';
 import Text from 'components/Text';
@@ -24,6 +25,12 @@ const HeaderIcon = styled.div`
 `;
 
 export const EmailVerified = () => {
+  const { setRoute } = useRouterContext();
+
+  const handleContinue = () => {
+    setRoute(Routes.NotificationsFeed, {});
+  };
+
   return (
     <CenteredContainer>
       <Flex justifyContent={'center'} alignItems={'center'} direction={'column'} mb={8} mt={3}>
@@ -33,11 +40,11 @@ export const EmailVerified = () => {
           </HeaderIcon>
         </HeaderIconContainer>
         <Text size={'xl'} weight={700} mb={0.5}>
-          Email verified sucessfully
+          Email verified successfully
         </Text>
       </Flex>
       <Flex width={'100%'} mb={3}>
-        <Button>Continue</Button>
+        <Button onClick={handleContinue}>Continue</Button>
       </Flex>
     </CenteredContainer>
   );

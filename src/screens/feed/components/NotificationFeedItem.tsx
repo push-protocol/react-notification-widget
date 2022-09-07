@@ -72,7 +72,7 @@ type NotificationFeedItemProps = {
 };
 
 const NotificationFeedItem = ({ notification, showSenderDetails }: NotificationFeedItemProps) => {
-  const isUnread = dayjs(notification.timestamp).isSame(new Date(), 'week'); //TODO: update with correct logic
+  const isUnread = dayjs(notification.timestamp).isAfter(dayjs()); //TODO: update with correct logic
 
   const markAsRead = () => {
     //TODO: handle mark as read without redirection
@@ -94,19 +94,16 @@ const NotificationFeedItem = ({ notification, showSenderDetails }: NotificationF
         </Flex>
         {isUnread && <UnreadNotification onClick={markAsRead} />}
       </Header>
-      <Message size={'md'} weight={600}>
+      <Message mt={1} mb={1} size={'md'} weight={600}>
         {notification.message}
       </Message>
-      <ImageContainer>
-        <Image
-          src={
-            'https://gravita.ge/storage/321/conversions/MAD_Harbin_Opera_House_003_%C2%A9Adam_Mork-webp.webp'
-          }
-          alt="notification image"
-        />
-      </ImageContainer>
+      {notification.image && (
+        <ImageContainer>
+          <Image src={notification.image} alt="notification image" />
+        </ImageContainer>
+      )}
       <Flex justifyContent={'space-between'}>
-        <Text size={'sm'} color={'secondary'} opacity={0.2}>
+        <Text size={'sm'} color={'secondary'} opacity={0.3}>
           {dayjs(notification.timestamp).fromNow()}
         </Text>
         {notification?.url && (
@@ -117,7 +114,7 @@ const NotificationFeedItem = ({ notification, showSenderDetails }: NotificationF
               </IconContainer>
             </Link>
             <Link url={notification?.url}>
-              <Text size={'sm'} color={'secondary'} opacity={0.2}>
+              <Text size={'sm'} color={'secondary'} opacity={0.3}>
                 {notification?.url}
               </Text>
             </Link>

@@ -17,13 +17,12 @@ type SpinnerProps = {
 const Spinner = styled.div<SpinnerProps>`
   &:after {
     border-radius: 50%;
-    width: 50px;
-    height: 50px;
+    width: ${({ size = 50 }) => `${size}px`};
+    height: ${({ size = 50 }) => `${size}px`};
   }
   border-radius: 50%;
-  width: 50px;
-  height: 50px;
-  font-size: ${({ size }) => size};
+  width: ${({ size = 50 }) => `${size}px`};
+  height: ${({ size = 50 }) => `${size}px`};
   position: relative;
   text-indent: -9999em;
   border-top: 5px solid rgba(255, 255, 255, 0.2);

@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import Spinner from '../../../components/Spinner';
 import Flex from 'components/layout/Flex';
 import TextInput from 'components/TextInput';
 import Button from 'components/Button';
@@ -24,9 +25,10 @@ type EnterEmailProps = {
   isValid?: boolean;
   onChange(value: string): void;
   handleSave(): void;
+  isLoading: boolean;
 };
 
-const EmailInput = ({ isValid, value, onChange, handleSave }: EnterEmailProps) => {
+const EmailInput = ({ isValid, value, onChange, handleSave, isLoading }: EnterEmailProps) => {
   return (
     <Flex
       justifyContent={'center'}
@@ -41,18 +43,23 @@ const EmailInput = ({ isValid, value, onChange, handleSave }: EnterEmailProps) =
           value={value}
           onValueChange={(value) => onChange(value)}
         />
-        {isValid && (
+        {(isValid || isLoading) && (
           <ButtonWrapper>
-            <Button
-              width={'44px'}
-              height={'27px'}
-              fontSize={'sm'}
-              p={0}
-              borderRadius={'xs'}
-              onClick={handleSave}
-            >
-              Save
-            </Button>
+            {isLoading ? (
+              <Spinner size={15} />
+            ) : (
+              <Button
+                width={'44px'}
+                height={'27px'}
+                fontSize={'sm'}
+                p={0}
+                disabled={!isValid}
+                borderRadius={'xs'}
+                onClick={handleSave}
+              >
+                Save
+              </Button>
+            )}
           </ButtonWrapper>
         )}
       </Wrapper>

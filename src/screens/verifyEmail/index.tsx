@@ -35,7 +35,7 @@ export const VerifyEmail = () => {
 
   const [validateEmail, { loading }] = useValidateUserEmailMutation({
     onCompleted() {
-      setRoute(Routes.NotificationsFeed, {});
+      setRoute(Routes.EmailVerified, {});
     },
   });
 

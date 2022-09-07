@@ -28,8 +28,6 @@
   "dependencies": {
     "@apollo/client": "^3.6.9",
     "@emotion-icons/octicons": "^3.27.0",
-    "@emotion/react": "^11.10.0",
-    "@emotion/styled": "^11.10.0",
     "@epnsproject/frontend-sdk-staging": "^1.8.5",
     "@epnsproject/sdk-restapi": "^0.1.13",
     "dayjs": "^1.11.5",

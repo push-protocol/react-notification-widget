@@ -15,7 +15,7 @@ const SubscribeDescription = () => {
   return (
     <Container>
       <Text size={'md'} weight={500}>
-        {name} is using the Ethereum Push Notifications protocol to securly message its users. No
+        {name} is using the Ethereum Push Notifications protocol to securely message its users. No
         spam, opt-out at any time. <Link url={'externalurl.com'}>Learn more.</Link>
       </Text>
     </Container>

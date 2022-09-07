@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { ThemeProvider } from 'styled-components';
 import { createClient, WagmiConfig } from 'wagmi';
 import theme from './theme';
@@ -14,6 +14,7 @@ type AppProps = {
   partnerKey: string;
   env?: EnvType;
   provider: any;
+  NotificationButton?: ReactElement;
 };
 
 function App({ partnerKey, env, provider }: AppProps) {

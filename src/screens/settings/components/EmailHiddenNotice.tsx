@@ -13,12 +13,7 @@ const LockIcon = styled.div`
   display: flex;
 `;
 
-type HideEmailProps = {
-  checked: boolean;
-  onChange(value: boolean): void;
-};
-
-const HideEmailCheckbox = ({ checked, onChange }: HideEmailProps) => {
+const EmailHiddenNotice = () => {
   const { name } = useChannelContext();
 
   const handleLearnMore = () => {
@@ -28,26 +23,25 @@ const HideEmailCheckbox = ({ checked, onChange }: HideEmailProps) => {
   return (
     <Flex justifyContent={'center'} gap={4}>
       <Flex direction={'column'} gap={0.2}>
-        <Flex gap={0.5} alignItems={'center'}>
+        <Flex gap={0.5} mb={0.5} alignItems={'center'}>
           <LockIcon>
             <Lock />
           </LockIcon>
           <Text size={'md'} weight={600}>
-            Hide my email
+            Your email is protected
           </Text>
         </Flex>
-        <Text size={'sm'} color={'secondary'} opacity={0.8}>
-          If checked, {name} will not have access to your email.{' '}
-          <Link onClick={handleLearnMore} fontWeight={600}>
-            Learn more.
-          </Link>
-        </Text>
-      </Flex>
-      <Flex>
-        <Checkbox checked={checked} onChange={(checked) => onChange(checked)} disabled={true} />
+        <Flex width={'80%'}>
+          <Text size={'sm'} color={'secondary'} opacity={0.8}>
+            {name} will not have access to your email.{' '}
+            <Link onClick={handleLearnMore} fontWeight={600}>
+              Learn more.
+            </Link>
+          </Text>
+        </Flex>
       </Flex>
     </Flex>
   );
 };
 
-export default HideEmailCheckbox;
+export default EmailHiddenNotice;

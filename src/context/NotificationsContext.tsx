@@ -9,6 +9,7 @@ export type EpnsNotification = {
   timestamp: string;
   message: string;
   app: string;
+  image?: string;
   icon?: string;
   url?: string;
   cta?: string;
@@ -19,19 +20,16 @@ type NotificationsContext = {
   isLoggedIn: boolean;
   isLoading: boolean;
   userAddress?: string;
-  isChannelOwner: boolean;
 };
 
 const NotificationsContext = createContext<NotificationsContext>({
   isLoggedIn: false,
   isLoading: false,
   notifications: [],
-  isChannelOwner: false,
 } as NotificationsContext);
 
 export const NotificationsProvider = ({ children }: { children: ReactNode }) => {
   const { isConnected: isLoggedIn, address: userAddress } = useAccount();
-  const [isChannelOwner, setIsChannelOwner] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [notifications, setNotifications] = useState<EpnsNotification[]>([]);
   const { chainId, epnsEnv } = useEnvironment();
@@ -53,6 +51,7 @@ export const NotificationsProvider = ({ children }: { children: ReactNode }) => 
             app: item.app,
             icon: item.icon,
             url: item.url,
+            image: item.image,
             cta: item.cta,
             timestamp: new Date().toISOString(),
           }));
@@ -69,7 +68,6 @@ export const NotificationsProvider = ({ children }: { children: ReactNode }) => 
         isLoading,
         notifications,
         userAddress,
-        isChannelOwner,
       }}
     >
       {children}

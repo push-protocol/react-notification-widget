@@ -5,7 +5,7 @@ import Button from 'components/Button';
 import Text from 'components/Text';
 import { Bell } from 'components/icons';
 import Flex from 'components/layout/Flex';
-import HideEmailCheckbox from 'screens/settings/components/HideEmailCheckbox';
+import EmailHiddenNotice from 'screens/settings/components/EmailHiddenNotice';
 import EmailInput from 'screens/settings/components/EmailInput';
 import isEmailValid from 'helpers/functions/isEmailValid';
 import { Routes, useRouterContext } from 'context/RouterContext';
@@ -78,16 +78,17 @@ export const Settings = () => {
           Connect your email
         </Text>
         <Text size={'md'} align={'center'}>
-          We will alert you when new messages are received in your wallet.
+          Get alerts you when new messages are received in your wallet.
         </Text>
       </Flex>
       <EmailInput
         onChange={setEmail}
         value={email}
         isValid={isEmailValid(email)}
+        isLoading={loading}
         handleSave={handleSave}
       />
-      <HideEmailCheckbox checked={hideEmail} onChange={setHideEmail} />
+      <EmailHiddenNotice />
     </CenteredContainer>
   );
 };
