@@ -22,8 +22,8 @@ export const EnvironmentProvider = ({
   env = env || 'prod';
   const gqlEndpointMap: { [key in EnvType]: string } = {
     dev: 'http://localhost:4001/graphql',
-    staging: 'http://localhost:4001/graphql', // TODO: change to correct endpoint
-    prod: 'http://localhost:4001/graphql', // TODO: change to correct endpoint
+    staging: 'https://hz4hx34vmj.execute-api.us-east-1.amazonaws.com/graphql', // TODO: change to correct endpoint
+    prod: 'https://hz4hx34vmj.execute-api.us-east-1.amazonaws.com/graphql', // TODO: change to correct endpoint
   };
 
   const chainIdMap: { [key in EnvType]: number } = {

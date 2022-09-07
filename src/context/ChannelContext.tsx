@@ -22,6 +22,7 @@ const ChannelProvider = ({ partnerKey, children }: { partnerKey: string; childre
       input: { partnerApiKey: partnerKey },
     },
   });
+
   useEffect(() => {
     if (!data) return;
     setChannel({
@@ -30,6 +31,7 @@ const ChannelProvider = ({ partnerKey, children }: { partnerKey: string; childre
       name: data.commsChannelByPartnerKey.name,
     });
   }, [data]);
+
   return (
     <ChannelContext.Provider value={channel || emptyChannel}>{children}</ChannelContext.Provider>
   );

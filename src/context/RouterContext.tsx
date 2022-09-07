@@ -46,12 +46,13 @@ const RouterContext = createContext<RouterContext>({
   activeRoute: Routes.Subscribe,
 } as RouterContext);
 
-const isUserSubscribed = async (
-  userAddress: string,
-  channelAddress: string,
-  env: string,
-  chainId: number
-): Promise<boolean> => {
+const isUserSubscribed = async (args: {
+  userAddress: string;
+  channelAddress: string;
+  env: string;
+  chainId: number;
+}): Promise<boolean> => {
+  const { userAddress, channelAddress, env, chainId } = args;
   let subscribers: string[] = await epns.channels._getSubscribers({
     channel: `eip155:${chainId}:${channelAddress}`,
     env: env,
@@ -74,7 +75,7 @@ const RouterProvider = ({ children }: { children: ReactNode }) => {
   const [isLoading, setIsLoading] = useState(false);
   const { login: _login } = useAuthenticate();
   const [error, setError] = useState(false);
-  const { env, epnsEnv, chainId } = useEnvironment();
+  const { epnsEnv, chainId } = useEnvironment();
   const { data: signer } = useSigner();
 
   useEffect(() => {
@@ -84,7 +85,14 @@ const RouterProvider = ({ children }: { children: ReactNode }) => {
 
     (async () => {
       setIsLoading(true);
-      setIsSubscribed(await isUserSubscribed(address as string, channel, epnsEnv, chainId));
+      setIsSubscribed(
+        await isUserSubscribed({
+          userAddress: address as string,
+          channelAddress: channel,
+          env: epnsEnv,
+          chainId,
+        })
+      );
       setIsLoading(false);
     })();
   }, [channel, address, isConnected]);

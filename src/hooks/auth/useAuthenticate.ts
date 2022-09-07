@@ -51,7 +51,7 @@ export const useAuthenticate = () => {
       statement: 'Sign in with Ethereum to the app',
       uri: location.origin,
       version: '1',
-      chainId: chainId,
+      chainId,
       nonce: nonce,
       issuedAt: new Date().toISOString(),
     };
