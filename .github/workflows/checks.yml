@@ -1,0 +1,24 @@
+name: Commit Checks
+on:
+  push:
+    branches-ignore:
+      - main
+      - staging
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-node@v3
+      with:
+        node-version: 16
+        cache: 'yarn'
+
+    - name: Install deps (for eslint plugins)
+      run: yarn install --frozen-lockfile
+
+    - name: ESLint
+      run: yarn eslint '*/**/*.{js,ts,tsx}' --quiet
+
+    - name: Test compiliation
+      run: yarn tsc --noEmit
