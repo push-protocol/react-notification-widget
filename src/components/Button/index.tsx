@@ -1,6 +1,6 @@
 import styled, { css, DefaultTheme } from 'styled-components';
 import { Margins, Paddings } from '../types';
-import { genSpaces, renderStringNumValue } from '../utils';
+import { genSpaces, renderStringNumValue, adjustColor } from '../utils';
 
 const fontSizes = {
   sm: '12px',
@@ -14,17 +14,17 @@ type ButtonProps = {
   fontSize?: keyof typeof fontSizes;
   height?: string | number;
   width?: string | number;
-  borderRadius?: 'xs' | 'md';
+  borderRadius?: keyof DefaultTheme['borderRadius'];
 } & Margins &
   Paddings;
 
 const variantStyles = (variant = 'primary', theme: DefaultTheme): any =>
   ({
     primary: css`
-      background: ${theme.colors.primary.dark};
+      background: ${theme.colors.primary.main};
       &:hover {
-        background: ${theme.colors.primary.light};
-        border-color: ${theme.colors.primary.light};
+        background: ${adjustColor(theme.colors.primary.main, 0.8)};
+        border-color: ${adjustColor(theme.colors.primary.main, 0.8)};
       }
     `,
     gray: css`

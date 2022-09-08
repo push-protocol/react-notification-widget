@@ -1,3 +1,5 @@
+import { Notification } from '../context/NotificationsContext';
+
 export type Margins = {
   m?: string | number;
   mb?: string | number;
@@ -12,4 +14,8 @@ export type Paddings = {
   pt?: string | number;
   pr?: string | number;
   pl?: string | number;
+};
+
+export type NotificationClickProp = {
+  onNotificationClick?: (notification: Notification) => void;
 };

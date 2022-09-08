@@ -1,9 +1,17 @@
 import { DefaultTheme } from 'styled-components';
+import { changeColorShade } from './components/utils';
+
+type MainColor = {
+  light: string;
+  main: string;
+  dark: string;
+};
 
 declare module 'styled-components' {
   export interface DefaultTheme {
-    mode: 'dark' | 'white';
+    mode: 'dark' | 'light';
     spacing: (units: number) => number;
+    fontFamily?: string;
     borderRadius: {
       xs: string;
       sm: string;
@@ -20,14 +28,8 @@ declare module 'styled-components' {
       bg: {
         main: string;
       };
-      primary: {
-        dark: string;
-        light: string;
-        lighter: string;
-      };
-      secondary: {
-        dark: string;
-      };
+      primary: MainColor;
+      secondary: MainColor;
       text: {
         primary: string;
         secondary: string;
@@ -44,38 +46,46 @@ declare module 'styled-components' {
         500: string;
       };
       bell: {
-        background: string;
-        hoverBackground: string;
+        color: string;
       };
     };
   }
 }
 
-const theme: DefaultTheme = {
+export type CustomTheme = {
+  primaryColor?: string;
+  secondaryColor?: string;
+  borderRadius?: 'none' | 'sm' | 'md' | 'lg';
+  backgroundColor?: string;
+  fontFamily?: string;
+  bellColor?: string;
+  textColor?: string;
+};
+
+const br = (xs: string, sm: string, md: string, lg: string) => ({ xs, sm, md, lg });
+
+const defaultTheme: DefaultTheme = {
   mode: 'dark',
   spacing: (units) => units * 8,
-  borderRadius: {
-    xs: '4px',
-    sm: '6px',
-    md: '8px',
-    lg: '4px',
-  },
+  borderRadius: br('4px', '6px', '8px', '12px'),
   fontSize: { sm: '12px', md: '14px', lg: '16px', xl: '18px' },
   colors: {
     text: {
       primary: '#fff',
-      secondary: '#E7E7E7',
+      secondary: '#bfbfbf',
     },
     bg: {
       main: '#242C3C',
     },
     primary: {
-      dark: '#3E64F0',
+      dark: '',
+      main: '#3E64F0',
       light: '#5278FF',
-      lighter: '#6481F2',
     },
     secondary: {
-      dark: '#C23EF0',
+      dark: '',
+      main: '#C23EF0',
+      light: '',
     },
     border: {
       main: '#353943',
@@ -89,11 +99,63 @@ const theme: DefaultTheme = {
       500: '#424A5A',
     },
     bell: {
-      background: '#2F3747',
-      hoverBackground:
-        'linear-gradient(0deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.15)), #2F3747',
+      color: '#FCFCFC',
     },
   },
 };
 
-export default theme;
+export const makeTheme = (customTheme?: CustomTheme): DefaultTheme => {
+  if (!customTheme) return defaultTheme;
+
+  return {
+    ...defaultTheme,
+    fontFamily: customTheme.fontFamily,
+    borderRadius: {
+      ...getBorderRadius(customTheme.borderRadius),
+    },
+    colors: {
+      ...defaultTheme.colors,
+      primary: {
+        ...getMainColor('primary', customTheme.primaryColor),
+      },
+      secondary: {
+        ...getMainColor('secondary', customTheme.secondaryColor),
+      },
+      bell: {
+        ...defaultTheme.colors.bell,
+        color: customTheme.bellColor || defaultTheme.colors.bell.color,
+      },
+      bg: {
+        main: customTheme.backgroundColor || defaultTheme.colors.bg.main,
+      },
+    },
+  };
+};
+
+const getMainColor = (
+  colorKey: 'primary' | 'secondary',
+  color?: string
+): DefaultTheme['colors']['primary'] => {
+  if (!color) return defaultTheme.colors[colorKey];
+
+  return {
+    light: changeColorShade(color, -30),
+    main: color,
+    dark: changeColorShade(color, 30),
+  };
+};
+
+const getBorderRadius = (customBr: CustomTheme['borderRadius']) => {
+  if (!customBr) return defaultTheme.borderRadius;
+
+  const brMaps: Record<string, DefaultTheme['borderRadius']> = {
+    none: br('0', '0', '0', '0'),
+    sm: defaultTheme.borderRadius,
+    md: br('8px', '10px', '12px', '16px'),
+    lg: br('12px', '14px', '16px', '20px'),
+  };
+
+  return brMaps[customBr];
+};
+
+export default defaultTheme;

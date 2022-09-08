@@ -2,7 +2,10 @@ import React from 'react';
 import dayjs, { extend } from 'dayjs';
 import styled from 'styled-components';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import { EpnsNotification } from 'context/NotificationsContext';
+import { NotificationClickProp } from '../../../components/types';
+import trimString from '../../../helpers/functions/trimString';
+import { adjustColor, changeColorShade } from '../../../components/utils';
+import { Notification } from 'context/NotificationsContext';
 import Flex from 'components/layout/Flex';
 import Text from 'components/Text';
 import Link from 'components/Link';
@@ -10,8 +13,8 @@ import { Globe } from 'components/icons';
 
 extend(relativeTime);
 
-const Container = styled(Flex)`
-  border-bottom: 1px solid #2e3646;
+const Container = styled(Flex)<{ clickable: boolean }>`
+  cursor: ${({ clickable }) => (clickable ? 'pointer' : 'default')};
   padding: 8px 0;
 `;
 
@@ -40,7 +43,7 @@ const UnreadNotification = styled.div`
   background: ${({ theme }) => theme.colors.primary.light};
   cursor: pointer;
   &:active {
-    background: ${({ theme }) => theme.colors.primary.lighter};
+    background: ${({ theme }) => changeColorShade(theme.colors.primary.light, -20)};
   }
 `;
 
@@ -66,20 +69,35 @@ const IconContainer = styled.div`
   display: flex;
 `;
 
-type NotificationFeedItemProps = {
-  notification: EpnsNotification;
+type NotificationFeedItemProps = NotificationClickProp & {
+  notification: Notification;
   showSenderDetails: boolean;
 };
 
-const NotificationFeedItem = ({ notification, showSenderDetails }: NotificationFeedItemProps) => {
+const NotificationFeedItem = ({
+  notification,
+  showSenderDetails,
+  onNotificationClick,
+}: NotificationFeedItemProps) => {
   const isUnread = dayjs(notification.timestamp).isAfter(dayjs()); //TODO: update with correct logic
 
   const markAsRead = () => {
     //TODO: handle mark as read without redirection
   };
 
+  const handleNotificationClick = () => {
+    if (onNotificationClick) {
+      onNotificationClick(notification);
+    }
+  };
+
   return (
-    <Container direction={'column'} gap={0.5}>
+    <Container
+      clickable={!!onNotificationClick}
+      onClick={handleNotificationClick}
+      direction={'column'}
+      gap={0.5}
+    >
       <Header gap={0.5} alignItems={'center'}>
         {showSenderDetails && <SenderImage />}
         <Flex direction={'column'}>
@@ -108,14 +126,14 @@ const NotificationFeedItem = ({ notification, showSenderDetails }: NotificationF
         </Text>
         {notification?.url && (
           <Flex gap={0.5} alignItems={'center'}>
-            <Link url={notification?.url}>
+            <Link url={notification.url}>
               <IconContainer>
                 <Globe />
               </IconContainer>
             </Link>
-            <Link url={notification?.url}>
+            <Link url={notification.url}>
               <Text size={'sm'} color={'secondary'} opacity={0.3}>
-                {notification?.url}
+                {trimString(notification.url, 50)}
               </Text>
             </Link>
           </Flex>

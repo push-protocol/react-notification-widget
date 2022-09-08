@@ -21,7 +21,7 @@ const Container = styled.div<{ position?: TooltipPosition }>(({ position, theme 
     transform: 'translateX(-50%)',
     minWidth: '8em',
     borderRadius: '2px',
-    backgroundColor: adjustColor(theme.colors.bg.main, theme.mode === 'dark' ? 20 : -20),
+    backgroundColor: adjustColor(theme.colors.bg.main, 0.8),
     boxShadow: '0 3px 16px rgba(black, 0.15)',
     '&:after': {
       content: '""',
@@ -29,7 +29,7 @@ const Container = styled.div<{ position?: TooltipPosition }>(({ position, theme 
       width: '0',
       height: '0',
       border: '.4em solid transparent',
-      borderTopColor: adjustColor(theme.colors.bg.main, theme.mode === 'dark' ? 20 : -20),
+      borderTopColor: adjustColor(theme.colors.bg.main, 0.8),
       left: '10%',
       zIndex: '-1',
       transform: `translateX(${calcXPosition(position)})`,

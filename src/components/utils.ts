@@ -1,4 +1,5 @@
 import { DefaultTheme, css } from 'styled-components';
+import { StandardPropertiesHyphen } from 'csstype';
 import { Margins, Paddings } from './types';
 
 const renderStringNumValue = (value?: string | number, spacing?: (units: number) => number) => {
@@ -9,7 +10,7 @@ const renderStringNumValue = (value?: string | number, spacing?: (units: number)
   }
 };
 
-const conditionalRenderProp = (key: string, value?: string | number) => {
+const conditionalRenderProp = (key: keyof StandardPropertiesHyphen, value?: string | number) => {
   if (value) {
     return `${key}: ${value}`;
   } else {
@@ -17,7 +18,7 @@ const conditionalRenderProp = (key: string, value?: string | number) => {
   }
 };
 
-const adjustColor = (color: string, amount: number) => {
+const changeColorShade = (color: string, amount: number) => {
   return (
     '#' +
     color
@@ -26,6 +27,23 @@ const adjustColor = (color: string, amount: number) => {
         ('0' + Math.min(255, Math.max(0, parseInt(color, 16) + amount)).toString(16)).slice(-2)
       )
   );
+};
+
+const adjustColor = (color: string, opacity: number) => {
+  let c: any;
+
+  if (/^#([A-Fa-f0-9]{3}){1,2}$/.test(color)) {
+    c = color.substring(1).split('');
+
+    if (c.length == 3) {
+      c = [c[0], c[0], c[1], c[1], c[2], c[2]];
+    }
+
+    c = `0x${c.join('')}`;
+    return `rgba(${[(c >> 16) & 255, (c >> 8) & 255, c & 255].join(',')} ,${opacity})`;
+  }
+
+  throw new Error('Bad Hex');
 };
 
 const genSpaces = (
@@ -48,4 +66,4 @@ const genSpaces = (
   return value.join('');
 };
 
-export { adjustColor, genSpaces, renderStringNumValue, conditionalRenderProp };
+export { adjustColor, genSpaces, renderStringNumValue, conditionalRenderProp, changeColorShade };

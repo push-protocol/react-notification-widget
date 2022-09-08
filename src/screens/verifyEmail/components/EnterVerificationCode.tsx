@@ -36,7 +36,7 @@ const InputWrapper = styled.div`
         border: 1px solid ${({ theme }) => theme.colors.gray[200]};
       }
       .vi__character--selected {
-        border: 2px solid ${({ theme }) => theme.colors.primary.lighter};
+        border: 2px solid ${({ theme }) => theme.colors.primary.light};
       }
     }
   }

@@ -5,8 +5,10 @@ import { getApolloClient } from 'services/apolloClient';
 
 export const ApolloProvider = ({ children }: { children: React.ReactNode }) => {
   const { gqlEndpoint } = useEnvironment();
+
   const apolloClient = useMemo(() => {
     return getApolloClient({ endpoint: gqlEndpoint });
   }, [gqlEndpoint]);
+
   return <Apollo client={apolloClient}>{children}</Apollo>;
 };

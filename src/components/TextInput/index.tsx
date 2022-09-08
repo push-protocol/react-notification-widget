@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import Flex from '../layout/Flex';
 import Text from '../Text';
-import { adjustColor } from '../utils';
+import { adjustColor, changeColorShade } from '../utils';
 
 const Input = styled.input<{ width?: string | number }>(({ theme, width }) => ({
   border: '2px solid transparent',
@@ -12,11 +12,11 @@ const Input = styled.input<{ width?: string | number }>(({ theme, width }) => ({
   borderRadius: 6,
   width: width || '100%',
   padding: `${theme.spacing(1.5)}px ${theme.spacing(2)}px`,
-  backgroundColor: adjustColor(theme.colors.bg.main, theme.mode === 'dark' ? -20 : 20),
+  backgroundColor: adjustColor(theme.colors.bg.main, 0.8),
   color: theme.colors.text.primary,
   '&:focus': {
     outline: 'none',
-    border: `2px solid ${theme.colors.primary.lighter}`,
+    border: `2px solid ${changeColorShade(theme.colors.primary.light, -20)}`,
   },
 }));
 

@@ -14,7 +14,7 @@ const HeaderIconContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background: ${({ theme }) => theme.colors.primary.dark};
+  background: ${({ theme }) => theme.colors.primary.main};
   margin-bottom: ${({ theme }) => theme.spacing(1.5)}px;
 `;
 

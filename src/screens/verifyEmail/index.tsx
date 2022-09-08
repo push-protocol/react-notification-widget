@@ -18,7 +18,7 @@ const HeaderIconContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background: ${({ theme }) => theme.colors.primary.dark};
+  background: ${({ theme }) => theme.colors.primary.main};
   margin-bottom: ${({ theme }) => theme.spacing(1.5)}px;
 `;
 
@@ -26,7 +26,7 @@ const HeaderIcon = styled.div`
   height: 24px;
   width: 24px;
   border-radius: 100px;
-  background: ${({ theme }) => theme.colors.primary.dark};
+  background: ${({ theme }) => theme.colors.primary.main};
 `;
 
 export const VerifyEmail = () => {

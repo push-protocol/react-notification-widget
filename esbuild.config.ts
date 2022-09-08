@@ -1,12 +1,12 @@
 import { createRequire } from 'module';
-import { buildSync } from 'esbuild';
+import { buildSync, BuildOptions } from 'esbuild';
 
 const require = createRequire(import.meta.url);
 const { dependencies } = require('./package.json');
 
 const entryFile = 'src/index.tsx';
 
-const shared = {
+const shared: Partial<BuildOptions> = {
   bundle: true,
   entryPoints: [entryFile],
   external: Object.keys(dependencies),
@@ -20,6 +20,7 @@ const shared = {
 
 buildSync({
   ...shared,
+  // splitting: true,
   format: 'esm',
   outfile: './dist/index.esm.js',
   target: ['esnext', 'node12.22.0'],

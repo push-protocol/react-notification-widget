@@ -1,12 +1,30 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { NotificationClickProp } from '../../components/types';
+import { useNotificationsContext } from '../../context/NotificationsContext';
+import Spinner from '../../components/Spinner';
+import NotificationFeedItem from './components/NotificationFeedItem';
 import { CenteredContainer } from 'components/layout/CenteredContainer';
 import Text from 'components/Text';
 import { Settings } from 'components/icons';
 import Flex from 'components/layout/Flex';
 import FeedNavigation, { NavigationTabs } from 'screens/feed/components/FeedNavigation';
-import NotificationFeed from 'screens/feed/components/NotificationFeed';
 import { Routes, useRouterContext } from 'context/RouterContext';
+
+const NotificationFeed = styled(Flex)`
+  &:not(:last-child) {
+    border-bottom: ${({ theme }) => `1px solid ${theme.colors.border.main}}`};
+  }
+  max-height: 400px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  width: calc(100% + 18px);
+  padding: 0 10px;
+  box-sizing: border-box;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+`;
 
 const SettingsIcon = styled.div`
   width: 20px;
@@ -19,7 +37,9 @@ const SettingsIcon = styled.div`
   }
 `;
 
-export const Feed = () => {
+export const Feed = ({ onNotificationClick }: NotificationClickProp) => {
+  const { notifications, isLoading } = useNotificationsContext();
+
   const { setRoute } = useRouterContext();
   const [activeTab, setActiveTab] = useState(NavigationTabs.App);
 
@@ -38,7 +58,24 @@ export const Feed = () => {
         </SettingsIcon>
       </Flex>
       <FeedNavigation activeTab={activeTab} setActiveTab={setActiveTab} />
-      <NotificationFeed active={activeTab} />
+      <NotificationFeed width={'100%'} direction={'column'} mb={2} gap={2}>
+        {isLoading ? (
+          <Flex height={150} justifyContent={'center'} alignItems={'center'} pb={3}>
+            <Spinner />
+          </Flex>
+        ) : (
+          notifications.map((notification, index) => {
+            return (
+              <NotificationFeedItem
+                onNotificationClick={onNotificationClick}
+                key={index}
+                notification={notification}
+                showSenderDetails={activeTab === NavigationTabs.All}
+              />
+            );
+          })
+        )}
+      </NotificationFeed>
     </CenteredContainer>
   );
 };

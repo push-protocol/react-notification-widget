@@ -18,16 +18,20 @@ type TextProps = {
   weight?: string | number;
   opacity?: number;
   align?: 'left' | 'center' | 'right';
+  fontFamily?: string;
+  flexBasis?: number;
 } & Margins &
   Paddings;
 
 const Text = styled.p<TextProps>`
-  ${({ theme, size, color, weight, opacity, align, ...rest }) => `
+  ${({ theme, size, color, flexBasis, weight, opacity, align, fontFamily, ...rest }) => `
     ${conditionalRenderProp('color', color ? theme.colors.text[color] : theme.colors.text.primary)};
     ${conditionalRenderProp('font-size', renderStringNumValue(size ? sizes[size] : sizes.md))};
     ${conditionalRenderProp('font-weight', weight)};
+    ${conditionalRenderProp('font-family', fontFamily || theme.fontFamily)};
     ${conditionalRenderProp('text-align', align)};
     ${conditionalRenderProp('opacity', opacity)};
+    ${conditionalRenderProp('flex-basis', flexBasis)};
     ${genSpaces(theme, rest)}
   `};
 `;

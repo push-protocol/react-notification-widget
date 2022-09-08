@@ -20,7 +20,7 @@ const WalletContainer = styled.div`
 const WalletIcon = styled.div`
   width: 58px;
   height: 58px;
-  color: ${({ theme }) => theme.colors.secondary.dark};
+  color: ${({ theme }) => theme.colors.primary.light};
 `;
 
 const FromWalletIcon = styled.div`
@@ -55,7 +55,7 @@ const Separator = styled.div`
 const SeparatorIcon = styled.div`
   display: flex;
   height: 12px;
-  color: ${({ theme }) => theme.colors.secondary.dark};
+  color: ${({ theme }) => theme.colors.primary.main};
 `;
 
 const SubscribeInfo = () => {

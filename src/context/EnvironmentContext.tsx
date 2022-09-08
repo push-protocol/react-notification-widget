@@ -1,6 +1,6 @@
 import React, { createContext, useContext } from 'react';
 
-export type EnvType = 'prod' | 'staging' | 'dev';
+export type EnvType = 'production' | 'staging' | 'dev';
 export type EnvironmentContextType = {
   env: EnvType;
   chainId: number;
@@ -13,29 +13,28 @@ export const EnvironmentContext = createContext<EnvironmentContextType>(
 );
 
 export const EnvironmentProvider = ({
-  env,
+  env = 'production',
   children,
 }: {
   env?: EnvType;
   children: React.ReactNode;
 }) => {
-  env = env || 'prod';
   const gqlEndpointMap: { [key in EnvType]: string } = {
     dev: 'http://localhost:4001/graphql',
     staging: 'https://hz4hx34vmj.execute-api.us-east-1.amazonaws.com/graphql', // TODO: change to correct endpoint
-    prod: 'https://hz4hx34vmj.execute-api.us-east-1.amazonaws.com/graphql', // TODO: change to correct endpoint
+    production: 'https://hz4hx34vmj.execute-api.us-east-1.amazonaws.com/graphql', // TODO: change to correct endpoint
   };
 
   const chainIdMap: { [key in EnvType]: number } = {
     dev: 42,
     staging: 42,
-    prod: 1,
+    production: 1,
   };
 
   const epnsEnvMap: { [key in EnvType]: string } = {
     dev: 'staging',
     staging: 'staging',
-    prod: 'prod',
+    production: 'prod',
   };
 
   return (
