@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import Spinner from '../../../components/Spinner';
+import { useNotificationsContext } from '../../../context/NotificationsContext';
 import Flex from 'components/layout/Flex';
 import TextInput from 'components/TextInput';
 import Button from 'components/Button';
@@ -21,7 +22,7 @@ const ButtonWrapper = styled.div`
 `;
 
 type EnterEmailProps = {
-  value?: string;
+  value: string;
   isValid?: boolean;
   onChange(value: string): void;
   handleSave(): void;
@@ -29,6 +30,15 @@ type EnterEmailProps = {
 };
 
 const EmailInput = ({ isValid, value, onChange, handleSave, isLoading }: EnterEmailProps) => {
+  const { userCommsChannels } = useNotificationsContext();
+  const [isEditing, setIsEditing] = useState(!userCommsChannels?.email.exists);
+
+  const handleClick = () => {
+    if (isEditing) return handleSave();
+    onChange('');
+    setIsEditing(true);
+  };
+
   return (
     <Flex
       justifyContent={'center'}
@@ -40,28 +50,27 @@ const EmailInput = ({ isValid, value, onChange, handleSave, isLoading }: EnterEm
       <Wrapper>
         <TextInput
           placeholder={'email@example.com'}
-          value={value}
+          value={!isEditing ? (userCommsChannels?.email.hint as string) : value}
+          disabled={!isEditing}
           onValueChange={(value) => onChange(value)}
         />
-        {(isValid || isLoading) && (
-          <ButtonWrapper>
-            {isLoading ? (
-              <Spinner size={15} />
-            ) : (
-              <Button
-                width={'44px'}
-                height={'27px'}
-                fontSize={'sm'}
-                p={0}
-                disabled={!isValid}
-                borderRadius={'xs'}
-                onClick={handleSave}
-              >
-                Save
-              </Button>
-            )}
-          </ButtonWrapper>
-        )}
+        <ButtonWrapper>
+          {isLoading ? (
+            <Spinner size={15} />
+          ) : (
+            <Button
+              width={'44px'}
+              height={'27px'}
+              fontSize={'sm'}
+              p={0}
+              disabled={isEditing && !isValid}
+              borderRadius={'xs'}
+              onClick={handleClick}
+            >
+              {isEditing ? 'Save' : 'Edit'}
+            </Button>
+          )}
+        </ButtonWrapper>
       </Wrapper>
     </Flex>
   );

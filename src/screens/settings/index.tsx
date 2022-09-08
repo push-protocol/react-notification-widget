@@ -30,10 +30,10 @@ const HeaderIcon = styled.div`
 `;
 
 export const Settings = () => {
-  const [hideEmail, setHideEmail] = useState(true);
-  const [email, setEmail] = useState('');
   const { setRoute, activeRoute } = useRouterContext();
   const { login, isLoggedIn } = useRouterContext();
+
+  const [email, setEmail] = useState('');
 
   const [saveEmail, { loading }] = useSaveUserEmailMutation({
     onCompleted() {

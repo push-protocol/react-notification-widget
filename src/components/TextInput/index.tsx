@@ -6,7 +6,7 @@ import Text from '../Text';
 import { adjustColor, changeColorShade } from '../utils';
 
 const Input = styled.input<{ width?: string | number }>(({ theme, width }) => ({
-  border: '2px solid transparent',
+  border: `2px solid ${theme.colors.primary.light}`,
   transition: 'border-color 0.5s ease ',
   fontSize: '16px',
   borderRadius: 6,
@@ -14,27 +14,28 @@ const Input = styled.input<{ width?: string | number }>(({ theme, width }) => ({
   padding: `${theme.spacing(1.5)}px ${theme.spacing(2)}px`,
   backgroundColor: adjustColor(theme.colors.bg.main, 0.8),
   color: theme.colors.text.primary,
+  '&:disabled': {
+    borderColor: adjustColor(theme.colors.primary.light, 0.5),
+  },
   '&:focus': {
     outline: 'none',
-    border: `2px solid ${changeColorShade(theme.colors.primary.light, -20)}`,
+    border: `2px solid ${changeColorShade(theme.colors.primary.light, 20)}`,
   },
 }));
 
 type TextInputProps = {
   title?: string;
-  value?: string;
+  value: string;
   placeholder?: string;
   width?: string | number;
   leftIcon?: ReactElement;
+  disabled?: boolean;
   type?: HTMLInputTypeAttribute;
   onValueChange?: (value: string) => void;
 };
 
 const TextInput = (props: TextInputProps) => {
-  const [value, setValue] = useState(props.value);
-
   const onChange: ChangeEventHandler<HTMLInputElement> = (e) => {
-    setValue(e.target.value);
     props?.onValueChange?.(e.target.value);
   };
 
@@ -49,8 +50,9 @@ const TextInput = (props: TextInputProps) => {
         {props.leftIcon}
         <Flex width={'100%'}>
           <Input
+            disabled={props.disabled}
             width={props.width}
-            value={value}
+            value={props.value}
             onChange={onChange}
             type={props.type || 'text'}
             placeholder={props.placeholder}

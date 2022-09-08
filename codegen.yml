@@ -24,6 +24,10 @@ generates:
       apolloReactHocImportFrom: "@apollo/client"
       apolloReactHooksImportFrom: "@apollo/client"
 
+  ./schema.graphql:
+    plugins:
+      - schema-ast
+
   ./schema.json:
     plugins:
       - introspection

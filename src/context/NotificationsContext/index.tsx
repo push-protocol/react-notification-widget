@@ -1,28 +1,11 @@
-import React, { createContext, useContext, ReactNode, useState, useEffect } from 'react';
+import React, { createContext, ReactNode, useContext, useEffect, useState } from 'react';
 import { useAccount } from 'wagmi';
 import * as epns from '@epnsproject/sdk-restapi';
 import dayjs from 'dayjs';
-import { useEnvironment } from './EnvironmentContext';
-import { useChannelContext } from './ChannelContext';
-
-export type Notification = {
-  title: string;
-  timestamp: Date;
-  message: string;
-  appName: string;
-  appAddress: string;
-  image?: string;
-  icon?: string;
-  url?: string;
-  cta?: string;
-};
-
-type NotificationsContext = {
-  notifications: Notification[];
-  isLoggedIn: boolean;
-  isLoading: boolean;
-  userAddress?: string;
-};
+import { useEnvironment } from '../EnvironmentContext';
+import { useChannelContext } from '../ChannelContext';
+import { EpnsNotificationRawResp, NotificationsContext, Notification } from './types';
+import { useUserCommunicationChannelsLazyQuery } from './operations.generated';
 
 const NotificationsContext = createContext<NotificationsContext>({
   isLoggedIn: false,
@@ -32,10 +15,19 @@ const NotificationsContext = createContext<NotificationsContext>({
 
 export const NotificationsProvider = ({ children }: { children: ReactNode }) => {
   const { isConnected: isLoggedIn, address: userAddress } = useAccount();
+  const { chainId, epnsEnv } = useEnvironment();
   const { channel } = useChannelContext();
+
   const [isLoading, setIsLoading] = useState(false);
   const [notifications, setNotifications] = useState<Notification[]>([]);
-  const { chainId, epnsEnv } = useEnvironment();
+
+  const [getCommsChannels, { data }] = useUserCommunicationChannelsLazyQuery();
+
+  useEffect(() => {
+    if (!userAddress) return;
+
+    getCommsChannels({ variables: { address: userAddress } });
+  }, [userAddress]);
 
   useEffect(() => {
     if (!userAddress || !channel) return;
@@ -63,6 +55,7 @@ export const NotificationsProvider = ({ children }: { children: ReactNode }) => 
       value={{
         isLoggedIn,
         isLoading,
+        userCommsChannels: data?.userCommunicationChannels,
         notifications,
         userAddress,
       }}
@@ -91,38 +84,3 @@ const epnsNotifToNotif = ({
   cta: data.acta,
   timestamp: dayjs(epoch).toDate(),
 });
-
-type EpnsNotificationRawResp = {
-  payload_id: number;
-  sender: string;
-  epoch: string;
-  payload: EpnsNotifRawPayload;
-  source: string;
-  etime: any;
-};
-
-type EpnsNotifRawPayload = {
-  data: EpnsNotifRawData;
-  notification: EpnsNotifRawNotification;
-};
-
-type EpnsNotifRawData = {
-  app: string;
-  sid: string;
-  url: string;
-  acta: string;
-  aimg: string;
-  amsg: string;
-  asub: string;
-  icon: string;
-  type: number;
-  epoch: string;
-  etime: any;
-  hidden: string;
-  sectype: any;
-};
-
-type EpnsNotifRawNotification = {
-  body: string;
-  title: string;
-};

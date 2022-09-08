@@ -1,0 +1,8 @@
+query UserCommunicationChannels ($address: String!) {
+    userCommunicationChannels(address: $address) {
+        email {
+            exists
+            hint
+        }
+    }
+}

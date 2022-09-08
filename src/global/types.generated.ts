@@ -159,12 +159,18 @@ export type Query = {
   __typename?: 'Query';
   me: User;
   partnerInfo: CommsChannel;
+  userCommunicationChannels: UserCommunicationChannelsPayload;
   workflows: Array<Workflow>;
 };
 
 
 export type QueryPartnerInfoArgs = {
   input: PartnerInfoInput;
+};
+
+
+export type QueryUserCommunicationChannelsArgs = {
+  address: Scalars['String'];
 };
 
 export type Trigger = {
@@ -189,6 +195,18 @@ export type User = {
   lastName?: Maybe<Scalars['String']>;
   updatedAt: Scalars['DateTime'];
   walletAddress: Scalars['String'];
+};
+
+export type UserCommunicationChannel = {
+  __typename?: 'UserCommunicationChannel';
+  exists: Scalars['Boolean'];
+  hint?: Maybe<Scalars['String']>;
+};
+
+export type UserCommunicationChannelsPayload = {
+  __typename?: 'UserCommunicationChannelsPayload';
+  email: UserCommunicationChannel;
+  epns: UserCommunicationChannel;
 };
 
 export type UserEmailUpdateInput = {
@@ -237,7 +255,6 @@ export type WorkflowCreateAudienceInput = {
 
 export type WorkflowCreateInput = {
   audience: WorkflowCreateAudienceInput;
-  channelAddress: Scalars['String'];
   message: WorkflowCreateMessageInput;
   name: Scalars['String'];
   trigger: WorkflowCreateTriggerInput;

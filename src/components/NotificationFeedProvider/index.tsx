@@ -5,7 +5,7 @@ import { CustomTheme, makeTheme } from '../../theme';
 import { RouterProvider } from 'context/RouterContext';
 import { NotificationsProvider } from 'context/NotificationsContext';
 import { ChannelProvider } from 'context/ChannelContext';
-import { ApolloProvider } from 'context/ApolloProvider';
+import { ApolloProvider } from 'components/ApolloProvider';
 import { EnvType, EnvironmentProvider } from 'context/EnvironmentContext';
 
 export type NotificationFeedProviderProps = PropsWithChildren<{

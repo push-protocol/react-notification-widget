@@ -6,8 +6,9 @@ npm-debug.log*
 # Dependency directories
 node_modules/
 
-# TypeScript cache
-*.tsbuildinfo
+# Graphql
+schema.json
+schema.graphql
 
 # Optional npm cache directory
 .npm

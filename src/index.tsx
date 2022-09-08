@@ -3,8 +3,8 @@ import NotificationBell from './components/NotificationBell';
 import NotificationFeedProvider, {
   NotificationFeedProviderProps,
 } from './components/NotificationFeedProvider';
-import { Notification } from './context/NotificationsContext';
 import { CustomTheme } from './theme';
+import { Notification } from './context/NotificationsContext/types';
 import NotificationFeed from 'components/NotificationFeed';
 
 export {

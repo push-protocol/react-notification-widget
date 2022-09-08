@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { UserCommunicationChannelsDocument } from '../../context/NotificationsContext/operations.generated';
 import { CenteredContainer } from 'components/layout/CenteredContainer';
 import Button from 'components/Button';
 import Text from 'components/Text';
@@ -34,6 +35,7 @@ export const VerifyEmail = () => {
   const { setRoute, props } = useRouterContext();
 
   const [validateEmail, { loading }] = useValidateUserEmailMutation({
+    refetchQueries: [UserCommunicationChannelsDocument],
     onCompleted() {
       setRoute(Routes.EmailVerified, {});
     },
