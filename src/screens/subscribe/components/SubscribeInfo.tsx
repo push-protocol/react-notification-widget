@@ -59,7 +59,7 @@ const SeparatorIcon = styled.div`
 `;
 
 const SubscribeInfo = () => {
-  const { channel, name, icon } = useChannelContext();
+  const { channelAddress, name, icon } = useChannelContext();
   const { address } = useAccount();
 
   return (
@@ -69,7 +69,7 @@ const SubscribeInfo = () => {
           <img src={icon} alt="channel icon" />
         </FromWalletIcon>
         <WalletText>
-          <Text size={'sm'}>{channel ? formatUserAddress(channel) : name}</Text>
+          <Text size={'sm'}>{channelAddress ? formatUserAddress(channelAddress) : name}</Text>
         </WalletText>
       </WalletContainer>
       <Separator>

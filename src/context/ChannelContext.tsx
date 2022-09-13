@@ -1,22 +1,22 @@
 import React, { createContext, useContext, ReactNode, useState, useEffect } from 'react';
 import { usePartnerInfoQuery } from 'graphql/EpnsChannelInfo/operations.generated';
 
-export type EpnsChannelInfo = {
+export type ChannelInfo = {
   icon: string;
   name: string;
-  channel: string;
+  channelAddress: string;
 };
 
 const emptyChannel = {
-  channel: '',
+  channelAddress: '',
   icon: '',
   name: '',
 };
 
-const ChannelContext = createContext<EpnsChannelInfo>({} as EpnsChannelInfo);
+const ChannelContext = createContext<ChannelInfo>({} as ChannelInfo);
 
 const ChannelProvider = ({ partnerKey, children }: { partnerKey: string; children: ReactNode }) => {
-  const [channel, setChannel] = useState<EpnsChannelInfo>();
+  const [channel, setChannel] = useState<ChannelInfo>();
   const { data } = usePartnerInfoQuery({
     variables: {
       input: { partnerApiKey: partnerKey },
@@ -26,7 +26,7 @@ const ChannelProvider = ({ partnerKey, children }: { partnerKey: string; childre
   useEffect(() => {
     if (!data) return;
     setChannel({
-      channel: data.partnerInfo.channelAddress,
+      channelAddress: data.partnerInfo.channelAddress,
       icon: data.partnerInfo.logo as string,
       name: data.partnerInfo.name,
     });

@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { NotificationClickProp } from '../../components/types';
 import { useNotificationsContext } from '../../context/NotificationsContext';
 import Spinner from '../../components/Spinner';
+import { useChannelContext } from '../../context/ChannelContext';
 import NotificationFeedItem from './components/NotificationFeedItem';
 import { CenteredContainer } from 'components/layout/CenteredContainer';
 import Text from 'components/Text';
@@ -38,14 +39,21 @@ const SettingsIcon = styled.div`
 `;
 
 export const Feed = ({ onNotificationClick }: NotificationClickProp) => {
-  const { notifications, isLoading } = useNotificationsContext();
-
+  const { notifications: allNotifications, isLoading } = useNotificationsContext();
+  const { channelAddress } = useChannelContext();
   const { setRoute } = useRouterContext();
   const [activeTab, setActiveTab] = useState(NavigationTabs.App);
 
   const handleViewSettings = () => {
     setRoute(Routes.Settings);
   };
+
+  const notificationsToShow =
+    activeTab === NavigationTabs.App
+      ? allNotifications.filter(
+          (notif) => notif.appAddress.toLowerCase() === channelAddress.toLowerCase()
+        )
+      : allNotifications;
 
   return (
     <CenteredContainer>
@@ -64,7 +72,7 @@ export const Feed = ({ onNotificationClick }: NotificationClickProp) => {
             <Spinner />
           </Flex>
         ) : (
-          notifications.map((notification, index) => {
+          notificationsToShow.map((notification, index) => {
             return (
               <NotificationFeedItem
                 onNotificationClick={onNotificationClick}

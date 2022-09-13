@@ -53,12 +53,12 @@ const isUserSubscribed = async (args: {
   chainId: number;
 }): Promise<boolean> => {
   const { userAddress, channelAddress, env, chainId } = args;
-  let subscribers: string[] = await epns.channels._getSubscribers({
-    channel: `eip155:${chainId}:${channelAddress}`,
-    env: env,
+  const subbedChannels: { channel: string }[] = await epns.user.getSubscriptions({
+    user: `eip155:${chainId}:${userAddress}`,
+    env,
   });
-  subscribers = subscribers.map((s) => s.toLowerCase());
-  return subscribers.indexOf(userAddress.toLowerCase()) !== -1;
+  const subbedChannelsLower = subbedChannels.map((s) => s.channel.toLowerCase());
+  return subbedChannelsLower.indexOf(channelAddress.toLowerCase()) !== -1;
 };
 
 const shouldLogin = () => {
@@ -70,7 +70,7 @@ const RouterProvider = ({ children }: { children: ReactNode }) => {
   const [routerProps, setRouterProps] = useState<RouterProps>({});
   const { isConnected, address } = useAccount();
   const [isSubscribed, setIsSubscribed] = useState(false);
-  const { channel } = useChannelContext();
+  const { channelAddress } = useChannelContext();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { login: _login } = useAuthenticate();
@@ -79,7 +79,7 @@ const RouterProvider = ({ children }: { children: ReactNode }) => {
   const { data: signer } = useSigner();
 
   useEffect(() => {
-    if (!isConnected || !channel) {
+    if (!isConnected || !channelAddress) {
       return;
     }
 
@@ -88,14 +88,14 @@ const RouterProvider = ({ children }: { children: ReactNode }) => {
       setIsSubscribed(
         await isUserSubscribed({
           userAddress: address as string,
-          channelAddress: channel,
+          channelAddress,
           env: epnsEnv,
           chainId,
         })
       );
       setIsLoading(false);
     })();
-  }, [channel, address, isConnected]);
+  }, [channelAddress, address, isConnected]);
 
   useEffect(() => {
     if (!isConnected) {
@@ -111,7 +111,6 @@ const RouterProvider = ({ children }: { children: ReactNode }) => {
 
     if (!isLoggedIn && localStorage.getItem(LOCALSTORAGE_AUTH_KEY)) {
       setIsLoggedIn(true);
-      return;
     }
 
     setActive(Routes.NotificationsFeed);
@@ -129,7 +128,7 @@ const RouterProvider = ({ children }: { children: ReactNode }) => {
     setActive(Routes.Auth);
 
     try {
-      const result = await _login(channel);
+      const result = await _login(channelAddress);
       localStorage.setItem(LOCALSTORAGE_AUTH_KEY, result.token);
       setIsLoggedIn(true);
     } catch (e) {
@@ -150,7 +149,7 @@ const RouterProvider = ({ children }: { children: ReactNode }) => {
     setIsLoading(true);
     const response = await epns.channels.subscribe({
       signer: signer as any,
-      channelAddress: `eip155:${chainId}:${channel}`,
+      channelAddress: `eip155:${chainId}:${channelAddress}`,
       userAddress: `eip155:${chainId}:${address}`,
       env: epnsEnv,
     });

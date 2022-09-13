@@ -1,5 +1,5 @@
 import { DefaultTheme } from 'styled-components';
-import { changeColorShade } from './components/utils';
+import { changeColorShade, adjustColor } from './components/utils';
 
 type MainColor = {
   light: string;
@@ -115,6 +115,13 @@ export const makeTheme = (customTheme?: CustomTheme): DefaultTheme => {
     },
     colors: {
       ...defaultTheme.colors,
+      text: {
+        ...defaultTheme.colors.text,
+        ...(customTheme.textColor && {
+          primary: customTheme.textColor,
+          secondary: adjustColor(customTheme.textColor, 0.7),
+        }),
+      },
       primary: {
         ...getMainColor('primary', customTheme.primaryColor),
       },

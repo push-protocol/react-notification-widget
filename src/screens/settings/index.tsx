@@ -11,6 +11,10 @@ import isEmailValid from 'helpers/functions/isEmailValid';
 import { Routes, useRouterContext } from 'context/RouterContext';
 import { useSaveUserEmailMutation } from 'screens/settings/operations.generated';
 
+const EmailHiddenContainer = styled(Flex)`
+  align-self: start;
+`;
+
 const HeaderIconContainer = styled.div`
   height: 40px;
   width: 40px;
@@ -37,10 +41,10 @@ export const Settings = () => {
 
   const [saveEmail, { loading }] = useSaveUserEmailMutation({
     onCompleted() {
-      setRoute(Routes.VerifyEmail, { email: email });
+      setRoute(Routes.VerifyEmail, { email });
     },
     variables: {
-      input: { email: email },
+      input: { email },
     },
   });
 
@@ -78,7 +82,7 @@ export const Settings = () => {
           Connect your email
         </Text>
         <Text size={'md'} align={'center'}>
-          Get alerts you when new messages are received in your wallet.
+          Get alerts when new messages are received in your wallet.
         </Text>
       </Flex>
       <EmailInput
@@ -88,7 +92,9 @@ export const Settings = () => {
         isLoading={loading}
         handleSave={handleSave}
       />
-      <EmailHiddenNotice />
+      <EmailHiddenContainer>
+        <EmailHiddenNotice />
+      </EmailHiddenContainer>
     </CenteredContainer>
   );
 };
