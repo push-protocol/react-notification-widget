@@ -43,9 +43,7 @@ root.render(
           env={'dev'}
           partnerKey={'e76f1b54-891e-49e8-b406-74750f60f560'}
         >
-          <NotificationFeed
-            onNotificationClick={(notification) => alert(JSON.stringify(notification))}
-          >
+          <NotificationFeed>
             <NotificationBell />
           </NotificationFeed>
         </NotificationFeedProvider>

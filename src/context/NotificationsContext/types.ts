@@ -7,7 +7,7 @@ export type Notification = {
   appName: string;
   appAddress: string;
   image?: string;
-  icon?: string;
+  senderLogo?: string;
   url?: string;
   cta?: string;
 };

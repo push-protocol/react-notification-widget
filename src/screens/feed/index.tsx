@@ -5,6 +5,7 @@ import { useNotificationsContext } from '../../context/NotificationsContext';
 import Spinner from '../../components/Spinner';
 import { useChannelContext } from '../../context/ChannelContext';
 import NotificationFeedItem from './components/NotificationFeedItem';
+import EmptyState from './components/EmptyState';
 import { CenteredContainer } from 'components/layout/CenteredContainer';
 import Text from 'components/Text';
 import { Settings } from 'components/icons';
@@ -16,6 +17,7 @@ const NotificationFeed = styled(Flex)`
   &:not(:last-child) {
     border-bottom: ${({ theme }) => `1px solid ${theme.colors.border.main}}`};
   }
+  min-height: 300px;
   max-height: 400px;
   overflow-y: auto;
   overflow-x: hidden;
@@ -67,6 +69,7 @@ export const Feed = ({ onNotificationClick }: NotificationClickProp) => {
       </Flex>
       <FeedNavigation activeTab={activeTab} setActiveTab={setActiveTab} />
       <NotificationFeed width={'100%'} direction={'column'} mb={2} gap={2}>
+        <EmptyState show={!isLoading && !notificationsToShow?.length} />
         {isLoading ? (
           <Flex height={150} justifyContent={'center'} alignItems={'center'} pb={3}>
             <Spinner />

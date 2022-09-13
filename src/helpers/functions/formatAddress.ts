@@ -1,4 +1,4 @@
-const formatUserAddress = (address?: string) => {
+const formatAddress = (address?: string) => {
   if (!address) {
     return '';
   }
@@ -6,4 +6,4 @@ const formatUserAddress = (address?: string) => {
   return `${address.slice(0, 4)}....${address.slice(address.length - 4, address.length)}`;
 };
 
-export default formatUserAddress;
+export default formatAddress;

@@ -99,7 +99,11 @@ const NotificationFeedItem = ({
       gap={0.5}
     >
       <Header gap={0.5} alignItems={'center'}>
-        {showSenderDetails && <SenderImage />}
+        {showSenderDetails && (
+          <SenderImage>
+            <img src={notification.senderLogo} />
+          </SenderImage>
+        )}
         <Flex direction={'column'}>
           {showSenderDetails && (
             <Text size={'md'} weight={500}>

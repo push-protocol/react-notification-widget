@@ -188,8 +188,8 @@ const RouterProvider = ({ children }: { children: ReactNode }) => {
     setIsLoading(false);
 
     if (response.status == 'success') {
-      setIsSubscribed(action === 'sub');
       if (action === 'sub') setIsFirstLogin(true);
+      setIsSubscribed(action === 'sub');
     }
   };
 

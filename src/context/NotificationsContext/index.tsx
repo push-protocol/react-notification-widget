@@ -42,6 +42,7 @@ export const NotificationsProvider = ({ children }: { children: ReactNode }) => 
         limit: 1000,
       })
       .then((result: EpnsNotificationRawResp[]) => {
+        console.log(result);
         const notifs = result?.map(epnsNotifToNotif);
 
         setNotifications(notifs || []);
@@ -77,7 +78,7 @@ const epnsNotifToNotif = ({
   message: data.amsg,
   appName: data.app,
   appAddress: sender,
-  icon: data.icon,
+  senderLogo: data.icon,
   url: data.url,
   image: data.aimg,
   cta: data.acta,
