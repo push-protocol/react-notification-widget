@@ -180,7 +180,6 @@ const RouterProvider = ({ children }: { children: ReactNode }) => {
       env: epnsEnv,
     };
 
-    console.log(params);
     const response =
       action == 'sub'
         ? await epns.channels.subscribe(params)

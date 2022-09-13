@@ -40,17 +40,15 @@ export const Settings = () => {
   const [email, setEmail] = useState('');
 
   const [saveEmail, { loading }] = useSaveUserEmailMutation({
-    onCompleted() {
-      setRoute(Routes.VerifyEmail, { email });
-    },
     variables: {
       input: { email },
     },
   });
 
   const handleSave = async () => {
-    login(() => {
-      saveEmail();
+    login(async () => {
+      await saveEmail();
+      setRoute(Routes.VerifyEmail, { email });
     });
   };
 
