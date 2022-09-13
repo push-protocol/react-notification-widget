@@ -20,5 +20,6 @@ schema.graphql
 .env
 .env.test
 
-dist
+./dist
+public/dev
 .idea

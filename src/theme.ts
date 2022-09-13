@@ -68,6 +68,7 @@ const defaultTheme: DefaultTheme = {
   mode: 'dark',
   spacing: (units) => units * 8,
   borderRadius: br('4px', '6px', '8px', '12px'),
+  fontFamily: 'roboto',
   fontSize: { sm: '12px', md: '14px', lg: '16px', xl: '18px' },
   colors: {
     text: {
@@ -109,7 +110,7 @@ export const makeTheme = (customTheme?: CustomTheme): DefaultTheme => {
 
   return {
     ...defaultTheme,
-    fontFamily: customTheme.fontFamily,
+    fontFamily: customTheme.fontFamily || defaultTheme.fontFamily,
     borderRadius: {
       ...getBorderRadius(customTheme.borderRadius),
     },
