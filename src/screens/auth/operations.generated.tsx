@@ -16,7 +16,7 @@ export type UserLoginMutationVariables = Types.Exact<{
 }>;
 
 
-export type UserLoginMutation = { __typename?: 'Mutation', userLogin: { __typename?: 'UserLoginPayload', token: string } };
+export type UserLoginMutation = { __typename?: 'Mutation', userLogin: { __typename?: 'UserLoginPayload', token: string, refreshToken: string } };
 
 
 export const NonceGenerateDocument = gql`
@@ -56,6 +56,7 @@ export const UserLoginDocument = gql`
     mutation UserLogin($input: UserLoginInput!) {
   userLogin(input: $input) {
     token
+    refreshToken
   }
 }
     `;

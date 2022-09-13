@@ -97,6 +97,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   messageSend: Scalars['Boolean'];
   nonceGenerate: Nonce;
+  refreshToken: RefreshTokenPayload;
   userEmailUpdate: GeneralResolverResponse;
   userEmailValidate: GeneralResolverResponse;
   userLogin: UserLoginPayload;
@@ -112,6 +113,11 @@ export type MutationMessageSendArgs = {
 
 export type MutationNonceGenerateArgs = {
   input: NonceGenerateInput;
+};
+
+
+export type MutationRefreshTokenArgs = {
+  input: RefreshTokenInput;
 };
 
 
@@ -173,6 +179,16 @@ export type QueryUserCommunicationChannelsArgs = {
   address: Scalars['String'];
 };
 
+export type RefreshTokenInput = {
+  refreshToken: Scalars['String'];
+};
+
+export type RefreshTokenPayload = {
+  __typename?: 'RefreshTokenPayload';
+  refreshToken: Scalars['String'];
+  token: Scalars['String'];
+};
+
 export type Trigger = {
   __typename?: 'Trigger';
   id: Scalars['String'];
@@ -226,6 +242,7 @@ export type UserLoginInput = {
 
 export type UserLoginPayload = {
   __typename?: 'UserLoginPayload';
+  refreshToken: Scalars['String'];
   token: Scalars['String'];
   user: User;
 };

@@ -11,7 +11,7 @@ import * as epns from '@epnsproject/sdk-restapi';
 import { useEnvironment } from './EnvironmentContext';
 import { EmailVerified, Feed, Settings, Subscribe, VerifyEmail, WalletDisconnected } from 'screens';
 import { useChannelContext } from 'context/ChannelContext';
-import { LOCALSTORAGE_AUTH_KEY } from 'global/const';
+import { LOCALSTORAGE_AUTH_KEY, LOCALSTORAGE_AUTH_REFRESH_KEY } from 'global/const';
 import { useAuthenticate } from 'hooks/auth/useAuthenticate';
 import { Auth } from 'screens/auth';
 
@@ -156,6 +156,7 @@ const RouterProvider = ({ children }: { children: ReactNode }) => {
     try {
       const result = await _login(channelAddress);
       localStorage.setItem(LOCALSTORAGE_AUTH_KEY, result.token);
+      localStorage.setItem(LOCALSTORAGE_AUTH_REFRESH_KEY, result.refreshToken);
       setIsLoggedIn(true);
     } catch (e) {
       setError(true);
