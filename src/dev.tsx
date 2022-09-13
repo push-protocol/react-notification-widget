@@ -40,7 +40,7 @@ root.render(
       <BellContainer>
         <NotificationFeedProvider
           provider={providers.getDefaultProvider()}
-          env={'dev'}
+          env={'staging'}
           partnerKey={'e76f1b54-891e-49e8-b406-74750f60f560'}
         >
           <NotificationFeed>
