@@ -1,5 +1,5 @@
 import { DefaultTheme } from 'styled-components';
-import { changeColorShade, adjustColor } from './components/utils';
+import { changeColorShade, adjustColor } from '../components/utils';
 
 type MainColor = {
   light: string;

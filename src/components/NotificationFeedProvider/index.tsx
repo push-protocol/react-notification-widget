@@ -2,6 +2,7 @@ import React, { PropsWithChildren } from 'react';
 import { WagmiConfig, createClient } from 'wagmi';
 import { ThemeProvider } from 'styled-components';
 import { CustomTheme, makeTheme } from '../../theme';
+import { Reset } from '../../theme/ResetCss';
 import { RouterProvider } from 'context/RouterContext';
 import { NotificationsProvider } from 'context/NotificationsContext';
 import { ChannelProvider } from 'context/ChannelContext';
@@ -34,6 +35,7 @@ const NotificationFeedProvider = ({
           <ApolloProvider>
             <ChannelProvider partnerKey={partnerKey}>
               <NotificationsProvider>
+                <Reset />
                 <RouterProvider>{children}</RouterProvider>
               </NotificationsProvider>
             </ChannelProvider>
