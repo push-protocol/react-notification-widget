@@ -10,9 +10,10 @@
   },
   "scripts": {
     "prepare": "husky install",
+    "build": "npm run clean-dist && node esbuild.config.ts && tsc --emitDeclarationOnly --outFile dist/index.js",
+    "build:demo": "node esbuild.config.demo.js",
     "build:noEmit": "yarn tsc --noEmit",
     "clean-dist": "rimraf dist",
-    "build-package": "npm run clean-dist && node esbuild.config.ts && tsc --emitDeclarationOnly --outFile dist/index.js",
     "start": "node esbuild-serve.js -w",
     "codegen": "graphql-codegen --config codegen.yml"
   },
