@@ -33,11 +33,7 @@ const EmailHiddenNotice = () => {
         <Text size={'sm'} color={'secondary'} opacity={0.8}>
           {name} will not have access to your email.{' '}
         </Text>
-        <Link onClick={handleLearnMore}>
-          <Text color={'primary'} size={'sm'}>
-            Learn more
-          </Text>
-        </Link>
+        <Link src={'putsomethinghere'}>Learn more</Link>
       </Flex>
     </Flex>
   );

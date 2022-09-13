@@ -40,7 +40,8 @@
     "react-verification-input": "^3.1.0",
     "siwe": "^1.1.6",
     "styled-components": "^5.3.5",
-    "wagmi": "^0.6.3"
+    "wagmi": "^0.6.3",
+    "webfontloader": "^1.6.28"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "2.12.0",
@@ -53,6 +54,7 @@
     "@types/react": "^18.0.17",
     "@types/react-dom": "^18.0.6",
     "@types/styled-components": "^5.1.26",
+    "@types/webfontloader": "^1.6.34",
     "@typescript-eslint/eslint-plugin": "5.30.5",
     "@typescript-eslint/parser": "5.30.5",
     "esbuild": "^0.15.5",

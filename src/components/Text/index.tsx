@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { Margins, Paddings } from '../types';
 import { conditionalRenderProp, genSpaces, renderStringNumValue } from '../utils';
 
-const sizes = {
+export const textSizes = {
   xs: 10,
   sm: 12,
   md: 14,
@@ -13,7 +13,7 @@ const sizes = {
 };
 
 type TextProps = {
-  size?: keyof typeof sizes;
+  size?: keyof typeof textSizes;
   color?: 'primary' | 'secondary';
   weight?: string | number;
   opacity?: number;
@@ -26,7 +26,10 @@ type TextProps = {
 const Text = styled.p<TextProps>`
   ${({ theme, size, color, flexBasis, weight, opacity, align, fontFamily, ...rest }) => `
     ${conditionalRenderProp('color', color ? theme.colors.text[color] : theme.colors.text.primary)};
-    ${conditionalRenderProp('font-size', renderStringNumValue(size ? sizes[size] : sizes.md))};
+    ${conditionalRenderProp(
+      'font-size',
+      renderStringNumValue(size ? textSizes[size] : textSizes.md)
+    )};
     ${conditionalRenderProp('font-weight', weight)};
     ${conditionalRenderProp('font-family', fontFamily || theme.fontFamily)};
     ${conditionalRenderProp('text-align', align)};

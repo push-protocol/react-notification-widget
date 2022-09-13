@@ -125,18 +125,18 @@ const NotificationFeedItem = ({
         </ImageContainer>
       )}
       <Flex justifyContent={'space-between'}>
-        <Text size={'sm'} color={'secondary'} opacity={0.3}>
+        <Text size={'sm'} color={'secondary'}>
           {dayjs(notification.timestamp).fromNow()}
         </Text>
         {notification?.url && (
           <Flex gap={0.5} alignItems={'center'}>
-            <Link url={notification.url}>
+            <Link src={notification.url}>
               <IconContainer>
                 <Globe />
               </IconContainer>
             </Link>
-            <Link url={notification.url}>
-              <Text size={'sm'} color={'secondary'} opacity={0.3}>
+            <Link src={notification.url}>
+              <Text size={'sm'} color={'secondary'}>
                 {trimString(notification.url, 50)}
               </Text>
             </Link>

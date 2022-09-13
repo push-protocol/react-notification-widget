@@ -40,7 +40,7 @@ export const Subscribe = () => {
         >
           Subscribe
         </Button>
-        <Text size={'sm'} color={'secondary'} opacity={0.8} align={'center'}>
+        <Text size={'sm'} mt={1} mb={2} color={'secondary'} opacity={0.8} align={'center'}>
           You will need to sign a message to prove ownership of your wallet.
         </Text>
       </Flex>

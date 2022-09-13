@@ -68,7 +68,7 @@ export const Feed = ({ onNotificationClick }: NotificationClickProp) => {
         </SettingsIcon>
       </Flex>
       <FeedNavigation activeTab={activeTab} setActiveTab={setActiveTab} />
-      <NotificationFeed width={'100%'} direction={'column'} mb={2} gap={2}>
+      <NotificationFeed width={'100%'} direction={'column'} gap={2}>
         <EmptyState show={!isLoading && !notificationsToShow?.length} />
         {isLoading ? (
           <Flex height={150} justifyContent={'center'} alignItems={'center'} pb={3}>

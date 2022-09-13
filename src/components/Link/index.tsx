@@ -3,39 +3,24 @@ import styled from 'styled-components';
 
 const StyledLink = styled.a<{ fontWeight?: string | number }>`
   text-decoration: none;
-  color: inherit;
+  font-size: ${({ theme }) => theme.fontSize.md};
+  color: ${({ theme }) => theme.colors.primary.light};
   font-weight: ${({ fontWeight }) => (fontWeight ? fontWeight : 'inherit')};
-  &:hover {
-    text-decoration: underline;
-  }
-`;
-
-const TextWrapper = styled.span<{ fontWeight?: string | number }>`
-  cursor: pointer;
-  font-weight: ${({ fontWeight }) => (fontWeight ? fontWeight : 'inherit')};
+  font-family: ${({ theme }) => theme.fontFamily};
   &:hover {
     text-decoration: underline;
   }
 `;
 
 type LinkProps = {
-  url?: string;
+  src?: string;
   children?: ReactNode;
-  onClick?(): void;
   fontWeight?: string | number;
 };
 
-const Link = ({ url, children, onClick, fontWeight }: LinkProps) => {
-  if (onClick) {
-    return (
-      <TextWrapper onClick={onClick} fontWeight={fontWeight}>
-        {children}
-      </TextWrapper>
-    );
-  }
-
+const Link = ({ src, children, fontWeight }: LinkProps) => {
   return (
-    <StyledLink href={url} target={'_blank'} rel="noopener" fontWeight={fontWeight}>
+    <StyledLink href={src} target={'_blank'} rel="noopener" fontWeight={fontWeight}>
       {children}
     </StyledLink>
   );

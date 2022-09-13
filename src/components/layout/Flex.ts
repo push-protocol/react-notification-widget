@@ -14,8 +14,8 @@ type PropsT = {
 
 const Flex = styled.div<PropsT>`
   ${({ theme, direction, height, width, gap, justifyContent, alignItems, ...rest }) => `
-    ${conditionalRenderProp('background-color', theme.colors.bg.main)};
     display: flex;
+    ${conditionalRenderProp('background-color', theme.colors.bg.main)};
     ${conditionalRenderProp('height', renderStringNumValue(height))};
     ${conditionalRenderProp('width', renderStringNumValue(width))};
     ${conditionalRenderProp('flex-direction', direction)};

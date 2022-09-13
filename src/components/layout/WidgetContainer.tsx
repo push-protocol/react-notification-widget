@@ -36,7 +36,7 @@ const PoweredBy = styled(Flex)(({ theme }) => ({
 }));
 
 const ChildrenContainer = styled.div`
-  height: calc(100% - ${POWERED_BY_HEIGHT} - 16px);
+  height: calc(100% - ${POWERED_BY_HEIGHT});
 `;
 
 interface LayoutProps {
@@ -47,7 +47,7 @@ export const WidgetContainer = ({ children }: LayoutProps) => {
   return (
     <LayoutContainer>
       <ChildrenContainer>{children}</ChildrenContainer>
-      <PoweredBy mt={1} pt={1} alignItems={'center'} justifyContent={'center'}>
+      <PoweredBy pt={1} alignItems={'center'} justifyContent={'center'}>
         <Text size={'sm'} color={'secondary'} opacity={0.8}>
           Powered by
         </Text>

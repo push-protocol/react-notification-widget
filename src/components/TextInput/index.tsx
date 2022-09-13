@@ -1,6 +1,5 @@
-import React, { ReactElement, HTMLInputTypeAttribute, useState, ChangeEventHandler } from 'react';
+import React, { ReactElement, HTMLInputTypeAttribute, ChangeEventHandler } from 'react';
 import styled from 'styled-components';
-
 import Flex from '../layout/Flex';
 import Text from '../Text';
 import { adjustColor, changeColorShade } from '../utils';
