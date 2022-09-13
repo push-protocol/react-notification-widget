@@ -16,7 +16,7 @@ const NotificationsContext = createContext<NotificationsContext>({
 export const NotificationsProvider = ({ children }: { children: ReactNode }) => {
   const { isConnected: isLoggedIn, address: userAddress } = useAccount();
   const { chainId, epnsEnv } = useEnvironment();
-  const { channel } = useChannelContext();
+  const { channelAddress } = useChannelContext();
 
   const [isLoading, setIsLoading] = useState(false);
   const [notifications, setNotifications] = useState<Notification[]>([]);
@@ -30,7 +30,7 @@ export const NotificationsProvider = ({ children }: { children: ReactNode }) => 
   }, [userAddress]);
 
   useEffect(() => {
-    if (!userAddress || !channel) return;
+    if (!userAddress || !channelAddress) return;
 
     setIsLoading(true);
     epns.user
@@ -42,13 +42,12 @@ export const NotificationsProvider = ({ children }: { children: ReactNode }) => 
         limit: 1000,
       })
       .then((result: EpnsNotificationRawResp[]) => {
-        const notifs = result
-          ?.map(epnsNotifToNotif)
-          .filter((notif) => notif.appAddress.toLowerCase() === channel.toLowerCase());
+        const notifs = result?.map(epnsNotifToNotif);
+
         setNotifications(notifs || []);
         setIsLoading(false);
       });
-  }, [channel, chainId, epnsEnv, userAddress]);
+  }, [channelAddress, chainId, epnsEnv, userAddress]);
 
   return (
     <NotificationsContext.Provider

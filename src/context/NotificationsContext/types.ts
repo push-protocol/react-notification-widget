@@ -1,8 +1,4 @@
-import { UserCommunicationChannelsPayload } from '../../global/types.generated';
-import {
-  UserCommunicationChannelsQueryResult,
-  UserCommunicationChannelsQuery,
-} from './operations.generated';
+import { UserCommunicationChannelsQuery } from './operations.generated';
 
 export type Notification = {
   title: string;

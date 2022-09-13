@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { NotificationClickProp } from '../../../components/types';
 import trimString from '../../../helpers/functions/trimString';
-import { adjustColor, changeColorShade } from '../../../components/utils';
+import { changeColorShade } from '../../../components/utils';
 import { Notification } from '../../../context/NotificationsContext/types';
 import Flex from 'components/layout/Flex';
 import Text from 'components/Text';
@@ -103,7 +103,7 @@ const NotificationFeedItem = ({
         <Flex direction={'column'}>
           {showSenderDetails && (
             <Text size={'md'} weight={500}>
-              Sender
+              {notification.appName}
             </Text>
           )}
           <Text size={'lg'} weight={700}>
