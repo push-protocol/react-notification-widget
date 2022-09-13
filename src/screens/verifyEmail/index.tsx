@@ -47,7 +47,7 @@ export const VerifyEmail = () => {
         variables: {
           input: {
             email: props.email,
-            code: code,
+            code,
           },
         },
       });
