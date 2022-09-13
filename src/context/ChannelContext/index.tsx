@@ -1,5 +1,5 @@
 import React, { createContext, useContext, ReactNode, useState, useEffect } from 'react';
-import { usePartnerInfoQuery } from 'graphql/EpnsChannelInfo/operations.generated';
+import { usePartnerInfoQuery } from 'context/ChannelContext/operations.generated';
 
 export type ChannelInfo = {
   icon: string;

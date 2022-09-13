@@ -34,7 +34,7 @@ type NotificationBellProps = {
 // eslint-disable-next-line react/display-name
 const NotificationBell = (props: NotificationBellProps) => {
   const isNew = false;
-  const hasNotifications = true;
+  const hasNotifications = false;
 
   return (
     <Container onClick={props.onClick}>

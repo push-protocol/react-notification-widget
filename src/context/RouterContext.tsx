@@ -34,13 +34,14 @@ type RouteWithProps = { route: Routes; props?: RouterProps };
 type RouterContext = {
   activeRoute: Routes;
   subscribe(): void;
+  unsubscribe(): void;
   setRoute(route: Routes, props?: RouterProps): void;
   Component: ElementType;
   props?: RouterProps;
   isLoading: boolean;
   error: boolean;
   isLoggedIn: boolean;
-  login(redirect?: RouteWithProps): void;
+  login(callback?: () => void): void;
 };
 
 const RouterContext = createContext<RouterContext>({
@@ -67,21 +68,20 @@ const shouldLogin = () => {
 };
 
 const RouterProvider = ({ children }: { children: ReactNode }) => {
+  const { channelAddress } = useChannelContext();
+  const { epnsEnv, chainId } = useEnvironment();
+  const { isConnected, address } = useAccount();
+  const { data: signer } = useSigner();
+  const { login: _login } = useAuthenticate();
+
   const [active, setActive] = useState(Routes.Subscribe);
   const [routerProps, setRouterProps] = useState<RouterProps>({});
-  const { isConnected, address } = useAccount();
   const [isSubscribed, setIsSubscribed] = useState(false);
-  const { channelAddress } = useChannelContext();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const { login: _login } = useAuthenticate();
+  const [isFirstLogin, setIsFirstLogin] = useState(false);
   const [error, setError] = useState(false);
-  const { epnsEnv, chainId } = useEnvironment();
-  const { data: signer } = useSigner();
-  const [redirectAfterLogin, setRedirectAfterLogin] = useState<RouteWithProps>({
-    route: Routes.NotificationsFeed,
-    props: {},
-  });
+  const [loginCallback, setLoginCallback] = useState<() => void>();
 
   useEffect(() => {
     if (!isConnected || !channelAddress) {
@@ -102,16 +102,6 @@ const RouterProvider = ({ children }: { children: ReactNode }) => {
     })();
   }, [channelAddress, address, isConnected]);
 
-  const setRouteAfterLogin = () => {
-    if (!redirectAfterLogin || redirectAfterLogin.route == Routes.NotificationsFeed) {
-      setActive(Routes.NotificationsFeed);
-      setRouterProps({});
-    }
-
-    setActive(redirectAfterLogin.route);
-    setRouterProps(redirectAfterLogin.props || {});
-  };
-
   useEffect(() => {
     if (!isConnected) {
       logout();
@@ -128,25 +118,42 @@ const RouterProvider = ({ children }: { children: ReactNode }) => {
       setIsLoggedIn(true);
     }
 
-    setRouteAfterLogin();
-  }, [isConnected, isSubscribed, isLoggedIn]);
+    if (isFirstLogin) {
+      setActive(Routes.ConnectEmail);
+      return;
+    }
+
+    if (loginCallback) {
+      loginCallback();
+      setLoginCallback(undefined);
+      return;
+    }
+
+    setActive(Routes.NotificationsFeed);
+  }, [isConnected, isSubscribed, isFirstLogin, isLoggedIn]);
 
   const setRouteWithParams = (route: Routes, props?: RouterProps) => {
     setActive(route);
     if (props) setRouterProps(props);
   };
 
-  const login = async (redirect?: RouteWithProps) => {
-    if (isLoggedIn || !shouldLogin()) return;
+  const login = async (callback?: () => void) => {
+    if (isLoggedIn || !shouldLogin()) {
+      if (callback) callback();
+      return;
+    }
+
     setIsLoading(true);
     setError(false);
     setActive(Routes.Auth);
 
-    try {
-      if (redirect) {
-        setRedirectAfterLogin(redirect);
-      }
+    if (callback) {
+      setLoginCallback(() => {
+        return callback;
+      });
+    }
 
+    try {
       const result = await _login(channelAddress);
       localStorage.setItem(LOCALSTORAGE_AUTH_KEY, result.token);
       setIsLoggedIn(true);
@@ -164,20 +171,31 @@ const RouterProvider = ({ children }: { children: ReactNode }) => {
     setIsLoading(false);
   };
 
-  const subscribe = async () => {
+  const toggleSubscription = async (action: 'sub' | 'unsub') => {
     setIsLoading(true);
-    const response = await epns.channels.subscribe({
+    const params = {
       signer: signer as any,
       channelAddress: `eip155:${chainId}:${channelAddress}`,
       userAddress: `eip155:${chainId}:${address}`,
       env: epnsEnv,
-    });
+    };
+
+    console.log(params);
+    const response =
+      action == 'sub'
+        ? await epns.channels.subscribe(params)
+        : await epns.channels.unsubscribe(params);
+
     setIsLoading(false);
 
     if (response.status == 'success') {
-      setIsSubscribed(true);
+      setIsSubscribed(action === 'sub');
+      if (action === 'sub') setIsFirstLogin(true);
     }
   };
+
+  const subscribe = () => toggleSubscription('sub');
+  const unsubscribe = () => toggleSubscription('unsub');
 
   const RouteScreens = {
     [Routes.Subscribe]: Subscribe,
@@ -195,6 +213,7 @@ const RouterProvider = ({ children }: { children: ReactNode }) => {
       value={{
         activeRoute: active,
         subscribe,
+        unsubscribe,
         setRoute: setRouteWithParams,
         Component: RouteScreens[active],
         props: routerProps,

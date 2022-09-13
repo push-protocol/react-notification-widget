@@ -34,7 +34,7 @@ const HeaderIcon = styled.div`
 `;
 
 export const Settings = () => {
-  const { setRoute, activeRoute } = useRouterContext();
+  const { setRoute, activeRoute, unsubscribe } = useRouterContext();
   const { login, isLoggedIn } = useRouterContext();
 
   const [email, setEmail] = useState('');
@@ -49,12 +49,9 @@ export const Settings = () => {
   });
 
   const handleSave = async () => {
-    if (!isLoggedIn)
-      return await login({
-        route: Routes.VerifyEmail,
-        props: { email },
-      });
-    saveEmail();
+    login(() => {
+      saveEmail();
+    });
   };
 
   const handleSkip = () => {
@@ -99,6 +96,11 @@ export const Settings = () => {
       <EmailHiddenContainer>
         <EmailHiddenNotice />
       </EmailHiddenContainer>
+      {process.env.NODE_ENV === 'development' && (
+        <Button variant={'outlined'} onClick={unsubscribe}>
+          <Text size={'sm'}>Unsubscribe</Text>
+        </Button>
+      )}
     </CenteredContainer>
   );
 };
