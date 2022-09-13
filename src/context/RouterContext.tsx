@@ -29,6 +29,7 @@ enum Routes {
 type RouterProps = {
   [key: string]: string;
 };
+type RouteWithProps = { route: Routes; props?: RouterProps };
 
 type RouterContext = {
   activeRoute: Routes;
@@ -39,7 +40,7 @@ type RouterContext = {
   isLoading: boolean;
   error: boolean;
   isLoggedIn: boolean;
-  login(): void;
+  login(redirect?: RouteWithProps): void;
 };
 
 const RouterContext = createContext<RouterContext>({
@@ -77,6 +78,10 @@ const RouterProvider = ({ children }: { children: ReactNode }) => {
   const [error, setError] = useState(false);
   const { epnsEnv, chainId } = useEnvironment();
   const { data: signer } = useSigner();
+  const [redirectAfterLogin, setRedirectAfterLogin] = useState<RouteWithProps>({
+    route: Routes.NotificationsFeed,
+    props: {},
+  });
 
   useEffect(() => {
     if (!isConnected || !channel) {
@@ -97,6 +102,16 @@ const RouterProvider = ({ children }: { children: ReactNode }) => {
     })();
   }, [channel, address, isConnected]);
 
+  const setRouteAfterLogin = () => {
+    if (!redirectAfterLogin || redirectAfterLogin.route == Routes.NotificationsFeed) {
+      setActive(Routes.NotificationsFeed);
+      setRouterProps({});
+    }
+
+    setActive(redirectAfterLogin.route);
+    setRouterProps(redirectAfterLogin.props || {});
+  };
+
   useEffect(() => {
     if (!isConnected) {
       logout();
@@ -114,7 +129,7 @@ const RouterProvider = ({ children }: { children: ReactNode }) => {
       return;
     }
 
-    setActive(Routes.NotificationsFeed);
+    setRouteAfterLogin();
   }, [isConnected, isSubscribed, isLoggedIn]);
 
   const setRouteWithParams = (route: Routes, props?: RouterProps) => {
@@ -122,13 +137,17 @@ const RouterProvider = ({ children }: { children: ReactNode }) => {
     if (props) setRouterProps(props);
   };
 
-  const login = async () => {
+  const login = async (redirect?: RouteWithProps) => {
     if (isLoggedIn || !shouldLogin()) return;
     setIsLoading(true);
     setError(false);
     setActive(Routes.Auth);
 
     try {
+      if (redirect) {
+        setRedirectAfterLogin(redirect);
+      }
+
       const result = await _login(channel);
       localStorage.setItem(LOCALSTORAGE_AUTH_KEY, result.token);
       setIsLoggedIn(true);
