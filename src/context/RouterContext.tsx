@@ -29,6 +29,7 @@ enum Routes {
 type RouterProps = {
   [key: string]: string;
 };
+type RouteWithProps = { route: Routes; props?: RouterProps };
 
 type RouterContext = {
   activeRoute: Routes;
@@ -40,7 +41,7 @@ type RouterContext = {
   isLoading: boolean;
   error: boolean;
   isLoggedIn: boolean;
-  login(): void;
+  login(callback?: () => void): void;
 };
 
 const RouterContext = createContext<RouterContext>({
@@ -80,6 +81,7 @@ const RouterProvider = ({ children }: { children: ReactNode }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isFirstLogin, setIsFirstLogin] = useState(false);
   const [error, setError] = useState(false);
+  const [loginCallback, setLoginCallback] = useState<() => void>();
 
   useEffect(() => {
     if (!isConnected || !channelAddress) {
@@ -121,6 +123,12 @@ const RouterProvider = ({ children }: { children: ReactNode }) => {
       return;
     }
 
+    if (loginCallback) {
+      loginCallback();
+      setLoginCallback(undefined);
+      return;
+    }
+
     setActive(Routes.NotificationsFeed);
   }, [isConnected, isSubscribed, isFirstLogin, isLoggedIn]);
 
@@ -129,11 +137,21 @@ const RouterProvider = ({ children }: { children: ReactNode }) => {
     if (props) setRouterProps(props);
   };
 
-  const login = async () => {
-    if (isLoggedIn || !shouldLogin()) return;
+  const login = async (callback?: () => void) => {
+    if (isLoggedIn || !shouldLogin()) {
+      if (callback) callback();
+      return;
+    }
+
     setIsLoading(true);
     setError(false);
     setActive(Routes.Auth);
+
+    if (callback) {
+      setLoginCallback(() => {
+        return callback;
+      });
+    }
 
     try {
       const result = await _login(channelAddress);
