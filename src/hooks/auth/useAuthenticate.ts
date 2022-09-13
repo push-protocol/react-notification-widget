@@ -52,7 +52,7 @@ export const useAuthenticate = () => {
       uri: location.origin,
       version: '1',
       chainId,
-      nonce: nonce,
+      nonce,
       issuedAt: new Date().toISOString(),
     };
     const message = new SiweMessage(msg).prepareMessage();
@@ -71,7 +71,7 @@ export const useAuthenticate = () => {
         input: {
           channel: channelAddress,
           message: JSON.stringify(msg),
-          signature: signature,
+          signature,
         },
       },
     });
