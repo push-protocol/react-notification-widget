@@ -92933,7 +92933,12 @@ const client = new ApolloClient({
       partnerKey
     }, /* @__PURE__ */ import_react45.default.createElement(NotificationFeed_default, null, /* @__PURE__ */ import_react45.default.createElement(BellContainer2, null, /* @__PURE__ */ import_react45.default.createElement(NotificationBell_default, null)))))), /* @__PURE__ */ import_react45.default.createElement("div", {
       style: {position: "fixed", top: 0, left: 0, height: "100vh", width: "100vw", zIndex: 2}
-    }), /* @__PURE__ */ import_react45.default.createElement(FloatingSettings_default, {
+    }, /* @__PURE__ */ import_react45.default.createElement("iframe", {
+      src: iframeUrl,
+      width: "100%",
+      height: "100%",
+      sandbox: "allow-scripts allow-same-origin"
+    })), /* @__PURE__ */ import_react45.default.createElement(FloatingSettings_default, {
       ...{
         partnerKey,
         setPartnerKey,
