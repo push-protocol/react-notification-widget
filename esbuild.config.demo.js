@@ -4,7 +4,7 @@ const entryFile = 'src/development/index.tsx';
 
 buildSync({
   bundle: true,
-  minify: true,
+  // minify: true,
   entryPoints: [entryFile],
   outfile: './public/demo/app.js',
   loader: {
