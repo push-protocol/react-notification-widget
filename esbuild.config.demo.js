@@ -1,6 +1,6 @@
-import esbuildServe from 'esbuild-serve';
+import { buildSync } from 'esbuild';
 
-esbuildServe({
+buildSync({
   bundle: true,
   minify: true,
   entryPoints: ['src/development/index.tsx'],
