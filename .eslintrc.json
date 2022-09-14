@@ -41,12 +41,6 @@
     "react/prop-types": "off",
     "react/react-in-jsx-scope": "off",
     "prettier/prettier": ["error", {"singleQuote":  true, "printWidth":  100}],
-    "no-restricted-imports": [
-      "error",
-      {
-        "patterns": ["@mui/*/*/*", "!@mui/material/test-utils/*"]
-      }
-    ],
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
     "no-use-before-define": "warn",

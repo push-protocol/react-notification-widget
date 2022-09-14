@@ -13,6 +13,7 @@
     "build": "npm run clean-dist && node esbuild.config.js && tsc --emitDeclarationOnly --outFile dist/index.js",
     "build:noEmit": "yarn tsc --noEmit",
     "build:demo": "node esbuild.config.demo.js",
+    "start:demo": "node esbuild.config.demo.js -w",
     "clean-dist": "rimraf dist",
     "start": "node esbuild-serve.js -w",
     "codegen": "graphql-codegen --config codegen.yml"

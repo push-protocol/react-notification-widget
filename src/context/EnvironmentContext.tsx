@@ -20,19 +20,19 @@ export const EnvironmentProvider = ({
   children: React.ReactNode;
 }) => {
   const gqlEndpointMap: { [key in EnvType]: string } = {
-    dev: 'http://localhost:4001/graphql',
+    development: 'http://localhost:4001/graphql',
     staging: 'https://staging-api.wherever.to/graphql',
     production: 'https://api.wherever.to/graphql',
   };
 
   const chainIdMap: { [key in EnvType]: number } = {
-    dev: 42,
+    development: 42,
     staging: 42,
     production: 1,
   };
 
   const epnsEnvMap: { [key in EnvType]: string } = {
-    dev: 'staging',
+    development: 'staging',
     staging: 'staging',
     production: 'prod',
   };

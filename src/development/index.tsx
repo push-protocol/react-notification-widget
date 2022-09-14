@@ -26,7 +26,7 @@ const provider = providers.getDefaultProvider();
 const FakeApp = () => {
   const [partnerKey, setPartnerKey] = useState('4fcbfd96-9ff9-4d1b-a17c-6a68196af12e');
   const [iframeUrl, setIframeUrl] = useState('');
-  const [env, setEnv] = useState('dev');
+  const [env, setEnv] = useState('development');
   const [theme, setTheme] = useState<CustomTheme>({
     primaryColor: '#d67a5a',
     bellColor: '#d67a5a',
