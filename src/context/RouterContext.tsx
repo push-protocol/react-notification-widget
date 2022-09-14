@@ -62,10 +62,6 @@ const isUserSubscribed = async (args: {
   return subbedChannelsLower.indexOf(channelAddress.toLowerCase()) !== -1;
 };
 
-const shouldLogin = () => {
-  return !localStorage.getItem(LOCALSTORAGE_AUTH_KEY);
-};
-
 const RouterProvider = ({ children }: { children: ReactNode }) => {
   const { channelAddress } = useChannelContext();
   const { epnsEnv, chainId } = useEnvironment();
@@ -141,17 +137,17 @@ const RouterProvider = ({ children }: { children: ReactNode }) => {
     setError(false);
     setActive(Routes.Auth);
 
-    if (callback) {
-      setLoginCallback(() => {
-        return callback;
-      });
-    }
-
     try {
       const result = await _login(channelAddress);
       localStorage.setItem(LOCALSTORAGE_AUTH_KEY, result.token);
       localStorage.setItem(LOCALSTORAGE_AUTH_REFRESH_KEY, result.refreshToken);
       setIsLoggedIn(true);
+
+      if (callback) {
+        setLoginCallback(() => {
+          return callback;
+        });
+      }
     } catch (e) {
       setError(true);
     }
