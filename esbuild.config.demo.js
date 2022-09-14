@@ -1,11 +1,10 @@
 import { buildSync } from 'esbuild';
 
-const entryFile = 'src/development/index.tsx';
-
 buildSync({
+  entryPoints: ['./src/development/index.tsx'],
   bundle: true,
+  sourcemap: true,
   // minify: true,
-  entryPoints: [entryFile],
   outfile: './public/demo/app.js',
   loader: {
     '.js': 'jsx',

@@ -3,6 +3,6 @@
 
 yarn lint-staged
 yarn build:noEmit
-yarn build:demo
-git add 'public/*'
+#yarn build:demo
+#git add 'public/*'
 

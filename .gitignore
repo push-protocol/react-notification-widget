@@ -22,5 +22,5 @@ schema.graphql
 
 .DS_store
 dist
-public/dev
+#public/dev
 .idea

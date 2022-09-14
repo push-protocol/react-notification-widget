@@ -9,7 +9,7 @@ if (window.origin.includes('localhost'))
 }
 else
 {
-  js.src = "demo/app.js";
+  js.src = "dev/app.js";
 }
 
 head.appendChild(js);
