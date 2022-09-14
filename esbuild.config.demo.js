@@ -1,6 +1,6 @@
 import { buildSync } from 'esbuild';
 
-const entryFile = 'src/dev.tsx';
+const entryFile = 'src/development/index.tsx';
 
 buildSync({
   bundle: true,

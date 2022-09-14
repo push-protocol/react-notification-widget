@@ -55,6 +55,7 @@ const NotificationFeed = (props: NotificationFeedProps) => {
       <Popover
         onClickOutside={() => setFeedOpen(false)}
         isOpen={feedOpen}
+        containerStyle={{ zIndex: '100' }}
         padding={props.gapFromBell}
         positions={['bottom', 'left', 'right']}
         content={<WidgetContainer>{currentScreenComponent}</WidgetContainer>}

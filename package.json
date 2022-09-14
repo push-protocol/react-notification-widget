@@ -10,7 +10,7 @@
   },
   "scripts": {
     "prepare": "husky install",
-    "build": "npm run clean-dist && node esbuild.config.ts && tsc --emitDeclarationOnly --outFile dist/index.js",
+    "build": "npm run clean-dist && node esbuild.config.js && tsc --emitDeclarationOnly --outFile dist/index.js",
     "build:demo": "node esbuild.config.demo.js",
     "build:noEmit": "yarn tsc --noEmit",
     "clean-dist": "rimraf dist",

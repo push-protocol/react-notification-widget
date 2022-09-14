@@ -26,5 +26,7 @@
   "include": [
     "src"
   ],
-  "exclude": ["node_modules", "src/dev.tsx"]
+  "exclude": ["node_modules",
+    "src/development/index.tsx"
+  ]
 }
