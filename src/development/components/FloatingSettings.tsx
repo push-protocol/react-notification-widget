@@ -114,7 +114,7 @@ const FloatingSettings = (props: FloatingSettingsProps) => {
             <p>{key}</p>
             <input
               style={{ width: 300 }}
-              value={theme[key]}
+              value={theme[key] || ''}
               onChange={(e) =>
                 setTheme((oldTheme: CustomTheme) => ({ ...oldTheme, [key]: e.target.value }))
               }
