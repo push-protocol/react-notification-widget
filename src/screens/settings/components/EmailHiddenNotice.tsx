@@ -31,7 +31,7 @@ const EmailHiddenNotice = () => {
       </Flex>
       <Flex direction={'column'} width={'100%'}>
         <Text size={'sm'} color={'secondary'} opacity={0.8}>
-          {name} will not have access to your email.{' '}
+          {name} will not have access to your email address.{' '}
         </Text>
         <Link src={'putsomethinghere'}>Learn more</Link>
       </Flex>

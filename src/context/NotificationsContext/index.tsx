@@ -1,11 +1,10 @@
 import React, { createContext, ReactNode, useContext, useEffect, useState } from 'react';
 import { useAccount } from 'wagmi';
-import * as epns from '@epnsproject/sdk-restapi';
-import dayjs from 'dayjs';
 import { useEnvironment } from '../EnvironmentContext';
 import { useChannelContext } from '../ChannelContext';
-import { EpnsNotificationRawResp, NotificationsContext, Notification } from './types';
+import { NotificationsContext, Notification } from './types';
 import { useUserCommunicationChannelsLazyQuery } from './operations.generated';
+import fetchNotifications from './fetchNotifications';
 
 const NotificationsContext = createContext<NotificationsContext>({
   isLoggedIn: false,
@@ -30,24 +29,25 @@ export const NotificationsProvider = ({ children }: { children: ReactNode }) => 
   }, [userAddress]);
 
   useEffect(() => {
+    const timeout = setInterval(async () => {
+      const notifs = await fetchNotifications(`eip155:${chainId}:${userAddress}`, epnsEnv);
+      setNotifications(notifs || []);
+    }, 4000);
+
+    return () => clearInterval(timeout);
+  }, []);
+
+  useEffect(() => {
     if (!userAddress || !channelAddress) return;
 
-    setIsLoading(true);
-    epns.user
-      .getFeeds({
-        raw: true,
-        user: `eip155:${chainId}:${userAddress}`,
-        env: epnsEnv,
-        page: 1,
-        limit: 1000,
-      })
-      .then((result: EpnsNotificationRawResp[]) => {
-        console.log(result);
-        const notifs = result?.map(epnsNotifToNotif);
+    const run = async () => {
+      setIsLoading(true);
+      const notifs = await fetchNotifications(`eip155:${chainId}:${userAddress}`, epnsEnv);
+      setNotifications(notifs || []);
+      setIsLoading(false);
+    };
 
-        setNotifications(notifs || []);
-        setIsLoading(false);
-      });
+    run();
   }, [channelAddress, chainId, epnsEnv, userAddress]);
 
   return (
@@ -68,19 +68,3 @@ export const NotificationsProvider = ({ children }: { children: ReactNode }) => 
 export function useNotificationsContext() {
   return useContext(NotificationsContext);
 }
-
-const epnsNotifToNotif = ({
-  epoch,
-  sender,
-  payload: { data },
-}: EpnsNotificationRawResp): Notification => ({
-  title: data.asub,
-  message: data.amsg,
-  appName: data.app,
-  appAddress: sender,
-  senderLogo: data.icon,
-  url: data.url,
-  image: data.aimg,
-  cta: data.acta,
-  timestamp: dayjs(epoch).toDate(),
-});

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
+import styled, { useTheme } from 'styled-components';
 import { UserCommunicationChannelsDocument } from '../../context/NotificationsContext/operations.generated';
 import { CenteredContainer } from 'components/layout/CenteredContainer';
 import Button from 'components/Button';
@@ -8,7 +8,6 @@ import { Bell } from 'components/icons';
 import Flex from 'components/layout/Flex';
 import EnterVerificationCode from 'screens/verifyEmail/components/EnterVerificationCode';
 import { Routes, useRouterContext } from 'context/RouterContext';
-import { useSaveUserEmailMutation } from 'screens/settings/operations.generated';
 import { useValidateUserEmailMutation } from 'screens/verifyEmail/operations.generated';
 import Spinner from 'components/Spinner';
 
@@ -33,6 +32,7 @@ const HeaderIcon = styled.div`
 export const VerifyEmail = () => {
   const [code, setCode] = useState('');
   const { setRoute, props } = useRouterContext();
+  const theme = useTheme();
 
   const [validateEmail, { loading }] = useValidateUserEmailMutation({
     refetchQueries: [UserCommunicationChannelsDocument],
@@ -76,7 +76,7 @@ export const VerifyEmail = () => {
       <Flex justifyContent={'center'} alignItems={'center'} direction={'column'} mb={2}>
         <HeaderIconContainer>
           <HeaderIcon>
-            <Bell />
+            <Bell color={theme.colors.text.primary} />
           </HeaderIcon>
         </HeaderIconContainer>
         <Text size={'xl'} weight={700} mb={0.5}>

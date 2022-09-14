@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
+import styled, { useTheme } from 'styled-components';
 import { CenteredContainer } from 'components/layout/CenteredContainer';
 import Button from 'components/Button';
 import Text from 'components/Text';
@@ -36,6 +36,7 @@ const HeaderIcon = styled.div`
 export const Settings = () => {
   const { setRoute, activeRoute, unsubscribe } = useRouterContext();
   const { login, isLoggedIn } = useRouterContext();
+  const theme = useTheme();
 
   const [email, setEmail] = useState('');
 
@@ -74,7 +75,7 @@ export const Settings = () => {
       <Flex justifyContent={'center'} alignItems={'center'} direction={'column'} mb={2}>
         <HeaderIconContainer>
           <HeaderIcon>
-            <Bell />
+            <Bell color={theme.colors.text.primary} />
           </HeaderIcon>
         </HeaderIconContainer>
         <Text size={'xl'} weight={700} mb={0.5}>
