@@ -1,12 +1,12 @@
 import { createRequire } from 'module';
-import { buildSync, BuildOptions } from 'esbuild';
+import { buildSync } from 'esbuild';
 
 const require = createRequire(import.meta.url);
 const { dependencies } = require('./package.json');
 
 const entryFile = 'src/index.tsx';
 
-const shared: Partial<BuildOptions> = {
+const shared = {
   bundle: true,
   entryPoints: [entryFile],
   external: Object.keys(dependencies),

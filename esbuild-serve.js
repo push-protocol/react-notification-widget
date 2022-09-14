@@ -1,7 +1,7 @@
 import esbuildServe from 'esbuild-serve';
 
 esbuildServe({
-  entryPoints: ['./src/dev.tsx'],
+  entryPoints: ['./src/development/index.tsx'],
   outfile: './public/dev/app.js',
   bundle: true,
   sourcemap: true,
