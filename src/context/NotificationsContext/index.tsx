@@ -18,6 +18,7 @@ export const NotificationsProvider = ({ children }: { children: ReactNode }) => 
   const { channelAddress } = useChannelContext();
 
   const [isLoading, setIsLoading] = useState(false);
+  const [polling, setPolling] = useState(false);
   const [notifications, setNotifications] = useState<Notification[]>([]);
 
   const [getCommsChannels, { data }] = useUserCommunicationChannelsLazyQuery();
@@ -29,13 +30,16 @@ export const NotificationsProvider = ({ children }: { children: ReactNode }) => 
   }, [userAddress]);
 
   useEffect(() => {
+    if (!userAddress || polling) return;
     const timeout = setInterval(async () => {
       const notifs = await fetchNotifications(`eip155:${chainId}:${userAddress}`, epnsEnv);
       setNotifications(notifs || []);
     }, 4000);
 
+    setPolling(true);
+
     return () => clearInterval(timeout);
-  }, []);
+  }, [userAddress]);
 
   useEffect(() => {
     if (!userAddress || !channelAddress) return;
