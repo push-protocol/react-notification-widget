@@ -42,7 +42,7 @@ export const EnvironmentProvider = ({
       value={{
         env,
         chainId: chainIdMap[env],
-        gqlEndpoint: gqlEndpointMap[process.env.NODE_ENV === 'development' ? 'dev' : env],
+        gqlEndpoint: gqlEndpointMap[env],
         epnsEnv: epnsEnvMap[env],
       }}
     >
