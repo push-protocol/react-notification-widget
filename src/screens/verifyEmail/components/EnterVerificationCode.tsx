@@ -67,13 +67,13 @@ const EnterVerificationCode = ({ onChange }: EnterVerificationCodeProps) => {
           <VerificationInput length={6} placeholder={''} onChange={onChange} />
         </InputWrapper>
       </Flex>
-      {time ? (
-        <Text size={'sm'} color={'secondary'} opacity={0.8}>
-          Sending a new code in {time}s
-        </Text>
-      ) : (
-        <Button onClick={() => resetTimer()}>Resend</Button>
-      )}
+      {/*{time ? (*/}
+      {/*  <Text size={'sm'} color={'secondary'} opacity={0.8}>*/}
+      {/*    Sending a new code in {time}s*/}
+      {/*  </Text>*/}
+      {/*) : (*/}
+      {/*  <Button onClick={() => resetTimer()}>Resend</Button>*/}
+      {/*)}*/}
     </Flex>
   );
 };

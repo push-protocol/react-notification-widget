@@ -29,7 +29,6 @@ enum Routes {
 type RouterProps = {
   [key: string]: string;
 };
-type RouteWithProps = { route: Routes; props?: RouterProps };
 
 type RouterContext = {
   activeRoute: Routes;
@@ -138,11 +137,6 @@ const RouterProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const login = async (callback?: () => void) => {
-    if (isLoggedIn || !shouldLogin()) {
-      if (callback) callback();
-      return;
-    }
-
     setIsLoading(true);
     setError(false);
     setActive(Routes.Auth);

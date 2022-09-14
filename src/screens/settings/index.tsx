@@ -47,6 +47,11 @@ export const Settings = () => {
   });
 
   const handleSave = async () => {
+    if (isLoggedIn) {
+      await saveEmail();
+      return setRoute(Routes.VerifyEmail, { email });
+    }
+
     login(async () => {
       await saveEmail();
       setRoute(Routes.VerifyEmail, { email });
