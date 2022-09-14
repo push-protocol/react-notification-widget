@@ -1,6 +1,8 @@
-import { buildSync } from 'esbuild';
+import esbuildServe from 'esbuild-serve';
 
-buildSync({
+// esbuildServe is used to build instead of regular esbuild, as regular esbuild causes an unexplainable bug in the
+// EnterVerificationCode component.
+esbuildServe({
   bundle: true,
   minify: true,
   entryPoints: ['src/development/index.tsx'],
