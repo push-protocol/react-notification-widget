@@ -57,5 +57,5 @@
       "typescript": {}
     }
   },
-  "ignorePatterns": ["README.MD", "*.svg", "*.png", "*.html", "*.graphql", "*.generated.ts*","public/*"]
+  "ignorePatterns": ["README.MD", "*.svg", "*.png", "*.html", "*.graphql", "*.generated.ts*","public/*", "demo/*"]
 }

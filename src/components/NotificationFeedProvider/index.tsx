@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, useEffect } from 'react';
+import React, { PropsWithChildren, useEffect, useMemo } from 'react';
 import { WagmiConfig, createClient } from 'wagmi';
 import { ThemeProvider } from 'styled-components';
 import WebFont from 'webfontloader';
@@ -28,10 +28,12 @@ const NotificationFeedProvider = ({
     WebFont.load({ google: { families: ['Inter', "'Noto+Serif+Georgian'"] } });
   }, []);
 
-  const wagmiClient = createClient({
-    autoConnect: true,
-    provider,
-  });
+  const wagmiClient = useMemo(() => {
+    return createClient({
+      autoConnect: true,
+      provider,
+    });
+  }, [provider]);
 
   return (
     <EnvironmentProvider env={env}>

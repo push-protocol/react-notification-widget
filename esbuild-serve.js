@@ -2,13 +2,14 @@ import esbuildServe from 'esbuild-serve';
 
 esbuildServe({
   entryPoints: ['./src/development/index.tsx'],
-  outfile: './public/dev/app.js',
+  outfile: './public/js/app.js',
   bundle: true,
-  sourcemap: true,
+  minify: true,
   loader: {
     '.js': 'jsx',
   },
   define: {
-    'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
+    'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'), // required for bundling
+    'process.env.WHEREVER_ENV': JSON.stringify('development'),
   },
 });

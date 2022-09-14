@@ -100,7 +100,7 @@ export const Settings = () => {
       <EmailHiddenContainer>
         <EmailHiddenNotice />
       </EmailHiddenContainer>
-      {process.env.NODE_ENV === 'development' && (
+      {process.env.WHEREVER_ENV === 'development' && (
         <Button variant={'outlined'} onClick={unsubscribe}>
           <Text size={'sm'}>Unsubscribe</Text>
         </Button>

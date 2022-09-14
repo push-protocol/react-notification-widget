@@ -21,5 +21,6 @@ schema.graphql
 .env.test
 
 .DS_store
+public/js
 dist
 .idea

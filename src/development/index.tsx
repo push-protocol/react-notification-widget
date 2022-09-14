@@ -1,5 +1,5 @@
 import { providers } from 'ethers';
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { createRoot } from 'react-dom/client';
 import styled from 'styled-components';
 import {
@@ -21,10 +21,12 @@ const BellContainer = styled.div`
   border-radius: 25px;
   background: black;
 `;
+const provider = providers.getDefaultProvider();
 
 const FakeApp = () => {
   const [partnerKey, setPartnerKey] = useState('4fcbfd96-9ff9-4d1b-a17c-6a68196af12e');
-  const [iframeUrl, setIframeUrl] = useState('https://cowswap.exchange/#/swap?chain=mainnet');
+  const [iframeUrl, setIframeUrl] = useState('');
+  const [env, setEnv] = useState('dev');
   const [theme, setTheme] = useState<CustomTheme>({
     primaryColor: '#d67a5a',
     bellColor: '#d67a5a',
@@ -32,6 +34,18 @@ const FakeApp = () => {
     fontFamily: '"Inter var", sans-serif',
   });
   const [coordinates, setCoordinates] = useState({ top: 14, right: 460 });
+
+  const widget = useMemo(() => {
+    return (
+      <NotificationFeedProvider provider={provider} env={env} theme={theme} partnerKey={partnerKey}>
+        <NotificationFeed>
+          <BellContainer>
+            <NotificationBell />
+          </BellContainer>
+        </NotificationFeed>
+      </NotificationFeedProvider>
+    );
+  }, [partnerKey, theme, env]);
 
   return (
     <div style={{ display: 'flex', height: '100vh', width: '100vw' }}>
@@ -50,20 +64,9 @@ const FakeApp = () => {
               zIndex: 10,
             }}
           >
-            <NotificationFeedProvider
-              provider={providers.getDefaultProvider()}
-              env={'staging'}
-              theme={theme}
-              partnerKey={partnerKey}
-            >
-              <NotificationFeed>
-                <BellContainer>
-                  <NotificationBell />
-                </BellContainer>
-              </NotificationFeed>
-            </NotificationFeedProvider>
-            {/********************************/}
+            {widget}
           </div>
+          {/********************************/}
         </div>
 
         <div
@@ -78,6 +81,8 @@ const FakeApp = () => {
         </div>
         <FloatingSettings
           {...{
+            env,
+            setEnv,
             partnerKey,
             setPartnerKey,
             iframeUrl,

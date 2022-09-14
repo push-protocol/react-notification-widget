@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { CustomTheme } from '../../theme';
 
 type FloatingSettingsProps = {
+  env: string;
+  setEnv: (env: string) => void;
   partnerKey: string;
   setPartnerKey: (key: string) => void;
   theme: CustomTheme;
@@ -22,6 +24,8 @@ const FloatingSettings = (props: FloatingSettingsProps) => {
     partnerKey,
     coordinates,
     setCoordinates,
+    env,
+    setEnv,
   } = props;
   const [showSettings, setShowSettings] = useState(false);
 
@@ -36,30 +40,37 @@ const FloatingSettings = (props: FloatingSettingsProps) => {
   ];
 
   return (
-    <button
-      onClick={() => setShowSettings(!showSettings)}
-      style={{
-        position: 'fixed',
-        bottom: 60,
-        right: 70,
-        height: 70,
-        width: 70,
-        zIndex: 100,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        background: 'black',
-        color: 'white',
-        borderRadius: '50%',
-      }}
-    >
-      Settings
+    <>
+      <div
+        style={{
+          position: 'fixed',
+          bottom: 60,
+          right: 70,
+          height: 70,
+          width: 120,
+          zIndex: 100,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          background: 'black',
+          color: 'white',
+          borderRadius: '30%',
+        }}
+      >
+        <button onClick={() => setShowSettings(!showSettings)}>Settings</button>
+        <select name="env" value={env} onChange={(e) => setEnv(e.target.value)}>
+          <option value="dev">Dev</option>
+          <option value="staging">Staging</option>
+          <option value="production">Production</option>
+        </select>
+      </div>
       <div
         onClick={(e) => e.stopPropagation()}
         style={{
           display: showSettings ? 'flex' : 'none',
-          position: 'absolute',
-          bottom: 100,
+          position: 'fixed',
+          bottom: 200,
           right: 1,
           zIndex: 100,
           background: 'white',
@@ -122,7 +133,7 @@ const FloatingSettings = (props: FloatingSettingsProps) => {
           </div>
         ))}
       </div>
-    </button>
+    </>
   );
 };
 
