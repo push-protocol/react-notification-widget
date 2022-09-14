@@ -6,6 +6,7 @@ mutation NonceGenerate($input: NonceGenerateInput!){
 
 mutation UserLogin($input: UserLoginInput!){
     userLogin(input: $input){
-        token
+        token,
+        refreshToken
     }
 }

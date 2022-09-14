@@ -77,6 +77,7 @@ export const useAuthenticate = () => {
     });
     return {
       token: response.data?.userLogin.token as string,
+      refreshToken: response.data?.userLogin.refreshToken as string,
     };
   };
 
