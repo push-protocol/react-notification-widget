@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import styled from 'styled-components';
 import VerificationInput from 'react-verification-input';
 import Flex from 'components/layout/Flex';
@@ -49,6 +49,10 @@ const RESEND_DURATION = 60;
 const EnterVerificationCode = ({ onChange }: EnterVerificationCodeProps) => {
   // const { time, resetTimer } = useCountDown({ seconds: RESEND_DURATION });
 
+  const verificationInput = useMemo(() => {
+    return <VerificationInput autoFocus length={6} placeholder={''} onChange={onChange} />;
+  }, [onChange]);
+
   return (
     <Flex
       justifyContent={'center'}
@@ -61,9 +65,7 @@ const EnterVerificationCode = ({ onChange }: EnterVerificationCodeProps) => {
       style={{ boxSizing: 'border-box' }}
     >
       <Flex mb={2} width={'100%'}>
-        <InputWrapper>
-          <VerificationInput autoFocus length={6} placeholder={''} onChange={onChange} />
-        </InputWrapper>
+        <InputWrapper>{verificationInput}</InputWrapper>
       </Flex>
       T
     </Flex>
