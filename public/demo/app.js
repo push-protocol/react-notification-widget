@@ -33569,7 +33569,7 @@
             }
             return dispatcher.useContext(Context);
           }
-          function useState16(initialState) {
+          function useState15(initialState) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useState(initialState);
           }
@@ -33581,7 +33581,7 @@
             var dispatcher = resolveDispatcher();
             return dispatcher.useRef(initialValue);
           }
-          function useEffect10(create, deps) {
+          function useEffect9(create, deps) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useEffect(create, deps);
           }
@@ -34361,7 +34361,7 @@
           exports.useContext = useContext7;
           exports.useDebugValue = useDebugValue;
           exports.useDeferredValue = useDeferredValue;
-          exports.useEffect = useEffect10;
+          exports.useEffect = useEffect9;
           exports.useId = useId;
           exports.useImperativeHandle = useImperativeHandle;
           exports.useInsertionEffect = useInsertionEffect;
@@ -34369,7 +34369,7 @@
           exports.useMemo = useMemo5;
           exports.useReducer = useReducer;
           exports.useRef = useRef4;
-          exports.useState = useState16;
+          exports.useState = useState15;
           exports.useSyncExternalStore = useSyncExternalStore2;
           exports.useTransition = useTransition;
           exports.version = ReactVersion;
@@ -56784,7 +56784,7 @@
             return x2 === y2 && (x2 !== 0 || 1 / x2 === 1 / y2) || x2 !== x2 && y2 !== y2;
           }
           var objectIs = typeof Object.is === "function" ? Object.is : is;
-          var useState16 = React17.useState, useEffect10 = React17.useEffect, useLayoutEffect2 = React17.useLayoutEffect, useDebugValue = React17.useDebugValue;
+          var useState15 = React17.useState, useEffect9 = React17.useEffect, useLayoutEffect2 = React17.useLayoutEffect, useDebugValue = React17.useDebugValue;
           var didWarnOld18Alpha = false;
           var didWarnUncachedGetSnapshot2 = false;
           function useSyncExternalStore2(subscribe, getSnapshot, getServerSnapshot) {
@@ -56806,7 +56806,7 @@
                 }
               }
             }
-            var _useState = useState16({
+            var _useState = useState15({
               inst: {
                 value,
                 getSnapshot
@@ -56821,7 +56821,7 @@
                 });
               }
             }, [subscribe, value, getSnapshot]);
-            useEffect10(function() {
+            useEffect9(function() {
               if (checkIfSnapshotChanged2(inst)) {
                 forceUpdate({
                   inst
@@ -61842,7 +61842,7 @@
           }
           var objectIs = typeof Object.is === "function" ? Object.is : is;
           var useSyncExternalStore2 = shim.useSyncExternalStore;
-          var useRef4 = React17.useRef, useEffect10 = React17.useEffect, useMemo5 = React17.useMemo, useDebugValue = React17.useDebugValue;
+          var useRef4 = React17.useRef, useEffect9 = React17.useEffect, useMemo5 = React17.useMemo, useDebugValue = React17.useDebugValue;
           function useSyncExternalStoreWithSelector(subscribe, getSnapshot, getServerSnapshot, selector, isEqual) {
             var instRef = useRef4(null);
             var inst;
@@ -61899,7 +61899,7 @@
               return [getSnapshotWithSelector, getServerSnapshotWithSelector];
             }, [getSnapshot, getServerSnapshot, selector, isEqual]), getSelection = _useMemo[0], getServerSelection = _useMemo[1];
             var value = useSyncExternalStore2(subscribe, getSelection, getServerSelection);
-            useEffect10(function() {
+            useEffect9(function() {
               inst.hasValue = true;
               inst.value = value;
             }, [value]);
@@ -79859,7 +79859,7 @@ HEXDIG         =  DIGIT / "A" / "B" / "C" / "D" / "E" / "F"
 
   // src/development/index.tsx
   var import_ethers = __toESM(require_lib31(), 1);
-  var import_react20 = __toESM(require_react(), 1);
+  var import_react19 = __toESM(require_react(), 1);
   var import_client8 = __toESM(require_client(), 1);
 
   // node_modules/styled-components/dist/styled-components.browser.esm.js
@@ -81517,7 +81517,7 @@ HEXDIG         =  DIGIT / "A" / "B" / "C" / "D" / "E" / "F"
   var NotificationBell_default = NotificationBell;
 
   // src/components/NotificationFeedProvider/index.tsx
-  var import_react16 = __toESM(require_react(), 1);
+  var import_react15 = __toESM(require_react(), 1);
   var import_wagmi6 = __toESM(require_wagmi_cjs(), 1);
   var import_webfontloader = __toESM(require_webfontloader(), 1);
 
@@ -81659,7 +81659,7 @@ table {
   var Reset = We`${resetCss}`;
 
   // src/context/RouterContext.tsx
-  var import_react14 = __toESM(require_react(), 1);
+  var import_react13 = __toESM(require_react(), 1);
   var import_wagmi5 = __toESM(require_wagmi_cjs(), 1);
   var epns2 = __toESM(require_src(), 1);
 
@@ -93157,31 +93157,10 @@ const client = new ApolloClient({
   };
 
   // src/screens/verifyEmail/index.tsx
-  var import_react12 = __toESM(require_react(), 1);
+  var import_react11 = __toESM(require_react(), 1);
 
   // src/screens/verifyEmail/components/EnterVerificationCode.tsx
   var import_react_verification_input = __toESM(require_lib33(), 1);
-
-  // src/helpers/hooks/useCountDown.ts
-  var import_react11 = __toESM(require_react(), 1);
-  var useCountDown = ({ seconds }) => {
-    const [timeLeft, setTimeLeft] = (0, import_react11.useState)(seconds);
-    (0, import_react11.useEffect)(() => {
-      if (!timeLeft)
-        return;
-      const intervalId = setInterval(() => {
-        setTimeLeft(timeLeft - 1);
-      }, 1e3);
-      return () => clearInterval(intervalId);
-    }, [timeLeft]);
-    const resetTimer = () => {
-      setTimeLeft(seconds);
-    };
-    return { time: timeLeft, resetTimer };
-  };
-  var useCountDown_default = useCountDown;
-
-  // src/screens/verifyEmail/components/EnterVerificationCode.tsx
   var import_jsx_runtime = __toESM(require_jsx_runtime(), 1);
   var ResendButton = styled_components_browser_esm_default(Button_default)`
   height: 27px;
@@ -93217,9 +93196,7 @@ const client = new ApolloClient({
     }
   }
 `;
-  var RESEND_DURATION = 60;
   var EnterVerificationCode = ({ onChange }) => {
-    const { time, resetTimer } = useCountDown_default({ seconds: RESEND_DURATION });
     return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Flex_default, {
       justifyContent: "center",
       alignItems: "center",
@@ -93234,6 +93211,7 @@ const client = new ApolloClient({
         width: "100%",
         children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(InputWrapper, {
           children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_react_verification_input.default, {
+            autoFocus: true,
             length: 6,
             placeholder: "",
             onChange
@@ -93277,7 +93255,7 @@ const client = new ApolloClient({
   background: ${({ theme }) => theme.colors.primary.main};
 `;
   var VerifyEmail = () => {
-    const [code, setCode] = (0, import_react12.useState)("");
+    const [code, setCode] = (0, import_react11.useState)("");
     const { setRoute, props } = useRouterContext();
     const theme = Ze();
     const [validateEmail, { loading }] = useValidateUserEmailMutation({
@@ -93286,7 +93264,7 @@ const client = new ApolloClient({
         setRoute("EmailVerified" /* EmailVerified */);
       }
     });
-    (0, import_react12.useEffect)(() => {
+    (0, import_react11.useEffect)(() => {
       if (code.length === 6 && (props == null ? void 0 : props.email)) {
         validateEmail({
           variables: {
@@ -93465,7 +93443,7 @@ const client = new ApolloClient({
   };
 
   // src/screens/feed/index.tsx
-  var import_react13 = __toESM(require_react(), 1);
+  var import_react12 = __toESM(require_react(), 1);
 
   // src/screens/feed/components/NotificationFeedItem.tsx
   var import_dayjs2 = __toESM(require_dayjs_min(), 1);
@@ -93755,7 +93733,7 @@ const client = new ApolloClient({
     const { notifications: allNotifications, isLoading } = useNotificationsContext();
     const { channelAddress } = useChannelContext();
     const { setRoute } = useRouterContext();
-    const [activeTab, setActiveTab] = (0, import_react13.useState)(0 /* App */);
+    const [activeTab, setActiveTab] = (0, import_react12.useState)(0 /* App */);
     const handleViewSettings = () => {
       setRoute("Settings" /* Settings */);
     };
@@ -93989,7 +93967,7 @@ const client = new ApolloClient({
 
   // src/context/RouterContext.tsx
   var import_jsx_runtime = __toESM(require_jsx_runtime(), 1);
-  var RouterContext = (0, import_react14.createContext)({
+  var RouterContext = (0, import_react13.createContext)({
     activeRoute: "Subscribe" /* Subscribe */
   });
   var isUserSubscribed = (args) => __async(void 0, null, function* () {
@@ -94007,15 +93985,15 @@ const client = new ApolloClient({
     const { isConnected, address } = (0, import_wagmi5.useAccount)();
     const { data: signer } = (0, import_wagmi5.useSigner)();
     const { login: _login } = useAuthenticate();
-    const [active, setActive] = (0, import_react14.useState)("Subscribe" /* Subscribe */);
-    const [routerProps, setRouterProps] = (0, import_react14.useState)({});
-    const [isSubscribed, setIsSubscribed] = (0, import_react14.useState)(false);
-    const [isLoggedIn, setIsLoggedIn] = (0, import_react14.useState)(false);
-    const [isLoading, setIsLoading] = (0, import_react14.useState)(false);
-    const [isFirstLogin, setIsFirstLogin] = (0, import_react14.useState)(false);
-    const [error, setError] = (0, import_react14.useState)(false);
-    const [loginCallback, setLoginCallback] = (0, import_react14.useState)();
-    (0, import_react14.useEffect)(() => {
+    const [active, setActive] = (0, import_react13.useState)("Subscribe" /* Subscribe */);
+    const [routerProps, setRouterProps] = (0, import_react13.useState)({});
+    const [isSubscribed, setIsSubscribed] = (0, import_react13.useState)(false);
+    const [isLoggedIn, setIsLoggedIn] = (0, import_react13.useState)(false);
+    const [isLoading, setIsLoading] = (0, import_react13.useState)(false);
+    const [isFirstLogin, setIsFirstLogin] = (0, import_react13.useState)(false);
+    const [error, setError] = (0, import_react13.useState)(false);
+    const [loginCallback, setLoginCallback] = (0, import_react13.useState)();
+    (0, import_react13.useEffect)(() => {
       if (!isConnected || !channelAddress) {
         return;
       }
@@ -94032,7 +94010,7 @@ const client = new ApolloClient({
         setIsLoading(false);
       }))();
     }, [channelAddress, address, isConnected]);
-    (0, import_react14.useEffect)(() => {
+    (0, import_react13.useEffect)(() => {
       if (!isConnected) {
         logout();
         setActive("WalletDisconnected" /* WalletDisconnected */);
@@ -94131,11 +94109,11 @@ const client = new ApolloClient({
     });
   };
   function useRouterContext() {
-    return (0, import_react14.useContext)(RouterContext);
+    return (0, import_react13.useContext)(RouterContext);
   }
 
   // src/components/ApolloProvider/index.tsx
-  var import_react15 = __toESM(require_react(), 1);
+  var import_react14 = __toESM(require_react(), 1);
 
   // node_modules/@apollo/client/link/context/index.js
   function setContext(setter) {
@@ -94322,7 +94300,7 @@ const client = new ApolloClient({
   var import_jsx_runtime = __toESM(require_jsx_runtime(), 1);
   var ApolloProvider2 = ({ children }) => {
     const { gqlEndpoint } = useEnvironment();
-    const apolloClient = (0, import_react15.useMemo)(() => {
+    const apolloClient = (0, import_react14.useMemo)(() => {
       return getApolloClient({ endpoint: gqlEndpoint });
     }, [gqlEndpoint]);
     return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ApolloProvider, {
@@ -94340,7 +94318,7 @@ const client = new ApolloClient({
     theme,
     children
   }) => {
-    (0, import_react16.useEffect)(() => {
+    (0, import_react15.useEffect)(() => {
       import_webfontloader.default.load({ google: { families: ["Inter", "'Noto+Serif+Georgian'"] } });
     }, []);
     const wagmiClient = (0, import_wagmi6.createClient)({
@@ -94373,17 +94351,17 @@ const client = new ApolloClient({
   var NotificationFeedProvider_default = NotificationFeedProvider;
 
   // src/components/NotificationFeed/index.tsx
-  var import_react18 = __toESM(require_react(), 1);
+  var import_react17 = __toESM(require_react(), 1);
   var import_react_tiny_popover = __toESM(require_Popover(), 1);
 
   // src/helpers/hooks/useWindowSize.tsx
-  var import_react17 = __toESM(require_react(), 1);
+  var import_react16 = __toESM(require_react(), 1);
   function useWindowSize() {
-    const [windowSize, setWindowSize] = (0, import_react17.useState)({
+    const [windowSize, setWindowSize] = (0, import_react16.useState)({
       width: void 0,
       height: void 0
     });
-    (0, import_react17.useEffect)(() => {
+    (0, import_react16.useEffect)(() => {
       function handleResize() {
         setWindowSize({
           width: window.innerWidth,
@@ -94466,7 +94444,7 @@ const client = new ApolloClient({
   var MobileContainer = styled_components_browser_esm_default.div`
   display: ${({ isOpen }) => isOpen ? "block" : "none"};
 `;
-  var BellRef = (0, import_react18.forwardRef)(({ children }, ref) => {
+  var BellRef = (0, import_react17.forwardRef)(({ children }, ref) => {
     return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
       ref,
       children
@@ -94474,10 +94452,10 @@ const client = new ApolloClient({
   });
   var NotificationFeed2 = (props) => {
     const { children, onNotificationClick } = props;
-    const [feedOpen, setFeedOpen] = (0, import_react18.useState)(false);
+    const [feedOpen, setFeedOpen] = (0, import_react17.useState)(false);
     const { Component, activeRoute } = useRouterContext();
     const size = useWindowSize_default();
-    const currentScreenComponent = (0, import_react18.useMemo)(() => {
+    const currentScreenComponent = (0, import_react17.useMemo)(() => {
       if (activeRoute === "NotificationsFeed" /* NotificationsFeed */)
         return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Component, {
           onNotificationClick
@@ -94491,7 +94469,7 @@ const client = new ApolloClient({
       return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
         children: [
           /* @__PURE__ */ (0, import_jsx_runtime.jsx)(BellRef, {
-            children: (0, import_react18.cloneElement)(children, { onClick: handleBellClick })
+            children: (0, import_react17.cloneElement)(children, { onClick: handleBellClick })
           }),
           /* @__PURE__ */ (0, import_jsx_runtime.jsx)(MobileContainer, {
             isOpen: feedOpen,
@@ -94513,7 +94491,7 @@ const client = new ApolloClient({
           children: currentScreenComponent
         }),
         children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(BellRef, {
-          children: (0, import_react18.cloneElement)(children, { onClick: handleBellClick })
+          children: (0, import_react17.cloneElement)(children, { onClick: handleBellClick })
         })
       })
     });
@@ -94521,7 +94499,7 @@ const client = new ApolloClient({
   var NotificationFeed_default = NotificationFeed2;
 
   // src/development/components/FloatingSettings.tsx
-  var import_react19 = __toESM(require_react(), 1);
+  var import_react18 = __toESM(require_react(), 1);
   var import_jsx_runtime = __toESM(require_jsx_runtime(), 1);
   var FloatingSettings = (props) => {
     const {
@@ -94534,7 +94512,7 @@ const client = new ApolloClient({
       coordinates,
       setCoordinates
     } = props;
-    const [showSettings, setShowSettings] = (0, import_react19.useState)(false);
+    const [showSettings, setShowSettings] = (0, import_react18.useState)(false);
     const themeKeys = [
       "bellColor",
       "borderRadius",
@@ -94660,15 +94638,15 @@ const client = new ApolloClient({
   background: black;
 `;
   var FakeApp = () => {
-    const [partnerKey, setPartnerKey] = (0, import_react20.useState)("4fcbfd96-9ff9-4d1b-a17c-6a68196af12e");
-    const [iframeUrl, setIframeUrl] = (0, import_react20.useState)("https://cowswap.exchange/#/swap?chain=mainnet");
-    const [theme, setTheme] = (0, import_react20.useState)({
+    const [partnerKey, setPartnerKey] = (0, import_react19.useState)("4fcbfd96-9ff9-4d1b-a17c-6a68196af12e");
+    const [iframeUrl, setIframeUrl] = (0, import_react19.useState)("https://cowswap.exchange/#/swap?chain=mainnet");
+    const [theme, setTheme] = (0, import_react19.useState)({
       primaryColor: "#d67a5a",
       bellColor: "#d67a5a",
       backgroundColor: "#102544",
       fontFamily: '"Inter var", sans-serif'
     });
-    const [coordinates, setCoordinates] = (0, import_react20.useState)({ top: 14, right: 460 });
+    const [coordinates, setCoordinates] = (0, import_react19.useState)({ top: 14, right: 460 });
     return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
       style: { display: "flex", height: "100vh", width: "100vw" },
       children: [
@@ -94708,13 +94686,7 @@ const client = new ApolloClient({
               ]
             }),
             /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-              style: { position: "fixed", top: 0, left: 0, height: "100vh", width: "100vw", zIndex: 2 },
-              children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("iframe", {
-                src: iframeUrl,
-                width: "100%",
-                height: "100%",
-                sandbox: "allow-scripts allow-same-origin"
-              })
+              style: { position: "fixed", top: 0, left: 0, height: "100vh", width: "100vw", zIndex: 2 }
             }),
             /* @__PURE__ */ (0, import_jsx_runtime.jsx)(FloatingSettings_default, __spreadValues({}, {
               partnerKey,
@@ -94732,7 +94704,7 @@ const client = new ApolloClient({
     });
   };
   root2.render(
-    /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_react20.default.StrictMode, {
+    /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_react19.default.StrictMode, {
       children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(FakeApp, {})
     })
   );

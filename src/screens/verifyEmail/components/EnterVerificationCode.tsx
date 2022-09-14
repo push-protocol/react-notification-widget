@@ -49,7 +49,7 @@ type EnterVerificationCodeProps = {
 const RESEND_DURATION = 60;
 
 const EnterVerificationCode = ({ onChange }: EnterVerificationCodeProps) => {
-  const { time, resetTimer } = useCountDown({ seconds: RESEND_DURATION });
+  // const { time, resetTimer } = useCountDown({ seconds: RESEND_DURATION });
 
   return (
     <Flex
@@ -64,7 +64,7 @@ const EnterVerificationCode = ({ onChange }: EnterVerificationCodeProps) => {
     >
       <Flex mb={2} width={'100%'}>
         <InputWrapper>
-          <VerificationInput length={6} placeholder={''} onChange={onChange} />
+          <VerificationInput autoFocus length={6} placeholder={''} onChange={onChange} />
         </InputWrapper>
       </Flex>
       {/*{time ? (*/}
