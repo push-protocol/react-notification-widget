@@ -80614,7 +80614,7 @@ table {
       value: {
         env,
         chainId: chainIdMap[env],
-        gqlEndpoint: gqlEndpointMap[true ? "dev" : env],
+        gqlEndpoint: gqlEndpointMap[env],
         epnsEnv: epnsEnvMap[env]
       }
     }, children);
