@@ -33,11 +33,12 @@ export const VerifyEmail = () => {
   const [code, setCode] = useState('');
   const { setRoute, props } = useRouterContext();
   const theme = useTheme();
+  console.log(props);
 
   const [validateEmail, { loading }] = useValidateUserEmailMutation({
     refetchQueries: [UserCommunicationChannelsDocument],
     onCompleted() {
-      setRoute(Routes.EmailVerified, {});
+      setRoute(Routes.EmailVerified);
     },
   });
 
