@@ -1222,7 +1222,7 @@ this in the docs: http://dev.apollodata.com/core/fragments.html#unique-names`):a
       }
     }
   }
-`;var rde=({onChange:t})=>Cm.default.createElement(ot,{justifyContent:"center",alignItems:"center",direction:"column",width:"100%",mb:1,pl:3,pr:3,style:{boxSizing:"border-box"}},Cm.default.createElement(ot,{mb:2,width:"100%"},Cm.default.createElement(tde,null,Cm.default.createElement(oU.default,{autoFocus:!0,length:6,placeholder:"",onChange:t}))),"T"),aU=rde;var nde={},ide=nn`
+`;var rde=({onChange:t})=>Cm.default.createElement(ot,{justifyContent:"center",alignItems:"center",direction:"column",width:"100%",mb:1,pl:3,pr:3,style:{boxSizing:"border-box"}},Cm.default.createElement(ot,{mb:2,width:"100%"},Cm.default.createElement(tde,null,Cm.default.createElement(oU.default,{autoFocus:!0,length:6,placeholder:"",onChange:t})))),aU=rde;var nde={},ide=nn`
     mutation ValidateUserEmail($input: UserEmailValidateInput!) {
   userEmailValidate(input: $input) {
     success

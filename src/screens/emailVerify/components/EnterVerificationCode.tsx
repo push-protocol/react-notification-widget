@@ -65,7 +65,6 @@ const EnterVerificationCode = ({ onChange }: EnterVerificationCodeProps) => {
           <VerificationInput autoFocus length={6} placeholder={''} onChange={onChange} />
         </InputWrapper>
       </Flex>
-      T
     </Flex>
   );
 };
