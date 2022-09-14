@@ -9,7 +9,7 @@ import React, {
 import { useAccount, useSigner } from 'wagmi';
 import * as epns from '@epnsproject/sdk-restapi';
 import { useEnvironment } from './EnvironmentContext';
-import { EmailVerified, Feed, Settings, Subscribe, VerifyEmail, WalletDisconnected } from 'screens';
+import { EmailVerified, Feed, Settings, Subscribe, EmailVerify, WalletDisconnected } from 'screens';
 import { useChannelContext } from 'context/ChannelContext';
 import { LOCALSTORAGE_AUTH_KEY, LOCALSTORAGE_AUTH_REFRESH_KEY } from 'global/const';
 import { useAuthenticate } from 'hooks/auth/useAuthenticate';
@@ -20,7 +20,7 @@ enum Routes {
   Settings = 'Settings',
   ConnectEmail = 'ConnectEmail',
   NotificationsFeed = 'NotificationsFeed',
-  VerifyEmail = 'VerifyEmail',
+  EmailVerify = 'EmailVerify',
   EmailVerified = 'EmailVerified',
   WalletDisconnected = 'WalletDisconnected',
   Auth = 'Auth',
@@ -192,7 +192,7 @@ const RouterProvider = ({ children }: { children: ReactNode }) => {
     [Routes.Settings]: Settings,
     [Routes.ConnectEmail]: Settings,
     [Routes.NotificationsFeed]: Feed,
-    [Routes.VerifyEmail]: VerifyEmail,
+    [Routes.EmailVerify]: EmailVerify,
     [Routes.EmailVerified]: EmailVerified,
     [Routes.WalletDisconnected]: WalletDisconnected,
     [Routes.Auth]: Auth,

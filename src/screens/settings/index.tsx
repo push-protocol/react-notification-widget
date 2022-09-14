@@ -49,12 +49,12 @@ export const Settings = () => {
   const handleSave = async () => {
     if (isLoggedIn) {
       await saveEmail();
-      return setRoute(Routes.VerifyEmail, { email });
+      return setRoute(Routes.EmailVerify, { email });
     }
 
     login(async () => {
       await saveEmail();
-      setRoute(Routes.VerifyEmail, { email });
+      setRoute(Routes.EmailVerify, { email });
     });
   };
 

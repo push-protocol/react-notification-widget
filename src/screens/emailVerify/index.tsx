@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import styled, { useTheme } from 'styled-components';
 import { UserCommunicationChannelsDocument } from '../../context/NotificationsContext/operations.generated';
+import EnterVerificationCode from './components/EnterVerificationCode';
+import { useValidateUserEmailMutation } from './operations.generated';
 import { CenteredContainer } from 'components/layout/CenteredContainer';
 import Button from 'components/Button';
 import Text from 'components/Text';
 import { Bell } from 'components/icons';
 import Flex from 'components/layout/Flex';
-import EnterVerificationCode from 'screens/verifyEmail/components/EnterVerificationCode';
 import { Routes, useRouterContext } from 'context/RouterContext';
-import { useValidateUserEmailMutation } from 'screens/verifyEmail/operations.generated';
 import Spinner from 'components/Spinner';
 
 const HeaderIconContainer = styled.div`
@@ -29,7 +29,7 @@ const HeaderIcon = styled.div`
   background: ${({ theme }) => theme.colors.primary.main};
 `;
 
-export const VerifyEmail = () => {
+export const EmailVerify = () => {
   const [code, setCode] = useState('');
   const { setRoute, props } = useRouterContext();
   const theme = useTheme();

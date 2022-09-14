@@ -1,10 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import VerificationInput from 'react-verification-input';
 import Flex from 'components/layout/Flex';
-import Text from 'components/Text';
 import Button from 'components/Button';
-import useCountDown from 'helpers/hooks/useCountDown';
 
 const ResendButton = styled(Button)`
   height: 27px;
@@ -67,13 +65,7 @@ const EnterVerificationCode = ({ onChange }: EnterVerificationCodeProps) => {
           <VerificationInput autoFocus length={6} placeholder={''} onChange={onChange} />
         </InputWrapper>
       </Flex>
-      {/*{time ? (*/}
-      {/*  <Text size={'sm'} color={'secondary'} opacity={0.8}>*/}
-      {/*    Sending a new code in {time}s*/}
-      {/*  </Text>*/}
-      {/*) : (*/}
-      {/*  <Button onClick={() => resetTimer()}>Resend</Button>*/}
-      {/*)}*/}
+      T
     </Flex>
   );
 };
