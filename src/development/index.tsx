@@ -69,12 +69,12 @@ const FakeApp = () => {
         <div
           style={{ position: 'fixed', top: 0, left: 0, height: '100vh', width: '100vw', zIndex: 2 }}
         >
-          {/*<iframe*/}
-          {/*  src={iframeUrl}*/}
-          {/*  width={'100%'}*/}
-          {/*  height={'100%'}*/}
-          {/*  sandbox={'allow-scripts allow-same-origin'}*/}
-          {/*/>*/}
+          <iframe
+            src={iframeUrl}
+            width={'100%'}
+            height={'100%'}
+            sandbox={'allow-scripts allow-same-origin'}
+          />
         </div>
         <FloatingSettings
           {...{
