@@ -1,7 +1,4 @@
-import { createRequire } from 'module';
-import { buildSync } from 'esbuild';
-
-const require = createRequire(import.meta.url);
+const { buildSync } = require('esbuild');
 const { dependencies } = require('./package.json');
 
 const entryFile = 'src/index.tsx';

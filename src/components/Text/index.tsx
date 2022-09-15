@@ -31,7 +31,7 @@ const Text = styled.p<TextProps>`
       renderStringNumValue(size ? textSizes[size] : textSizes.md)
     )};
     ${conditionalRenderProp('font-weight', weight)};
-    ${conditionalRenderProp('font-family', fontFamily || theme.fontFamily)};
+    ${conditionalRenderProp('font-family', fontFamily || theme.fontFamily || 'inherit')};
     ${conditionalRenderProp('text-align', align)};
     ${conditionalRenderProp('opacity', opacity)};
     ${conditionalRenderProp('flex-basis', flexBasis)};

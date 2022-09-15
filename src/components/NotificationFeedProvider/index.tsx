@@ -1,7 +1,6 @@
-import React, { PropsWithChildren, useEffect, useMemo } from 'react';
+import React, { PropsWithChildren, useMemo } from 'react';
 import { WagmiConfig, createClient } from 'wagmi';
 import { ThemeProvider } from 'styled-components';
-import WebFont from 'webfontloader';
 import { ethers, providers } from 'ethers';
 import { CustomTheme, makeTheme } from '../../theme';
 import { Reset } from '../../theme/ResetCss';
@@ -25,10 +24,6 @@ const NotificationFeedProvider = ({
   theme,
   children,
 }: NotificationFeedProviderProps) => {
-  useEffect(() => {
-    WebFont.load({ google: { families: ['Inter', "'Noto+Serif+Georgian'"] } });
-  }, []);
-
   const wagmiClient = useMemo(() => {
     let wagmiProvider = ethers.getDefaultProvider();
 

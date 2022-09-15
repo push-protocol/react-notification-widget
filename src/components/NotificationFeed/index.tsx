@@ -21,7 +21,7 @@ type NotificationFeedProps = NotificationClickProp & {
   children: ReactElement;
 };
 
-const NotificationFeed = (props: NotificationFeedProps) => {
+const NotificationFeed = (props: NotificationFeedProps): JSX.Element => {
   const { children, onNotificationClick } = props;
 
   const [feedOpen, setFeedOpen] = useState(false);

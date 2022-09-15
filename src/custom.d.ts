@@ -5,9 +5,3 @@ declare module '*.svg' {
   const content: any;
   export default content;
 }
-
-declare module '@epnsproject/frontend-sdk-staging' {
-  const api: any;
-  const channels: any;
-  const utils: any;
-}

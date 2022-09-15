@@ -8,10 +8,10 @@ import { Notification } from './context/NotificationsContext/types';
 import NotificationFeed from 'components/NotificationFeed';
 
 export {
-  CustomTheme,
-  Notification,
   NotificationFeed,
   NotificationFeedProvider,
-  NotificationFeedProviderProps,
   NotificationBell,
+  CustomTheme,
+  NotificationFeedProviderProps,
+  Notification,
 };

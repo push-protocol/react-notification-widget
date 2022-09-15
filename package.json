@@ -1,6 +1,6 @@
 {
   "name": "notification-widget",
-  "version": "0.1.0",
+  "version": "0.1.15",
   "description": "",
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
@@ -10,20 +10,18 @@
   },
   "scripts": {
     "prepare": "husky install",
-    "build": "npm run clean-dist && node esbuild.config.js && tsc --emitDeclarationOnly --outFile dist/index.js",
+    "build": "npm run clean-dist && node esbuild.config.js && tsc --emitDeclarationOnly --outDir dist",
     "build:noEmit": "yarn tsc --noEmit",
-    "build:demo": "node esbuild.config.demo.js",
+    "build:demo": "node esbuild.config.demo.mjs",
     "clean-dist": "rimraf dist",
-    "start": "node esbuild-serve.js -w",
-    "codegen": "graphql-codegen --config codegen.yml"
+    "start": "node esbuild-serve.mjs -w",
+    "codegen": "graphql-codegen --config codegen.yml",
+    "prepublishOnly": " yarn build:noEmit && yarn build",
+    "publish:local": "YARN_VERSION_GIT_TAG='' yarn publish --registry=\"http://localhost:4873\""
   },
-  "exports": {
-    ".": {
-      "import": "./dist/index.esm.js",
-      "require": "./dist/index.cjs.js"
-    }
-  },
-  "type": "module",
+  "files": [
+    "dist"
+  ],
   "author": "",
   "license": "ISC",
   "dependencies": {
@@ -40,8 +38,7 @@
     "react-verification-input": "^3.1.1",
     "siwe": "^1.1.6",
     "styled-components": "^5.3.5",
-    "wagmi": "^0.6.3",
-    "webfontloader": "^1.6.28"
+    "wagmi": "^0.6.3"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "2.12.0",
@@ -54,7 +51,6 @@
     "@types/react": "^18.0.17",
     "@types/react-dom": "^18.0.6",
     "@types/styled-components": "^5.1.26",
-    "@types/webfontloader": "^1.6.34",
     "@typescript-eslint/eslint-plugin": "5.30.5",
     "@typescript-eslint/parser": "5.30.5",
     "esbuild": "^0.15.5",
@@ -74,8 +70,5 @@
     "process": "^0.11.10",
     "rimraf": "^3.0.2",
     "typescript": "^4.7.4"
-  },
-  "files": [
-    "dist"
-  ]
+  }
 }
