@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { FAQ_URL } from '../../../global/const';
 import Text from 'components/Text';
 import Link from 'components/Link';
 import { useChannelContext } from 'context/ChannelContext';
@@ -16,7 +17,7 @@ const SubscribeDescription = () => {
     <Container>
       <Text size={'md'}>
         {name} is using the Ethereum Push Notifications protocol to securely message its users. No
-        spam, opt-out at any time. <Link src={'externalurl.com'}>Learn more.</Link>
+        spam, opt-out at any time. <Link src={FAQ_URL}>Learn more.</Link>
       </Text>
     </Container>
   );

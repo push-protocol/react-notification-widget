@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { FAQ_URL } from '../../../global/const';
 import Flex from 'components/layout/Flex';
 import { Lock } from 'components/icons';
 import Text from 'components/Text';
@@ -33,7 +34,7 @@ const EmailHiddenNotice = () => {
         <Text size={'sm'} color={'secondary'} opacity={0.8}>
           {name} will not have access to your email address.{' '}
         </Text>
-        <Link src={'putsomethinghere'}>Learn more</Link>
+        <Link src={FAQ_URL}>Learn more</Link>
       </Flex>
     </Flex>
   );
