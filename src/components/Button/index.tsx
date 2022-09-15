@@ -57,6 +57,10 @@ const Button = styled.button<ButtonProps>`
     cursor: pointer;
     border: none;
     font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    justify-content: center;
     font-size: ${fontSizes[fontSize]};
     padding: ${theme.spacing(1)}px ${theme.spacing(3)}px;
     color: ${theme.colors.text.primary};

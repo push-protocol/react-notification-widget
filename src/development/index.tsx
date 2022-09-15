@@ -1,4 +1,3 @@
-import { providers } from 'ethers';
 import React, { useState, useMemo } from 'react';
 import { createRoot } from 'react-dom/client';
 import styled from 'styled-components';
@@ -21,12 +20,11 @@ const BellContainer = styled.div`
   border-radius: 25px;
   background: black;
 `;
-const provider = providers.getDefaultProvider();
 
 const FakeApp = () => {
   const [partnerKey, setPartnerKey] = useState('4fcbfd96-9ff9-4d1b-a17c-6a68196af12e');
   const [iframeUrl, setIframeUrl] = useState('');
-  const [env, setEnv] = useState('development');
+  const [env, setEnv] = useState(process.env.WHEREVER_ENV as string);
   const [theme, setTheme] = useState<CustomTheme>({
     primaryColor: '#d67a5a',
     bellColor: '#d67a5a',
@@ -37,7 +35,7 @@ const FakeApp = () => {
 
   const widget = useMemo(() => {
     return (
-      <NotificationFeedProvider provider={provider} env={env} theme={theme} partnerKey={partnerKey}>
+      <NotificationFeedProvider env={env} theme={theme} partnerKey={partnerKey}>
         <NotificationFeed>
           <BellContainer>
             <NotificationBell />
