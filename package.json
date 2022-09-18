@@ -1,16 +1,16 @@
 {
   "name": "@wherever/react-notification-feed",
-  "version": "0.1.11",
+  "version": "0.1.12",
   "description": "",
-  "main": "dist/index.cjs.js",
-  "module": "dist/index.esm.js",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
   "types": "dist/index.d.ts",
   "lint-staged": {
     "*.{ts,js,tsx,jsx}": "eslint --fix --quiet"
   },
   "scripts": {
     "prepare": "husky install",
-    "build": "npm run clean-dist && node esbuild.config.js && tsc --emitDeclarationOnly --outDir dist",
+    "build": "npm run clean-dist && node esbuild.config.mjs && tsc --emitDeclarationOnly --outDir dist",
     "build:noEmit": "yarn tsc --noEmit",
     "build:demo": "node esbuild.config.demo.mjs",
     "clean-dist": "rimraf dist",
@@ -55,6 +55,7 @@
     "@typescript-eslint/eslint-plugin": "5.30.5",
     "@typescript-eslint/parser": "5.30.5",
     "esbuild": "^0.15.5",
+    "esbuild-node-externals": "^1.5.0",
     "esbuild-register": "^3.3.3",
     "esbuild-serve": "^1.0.1",
     "eslint": "8.19.0",

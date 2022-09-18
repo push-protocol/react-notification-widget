@@ -1,3 +1,5 @@
+import { nodeExternalsPlugin } from 'esbuild-node-externals';
+
 const { buildSync } = require('esbuild');
 const { dependencies } = require('./package.json');
 
@@ -9,7 +11,9 @@ const shared = {
   external: Object.keys(dependencies),
   logLevel: 'info',
   minify: true,
+  splitting: true,
   sourcemap: true,
+  plugins: [nodeExternalsPlugin()],
   define: {
     global: 'window',
   },
