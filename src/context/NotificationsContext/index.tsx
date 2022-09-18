@@ -6,17 +6,14 @@ import { NotificationsContext, Notification } from './types';
 import { useUserCommunicationChannelsLazyQuery } from './operations.generated';
 import fetchNotifications from './fetchNotifications';
 
-const NotificationsContext = createContext<NotificationsContext>({
-  isLoggedIn: false,
-  isLoading: false,
-  notifications: [],
-} as NotificationsContext);
+const NotificationsContext = createContext<NotificationsContext>({} as any);
 
 export const NotificationsProvider = ({ children }: { children: ReactNode }) => {
   const { isConnected: isLoggedIn, address: userAddress } = useAccount();
   const { chainId, epnsEnv } = useEnvironment();
   const { channelAddress } = useChannelContext();
 
+  const [feedOpen, setFeedOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [polling, setPolling] = useState(false);
   const [notifications, setNotifications] = useState<Notification[]>([]);
@@ -59,6 +56,8 @@ export const NotificationsProvider = ({ children }: { children: ReactNode }) => 
       value={{
         isLoggedIn,
         isLoading,
+        feedOpen,
+        setFeedOpen,
         userCommsChannels: data?.userCommunicationChannels,
         notifications,
         userAddress,

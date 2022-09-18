@@ -6,14 +6,16 @@ import Spinner from '../../components/Spinner';
 import { useChannelContext } from '../../context/ChannelContext';
 import NotificationFeedItem from './components/NotificationFeedItem';
 import EmptyState from './components/EmptyState';
-import { CenteredContainer } from 'components/layout/CenteredContainer';
-import Text from 'components/Text';
+import { Screen } from 'components/layout/Screen';
 import { Settings } from 'components/icons';
 import Flex from 'components/layout/Flex';
 import FeedNavigation, { NavigationTabs } from 'screens/feed/components/FeedNavigation';
 import { Routes, useRouterContext } from 'context/RouterContext';
 
 const NotificationFeed = styled(Flex)`
+  ${({ theme }) => `@media (max-width: ${theme.breakpoints.mobile}px) {
+    max-height: 100%;
+  }`}
   &:not(:last-child) {
     border-bottom: ${({ theme }) => `1px solid ${theme.colors.border.main}}`};
   }
@@ -58,15 +60,14 @@ export const Feed = ({ onNotificationClick }: NotificationClickProp) => {
       : allNotifications;
 
   return (
-    <CenteredContainer>
-      <Flex justifyContent={'space-between'} width={'100%'} mb={2}>
-        <Text size={'xl'} weight={700}>
-          Notifications
-        </Text>
+    <Screen
+      title={'Notifications'}
+      navbarActionComponent={
         <SettingsIcon onClick={handleViewSettings}>
           <Settings />
         </SettingsIcon>
-      </Flex>
+      }
+    >
       <FeedNavigation activeTab={activeTab} setActiveTab={setActiveTab} />
       <NotificationFeed width={'100%'} direction={'column'} gap={2}>
         <EmptyState show={!isLoading && !notificationsToShow?.length} />
@@ -87,6 +88,6 @@ export const Feed = ({ onNotificationClick }: NotificationClickProp) => {
           })
         )}
       </NotificationFeed>
-    </CenteredContainer>
+    </Screen>
   );
 };

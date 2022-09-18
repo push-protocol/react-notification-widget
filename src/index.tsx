@@ -1,11 +1,11 @@
 import React from 'react';
-import NotificationBell from './components/NotificationBell';
+import NotificationBell, { NotificationBellProps } from './components/NotificationBell';
 import NotificationFeedProvider, {
   NotificationFeedProviderProps,
 } from './components/NotificationFeedProvider';
 import { CustomTheme } from './theme';
 import { Notification } from './context/NotificationsContext/types';
-import NotificationFeed from 'components/NotificationFeed';
+import NotificationFeed, { NotificationFeedProps } from './components/NotificationFeed';
 
 export {
   NotificationFeed,
@@ -13,5 +13,7 @@ export {
   NotificationBell,
   CustomTheme,
   NotificationFeedProviderProps,
+  NotificationBellProps,
+  NotificationFeedProps,
   Notification,
 };

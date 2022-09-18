@@ -1,6 +1,5 @@
 import React, { useState, useMemo } from 'react';
 import { createRoot } from 'react-dom/client';
-import styled from 'styled-components';
 import {
   NotificationFeed,
   NotificationFeedProvider,
@@ -10,16 +9,6 @@ import {
 import FloatingSettings from './components/FloatingSettings';
 
 const root = createRoot(document.getElementById('root') as HTMLElement);
-
-const BellContainer = styled.div`
-  height: 50px;
-  width: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 25px;
-  background: black;
-`;
 
 const FakeApp = () => {
   const [partnerKey, setPartnerKey] = useState('4fcbfd96-9ff9-4d1b-a17c-6a68196af12e');
@@ -31,22 +20,20 @@ const FakeApp = () => {
     backgroundColor: '#102544',
     fontFamily: '"Inter var", sans-serif',
   });
-  const [coordinates, setCoordinates] = useState({ top: 14, right: 460 });
+  const [coordinates, setCoordinates] = useState({ top: 14, left: 250 });
 
   const widget = useMemo(() => {
     return (
-      <NotificationFeedProvider env={env} theme={theme} partnerKey={partnerKey}>
+      <NotificationFeedProvider theme={theme} env={env} partnerKey={partnerKey}>
         <NotificationFeed>
-          <BellContainer>
-            <NotificationBell />
-          </BellContainer>
+          <NotificationBell />
         </NotificationFeed>
       </NotificationFeedProvider>
     );
   }, [partnerKey, theme, env]);
 
   return (
-    <div style={{ display: 'flex', height: '100vh', width: '100vw' }}>
+    <div style={{ display: 'flex', height: '80vh', width: '95vw' }}>
       <div style={{ height: '100vh', width: 120, border: '1px solid black', background: 'yellow' }}>
         NAV BAR
       </div>
@@ -58,7 +45,7 @@ const FakeApp = () => {
             style={{
               position: 'absolute',
               top: coordinates.top,
-              right: coordinates.right,
+              left: coordinates.left,
               zIndex: 10,
             }}
           >

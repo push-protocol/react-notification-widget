@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { CenteredContainer } from 'components/layout/CenteredContainer';
+import { Screen } from 'components/layout/Screen';
 import Flex from 'components/layout/Flex';
 import { useRouterContext } from 'context/RouterContext';
 import Spinner from 'components/Spinner';
@@ -33,10 +33,10 @@ export const Auth = () => {
   };
 
   return (
-    <CenteredContainer>
+    <Screen>
       {isLoading && (
         <Flex alignItems={'center'} justifyContent={'center'}>
-          <Spinner></Spinner>
+          <Spinner />
         </Flex>
       )}
       {error && (
@@ -59,6 +59,6 @@ export const Auth = () => {
           </Text>
         </Flex>
       )}
-    </CenteredContainer>
+    </Screen>
   );
 };

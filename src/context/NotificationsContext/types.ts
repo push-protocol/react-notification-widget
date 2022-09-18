@@ -18,6 +18,8 @@ export type NotificationsContext = {
   isLoggedIn: boolean;
   isLoading: boolean;
   userAddress?: string;
+  feedOpen: boolean;
+  setFeedOpen: (isOpen: boolean) => void;
 };
 
 export type EpnsNotificationRawResp = {

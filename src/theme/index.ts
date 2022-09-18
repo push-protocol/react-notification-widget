@@ -12,6 +12,9 @@ declare module 'styled-components' {
     mode: 'dark' | 'light';
     spacing: (units: number) => number;
     fontFamily?: string;
+    breakpoints: {
+      mobile: number;
+    };
     borderRadius: {
       xs: string;
       sm: string;
@@ -60,6 +63,7 @@ export type CustomTheme = {
   fontFamily?: string;
   bellColor?: string;
   textColor?: string;
+  mobileBreakpoint?: number;
 };
 
 const br = (xs: string, sm: string, md: string, lg: string) => ({ xs, sm, md, lg });
@@ -69,6 +73,10 @@ const defaultTheme: DefaultTheme = {
   spacing: (units) => units * 8,
   borderRadius: br('4px', '6px', '8px', '12px'),
   fontSize: { sm: '12px', md: '14px', lg: '16px', xl: '18px' },
+  fontFamily: 'inherit',
+  breakpoints: {
+    mobile: 600,
+  },
   colors: {
     text: {
       primary: '#fff',
@@ -109,7 +117,10 @@ export const makeTheme = (customTheme?: CustomTheme): DefaultTheme => {
 
   return {
     ...defaultTheme,
-    fontFamily: customTheme.fontFamily || 'inherit',
+    fontFamily: customTheme.fontFamily || defaultTheme.fontFamily,
+    breakpoints: {
+      mobile: customTheme.mobileBreakpoint || defaultTheme.breakpoints.mobile,
+    },
     borderRadius: {
       ...getBorderRadius(customTheme.borderRadius),
     },

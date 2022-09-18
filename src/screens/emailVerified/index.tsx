@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Routes, useRouterContext } from '../../context/RouterContext';
-import { CenteredContainer } from 'components/layout/CenteredContainer';
+import { Screen } from 'components/layout/Screen';
 import Button from 'components/Button';
 import Text from 'components/Text';
 import { Check } from 'components/icons';
@@ -32,7 +32,7 @@ export const EmailVerified = () => {
   };
 
   return (
-    <CenteredContainer>
+    <Screen>
       <Flex justifyContent={'center'} alignItems={'center'} direction={'column'} mb={8} mt={3}>
         <HeaderIconContainer>
           <HeaderIcon>
@@ -46,6 +46,6 @@ export const EmailVerified = () => {
       <Flex width={'100%'} mb={3}>
         <Button onClick={handleContinue}>Continue</Button>
       </Flex>
-    </CenteredContainer>
+    </Screen>
   );
 };

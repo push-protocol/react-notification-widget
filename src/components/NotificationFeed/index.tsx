@@ -1,9 +1,9 @@
 import React, { cloneElement, forwardRef, ReactElement, useState, useMemo } from 'react';
 import { Popover } from 'react-tiny-popover';
-import styled from 'styled-components';
+import styled, { useTheme } from 'styled-components';
 import useWindowSize from '../../helpers/hooks/useWindowSize';
-import { SCREEN_SIZES } from '../../global/const';
 import { NotificationClickProp } from '../types';
+import { useNotificationsContext } from '../../context/NotificationsContext';
 import { WidgetContainer } from 'components/layout/WidgetContainer';
 import { useRouterContext, Routes } from 'context/RouterContext';
 
@@ -16,16 +16,17 @@ const BellRef = forwardRef<HTMLDivElement, { children: ReactElement }>(({ childr
   return <div ref={ref}>{children}</div>;
 });
 
-type NotificationFeedProps = NotificationClickProp & {
+export type NotificationFeedProps = NotificationClickProp & {
   gapFromBell?: number;
   children: ReactElement;
 };
 
 const NotificationFeed = (props: NotificationFeedProps): JSX.Element => {
   const { children, onNotificationClick } = props;
+  const { feedOpen, setFeedOpen } = useNotificationsContext();
 
-  const [feedOpen, setFeedOpen] = useState(false);
   const { Component, activeRoute } = useRouterContext();
+  const theme = useTheme();
   const size = useWindowSize();
 
   const currentScreenComponent = useMemo(() => {
@@ -36,10 +37,10 @@ const NotificationFeed = (props: NotificationFeedProps): JSX.Element => {
   }, [activeRoute]);
 
   const handleBellClick = () => {
-    setFeedOpen((prevOpen) => !prevOpen);
+    setFeedOpen(!feedOpen);
   };
 
-  if (size.width && size.width <= SCREEN_SIZES.mobile) {
+  if (size.width && size.width <= theme.breakpoints.mobile) {
     return (
       <div>
         <BellRef>{cloneElement(children, { onClick: handleBellClick })}</BellRef>

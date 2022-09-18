@@ -3,7 +3,7 @@ import styled, { useTheme } from 'styled-components';
 import { UserCommunicationChannelsDocument } from '../../context/NotificationsContext/operations.generated';
 import EnterVerificationCode from './components/EnterVerificationCode';
 import { useValidateUserEmailMutation } from './operations.generated';
-import { CenteredContainer } from 'components/layout/CenteredContainer';
+import { Screen } from 'components/layout/Screen';
 import Button from 'components/Button';
 import Text from 'components/Text';
 import { Bell } from 'components/icons';
@@ -59,8 +59,8 @@ export const EmailVerify = () => {
   };
 
   return (
-    <CenteredContainer>
-      <Flex justifyContent={'end'} width={'100%'}>
+    <Screen
+      navbarActionComponent={
         <Button
           variant={'gray'}
           width={'44px'}
@@ -72,7 +72,8 @@ export const EmailVerify = () => {
         >
           Skip
         </Button>
-      </Flex>
+      }
+    >
       <Flex justifyContent={'center'} alignItems={'center'} direction={'column'} mb={2}>
         <HeaderIconContainer>
           <HeaderIcon>
@@ -87,6 +88,6 @@ export const EmailVerify = () => {
         </Text>
       </Flex>
       {loading ? <Spinner /> : <EnterVerificationCode onChange={setCode} />}
-    </CenteredContainer>
+    </Screen>
   );
 };

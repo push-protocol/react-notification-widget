@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { useConnect } from 'wagmi';
 import { WalletConnectConnector } from 'wagmi/connectors/walletConnect';
 import Spinner from '../../components/Spinner';
-import { CenteredContainer } from 'components/layout/CenteredContainer';
+import { Screen } from 'components/layout/Screen';
 import Button from 'components/Button';
 import Text from 'components/Text';
 import { Wallet } from 'components/icons';
@@ -28,7 +28,7 @@ export const WalletDisconnected = () => {
   const { connect, connectors, isLoading } = useConnect();
 
   return (
-    <CenteredContainer>
+    <Screen>
       <Flex justifyContent={'center'} alignItems={'center'} direction={'column'} mb={16} mt={8}>
         <HeaderIconContainer>
           <Wallet />
@@ -50,6 +50,6 @@ export const WalletDisconnected = () => {
           </Button>
         ))}
       </Flex>
-    </CenteredContainer>
+    </Screen>
   );
 };

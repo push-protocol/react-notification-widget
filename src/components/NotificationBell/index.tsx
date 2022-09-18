@@ -21,25 +21,27 @@ const Container = styled.div`
   align-items: center;
 `;
 
-const BellContainer = styled.div`
-  width: 20px;
-  height: 24px;
+const BellContainer = styled.div<{ size?: number }>`
+  width: ${({ size }) => `${size || '24'}px`};
+  height: ${({ size }) => `${size || '24'}px`};
   display: flex;
 `;
 
-type NotificationBellProps = {
-  onClick?: () => void;
+export type NotificationBellProps = {
+  size?: number;
 };
 
-// eslint-disable-next-line react/display-name
-const NotificationBell = (props: NotificationBellProps) => {
+// any to avoid exposing props to consumers of the component (parent injects onClick)
+const NotificationBell = (props: NotificationBellProps & any) => {
   const isNew = false;
   const hasNotifications = false;
 
   return (
     <Container onClick={props.onClick}>
       {isNew && <NewTagBadge />}
-      <BellContainer>{hasNotifications && !isNew ? <BellBadge /> : <Bell />}</BellContainer>
+      <BellContainer size={props.size}>
+        {hasNotifications && !isNew ? <BellBadge /> : <Bell />}
+      </BellContainer>
     </Container>
   );
 };

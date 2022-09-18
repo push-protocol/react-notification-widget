@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import { CenteredContainer } from 'components/layout/CenteredContainer';
+import { useChannelContext } from '../../context/ChannelContext';
+import Spinner from '../../components/Spinner';
+import { Screen } from 'components/layout/Screen';
 import Flex from 'components/layout/Flex';
 import Button from 'components/Button';
 import Text from 'components/Text';
@@ -15,13 +17,24 @@ const StyledNewTag = styled(NewTag)`
 
 export const Subscribe = () => {
   const { isLoading, subscribe } = useRouterContext();
+  const { loading } = useChannelContext();
 
   const handleSubscribe = async () => {
     subscribe();
   };
 
+  if (loading) {
+    return (
+      <Screen>
+        <Flex alignItems={'center'} height={200}>
+          <Spinner size={25} />
+        </Flex>
+      </Screen>
+    );
+  }
+
   return (
-    <CenteredContainer>
+    <Screen>
       <Flex alignItems={'center'} direction={'column'} mb={4}>
         <StyledNewTag />
         <Text size={'xl'} weight={700}>
@@ -44,6 +57,6 @@ export const Subscribe = () => {
           You will need to sign a message to prove ownership of your wallet.
         </Text>
       </Flex>
-    </CenteredContainer>
+    </Screen>
   );
 };

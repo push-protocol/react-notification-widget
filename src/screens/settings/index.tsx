@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled, { useTheme } from 'styled-components';
-import { CenteredContainer } from 'components/layout/CenteredContainer';
+import { Screen } from 'components/layout/Screen';
 import Button from 'components/Button';
 import Text from 'components/Text';
 import { Bell } from 'components/icons';
@@ -63,8 +63,8 @@ export const Settings = () => {
   };
 
   return (
-    <CenteredContainer>
-      <Flex justifyContent={'end'} width={'100%'}>
+    <Screen
+      navbarActionComponent={
         <Button
           variant={'gray'}
           width={'44px'}
@@ -76,7 +76,8 @@ export const Settings = () => {
         >
           {activeRoute === Routes.Settings ? 'Back' : 'Skip'}
         </Button>
-      </Flex>
+      }
+    >
       <Flex justifyContent={'center'} alignItems={'center'} direction={'column'} mb={2}>
         <HeaderIconContainer>
           <HeaderIcon>
@@ -105,6 +106,6 @@ export const Settings = () => {
           <Text size={'sm'}>Unsubscribe</Text>
         </Button>
       )}
-    </CenteredContainer>
+    </Screen>
   );
 };

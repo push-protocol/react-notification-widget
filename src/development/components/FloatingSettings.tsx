@@ -10,8 +10,8 @@ type FloatingSettingsProps = {
   setTheme: any;
   iframeUrl: string;
   setIframeUrl: (url: string) => void;
-  coordinates: { top: number; right: number };
-  setCoordinates: (args: { top: number; right: number }) => void;
+  coordinates: { top: number; left: number };
+  setCoordinates: (args: { top: number; left: number }) => void;
 };
 
 const FloatingSettings = (props: FloatingSettingsProps) => {
@@ -96,7 +96,7 @@ const FloatingSettings = (props: FloatingSettingsProps) => {
             value={coordinates.top}
             type={'number'}
             onChange={(e) =>
-              setCoordinates({ top: Number(e.target.value), right: coordinates.right })
+              setCoordinates({ top: Number(e.target.value), left: coordinates.left })
             }
           />
         </div>
@@ -104,11 +104,9 @@ const FloatingSettings = (props: FloatingSettingsProps) => {
           <p>Widget position from right</p>
           <input
             style={{ width: 300 }}
-            value={coordinates.right}
+            value={coordinates.left}
             type={'number'}
-            onChange={(e) =>
-              setCoordinates({ top: coordinates.top, right: Number(e.target.value) })
-            }
+            onChange={(e) => setCoordinates({ top: coordinates.top, left: Number(e.target.value) })}
           />
         </div>
 

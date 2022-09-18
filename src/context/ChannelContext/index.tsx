@@ -13,11 +13,11 @@ const emptyChannel = {
   name: '',
 };
 
-const ChannelContext = createContext<ChannelInfo>({} as ChannelInfo);
+const ChannelContext = createContext<ChannelInfo & { loading?: boolean }>({} as ChannelInfo);
 
 const ChannelProvider = ({ partnerKey, children }: { partnerKey: string; children: ReactNode }) => {
   const [channel, setChannel] = useState<ChannelInfo>();
-  const { data } = usePartnerInfoQuery({
+  const { data, loading } = usePartnerInfoQuery({
     variables: {
       input: { partnerApiKey: partnerKey },
     },
@@ -33,7 +33,9 @@ const ChannelProvider = ({ partnerKey, children }: { partnerKey: string; childre
   }, [data]);
 
   return (
-    <ChannelContext.Provider value={channel || emptyChannel}>{children}</ChannelContext.Provider>
+    <ChannelContext.Provider value={{ ...(channel || emptyChannel), loading }}>
+      {children}
+    </ChannelContext.Provider>
   );
 };
 
