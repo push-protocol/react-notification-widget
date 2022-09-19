@@ -17,7 +17,7 @@ const LayoutContainer = styled.div(({ theme }) => ({
   width: '350px',
   boxSizing: 'border-box',
   minHeight: '250px',
-  overflowy: 'auto',
+  overflowY: 'auto',
   borderRadius: theme.borderRadius.md,
   boxShadow: '0 20px 36px rgba(0, 0, 0, 0.25)',
   backgroundColor: theme.colors.bg.main,

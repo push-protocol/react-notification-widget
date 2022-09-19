@@ -42,12 +42,12 @@ const NotificationFeed = (props: NotificationFeedProps): JSX.Element => {
 
   if (size.width && size.width <= theme.breakpoints.mobile) {
     return (
-      <div>
-        <BellRef>{cloneElement(children, { onClick: handleBellClick })}</BellRef>
+      <>
+        {cloneElement(children, { onClick: handleBellClick })}
         <MobileContainer isOpen={feedOpen}>
           <WidgetContainer>{currentScreenComponent}</WidgetContainer>
         </MobileContainer>
-      </div>
+      </>
     );
   }
 
