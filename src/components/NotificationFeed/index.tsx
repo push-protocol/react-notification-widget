@@ -1,9 +1,12 @@
-import React, { cloneElement, forwardRef, ReactElement, useMemo } from 'react';
+import React, { cloneElement, forwardRef, ReactElement, useMemo, useEffect } from 'react';
 import { Popover } from 'react-tiny-popover';
 import styled, { useTheme } from 'styled-components';
+import { useAccount } from 'wagmi';
 import useWindowSize from '../../helpers/hooks/useWindowSize';
 import { NotificationClickProp } from '../types';
 import { useNotificationsContext } from '../../context/NotificationsContext';
+import analytics from '../../services/analytics';
+import { useChannelContext } from '../../context/ChannelContext';
 import { WidgetContainer } from 'components/layout/WidgetContainer';
 import { useRouterContext, Routes } from 'context/RouterContext';
 
@@ -24,10 +27,17 @@ export type NotificationFeedProps = NotificationClickProp & {
 const NotificationFeed = (props: NotificationFeedProps): JSX.Element => {
   const { children, onNotificationClick } = props;
   const { feedOpen, setFeedOpen } = useNotificationsContext();
-
+  const { address } = useAccount();
+  const { channelAddress, name } = useChannelContext();
   const { Component, activeRoute } = useRouterContext();
   const theme = useTheme();
   const size = useWindowSize();
+
+  useEffect(() => {
+    if (address && channelAddress) {
+      analytics.identify(address, { channelAddress, channelName: name });
+    }
+  }, [address, channelAddress]);
 
   const currentScreenComponent = useMemo(() => {
     if (activeRoute === Routes.NotificationsFeed)
@@ -37,6 +47,7 @@ const NotificationFeed = (props: NotificationFeedProps): JSX.Element => {
   }, [activeRoute]);
 
   const handleBellClick = () => {
+    analytics.track('widget opened');
     setFeedOpen(!feedOpen);
   };
 

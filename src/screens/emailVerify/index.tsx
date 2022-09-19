@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled, { useTheme } from 'styled-components';
 import { UserCommunicationChannelsDocument } from '../../context/NotificationsContext/operations.generated';
+import analytics from '../../services/analytics';
 import EnterVerificationCode from './components/EnterVerificationCode';
 import { useValidateUserEmailMutation } from './operations.generated';
 import { Screen } from 'components/layout/Screen';
@@ -37,6 +38,7 @@ export const EmailVerify = () => {
   const [validateEmail, { loading }] = useValidateUserEmailMutation({
     refetchQueries: [UserCommunicationChannelsDocument],
     onCompleted() {
+      analytics.track('email verified');
       setRoute(Routes.EmailVerified);
     },
   });

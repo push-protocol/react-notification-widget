@@ -12,6 +12,7 @@ const shared = {
   plugins: [nodeExternalsPlugin()],
   define: {
     global: 'window',
+    'process.env.WHEREVER_ENV': JSON.stringify('production')
   },
   loader: {
     '.js': 'jsx',

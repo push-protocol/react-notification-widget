@@ -1,4 +1,6 @@
 import React, { createContext, useContext, ReactNode, useState, useEffect } from 'react';
+import { useAccount } from 'wagmi';
+import analytics from '../../services/analytics';
 import { usePartnerInfoQuery } from 'context/ChannelContext/operations.generated';
 
 export type ChannelInfo = {

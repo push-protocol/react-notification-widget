@@ -6,6 +6,7 @@ import { NotificationClickProp } from '../../../components/types';
 import trimString from '../../../helpers/functions/trimString';
 import { changeColorShade } from '../../../components/utils';
 import { Notification } from '../../../context/NotificationsContext/types';
+import analytics from '../../../services/analytics';
 import Flex from 'components/layout/Flex';
 import Text from 'components/Text';
 import Link from 'components/Link';
@@ -86,6 +87,8 @@ const NotificationFeedItem = ({
   };
 
   const handleNotificationClick = () => {
+    analytics.track('notification clicked', { notification });
+
     if (onNotificationClick) {
       onNotificationClick(notification);
     }
