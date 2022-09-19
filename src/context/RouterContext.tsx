@@ -8,6 +8,7 @@ import React, {
 } from 'react';
 import { useAccount, useSigner } from 'wagmi';
 import * as epns from '@epnsproject/sdk-restapi';
+import analytics from '../services/analytics';
 import { useEnvironment } from './EnvironmentContext';
 import { EmailVerified, Feed, Settings, Subscribe, EmailVerify, WalletDisconnected } from 'screens';
 import { useChannelContext } from 'context/ChannelContext';
@@ -78,6 +79,12 @@ const RouterProvider = ({ children }: { children: ReactNode }) => {
   const [error, setError] = useState(false);
   const [loginCallback, setLoginCallback] = useState<() => void>();
 
+  const setRouteWithParams = (route: Routes, props?: RouterProps) => {
+    analytics.page(route);
+    setActive(route);
+    if (props) setRouterProps(props);
+  };
+
   useEffect(() => {
     if (!isConnected || !channelAddress) {
       return;
@@ -100,12 +107,12 @@ const RouterProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     if (!isConnected) {
       logout();
-      setActive(Routes.WalletDisconnected);
+      setRouteWithParams(Routes.WalletDisconnected);
       return;
     }
 
     if (!isSubscribed) {
-      setActive(Routes.Subscribe);
+      setRouteWithParams(Routes.Subscribe);
       return;
     }
 
@@ -114,7 +121,7 @@ const RouterProvider = ({ children }: { children: ReactNode }) => {
     }
 
     if (isFirstLogin) {
-      setActive(Routes.ConnectEmail);
+      setRouteWithParams(Routes.ConnectEmail);
       return;
     }
 
@@ -124,15 +131,11 @@ const RouterProvider = ({ children }: { children: ReactNode }) => {
       return;
     }
 
-    setActive(Routes.NotificationsFeed);
+    setRouteWithParams(Routes.NotificationsFeed);
   }, [isConnected, isSubscribed, isFirstLogin, isLoggedIn]);
 
-  const setRouteWithParams = (route: Routes, props?: RouterProps) => {
-    setActive(route);
-    if (props) setRouterProps(props);
-  };
-
   const login = async (callback?: () => void) => {
+    analytics.track('login');
     setIsLoading(true);
     setError(false);
     setActive(Routes.Auth);

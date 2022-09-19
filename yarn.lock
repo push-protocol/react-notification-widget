@@ -6038,6 +6038,11 @@ rpc-websockets@^7.5.0:
     bufferutil "^4.0.1"
     utf-8-validate "^5.0.2"
 
+rudder-js@^1.0.13:
+  version "1.0.13"
+  resolved "https://registry.yarnpkg.com/rudder-js/-/rudder-js-1.0.13.tgz#a481fbaefe57045728e36a80d58c322221e8262a"
+  integrity sha512-uQlviv/jsSweF5TzC1geNmCliWlj26+2Yh+AlqIDJjuWmp5kqxA3v40nTiH1UdsQ5+abbQ+HJvXdiP+I5fRlzg==
+
 run-async@^2.4.0:
   version "2.4.1"
   resolved "https://registry.yarnpkg.com/run-async/-/run-async-2.4.1.tgz#8440eccf99ea3e70bd409d49aab88e10c189a455"
