@@ -20,6 +20,7 @@
     "jsx": "react-jsx",
     "baseUrl": "src",
     "outDir": "./dist",
+    "declarationDir": "./dist",
     "declaration": true,
     "sourceMap": true
   },

@@ -1,4 +1,4 @@
-import React, { cloneElement, forwardRef, ReactElement, useState, useMemo } from 'react';
+import React, { cloneElement, forwardRef, ReactElement, useMemo } from 'react';
 import { Popover } from 'react-tiny-popover';
 import styled, { useTheme } from 'styled-components';
 import useWindowSize from '../../helpers/hooks/useWindowSize';

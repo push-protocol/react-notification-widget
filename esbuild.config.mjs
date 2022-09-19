@@ -1,17 +1,13 @@
 import { nodeExternalsPlugin } from 'esbuild-node-externals';
-
-const { buildSync } = require('esbuild');
-const { dependencies } = require('./package.json');
+import { build } from 'esbuild';
 
 const entryFile = 'src/index.tsx';
 
 const shared = {
   bundle: true,
   entryPoints: [entryFile],
-  external: Object.keys(dependencies),
   logLevel: 'info',
   minify: true,
-  splitting: true,
   sourcemap: true,
   plugins: [nodeExternalsPlugin()],
   define: {
@@ -22,17 +18,18 @@ const shared = {
   },
 };
 
-buildSync({
+build({
   ...shared,
   // splitting: true,
   format: 'esm',
-  outfile: './dist/index.esm.js',
-  target: ['esnext', 'node12.22.0'],
+  splitting: true,
+  outdir: './dist/esm',
+  target: 'esnext',
 });
 
-buildSync({
+build({
   ...shared,
   format: 'cjs',
-  outfile: './dist/index.cjs.js',
-  target: ['esnext', 'node12.22.0'],
+  outdir: './dist/cjs',
+  target: 'esnext',
 });

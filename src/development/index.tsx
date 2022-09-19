@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { createRoot } from 'react-dom/client';
+import { render } from 'react-dom';
 import {
   NotificationFeed,
   NotificationFeedProvider,
@@ -7,8 +7,6 @@ import {
   CustomTheme,
 } from '../index';
 import FloatingSettings from './components/FloatingSettings';
-
-const root = createRoot(document.getElementById('root') as HTMLElement);
 
 const FakeApp = () => {
   const [partnerKey, setPartnerKey] = useState('4fcbfd96-9ff9-4d1b-a17c-6a68196af12e');
@@ -83,8 +81,4 @@ const FakeApp = () => {
   );
 };
 
-root.render(
-  <React.StrictMode>
-    <FakeApp />
-  </React.StrictMode>
-);
+render(<FakeApp />, document.getElementById('root'));
