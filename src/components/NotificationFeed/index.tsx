@@ -1,9 +1,10 @@
-import React, { cloneElement, forwardRef, ReactElement, useMemo } from 'react';
-import { Popover } from 'react-tiny-popover';
+import React, { cloneElement, forwardRef, ReactElement, useMemo, useState } from 'react';
+import { usePopper } from 'react-popper';
+import ClickAwayListener from 'react-click-away-listener';
 import styled, { useTheme } from 'styled-components';
 import useWindowSize from '../../helpers/hooks/useWindowSize';
 import { NotificationClickProp } from '../types';
-import { useNotificationsContext } from '../../context/NotificationsContext';
+import { useNotificationsContext } from 'context/NotificationsContext';
 import { WidgetContainer } from 'components/layout/WidgetContainer';
 import { useRouterContext, Routes } from 'context/RouterContext';
 
@@ -40,6 +41,22 @@ const NotificationFeed = (props: NotificationFeedProps): JSX.Element => {
     setFeedOpen(!feedOpen);
   };
 
+  const [referenceRef, setReferenceRef] = useState<HTMLDivElement | null>(null);
+  const [popperRef, setPopperRef] = useState<HTMLDivElement | null>(null);
+
+  const { styles, attributes } = usePopper(referenceRef, popperRef, {
+    placement: 'bottom',
+    modifiers: [
+      {
+        name: 'offset',
+        enabled: true,
+        options: {
+          offset: [0, props.gapFromBell],
+        },
+      },
+    ],
+  });
+
   if (size.width && size.width <= theme.breakpoints.mobile) {
     return (
       <>
@@ -52,18 +69,18 @@ const NotificationFeed = (props: NotificationFeedProps): JSX.Element => {
   }
 
   return (
-    <div>
-      <Popover
-        onClickOutside={() => setFeedOpen(false)}
-        isOpen={feedOpen}
-        containerStyle={{ zIndex: '100' }}
-        padding={props.gapFromBell}
-        positions={['bottom', 'left', 'right']}
-        content={<WidgetContainer>{currentScreenComponent}</WidgetContainer>}
-      >
-        <BellRef>{cloneElement(children, { onClick: handleBellClick })}</BellRef>
-      </Popover>
-    </div>
+    <ClickAwayListener onClickAway={() => setFeedOpen(false)}>
+      <div>
+        <BellRef ref={setReferenceRef}>
+          {cloneElement(children, { onClick: handleBellClick })}
+        </BellRef>
+        {feedOpen && (
+          <div ref={setPopperRef} style={styles.popper} {...attributes.popper}>
+            <WidgetContainer>{currentScreenComponent}</WidgetContainer>
+          </div>
+        )}
+      </div>
+    </ClickAwayListener>
   );
 };
 
