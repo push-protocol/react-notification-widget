@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { useChannelContext } from '../../context/ChannelContext';
 import Spinner from '../../components/Spinner';
+import analytics from '../../services/analytics';
 import { Screen } from 'components/layout/Screen';
 import Flex from 'components/layout/Flex';
 import Button from 'components/Button';
@@ -17,9 +18,10 @@ const StyledNewTag = styled(NewTag)`
 
 export const Subscribe = () => {
   const { isLoading, subscribe } = useRouterContext();
-  const { loading } = useChannelContext();
+  const { loading, channelAddress } = useChannelContext();
 
   const handleSubscribe = async () => {
+    analytics.track('channel subscribe', { channelAddress });
     subscribe();
   };
 

@@ -5894,11 +5894,6 @@ react-popper@^2.3.0:
     react-fast-compare "^3.0.1"
     warning "^4.0.2"
 
-react-tiny-popover@^7.1.0:
-  version "7.1.0"
-  resolved "https://registry.yarnpkg.com/react-tiny-popover/-/react-tiny-popover-7.1.0.tgz#809bffefd54c7921eba96991f964953858e3388f"
-  integrity sha512-vlZFs8/uFWwLY+JwXL4Fwjvz+c5rqKUlg5b9UOgc/gJiRdp1lk+FachCdZlDIQwk8UOADMu8YxYp0VV3rXLU9g==
-
 react-verification-input@^3.1.1:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/react-verification-input/-/react-verification-input-3.1.1.tgz#018b58423b68e3ec7ef9a3c0589027b93c540163"
@@ -6060,6 +6055,11 @@ rpc-websockets@^7.5.0:
   optionalDependencies:
     bufferutil "^4.0.1"
     utf-8-validate "^5.0.2"
+
+rudder-js@^1.0.13:
+  version "1.0.13"
+  resolved "https://registry.yarnpkg.com/rudder-js/-/rudder-js-1.0.13.tgz#a481fbaefe57045728e36a80d58c322221e8262a"
+  integrity sha512-uQlviv/jsSweF5TzC1geNmCliWlj26+2Yh+AlqIDJjuWmp5kqxA3v40nTiH1UdsQ5+abbQ+HJvXdiP+I5fRlzg==
 
 run-async@^2.4.0:
   version "2.4.1"

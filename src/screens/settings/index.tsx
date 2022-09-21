@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled, { useTheme } from 'styled-components';
+import analytics from '../../services/analytics';
 import { Screen } from 'components/layout/Screen';
 import Button from 'components/Button';
 import Text from 'components/Text';
@@ -49,6 +50,7 @@ export const Settings = () => {
   const handleSave = async () => {
     if (isLoggedIn) {
       await saveEmail();
+      analytics.track('email saved');
       return setRoute(Routes.EmailVerify, { email });
     }
 
