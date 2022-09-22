@@ -9,7 +9,7 @@ import {
 import FloatingSettings from './components/FloatingSettings';
 
 const FakeApp = () => {
-  const [partnerKey, setPartnerKey] = useState('4fcbfd96-9ff9-4d1b-a17c-6a68196af12e');
+  const [partnerKey, setPartnerKey] = useState('cefa1b69-bfb9-4e70-bebc-9ee10316f882');
   const [iframeUrl, setIframeUrl] = useState('');
   const [env, setEnv] = useState(process.env.WHEREVER_ENV as string);
   const [theme, setTheme] = useState<CustomTheme>({
