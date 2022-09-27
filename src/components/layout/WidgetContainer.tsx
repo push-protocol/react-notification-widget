@@ -47,11 +47,11 @@ export const WidgetContainer = ({ children }: LayoutProps) => {
       <ChildrenContainer>{children}</ChildrenContainer>
 
       <PoweredBy pt={1} alignItems={'center'} justifyContent={'center'}>
-        <Text size={'sm'} color={'secondary'} opacity={0.8}>
+        <Text size={'sm'} color={'secondary'} opacity={0.8} weight={500}>
           Powered by
         </Text>
-        <Text size={'sm'} fontFamily={"'Noto Serif Georgian'"} opacity={0.8} color={'secondary'}>
-          ✨ Wherever
+        <Text size={'sm'} opacity={0.8} weight={600} ml={0.4} color={'secondary'}>
+          Wherever
         </Text>
       </PoweredBy>
     </LayoutContainer>
