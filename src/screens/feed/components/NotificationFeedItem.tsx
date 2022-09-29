@@ -2,15 +2,15 @@ import React from 'react';
 import dayjs, { extend } from 'dayjs';
 import styled from 'styled-components';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import { NotificationClickProp } from '../../../components/types';
-import trimString from '../../../helpers/functions/trimString';
-import { changeColorShade } from '../../../components/utils';
-import { Notification } from '../../../context/NotificationsContext/types';
 import analytics from '../../../services/analytics';
+import { NotificationClickProp } from 'components/types';
+import { changeColorShade } from 'components/utils';
+import { Notification } from 'context/NotificationsContext/types';
 import Flex from 'components/layout/Flex';
 import Text from 'components/Text';
 import Link from 'components/Link';
 import { Globe } from 'components/icons';
+import formatDomain from 'helpers/functions/formatDomain';
 
 extend(relativeTime);
 
@@ -131,16 +131,16 @@ const NotificationFeedItem = ({
         <Text size={'sm'} color={'secondary'}>
           {dayjs(notification.timestamp).fromNow()}
         </Text>
-        {notification?.url && (
+        {notification?.cta && (
           <Flex gap={0.5} alignItems={'center'}>
-            <Link src={notification.url}>
+            <Link src={notification.cta}>
               <IconContainer>
                 <Globe />
               </IconContainer>
             </Link>
-            <Link src={notification.url}>
+            <Link src={notification.cta}>
               <Text size={'sm'} color={'secondary'}>
-                {trimString(notification.url, 50)}
+                {formatDomain(notification.cta)}
               </Text>
             </Link>
           </Flex>
