@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Screen } from 'components/layout/Screen';
 import Flex from 'components/layout/Flex';
-import { useRouterContext } from 'context/RouterContext';
+import { Routes, useRouterContext } from 'context/RouterContext';
 import Spinner from 'components/Spinner';
 import Button from 'components/Button';
 import Text from 'components/Text';
@@ -27,24 +27,37 @@ const HeaderIcon = styled.div`
 
 export const Auth = () => {
   const { isLoading, error, login, isLoggedIn } = useRouterContext();
+  const { setRoute } = useRouterContext();
 
   const handleLogin = () => {
     login();
   };
 
+  const handleCancel = () => {
+    setRoute(Routes.Settings);
+  };
+
   return (
     <Screen>
       {isLoading && (
-        <Flex alignItems={'center'} justifyContent={'center'}>
+        <Flex alignItems={'center'} justifyContent={'center'} height={200}>
           <Spinner />
         </Flex>
       )}
       {error && (
-        <Flex justifyContent="center" alignItems="center" gap={1}>
+        <Flex
+          justifyContent="center"
+          alignItems="center"
+          direction={'column'}
+          gap={1}
+          height={200}
+          width={'100%'}
+        >
           <Text>Error logging in</Text>
-          <div>
+          <Flex justifyContent="center" alignItems="center" gap={2} width={'100%'}>
             <Button onClick={handleLogin}>Try Again</Button>
-          </div>
+            <Button onClick={handleCancel}>Cancel</Button>
+          </Flex>
         </Flex>
       )}
       {isLoggedIn && (

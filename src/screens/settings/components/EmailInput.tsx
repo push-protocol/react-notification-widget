@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import Spinner from '../../../components/Spinner';
-import { useNotificationsContext } from '../../../context/NotificationsContext';
+import { useNotificationsContext } from 'context/NotificationsContext';
 import Flex from 'components/layout/Flex';
 import TextInput from 'components/TextInput';
 import Button from 'components/Button';
-import { Routes } from 'context/RouterContext';
 
 const Wrapper = styled.div`
   position: relative;
