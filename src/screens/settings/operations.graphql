@@ -3,3 +3,9 @@ mutation SaveUserEmail ($input: UserEmailUpdateInput!) {
         success
     }
 }
+
+mutation DeleteUserEmail {
+    userEmailDelete {
+        success
+    }
+}

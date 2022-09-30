@@ -10,7 +10,10 @@ import EmailHiddenNotice from 'screens/settings/components/EmailHiddenNotice';
 import EmailInput from 'screens/settings/components/EmailInput';
 import isEmailValid from 'helpers/functions/isEmailValid';
 import { Routes, useRouterContext } from 'context/RouterContext';
-import { useSaveUserEmailMutation } from 'screens/settings/operations.generated';
+import {
+  useDeleteUserEmailMutation,
+  useSaveUserEmailMutation,
+} from 'screens/settings/operations.generated';
 
 const EmailHiddenContainer = styled(Flex)`
   align-self: start;
@@ -47,6 +50,8 @@ export const Settings = () => {
     },
   });
 
+  const [deleteEmail, { loading: deleteLoading }] = useDeleteUserEmailMutation();
+
   const handleSave = async () => {
     if (isLoggedIn) {
       await saveEmail();
@@ -58,6 +63,14 @@ export const Settings = () => {
       await saveEmail();
       setRoute(Routes.EmailVerify, { email });
     });
+  };
+
+  const handleRemove = async () => {
+    if (isLoggedIn) {
+      await deleteEmail();
+      analytics.track('email deleted');
+      setRoute(Routes.Settings);
+    }
   };
 
   const handleSkip = () => {
@@ -97,8 +110,9 @@ export const Settings = () => {
         onChange={setEmail}
         value={email}
         isValid={isEmailValid(email)}
-        isLoading={loading}
+        isLoading={loading || deleteLoading}
         handleSave={handleSave}
+        handleRemove={handleRemove}
       />
       <EmailHiddenContainer>
         <EmailHiddenNotice />

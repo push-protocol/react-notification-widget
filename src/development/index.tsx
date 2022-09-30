@@ -13,7 +13,6 @@ const FakeApp = () => {
   const [iframeUrl, setIframeUrl] = useState('');
   const [env, setEnv] = useState(process.env.WHEREVER_ENV as string);
   const [theme, setTheme] = useState<CustomTheme>({
-    primaryColor: '#d67a5a',
     bellColor: '#d67a5a',
     backgroundColor: '#102544',
     fontFamily: '"Inter var", sans-serif',
