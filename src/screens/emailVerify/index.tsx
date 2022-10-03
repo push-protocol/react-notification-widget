@@ -89,7 +89,13 @@ export const EmailVerify = () => {
           Sent to {props?.email}
         </Text>
       </Flex>
-      {loading ? <Spinner /> : <EnterVerificationCode onChange={setCode} />}
+      {loading ? (
+        <Flex justifyContent={'center'} alignItems={'center'} width={'100%'} height={100} mb={2}>
+          <Spinner />
+        </Flex>
+      ) : (
+        <EnterVerificationCode onChange={setCode} />
+      )}
     </Screen>
   );
 };
