@@ -7,9 +7,6 @@ const StyledLink = styled.a<{ fontWeight?: string | number }>`
   color: ${({ theme }) => theme.colors.primary.light};
   font-weight: ${({ fontWeight }) => (fontWeight ? fontWeight : 'inherit')};
   font-family: ${({ theme }) => theme.fontFamily};
-  &:hover {
-    text-decoration: underline;
-  }
 `;
 
 type LinkProps = {
