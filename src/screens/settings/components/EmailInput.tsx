@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Spinner from '../../../components/Spinner';
 import { useNotificationsContext } from 'context/NotificationsContext';
@@ -41,6 +41,12 @@ const EmailInput = ({
   const { userCommsChannels } = useNotificationsContext();
   const [isEditing, setIsEditing] = useState(!userCommsChannels?.email.exists);
 
+  useEffect(() => {
+    if (!userCommsChannels?.email.exists) {
+      setIsEditing(true);
+    }
+  }, [userCommsChannels]);
+
   const handleClick = () => {
     if (isEditing) return handleSave();
     onChange('');
@@ -58,7 +64,7 @@ const EmailInput = ({
       <Wrapper>
         <TextInput
           placeholder={'email@example.com'}
-          value={!isEditing ? (userCommsChannels?.email.hint as string) : value}
+          value={!isEditing ? userCommsChannels?.email.hint || value : value}
           disabled={!isEditing}
           onValueChange={(value) => onChange(value)}
         />

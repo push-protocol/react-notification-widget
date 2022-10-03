@@ -14,6 +14,7 @@ import {
   useDeleteUserEmailMutation,
   useSaveUserEmailMutation,
 } from 'screens/settings/operations.generated';
+import { useNotificationsContext } from 'context/NotificationsContext';
 
 const EmailHiddenContainer = styled(Flex)`
   align-self: start;
@@ -40,6 +41,7 @@ const HeaderIcon = styled.div`
 export const Settings = () => {
   const { setRoute, activeRoute, unsubscribe } = useRouterContext();
   const { login, isLoggedIn } = useRouterContext();
+  const { refetchCommsChannel } = useNotificationsContext();
   const theme = useTheme();
 
   const [email, setEmail] = useState('');
@@ -61,15 +63,28 @@ export const Settings = () => {
 
     login(async () => {
       await saveEmail();
+      analytics.track('email saved');
       setRoute(Routes.EmailVerify, { email });
     });
   };
 
   const handleRemove = async () => {
+    const removeEmail = async () => {
+      const response = await deleteEmail();
+
+      if (response?.data?.userEmailDelete?.success) {
+        await refetchCommsChannel();
+        analytics.track('email deleted');
+        return setRoute(Routes.Settings);
+      }
+    };
+
     if (isLoggedIn) {
-      await deleteEmail();
-      analytics.track('email deleted');
-      setRoute(Routes.Settings);
+      removeEmail();
+    } else {
+      login(async () => {
+        removeEmail();
+      });
     }
   };
 

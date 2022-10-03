@@ -18,13 +18,14 @@ export const NotificationsProvider = ({ children }: { children: ReactNode }) => 
   const [polling, setPolling] = useState(false);
   const [notifications, setNotifications] = useState<Notification[]>([]);
 
-  const [getCommsChannels, { data }] = useUserCommunicationChannelsLazyQuery();
+  const [getCommsChannels, { data, refetch: refetchCommsChannel }] =
+    useUserCommunicationChannelsLazyQuery({});
 
   useEffect(() => {
     if (!userAddress) return;
 
     getCommsChannels({ variables: { address: userAddress } });
-  }, [userAddress]);
+  }, [getCommsChannels, userAddress]);
 
   useEffect(() => {
     if (!userAddress || polling) return;
@@ -60,6 +61,7 @@ export const NotificationsProvider = ({ children }: { children: ReactNode }) => 
         setFeedOpen,
         userCommsChannels: data?.userCommunicationChannels,
         notifications,
+        refetchCommsChannel,
         userAddress,
       }}
     >
