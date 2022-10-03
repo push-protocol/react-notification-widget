@@ -13,6 +13,10 @@ export type Scalars = {
   DateTime: any;
 };
 
+export type AnalyticsRangeInput = {
+  days: Scalars['Float'];
+};
+
 export type Audience = {
   __typename?: 'Audience';
   createdAt: Scalars['DateTime'];
@@ -35,14 +39,50 @@ export type BatchActionResponse = {
 
 export type CommsChannel = {
   __typename?: 'CommsChannel';
+  analytics: CommsChannelAnalytics;
   channelAddress: Scalars['String'];
   createdAt: Scalars['DateTime'];
   id: Scalars['String'];
+  isDelegate: Scalars['Boolean'];
   logo?: Maybe<Scalars['String']>;
   name: Scalars['String'];
   partnerApiKey: Scalars['String'];
+  subscribers: Array<CommsChannelSubscriber>;
   type: CommsChannelType;
   updatedAt: Scalars['DateTime'];
+};
+
+export type CommsChannelAnalytics = {
+  __typename?: 'CommsChannelAnalytics';
+  subscribers: Array<CommsChannelStats>;
+};
+
+
+export type CommsChannelAnalyticsSubscribersArgs = {
+  range: AnalyticsRangeInput;
+};
+
+export type CommsChannelStats = {
+  __typename?: 'CommsChannelStats';
+  commsChannelAddress: Scalars['String'];
+  date: Scalars['DateTime'];
+  id: Scalars['String'];
+  subscriberCount: Scalars['Int'];
+  type: CommsChannelType;
+};
+
+export type CommsChannelSubscriber = {
+  __typename?: 'CommsChannelSubscriber';
+  emailConnected: Scalars['Boolean'];
+  tokens: Array<CommsChannelSubscriberToken>;
+  walletAddress: Scalars['String'];
+};
+
+export type CommsChannelSubscriberToken = {
+  __typename?: 'CommsChannelSubscriberToken';
+  amount: Scalars['Float'];
+  decimals: Scalars['Float'];
+  symbol: Scalars['String'];
 };
 
 export enum CommsChannelType {
@@ -98,9 +138,11 @@ export type Mutation = {
   messageSend: Scalars['Boolean'];
   nonceGenerate: Nonce;
   refreshToken: RefreshTokenPayload;
+  userEmailDelete: GeneralResolverResponse;
   userEmailUpdate: GeneralResolverResponse;
   userEmailValidate: GeneralResolverResponse;
   userLogin: UserLoginPayload;
+  userNotificationRead: GeneralResolverResponse;
   workflowCreate: Workflow;
   workflowDelete: BatchActionResponse;
 };
@@ -163,6 +205,7 @@ export type PartnerInfoInput = {
 
 export type Query = {
   __typename?: 'Query';
+  commsChannel: CommsChannel;
   me: User;
   partnerInfo: CommsChannel;
   userCommunicationChannels: UserCommunicationChannelsPayload;
@@ -209,6 +252,7 @@ export type User = {
   firstName?: Maybe<Scalars['String']>;
   id: Scalars['String'];
   lastName?: Maybe<Scalars['String']>;
+  lastReadAt: Scalars['DateTime'];
   updatedAt: Scalars['DateTime'];
   walletAddress: Scalars['String'];
 };

@@ -1,5 +1,5 @@
 import { DefaultTheme } from 'styled-components';
-import { changeColorShade, adjustColor } from '../components/utils';
+import { changeColorShade, adjustColor } from 'components/utils';
 
 type MainColor = {
   light: string;
@@ -50,6 +50,9 @@ declare module 'styled-components' {
       };
       bell: {
         color: string;
+      };
+      error: {
+        main: string;
       };
     };
   }
@@ -108,6 +111,9 @@ const defaultTheme: DefaultTheme = {
     },
     bell: {
       color: '#FCFCFC',
+    },
+    error: {
+      main: '#FF6347',
     },
   },
 };
