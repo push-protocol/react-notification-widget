@@ -11,6 +11,11 @@ export type SaveUserEmailMutationVariables = Types.Exact<{
 
 export type SaveUserEmailMutation = { __typename?: 'Mutation', userEmailUpdate: { __typename?: 'GeneralResolverResponse', success: boolean } };
 
+export type DeleteUserEmailMutationVariables = Types.Exact<{ [key: string]: never; }>;
+
+
+export type DeleteUserEmailMutation = { __typename?: 'Mutation', userEmailDelete: { __typename?: 'GeneralResolverResponse', success: boolean } };
+
 
 export const SaveUserEmailDocument = gql`
     mutation SaveUserEmail($input: UserEmailUpdateInput!) {
@@ -45,3 +50,35 @@ export function useSaveUserEmailMutation(baseOptions?: ApolloReactHooks.Mutation
 export type SaveUserEmailMutationHookResult = ReturnType<typeof useSaveUserEmailMutation>;
 export type SaveUserEmailMutationResult = ApolloReactCommon.MutationResult<SaveUserEmailMutation>;
 export type SaveUserEmailMutationOptions = ApolloReactCommon.BaseMutationOptions<SaveUserEmailMutation, SaveUserEmailMutationVariables>;
+export const DeleteUserEmailDocument = gql`
+    mutation DeleteUserEmail {
+  userEmailDelete {
+    success
+  }
+}
+    `;
+export type DeleteUserEmailMutationFn = ApolloReactCommon.MutationFunction<DeleteUserEmailMutation, DeleteUserEmailMutationVariables>;
+
+/**
+ * __useDeleteUserEmailMutation__
+ *
+ * To run a mutation, you first call `useDeleteUserEmailMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteUserEmailMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteUserEmailMutation, { data, loading, error }] = useDeleteUserEmailMutation({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useDeleteUserEmailMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<DeleteUserEmailMutation, DeleteUserEmailMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useMutation<DeleteUserEmailMutation, DeleteUserEmailMutationVariables>(DeleteUserEmailDocument, options);
+      }
+export type DeleteUserEmailMutationHookResult = ReturnType<typeof useDeleteUserEmailMutation>;
+export type DeleteUserEmailMutationResult = ApolloReactCommon.MutationResult<DeleteUserEmailMutation>;
+export type DeleteUserEmailMutationOptions = ApolloReactCommon.BaseMutationOptions<DeleteUserEmailMutation, DeleteUserEmailMutationVariables>;

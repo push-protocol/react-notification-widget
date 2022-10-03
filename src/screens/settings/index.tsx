@@ -10,7 +10,11 @@ import EmailHiddenNotice from 'screens/settings/components/EmailHiddenNotice';
 import EmailInput from 'screens/settings/components/EmailInput';
 import isEmailValid from 'helpers/functions/isEmailValid';
 import { Routes, useRouterContext } from 'context/RouterContext';
-import { useSaveUserEmailMutation } from 'screens/settings/operations.generated';
+import {
+  useDeleteUserEmailMutation,
+  useSaveUserEmailMutation,
+} from 'screens/settings/operations.generated';
+import { useNotificationsContext } from 'context/NotificationsContext';
 
 const EmailHiddenContainer = styled(Flex)`
   align-self: start;
@@ -37,6 +41,7 @@ const HeaderIcon = styled.div`
 export const Settings = () => {
   const { setRoute, activeRoute, unsubscribe } = useRouterContext();
   const { login, isLoggedIn } = useRouterContext();
+  const { refetchCommsChannel } = useNotificationsContext();
   const theme = useTheme();
 
   const [email, setEmail] = useState('');
@@ -47,6 +52,8 @@ export const Settings = () => {
     },
   });
 
+  const [deleteEmail, { loading: deleteLoading }] = useDeleteUserEmailMutation();
+
   const handleSave = async () => {
     if (isLoggedIn) {
       await saveEmail();
@@ -56,8 +63,29 @@ export const Settings = () => {
 
     login(async () => {
       await saveEmail();
+      analytics.track('email saved');
       setRoute(Routes.EmailVerify, { email });
     });
+  };
+
+  const handleRemove = async () => {
+    const removeEmail = async () => {
+      const response = await deleteEmail();
+
+      if (response?.data?.userEmailDelete?.success) {
+        await refetchCommsChannel();
+        analytics.track('email deleted');
+        return setRoute(Routes.Settings);
+      }
+    };
+
+    if (isLoggedIn) {
+      removeEmail();
+    } else {
+      login(async () => {
+        removeEmail();
+      });
+    }
   };
 
   const handleSkip = () => {
@@ -97,8 +125,9 @@ export const Settings = () => {
         onChange={setEmail}
         value={email}
         isValid={isEmailValid(email)}
-        isLoading={loading}
+        isLoading={loading || deleteLoading}
         handleSave={handleSave}
+        handleRemove={handleRemove}
       />
       <EmailHiddenContainer>
         <EmailHiddenNotice />

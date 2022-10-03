@@ -7,11 +7,12 @@ const fontSizes = {
   md: '16px',
 };
 
-type ButtonVariant = 'gray' | 'primary' | 'outlined';
+type ButtonVariant = 'gray' | 'primary' | 'outlined' | 'danger';
 
 type ButtonProps = {
   variant?: ButtonVariant;
   fontSize?: keyof typeof fontSizes;
+  textColor?: string;
   height?: string | number;
   width?: string | number;
   borderRadius?: keyof DefaultTheme['borderRadius'];
@@ -37,6 +38,13 @@ const variantStyles = (variant = 'primary', theme: DefaultTheme): any =>
     outlined: css`
       background-color: transparent;
     `,
+    danger: css`
+      background: ${theme.colors.error.main};
+      &:hover {
+        background: ${adjustColor(theme.colors.error.main, 0.8)};
+        border-color: ${adjustColor(theme.colors.error.main, 0.8)};
+      }
+    `,
   }[variant]);
 
 const Button = styled.button<ButtonProps>`
@@ -46,6 +54,7 @@ const Button = styled.button<ButtonProps>`
     width = '100%',
     height = '39px',
     fontSize = 'md',
+    textColor,
     borderRadius = 'md',
     ...rest
   }) => `
@@ -63,11 +72,17 @@ const Button = styled.button<ButtonProps>`
     justify-content: center;
     font-size: ${fontSizes[fontSize]};
     padding: ${theme.spacing(1)}px ${theme.spacing(3)}px;
-    color: ${theme.colors.text.primary};
+    color: ${textColor || theme.colors.text.primary};
     width: ${renderStringNumValue(width)};
     height: ${renderStringNumValue(height)};
     ${variantStyles(variant, theme).join('')}
     ${genSpaces(theme, rest)}
+    &:disabled {
+      transform: unset;
+      background: ${theme.colors.gray['300']};
+      color: ${theme.colors.gray['50']};
+      cursor: default;
+    };
   `};
 `;
 
