@@ -37,13 +37,18 @@ export const Auth = () => {
     setRoute(Routes.Settings);
   };
 
-  return (
-    <Screen>
-      {isLoading && (
+  if (isLoading) {
+    return (
+      <Screen>
         <Flex alignItems={'center'} justifyContent={'center'} height={200}>
           <Spinner />
         </Flex>
-      )}
+      </Screen>
+    );
+  }
+
+  return (
+    <Screen>
       {error && (
         <Flex
           justifyContent="center"
@@ -60,7 +65,7 @@ export const Auth = () => {
           </Flex>
         </Flex>
       )}
-      {isLoggedIn && (
+      {isLoggedIn && !error && (
         <Flex justifyContent={'center'} alignItems={'center'} direction={'column'} mb={8} mt={3}>
           <HeaderIconContainer>
             <HeaderIcon>

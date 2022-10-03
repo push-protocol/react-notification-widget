@@ -19,6 +19,7 @@ export type NotificationsContext = {
   isLoading: boolean;
   userAddress?: string;
   feedOpen: boolean;
+  refetchCommsChannel: () => void;
   setFeedOpen: (isOpen: boolean) => void;
 };
 

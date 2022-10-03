@@ -120,19 +120,19 @@ const RouterProvider = ({ children }: { children: ReactNode }) => {
       setIsLoggedIn(true);
     }
 
-    if (isFirstLogin) {
-      setRouteWithParams(Routes.ConnectEmail);
-      return;
-    }
-
     if (loginCallback) {
       loginCallback();
       setLoginCallback(undefined);
       return;
     }
 
+    if (isFirstLogin) {
+      setRouteWithParams(Routes.ConnectEmail);
+      return;
+    }
+
     setRouteWithParams(Routes.NotificationsFeed);
-  }, [isConnected, isSubscribed, isFirstLogin, isLoggedIn]);
+  }, [isConnected, isSubscribed, isFirstLogin, isLoggedIn, loginCallback]);
 
   const login = async (callback?: () => void) => {
     analytics.track('login');

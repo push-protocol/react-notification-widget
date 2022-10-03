@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Spinner from '../../../components/Spinner';
 import { useNotificationsContext } from 'context/NotificationsContext';
@@ -18,6 +18,7 @@ const ButtonWrapper = styled.div`
   right: 0;
   top: 0;
   padding: 10px;
+  box-sizing: border-box;
 `;
 
 type EnterEmailProps = {
@@ -25,12 +26,26 @@ type EnterEmailProps = {
   isValid?: boolean;
   onChange(value: string): void;
   handleSave(): void;
+  handleRemove(): void;
   isLoading: boolean;
 };
 
-const EmailInput = ({ isValid, value, onChange, handleSave, isLoading }: EnterEmailProps) => {
+const EmailInput = ({
+  isValid,
+  value,
+  onChange,
+  handleSave,
+  handleRemove,
+  isLoading,
+}: EnterEmailProps) => {
   const { userCommsChannels } = useNotificationsContext();
   const [isEditing, setIsEditing] = useState(!userCommsChannels?.email.exists);
+
+  useEffect(() => {
+    if (!userCommsChannels?.email.exists) {
+      setIsEditing(true);
+    }
+  }, [userCommsChannels]);
 
   const handleClick = () => {
     if (isEditing) return handleSave();
@@ -49,7 +64,7 @@ const EmailInput = ({ isValid, value, onChange, handleSave, isLoading }: EnterEm
       <Wrapper>
         <TextInput
           placeholder={'email@example.com'}
-          value={!isEditing ? (userCommsChannels?.email.hint as string) : value}
+          value={!isEditing ? userCommsChannels?.email.hint || value : value}
           disabled={!isEditing}
           onValueChange={(value) => onChange(value)}
         />
@@ -57,17 +72,30 @@ const EmailInput = ({ isValid, value, onChange, handleSave, isLoading }: EnterEm
           {isLoading ? (
             <Spinner size={15} />
           ) : (
-            <Button
-              width={'44px'}
-              height={'27px'}
-              fontSize={'sm'}
-              p={0}
-              disabled={isEditing && !isValid}
-              borderRadius={'xs'}
-              onClick={handleClick}
-            >
-              {isEditing ? 'Save' : 'Edit'}
-            </Button>
+            <Flex gap={1}>
+              <Button
+                height={'27px'}
+                fontSize={'sm'}
+                p={1}
+                disabled={isEditing && !isValid}
+                borderRadius={'xs'}
+                onClick={handleClick}
+              >
+                {isEditing ? 'Save' : 'Edit'}
+              </Button>
+              {!isEditing && userCommsChannels?.email?.exists && (
+                <Button
+                  height={'27px'}
+                  fontSize={'sm'}
+                  p={1}
+                  borderRadius={'xs'}
+                  onClick={handleRemove}
+                  variant={'danger'}
+                >
+                  Remove
+                </Button>
+              )}
+            </Flex>
           )}
         </ButtonWrapper>
       </Wrapper>
