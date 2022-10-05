@@ -11,6 +11,7 @@ import Text from 'components/Text';
 import Link from 'components/Link';
 import { Globe } from 'components/icons';
 import formatDomain from 'helpers/functions/formatDomain';
+import { getYoutubeId } from 'helpers/functions/getYoutubeId';
 
 extend(relativeTime);
 
@@ -94,6 +95,8 @@ const NotificationFeedItem = ({
     }
   };
 
+  const youtubeId = getYoutubeId(notification?.image);
+
   return (
     <Container
       clickable={!!onNotificationClick}
@@ -123,9 +126,18 @@ const NotificationFeedItem = ({
         {notification.message}
       </Message>
       {notification.image && (
-        <ImageContainer>
-          <Image src={notification.image} alt="notification image" />
-        </ImageContainer>
+        <a href={notification.image} target={'_blank'} rel="noreferrer">
+          <ImageContainer>
+            {youtubeId ? (
+              <Image
+                src={`https://img.youtube.com/vi/${youtubeId}/0.jpg`}
+                alt="notification image"
+              />
+            ) : (
+              <Image src={notification.image} alt="notification image" />
+            )}
+          </ImageContainer>
+        </a>
       )}
       <Flex justifyContent={'space-between'}>
         <Text size={'sm'} color={'secondary'}>
