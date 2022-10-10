@@ -6,7 +6,7 @@ import React, {
   ElementType,
   useEffect,
 } from 'react';
-import { useAccount, useSigner } from 'wagmi';
+import { useAccount, useDisconnect, useSigner } from 'wagmi';
 import * as epns from '@epnsproject/sdk-restapi';
 import analytics from '../services/analytics';
 import { useEnvironment } from './EnvironmentContext';
@@ -69,6 +69,7 @@ const RouterProvider = ({ children }: { children: ReactNode }) => {
   const { isConnected, address } = useAccount();
   const { data: signer } = useSigner();
   const { login: _login } = useAuthenticate();
+  const dc = useDisconnect();
 
   const [active, setActive] = useState(Routes.Subscribe);
   const [routerProps, setRouterProps] = useState<RouterProps>({});
@@ -160,10 +161,17 @@ const RouterProvider = ({ children }: { children: ReactNode }) => {
 
   const logout = () => {
     localStorage.removeItem(LOCALSTORAGE_AUTH_KEY);
+    localStorage.removeItem(LOCALSTORAGE_AUTH_REFRESH_KEY);
     setIsSubscribed(false);
     setError(false);
     setIsLoading(false);
+    dc.disconnect();
   };
+
+  useEffect(() => {
+    localStorage.removeItem(LOCALSTORAGE_AUTH_KEY);
+    setIsLoggedIn(false);
+  }, [address]);
 
   const toggleSubscription = async (action: 'sub' | 'unsub') => {
     setIsLoading(true);
