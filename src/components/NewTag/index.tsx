@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { adjustColor } from '../utils';
+import Text from 'components/Text';
 
 const Container = styled.div`
   border-radius: 3px;
@@ -21,7 +22,11 @@ interface NewTagProps {
 }
 
 const NewTag = ({ className }: NewTagProps) => {
-  return <Container className={className}>new</Container>;
+  return (
+    <Container className={className}>
+      <Text>new</Text>
+    </Container>
+  );
 };
 
 export default NewTag;
