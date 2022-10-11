@@ -44,6 +44,8 @@ const EmailInput = ({
   useEffect(() => {
     if (!userCommsChannels?.email.exists) {
       setIsEditing(true);
+    } else {
+      setIsEditing(false);
     }
   }, [userCommsChannels]);
 

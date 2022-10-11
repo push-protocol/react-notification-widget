@@ -26,8 +26,8 @@ export const EnvironmentProvider = ({
   };
 
   const chainIdMap: { [key in EnvType]: number } = {
-    development: 42,
-    staging: 42,
+    development: 5,
+    staging: 5,
     production: 1,
   };
 
