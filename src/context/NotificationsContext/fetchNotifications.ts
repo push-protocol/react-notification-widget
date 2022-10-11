@@ -29,7 +29,7 @@ const epnsNotifToNotif = ({
   url: data.url,
   image: data.aimg,
   cta: data.acta,
-  timestamp: dayjs(new Date(epoch)).toDate(),
+  timestamp: dayjs(new Date(epoch)).subtract(5.5, 'hours').toDate(), //TODO: revert when epns api is fixed
 });
 
 export default fetchNotifications;
