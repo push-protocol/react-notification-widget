@@ -31,10 +31,12 @@ const EmailHiddenNotice = () => {
         </Text>
       </Flex>
       <Flex direction={'column'} width={'100%'}>
-        <Text size={'sm'} color={'secondary'} opacity={0.8}>
+        <Text size={'sm2'} color={'secondary'} opacity={0.8}>
           {name} will not have access to your email address.{' '}
         </Text>
-        <Link src={FAQ_URL}>Learn more</Link>
+        <Link src={FAQ_URL} fontSize={'sm2'}>
+          Learn more
+        </Link>
       </Flex>
     </Flex>
   );
