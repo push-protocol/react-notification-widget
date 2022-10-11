@@ -133,9 +133,11 @@ export const Settings = () => {
         <EmailHiddenNotice />
       </EmailHiddenContainer>
       {process.env.WHEREVER_ENV === 'development' && (
-        <Button variant={'outlined'} onClick={unsubscribe}>
-          <Text size={'sm'}>Unsubscribe</Text>
-        </Button>
+        <Flex width={'100%'} justifyContent={'center'}>
+          <Button variant={'outlined'} onClick={unsubscribe} height={20} p={0} mb={2} width={90}>
+            <Text size={'sm'}>Unsubscribe</Text>
+          </Button>
+        </Flex>
       )}
     </Screen>
   );

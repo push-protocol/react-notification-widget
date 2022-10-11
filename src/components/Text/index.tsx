@@ -5,6 +5,7 @@ import { conditionalRenderProp, genSpaces, renderStringNumValue } from '../utils
 export const textSizes = {
   xs: 10,
   sm: 12,
+  sm2: 13,
   md: 14,
   lg: 16,
   xl: 18,

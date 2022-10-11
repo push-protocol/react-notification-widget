@@ -16,10 +16,6 @@ const LockIcon = styled.div`
 const EmailHiddenNotice = () => {
   const { name } = useChannelContext();
 
-  const handleLearnMore = () => {
-    // TODO: if local text append needed handle here, or replace onClick with url
-  };
-
   return (
     <Flex direction={'column'} gap={0.2}>
       <Flex gap={0.5} mb={0.5} alignItems={'center'}>
@@ -30,11 +26,13 @@ const EmailHiddenNotice = () => {
           Your email is hidden
         </Text>
       </Flex>
-      <Flex direction={'column'} width={'100%'}>
-        <Text size={'sm'} color={'secondary'} opacity={0.8}>
+      <Flex direction={'column'} width={'100%'} mb={2}>
+        <Text size={'sm2'} color={'secondary'} opacity={0.8}>
           {name} will not have access to your email address.{' '}
         </Text>
-        <Link src={FAQ_URL}>Learn more</Link>
+        <Link src={FAQ_URL} fontSize={'sm2'}>
+          Learn more
+        </Link>
       </Flex>
     </Flex>
   );

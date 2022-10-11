@@ -95,6 +95,14 @@ const NotificationFeedItem = ({
     }
   };
 
+  const getRelativeTime = (date: Date) => {
+    if (dayjs(date) > dayjs(new Date()).subtract(1, 'minute')) {
+      return 'just now';
+    }
+
+    return dayjs(date).fromNow();
+  };
+
   const youtubeId = getYoutubeId(notification?.image);
 
   return (
@@ -107,7 +115,7 @@ const NotificationFeedItem = ({
       <Header gap={0.5} alignItems={'center'}>
         {showSenderDetails && (
           <SenderImage>
-            <img src={notification.senderLogo} />
+            <img src={notification.senderLogo} alt={''} />
           </SenderImage>
         )}
         <Flex direction={'column'}>
@@ -141,7 +149,7 @@ const NotificationFeedItem = ({
       )}
       <Flex justifyContent={'space-between'}>
         <Text size={'sm'} color={'secondary'}>
-          {dayjs(notification.timestamp).fromNow()}
+          {getRelativeTime(notification.timestamp)}
         </Text>
         {notification?.cta && (
           <Flex gap={0.5} alignItems={'center'}>
