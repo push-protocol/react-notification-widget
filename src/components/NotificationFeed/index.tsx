@@ -6,7 +6,7 @@ import { useAccount } from 'wagmi';
 import useWindowSize from '../../helpers/hooks/useWindowSize';
 import { NotificationClickProp } from '../types';
 import analytics from '../../services/analytics';
-import { useChannelContext } from '../../context/ChannelContext';
+import { useChannelContext } from 'context/ChannelContext';
 import { useNotificationsContext } from 'context/NotificationsContext';
 import { WidgetContainer } from 'components/layout/WidgetContainer';
 import { useRouterContext, Routes } from 'context/RouterContext';
@@ -17,7 +17,11 @@ const MobileContainer = styled.div<{ isOpen: boolean }>`
 
 // eslint-disable-next-line react/display-name
 const BellRef = forwardRef<HTMLDivElement, { children: ReactElement }>(({ children }, ref) => {
-  return <div ref={ref}>{children}</div>;
+  return (
+    <div ref={ref} style={{ height: 'inherit', width: 'inherit' }}>
+      {children}
+    </div>
+  );
 });
 
 export type NotificationFeedProps = NotificationClickProp & {
@@ -81,7 +85,7 @@ const NotificationFeed = (props: NotificationFeedProps): JSX.Element => {
 
   return (
     <ClickAwayListener onClickAway={() => setFeedOpen(false)}>
-      <div>
+      <div style={{ height: 'inherit', width: 'inherit' }}>
         <BellRef ref={setReferenceRef}>
           {cloneElement(children, { onClick: handleBellClick })}
         </BellRef>
