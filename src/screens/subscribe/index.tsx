@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useChannelContext } from '../../context/ChannelContext';
 import Spinner from '../../components/Spinner';
 import analytics from '../../services/analytics';
+import { useChannelContext } from 'context/ChannelContext';
 import { Screen } from 'components/layout/Screen';
 import Flex from 'components/layout/Flex';
 import Button from 'components/Button';
@@ -39,7 +39,7 @@ export const Subscribe = () => {
     <Screen>
       <Flex alignItems={'center'} direction={'column'} mb={4}>
         <StyledNewTag />
-        <Text size={'xl'} weight={700}>
+        <Text size={'xl'} weight={700} align={'center'}>
           Wallet-to-wallet notifications
         </Text>
       </Flex>
