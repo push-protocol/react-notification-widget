@@ -17,15 +17,17 @@ const FakeApp = () => {
     backgroundColor: '#102544',
     fontFamily: '"Inter var", sans-serif',
   });
-  const [coordinates, setCoordinates] = useState({ top: 14, left: 250 });
+  const [coordinates, setCoordinates] = useState({ top: 1, left: 250 });
 
   const widget = useMemo(() => {
     return (
-      <NotificationFeedProvider theme={theme} env={env} partnerKey={partnerKey}>
-        <NotificationFeed>
-          <NotificationBell />
-        </NotificationFeed>
-      </NotificationFeedProvider>
+      <div style={{ height: 52, width: 52, background: '#102544' }}>
+        <NotificationFeedProvider theme={theme} env={env} partnerKey={partnerKey}>
+          <NotificationFeed>
+            <NotificationBell containerHeight={'100%'} containerWidth={'100%'} />
+          </NotificationFeed>
+        </NotificationFeedProvider>
+      </div>
     );
   }, [partnerKey, theme, env]);
 

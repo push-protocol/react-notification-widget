@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Bell, BellBadge } from 'components/icons';
 import NewTag from 'components/NewTag';
+import { renderStringNumValue } from 'components/utils';
 
 const NewTagBadge = styled(NewTag)`
   width: 23px;
@@ -11,11 +12,11 @@ const NewTagBadge = styled(NewTag)`
   top: -2px;
 `;
 
-const Container = styled.div`
+const Container = styled.div<{ height: string | number; width: string | number }>`
   position: relative;
   cursor: pointer;
-  width: 40px;
-  height: 40px;
+  height: ${({ height }) => renderStringNumValue(height)};
+  width: ${({ width }) => renderStringNumValue(width)};
   display: flex;
   justify-content: center;
   align-items: center;
@@ -29,6 +30,8 @@ const BellContainer = styled.div<{ size?: number }>`
 
 export type NotificationBellProps = {
   size?: number;
+  containerHeight?: string | number;
+  containerWidth?: string | number;
 };
 
 // any to avoid exposing props to consumers of the component (parent injects onClick)
@@ -37,7 +40,11 @@ const NotificationBell = (props: NotificationBellProps & any) => {
   const hasNotifications = false;
 
   return (
-    <Container onClick={props.onClick}>
+    <Container
+      onClick={props.onClick}
+      height={props.containerHeight || '40px'}
+      width={props.containerWidth || '40px'}
+    >
       {isNew && <NewTagBadge />}
       <BellContainer size={props.size}>
         {hasNotifications && !isNew ? <BellBadge /> : <Bell />}
