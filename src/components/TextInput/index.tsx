@@ -13,6 +13,7 @@ const Input = styled.input<{ width?: string | number }>(({ theme, width }) => ({
   padding: `${theme.spacing(1.5)}px ${theme.spacing(2)}px`,
   backgroundColor: adjustColor(theme.colors.bg.main, 0.8),
   color: theme.colors.text.primary,
+  textIndent: 'unset',
   '&:disabled': {
     borderColor: adjustColor(theme.colors.primary.light, 0.5),
   },
