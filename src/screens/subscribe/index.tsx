@@ -18,10 +18,13 @@ const StyledNewTag = styled(NewTag)`
 
 export const Subscribe = () => {
   const { isLoading, subscribe } = useRouterContext();
-  const { loading, channelAddress } = useChannelContext();
+  const { loading, channelAddress, disableAnalytics } = useChannelContext();
 
   const handleSubscribe = async () => {
-    analytics.track('channel subscribe', { channelAddress });
+    if (!disableAnalytics) {
+      analytics.track('channel subscribe', { channelAddress });
+    }
+
     subscribe();
   };
 

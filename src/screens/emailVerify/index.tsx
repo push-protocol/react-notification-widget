@@ -11,6 +11,7 @@ import { Bell } from 'components/icons';
 import Flex from 'components/layout/Flex';
 import { Routes, useRouterContext } from 'context/RouterContext';
 import Spinner from 'components/Spinner';
+import { useChannelContext } from 'context/ChannelContext';
 
 const HeaderIconContainer = styled.div`
   height: 40px;
@@ -33,12 +34,16 @@ const HeaderIcon = styled.div`
 export const EmailVerify = () => {
   const [code, setCode] = useState('');
   const { setRoute, props } = useRouterContext();
+  const { disableAnalytics } = useChannelContext();
   const theme = useTheme();
 
   const [validateEmail, { loading }] = useValidateUserEmailMutation({
     refetchQueries: [UserCommunicationChannelsDocument],
     onCompleted() {
-      analytics.track('email verified');
+      if (!disableAnalytics) {
+        analytics.track('email verified');
+      }
+
       setRoute(Routes.EmailVerified);
     },
   });

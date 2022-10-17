@@ -64,7 +64,7 @@ const isUserSubscribed = async (args: {
 };
 
 const RouterProvider = ({ children }: { children: ReactNode }) => {
-  const { channelAddress } = useChannelContext();
+  const { channelAddress, disableAnalytics } = useChannelContext();
   const { epnsEnv, chainId } = useEnvironment();
   const { isConnected, address } = useAccount();
   const { data: signer } = useSigner();
@@ -81,7 +81,10 @@ const RouterProvider = ({ children }: { children: ReactNode }) => {
   const [loginCallback, setLoginCallback] = useState<() => void>();
 
   const setRouteWithParams = (route: Routes, props?: RouterProps) => {
-    analytics.page(route);
+    if (!disableAnalytics) {
+      analytics.page(route);
+    }
+
     setActive(route);
     if (props) setRouterProps(props);
   };
@@ -136,7 +139,10 @@ const RouterProvider = ({ children }: { children: ReactNode }) => {
   }, [isConnected, isSubscribed, isFirstLogin, isLoggedIn, loginCallback]);
 
   const login = async (callback?: () => void) => {
-    analytics.track('login');
+    if (!disableAnalytics) {
+      analytics.track('login');
+    }
+
     setIsLoading(true);
     setError(false);
     setActive(Routes.Auth);

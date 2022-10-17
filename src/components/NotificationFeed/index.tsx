@@ -33,13 +33,13 @@ const NotificationFeed = (props: NotificationFeedProps): JSX.Element => {
   const { children, onNotificationClick } = props;
   const { feedOpen, setFeedOpen } = useNotificationsContext();
   const { address } = useAccount();
-  const { channelAddress, name } = useChannelContext();
+  const { channelAddress, name, disableAnalytics } = useChannelContext();
   const { Component, activeRoute } = useRouterContext();
   const theme = useTheme();
   const size = useWindowSize();
 
   useEffect(() => {
-    if (address && channelAddress) {
+    if (address && channelAddress && !disableAnalytics) {
       analytics.identify(address, { channelAddress, channelName: name });
     }
   }, [address, channelAddress]);
@@ -52,7 +52,10 @@ const NotificationFeed = (props: NotificationFeedProps): JSX.Element => {
   }, [activeRoute]);
 
   const handleBellClick = () => {
-    analytics.track('widget opened');
+    if (!disableAnalytics) {
+      analytics.track('widget opened');
+    }
+
     setFeedOpen(!feedOpen);
   };
 

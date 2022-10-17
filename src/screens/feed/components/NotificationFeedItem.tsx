@@ -12,6 +12,7 @@ import Link from 'components/Link';
 import { Globe } from 'components/icons';
 import formatDomain from 'helpers/functions/formatDomain';
 import { getYoutubeId } from 'helpers/functions/getYoutubeId';
+import { useChannelContext } from 'context/ChannelContext';
 
 extend(relativeTime);
 
@@ -81,6 +82,7 @@ const NotificationFeedItem = ({
   showSenderDetails,
   onNotificationClick,
 }: NotificationFeedItemProps) => {
+  const { disableAnalytics } = useChannelContext();
   const isUnread = dayjs(notification.timestamp).isAfter(dayjs()); //TODO: update with correct logic
 
   const markAsRead = () => {
@@ -88,7 +90,9 @@ const NotificationFeedItem = ({
   };
 
   const handleNotificationClick = () => {
-    analytics.track('notification clicked', { notification });
+    if (!disableAnalytics) {
+      analytics.track('notification clicked', { notification });
+    }
 
     if (onNotificationClick) {
       onNotificationClick(notification);

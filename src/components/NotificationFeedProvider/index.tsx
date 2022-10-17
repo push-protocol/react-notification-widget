@@ -15,6 +15,7 @@ export type NotificationFeedProviderProps = PropsWithChildren<{
   env?: EnvType;
   provider?: providers.BaseProvider | providers.ExternalProvider | providers.JsonRpcFetchFunc;
   theme?: CustomTheme;
+  disableAnalytics?: boolean;
 }>;
 
 const NotificationFeedProvider = ({
@@ -23,6 +24,7 @@ const NotificationFeedProvider = ({
   provider,
   theme,
   children,
+  disableAnalytics,
 }: NotificationFeedProviderProps) => {
   const wagmiClient = useMemo(() => {
     let wagmiProvider = ethers.getDefaultProvider();
@@ -46,7 +48,7 @@ const NotificationFeedProvider = ({
       <ThemeProvider theme={makeTheme(theme)}>
         <WagmiConfig client={wagmiClient}>
           <ApolloProvider>
-            <ChannelProvider partnerKey={partnerKey}>
+            <ChannelProvider partnerKey={partnerKey} disableAnalytics={disableAnalytics}>
               <NotificationsProvider>
                 <Reset />
                 <RouterProvider>{children}</RouterProvider>
