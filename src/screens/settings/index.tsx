@@ -41,7 +41,6 @@ const HeaderIcon = styled.div`
 
 export const Settings = () => {
   const { setRoute, activeRoute, unsubscribe, login, isLoggedIn } = useRouterContext();
-  const { disableAnalytics } = useChannelContext();
   const { refetchCommsChannel } = useNotificationsContext();
   const theme = useTheme();
 
@@ -59,9 +58,7 @@ export const Settings = () => {
     if (isLoggedIn) {
       await saveEmail();
 
-      if (!disableAnalytics) {
-        analytics.track('email saved');
-      }
+      analytics.track('email saved');
 
       return setRoute(Routes.EmailVerify, { email });
     }
@@ -69,9 +66,7 @@ export const Settings = () => {
     login(async () => {
       await saveEmail();
 
-      if (!disableAnalytics) {
-        analytics.track('email saved');
-      }
+      analytics.track('email saved');
 
       setRoute(Routes.EmailVerify, { email });
     });
@@ -84,9 +79,7 @@ export const Settings = () => {
       if (response?.data?.userEmailDelete?.success) {
         await refetchCommsChannel();
 
-        if (!disableAnalytics) {
-          analytics.track('email deleted');
-        }
+        analytics.track('email deleted');
 
         return setRoute(Routes.Settings);
       }

@@ -34,16 +34,12 @@ const HeaderIcon = styled.div`
 export const EmailVerify = () => {
   const [code, setCode] = useState('');
   const { setRoute, props } = useRouterContext();
-  const { disableAnalytics } = useChannelContext();
   const theme = useTheme();
 
   const [validateEmail, { loading }] = useValidateUserEmailMutation({
     refetchQueries: [UserCommunicationChannelsDocument],
     onCompleted() {
-      if (!disableAnalytics) {
-        analytics.track('email verified');
-      }
-
+      analytics.track('email verified');
       setRoute(Routes.EmailVerified);
     },
   });
