@@ -53,6 +53,7 @@ const NotificationFeed = (props: NotificationFeedProps): JSX.Element => {
 
   const handleBellClick = () => {
     analytics.track('widget opened');
+
     setFeedOpen(!feedOpen);
   };
 

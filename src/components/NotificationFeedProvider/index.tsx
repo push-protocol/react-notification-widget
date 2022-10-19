@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, useMemo } from 'react';
+import React, { PropsWithChildren, useEffect, useMemo } from 'react';
 import { WagmiConfig, createClient } from 'wagmi';
 import { ThemeProvider } from 'styled-components';
 import { ethers, providers } from 'ethers';
@@ -9,12 +9,14 @@ import { NotificationsProvider } from 'context/NotificationsContext';
 import { ChannelProvider } from 'context/ChannelContext';
 import { ApolloProvider } from 'components/ApolloProvider';
 import { EnvType, EnvironmentProvider } from 'context/EnvironmentContext';
+import analytics from 'services/analytics';
 
 export type NotificationFeedProviderProps = PropsWithChildren<{
   partnerKey: string;
   env?: EnvType;
   provider?: providers.BaseProvider | providers.ExternalProvider | providers.JsonRpcFetchFunc;
   theme?: CustomTheme;
+  disableAnalytics?: boolean;
 }>;
 
 const NotificationFeedProvider = ({
@@ -23,6 +25,7 @@ const NotificationFeedProvider = ({
   provider,
   theme,
   children,
+  disableAnalytics,
 }: NotificationFeedProviderProps) => {
   const wagmiClient = useMemo(() => {
     let wagmiProvider = ethers.getDefaultProvider();
@@ -40,6 +43,12 @@ const NotificationFeedProvider = ({
       provider: wagmiProvider,
     });
   }, [provider]);
+
+  useEffect(() => {
+    if (disableAnalytics) {
+      analytics.disableAnalytics();
+    }
+  }, [disableAnalytics]);
 
   return (
     <EnvironmentProvider env={env}>

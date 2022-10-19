@@ -1,6 +1,6 @@
 import * as rudder from 'rudder-js';
 
-let RUDDERSTACK_WRITE_KEY = '';
+let RUDDERSTACK_WRITE_KEY = '2EzhYQgCELoWCA4pQbfhSXnE4HE';
 let initialized = false;
 
 if (process.env.WHEREVER_ENV === 'production') {
@@ -26,23 +26,29 @@ export function rudderInitialize() {
 }
 
 class Analytics {
+  disabled = false;
+
   constructor() {
     rudderInitialize();
   }
 
   identify(userAddress: string, traits: { channelName: string; channelAddress: string }) {
-    if (!initialized) return;
+    if (!initialized || this.disabled) return;
     rudder.identify(userAddress, traits);
   }
 
   track(event: string, args?: Record<string, any>) {
-    if (!initialized) return;
+    if (!initialized || this.disabled) return;
     rudder.track(event, args);
   }
 
   page(page: string) {
-    if (!initialized) return;
+    if (!initialized || this.disabled) return;
     rudder.page(page);
+  }
+
+  disableAnalytics() {
+    this.disabled = true;
   }
 }
 

@@ -22,6 +22,7 @@ export const Subscribe = () => {
 
   const handleSubscribe = async () => {
     analytics.track('channel subscribe', { channelAddress });
+
     subscribe();
   };
 

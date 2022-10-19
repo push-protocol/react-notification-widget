@@ -15,6 +15,7 @@ import {
   useSaveUserEmailMutation,
 } from 'screens/settings/operations.generated';
 import { useNotificationsContext } from 'context/NotificationsContext';
+import { useChannelContext } from 'context/ChannelContext';
 
 const EmailHiddenContainer = styled(Flex)`
   align-self: start;
@@ -39,8 +40,7 @@ const HeaderIcon = styled.div`
 `;
 
 export const Settings = () => {
-  const { setRoute, activeRoute, unsubscribe } = useRouterContext();
-  const { login, isLoggedIn } = useRouterContext();
+  const { setRoute, activeRoute, unsubscribe, login, isLoggedIn } = useRouterContext();
   const { refetchCommsChannel } = useNotificationsContext();
   const theme = useTheme();
 
@@ -57,13 +57,17 @@ export const Settings = () => {
   const handleSave = async () => {
     if (isLoggedIn) {
       await saveEmail();
+
       analytics.track('email saved');
+
       return setRoute(Routes.EmailVerify, { email });
     }
 
     login(async () => {
       await saveEmail();
+
       analytics.track('email saved');
+
       setRoute(Routes.EmailVerify, { email });
     });
   };
@@ -74,7 +78,9 @@ export const Settings = () => {
 
       if (response?.data?.userEmailDelete?.success) {
         await refetchCommsChannel();
+
         analytics.track('email deleted');
+
         return setRoute(Routes.Settings);
       }
     };

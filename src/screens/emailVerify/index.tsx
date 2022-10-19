@@ -11,6 +11,7 @@ import { Bell } from 'components/icons';
 import Flex from 'components/layout/Flex';
 import { Routes, useRouterContext } from 'context/RouterContext';
 import Spinner from 'components/Spinner';
+import { useChannelContext } from 'context/ChannelContext';
 
 const HeaderIconContainer = styled.div`
   height: 40px;

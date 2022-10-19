@@ -22,7 +22,12 @@ const FakeApp = () => {
   const widget = useMemo(() => {
     return (
       <div style={{ height: 52, width: 52, background: '#102544' }}>
-        <NotificationFeedProvider theme={theme} env={env} partnerKey={partnerKey}>
+        <NotificationFeedProvider
+          theme={theme}
+          env={env}
+          partnerKey={partnerKey}
+          disableAnalytics={true}
+        >
           <NotificationFeed>
             <NotificationBell containerHeight={'100%'} containerWidth={'100%'} />
           </NotificationFeed>
