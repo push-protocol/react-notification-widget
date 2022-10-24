@@ -17,11 +17,7 @@ const MobileContainer = styled.div<{ isOpen: boolean }>`
 
 // eslint-disable-next-line react/display-name
 const BellRef = forwardRef<HTMLDivElement, { children: ReactElement }>(({ children }, ref) => {
-  return (
-    <div ref={ref} style={{ height: 'inherit', width: 'inherit' }}>
-      {children}
-    </div>
-  );
+  return <div ref={ref}>{children}</div>;
 });
 
 export type NotificationFeedProps = NotificationClickProp & {
@@ -86,7 +82,7 @@ const NotificationFeed = (props: NotificationFeedProps): JSX.Element => {
 
   return (
     <ClickAwayListener onClickAway={() => setFeedOpen(false)}>
-      <div style={{ height: 'inherit', width: 'inherit' }}>
+      <div>
         <BellRef ref={setReferenceRef}>
           {cloneElement(children, { onClick: handleBellClick })}
         </BellRef>

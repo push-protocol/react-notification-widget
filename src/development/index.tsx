@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { render } from 'react-dom';
+import styled from 'styled-components';
 import {
   NotificationFeed,
   NotificationFeedProvider,
@@ -7,6 +8,20 @@ import {
   CustomTheme,
 } from '../index';
 import FloatingSettings from './components/FloatingSettings';
+
+const WidgetBellWrapper = styled.div`
+  height: 52px;
+  width: 52px;
+  background: #102544;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+
+  &:active {
+    background: #193969;
+  }
+`;
 
 const FakeApp = () => {
   const [partnerKey, setPartnerKey] = useState('cefa1b69-bfb9-4e70-bebc-9ee10316f882');
@@ -21,7 +36,7 @@ const FakeApp = () => {
 
   const widget = useMemo(() => {
     return (
-      <div style={{ height: 52, width: 52, background: '#102544' }}>
+      <div>
         <NotificationFeedProvider
           theme={theme}
           env={env}
@@ -29,7 +44,9 @@ const FakeApp = () => {
           disableAnalytics={true}
         >
           <NotificationFeed>
-            <NotificationBell containerHeight={'100%'} containerWidth={'100%'} />
+            <WidgetBellWrapper>
+              <NotificationBell />
+            </WidgetBellWrapper>
           </NotificationFeed>
         </NotificationFeedProvider>
       </div>
