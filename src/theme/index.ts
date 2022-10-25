@@ -31,6 +31,9 @@ declare module 'styled-components' {
       bg: {
         main: string;
       };
+      button: {
+        text: string;
+      };
       primary: MainColor;
       secondary: MainColor;
       text: {
@@ -66,6 +69,7 @@ export type CustomTheme = {
   fontFamily?: string;
   bellColor?: string;
   textColor?: string;
+  buttonTextColor?: string;
   mobileBreakpoint?: number;
 };
 
@@ -81,8 +85,11 @@ const defaultTheme: DefaultTheme = {
     mobile: 600,
   },
   colors: {
+    button: {
+      text: '#ffffff',
+    },
     text: {
-      primary: '#fff',
+      primary: 'rgba(255,255,255,0.9)',
       secondary: '#bfbfbf',
     },
     bg: {
@@ -132,6 +139,9 @@ export const makeTheme = (customTheme?: CustomTheme): DefaultTheme => {
     },
     colors: {
       ...defaultTheme.colors,
+      button: {
+        text: customTheme.buttonTextColor || defaultTheme.colors.button.text,
+      },
       text: {
         ...defaultTheme.colors.text,
         ...(customTheme.textColor && {

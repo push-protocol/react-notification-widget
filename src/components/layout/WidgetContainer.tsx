@@ -29,10 +29,9 @@ const LayoutContainer = styled.div(({ theme }) => ({
   },
 }));
 
-const PoweredBy = styled(Flex)(({ theme }) => ({
-  borderTop: `1px solid ${theme.colors.border.main}`,
+const PoweredBy = styled(Flex)({
   height: POWERED_BY_HEIGHT,
-}));
+});
 
 const ChildrenContainer = styled.div`
   height: calc(100% - ${POWERED_BY_HEIGHT});

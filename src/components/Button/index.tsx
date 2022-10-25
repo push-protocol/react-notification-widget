@@ -30,6 +30,8 @@ const variantStyles = (variant = 'primary', theme: DefaultTheme): any =>
     `,
     gray: css`
       background: ${theme.colors.gray[500]};
+      color: rgba(255, 255, 255, 0.9);
+
       &:hover {
         background: ${theme.colors.gray[300]};
         border-color: ${theme.colors.gray[300]};
@@ -72,7 +74,7 @@ const Button = styled.button<ButtonProps>`
     justify-content: center;
     font-size: ${fontSizes[fontSize]};
     padding: ${theme.spacing(1)}px ${theme.spacing(3)}px;
-    color: ${textColor || theme.colors.text.primary};
+    color: ${textColor || theme.colors.button.text};
     width: ${renderStringNumValue(width)};
     height: ${renderStringNumValue(height)};
     ${variantStyles(variant, theme).join('')}

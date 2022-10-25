@@ -44,7 +44,7 @@ export const Subscribe = () => {
           Wallet-to-wallet notifications
         </Text>
       </Flex>
-      <Flex alignItems={'center'} direction={'column'} mb={4}>
+      <Flex alignItems={'center'} direction={'column'} mb={3} mt={2}>
         <SubscribeInfo />
         <SubscribeDescription />
       </Flex>

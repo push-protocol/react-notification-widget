@@ -13,9 +13,11 @@ export const textSizes = {
   '3xl': 32,
 };
 
+type ColorKeys = 'primary' | 'secondary';
+
 type TextProps = {
   size?: keyof typeof textSizes;
-  color?: 'primary' | 'secondary';
+  color?: ColorKeys | string;
   weight?: string | number;
   opacity?: number;
   align?: 'left' | 'center' | 'right';
@@ -26,7 +28,10 @@ type TextProps = {
 
 const Text = styled.p<TextProps>`
   ${({ theme, size, color, flexBasis, weight, opacity, align, fontFamily, ...rest }) => `
-    ${conditionalRenderProp('color', color ? theme.colors.text[color] : theme.colors.text.primary)};
+    ${conditionalRenderProp(
+      'color',
+      color ? theme.colors.text[color as ColorKeys] || color : theme.colors.text.primary
+    )};
     ${conditionalRenderProp(
       'font-size',
       renderStringNumValue(size ? textSizes[size] : textSizes.md)

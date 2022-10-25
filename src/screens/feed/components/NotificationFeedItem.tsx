@@ -12,7 +12,6 @@ import Link from 'components/Link';
 import { Globe } from 'components/icons';
 import formatDomain from 'helpers/functions/formatDomain';
 import { getYoutubeId } from 'helpers/functions/getYoutubeId';
-import { useChannelContext } from 'context/ChannelContext';
 
 extend(relativeTime);
 
@@ -131,7 +130,7 @@ const NotificationFeedItem = ({
         </Flex>
         {isUnread && <UnreadNotification onClick={markAsRead} />}
       </Header>
-      <Message mt={1} mb={1} size={'md'} weight={600}>
+      <Message mt={1} mb={1} size={'md'} weight={500}>
         {notification.message}
       </Message>
       {notification.image && (

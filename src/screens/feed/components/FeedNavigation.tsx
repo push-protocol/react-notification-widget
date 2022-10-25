@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { useTheme } from 'styled-components';
 import Flex from 'components/layout/Flex';
 import Text from 'components/Text';
 import { Boxes } from 'components/icons';
@@ -14,11 +14,7 @@ const NavigationItem = styled.div<{ isActive?: boolean }>`
   display: flex;
   align-items: center;
   cursor: pointer;
-  ${({ isActive, theme }) =>
-    isActive &&
-    `
-      background: ${theme.colors.gray[500]};
-  `}
+  ${({ isActive }) => isActive && `background: rgba(175, 175, 175, 0.3)`}
 `;
 
 const ClientFeedIcon = styled.div`
@@ -33,7 +29,7 @@ const ClientFeedIcon = styled.div`
   }
 `;
 
-const AllFeedIcon = styled.div`
+const AllFeedIconContainer = styled.div`
   height: 16px;
   width: 16px;
 `;
@@ -50,9 +46,10 @@ interface FeedNavigationProps {
 
 const FeedNavigation = ({ activeTab, setActiveTab }: FeedNavigationProps) => {
   const { name, icon } = useChannelContext();
+  const theme = useTheme();
 
   return (
-    <Flex width={'100%'} mb={2} gap={1.5}>
+    <Flex width={'100%'} mb={1} gap={1.5}>
       <NavigationItem
         isActive={activeTab === NavigationTabs.App}
         onClick={() => {
@@ -70,9 +67,9 @@ const FeedNavigation = ({ activeTab, setActiveTab }: FeedNavigationProps) => {
           setActiveTab(NavigationTabs.All);
         }}
       >
-        <AllFeedIcon>
-          <Boxes />
-        </AllFeedIcon>
+        <AllFeedIconContainer>
+          <Boxes color={theme.colors.text.primary} />
+        </AllFeedIconContainer>
         <Text>All</Text>
       </NavigationItem>
     </Flex>

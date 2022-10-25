@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { useTheme } from 'styled-components';
 import { FAQ_URL } from '../../../global/const';
 import Flex from 'components/layout/Flex';
 import { Lock } from 'components/icons';
@@ -11,16 +11,21 @@ const LockIcon = styled.div`
   width: 11px;
   height: 11px;
   display: flex;
+  color: black;
 `;
 
 const EmailHiddenNotice = () => {
   const { name } = useChannelContext();
+  const theme = useTheme();
+  const {
+    colors: { text },
+  } = theme;
 
   return (
     <Flex direction={'column'} gap={0.2}>
       <Flex gap={0.5} mb={0.5} alignItems={'center'}>
         <LockIcon>
-          <Lock />
+          <Lock color={text.primary} />
         </LockIcon>
         <Text size={'md'} weight={600}>
           Your email is hidden

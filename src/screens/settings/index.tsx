@@ -107,7 +107,7 @@ export const Settings = () => {
           height={'27px'}
           fontSize={'sm'}
           p={0}
-          borderRadius={'xs'}
+          borderRadius={'sm'}
           onClick={handleSkip}
         >
           {activeRoute === Routes.Settings ? 'Back' : 'Skip'}
@@ -117,7 +117,7 @@ export const Settings = () => {
       <Flex justifyContent={'center'} alignItems={'center'} direction={'column'} mb={2}>
         <HeaderIconContainer>
           <HeaderIcon>
-            <Bell color={theme.colors.text.primary} />
+            <Bell color={theme.colors.button.text} />
           </HeaderIcon>
         </HeaderIconContainer>
         <Text size={'xl'} weight={700} mb={0.5}>

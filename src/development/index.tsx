@@ -23,14 +23,21 @@ const WidgetBellWrapper = styled.div`
   }
 `;
 
+const lightTheme = {
+  primaryColor: '#3761F9',
+  buttonTextColor: '#ffffff',
+  backgroundColor: '#EDF2F7',
+  textColor: '#181c27',
+};
+
 const FakeApp = () => {
   const [partnerKey, setPartnerKey] = useState('cefa1b69-bfb9-4e70-bebc-9ee10316f882');
   const [iframeUrl, setIframeUrl] = useState('');
   const [env, setEnv] = useState(process.env.WHEREVER_ENV as string);
   const [theme, setTheme] = useState<CustomTheme>({
-    bellColor: '#d67a5a',
-    backgroundColor: '#102544',
     fontFamily: '"Inter var", sans-serif',
+    bellColor: '#d67a5a',
+    // ...lightTheme,
   });
   const [coordinates, setCoordinates] = useState({ top: 1, left: 250 });
 

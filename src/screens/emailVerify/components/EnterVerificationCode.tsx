@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import VerificationInput from 'react-verification-input';
 import Flex from 'components/layout/Flex';
@@ -27,7 +27,7 @@ const InputWrapper = styled.div`
       .vi__character {
         background: transparent;
         border-radius: ${({ theme }) => theme.borderRadius.md};
-        color: white;
+        color: ${({ theme }) => theme.colors.text.primary};
         border: 1px solid ${({ theme }) => theme.colors.gray[200]};
       }
       .vi__character--inactive {

@@ -1,12 +1,11 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { useTheme } from 'styled-components';
 import { adjustColor } from '../utils';
 import Text from 'components/Text';
 
 const Container = styled.div`
   border-radius: 3px;
   background: ${({ theme }) => adjustColor(theme.colors.primary.light, 0.8)};
-  color: ${({ theme }) => theme.colors.text.primary};
   display: flex;
   align-items: center;
   justify-content: center;
@@ -22,9 +21,11 @@ interface NewTagProps {
 }
 
 const NewTag = ({ className }: NewTagProps) => {
+  const theme = useTheme();
+
   return (
     <Container className={className}>
-      <Text>new</Text>
+      <Text color={theme.colors.button.text}>new</Text>
     </Container>
   );
 };
