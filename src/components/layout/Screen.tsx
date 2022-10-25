@@ -51,7 +51,7 @@ export const Screen = (props: ScreenPropsT) => {
             fontSize={'sm'}
             variant={'outlined'}
           >
-            X
+            <Text>X</Text>
           </MobileCloseButton>
         </Flex>
       </TitleBar>
