@@ -14,6 +14,7 @@ const LayoutContainer = styled.div(({ theme }) => ({
     width: '100vw',
     height: '100vh',
     borderRadius: 0,
+    zIndex: 999,
   },
   width: '350px',
   boxSizing: 'border-box',
