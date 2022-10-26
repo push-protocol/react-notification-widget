@@ -46,21 +46,22 @@ const NotificationFeedProvider = ({
       autoConnect: true,
       provider: wagmiProvider,
       connectors: [
-        new InjectedConnector({
-          options: {
-            shimDisconnect: false,
-          },
-        }),
-        new MetaMaskConnector({
-          options: {},
-        }),
         new WalletConnectConnector({
           options: {
             qrcode: true,
           },
         }),
         new CoinbaseWalletConnector({
-          options: { appName: 'wherever' },
+          options: { appName: 'Widget App' },
+        }),
+        new MetaMaskConnector({
+          options: {},
+        }),
+        new InjectedConnector({
+          options: {
+            shimDisconnect: false,
+            shimChainChangedDisconnect: false,
+          },
         }),
       ],
     });
