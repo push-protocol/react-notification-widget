@@ -11,6 +11,7 @@ export type Scalars = {
   Int: number;
   Float: number;
   DateTime: any;
+  JSON: any;
 };
 
 export type AnalyticsRangeInput = {
@@ -80,6 +81,7 @@ export type CommsChannelSubscriber = {
 
 export type CommsChannelSubscriberToken = {
   __typename?: 'CommsChannelSubscriberToken';
+  address: Scalars['String'];
   amount: Scalars['Float'];
   decimals: Scalars['Float'];
   symbol: Scalars['String'];
@@ -94,10 +96,66 @@ export type ContractTriggerInput = {
   eventName: Scalars['String'];
 };
 
+export type EmailUnsubscribeInput = {
+  email: Scalars['String'];
+  token: Scalars['String'];
+};
+
 export type GeneralResolverResponse = {
   __typename?: 'GeneralResolverResponse';
   message?: Maybe<Scalars['String']>;
   success: Scalars['Boolean'];
+};
+
+export type IncomingWebhook = {
+  __typename?: 'IncomingWebhook';
+  commsChannelId: Scalars['String'];
+  createdAt: Scalars['DateTime'];
+  createdByAddress: Scalars['String'];
+  id: Scalars['String'];
+  isActive: Scalars['Boolean'];
+  logs: Array<IncomingWebhookLog>;
+  name: Scalars['String'];
+  parameters: Array<IncomingWebhookParameter>;
+  secret: Scalars['String'];
+};
+
+export type IncomingWebhookCreateInput = {
+  isActive: Scalars['Boolean'];
+  name: Scalars['String'];
+  parameters: Array<IncomingWebhookCreateInputParameter>;
+};
+
+export type IncomingWebhookCreateInputParameter = {
+  name: Scalars['String'];
+};
+
+export type IncomingWebhookLog = {
+  __typename?: 'IncomingWebhookLog';
+  createdAt: Scalars['DateTime'];
+  id: Scalars['String'];
+  incomingWebhookId: Scalars['String'];
+  receivedData: Scalars['JSON'];
+  triggeredWorkflowsCount: Scalars['Int'];
+};
+
+export type IncomingWebhookParameter = {
+  __typename?: 'IncomingWebhookParameter';
+  id: Scalars['String'];
+  incomingWebhookId: Scalars['String'];
+  name: Scalars['String'];
+  type: IncomingWebhookParameterType;
+};
+
+export enum IncomingWebhookParameterType {
+  String = 'STRING'
+}
+
+export type IncomingWebhookUpdateInput = {
+  id: Scalars['String'];
+  isActive: Scalars['Boolean'];
+  name: Scalars['String'];
+  parameters: Array<IncomingWebhookCreateInputParameter>;
 };
 
 export type MessageSendInput = {
@@ -135,8 +193,12 @@ export enum MessagingApp {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  emailUnsubscribe: GeneralResolverResponse;
+  incomingWebhookCreate: IncomingWebhook;
+  incomingWebhookUpdate: IncomingWebhook;
   messageSend: Scalars['Boolean'];
   nonceGenerate: Nonce;
+  projecTokenSave: GeneralResolverResponse;
   refreshToken: RefreshTokenPayload;
   userEmailDelete: GeneralResolverResponse;
   userEmailUpdate: GeneralResolverResponse;
@@ -148,6 +210,21 @@ export type Mutation = {
 };
 
 
+export type MutationEmailUnsubscribeArgs = {
+  input: EmailUnsubscribeInput;
+};
+
+
+export type MutationIncomingWebhookCreateArgs = {
+  input: IncomingWebhookCreateInput;
+};
+
+
+export type MutationIncomingWebhookUpdateArgs = {
+  input: IncomingWebhookUpdateInput;
+};
+
+
 export type MutationMessageSendArgs = {
   input: MessageSendInput;
 };
@@ -155,6 +232,11 @@ export type MutationMessageSendArgs = {
 
 export type MutationNonceGenerateArgs = {
   input: NonceGenerateInput;
+};
+
+
+export type MutationProjecTokenSaveArgs = {
+  input: ProjectTokenSaveInput;
 };
 
 
@@ -203,11 +285,26 @@ export type PartnerInfoInput = {
   partnerApiKey: Scalars['String'];
 };
 
+export type ProjectToken = {
+  __typename?: 'ProjectToken';
+  commsChannelId: Scalars['String'];
+  id: Scalars['String'];
+  tokenId: Scalars['String'];
+  tokenName: Scalars['String'];
+};
+
+export type ProjectTokenSaveInput = {
+  tokenId: Scalars['String'];
+  tokenName: Scalars['String'];
+};
+
 export type Query = {
   __typename?: 'Query';
   commsChannel: CommsChannel;
+  incomingWebhooks: Array<IncomingWebhook>;
   me: User;
   partnerInfo: CommsChannel;
+  projectToken?: Maybe<ProjectToken>;
   userCommunicationChannels: UserCommunicationChannelsPayload;
   workflows: Array<Workflow>;
 };
@@ -235,6 +332,7 @@ export type RefreshTokenPayload = {
 export type Trigger = {
   __typename?: 'Trigger';
   id: Scalars['String'];
+  incomingWebhookId?: Maybe<Scalars['String']>;
   type: TriggerType;
   updatedAt: Scalars['DateTime'];
   workflowId: Scalars['String'];
@@ -242,7 +340,7 @@ export type Trigger = {
 
 export enum TriggerType {
   ContractEvent = 'CONTRACT_EVENT',
-  Manual = 'MANUAL'
+  Webhook = 'WEBHOOK'
 }
 
 export type User = {
@@ -325,6 +423,7 @@ export type WorkflowCreateMessageInput = {
   apps: Array<Scalars['String']>;
   body: Scalars['String'];
   clickUrl?: InputMaybe<Scalars['String']>;
+  imgUrl?: InputMaybe<Scalars['String']>;
   subject: Scalars['String'];
 };
 

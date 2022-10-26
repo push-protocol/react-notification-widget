@@ -2,8 +2,12 @@ import React, { PropsWithChildren, useEffect, useMemo } from 'react';
 import { WagmiConfig, createClient } from 'wagmi';
 import { ThemeProvider } from 'styled-components';
 import { ethers, providers } from 'ethers';
-import { CustomTheme, makeTheme } from '../../theme';
-import { Reset } from '../../theme/ResetCss';
+import { WalletConnectConnector } from 'wagmi/connectors/walletConnect';
+import { InjectedConnector } from 'wagmi/connectors/injected';
+import { CoinbaseWalletConnector } from 'wagmi/connectors/coinbaseWallet';
+import { MetaMaskConnector } from 'wagmi/connectors/metaMask';
+import { CustomTheme, makeTheme } from 'theme';
+import { Reset } from 'theme/ResetCss';
 import { RouterProvider } from 'context/RouterContext';
 import { NotificationsProvider } from 'context/NotificationsContext';
 import { ChannelProvider } from 'context/ChannelContext';
@@ -41,6 +45,24 @@ const NotificationFeedProvider = ({
     return createClient({
       autoConnect: true,
       provider: wagmiProvider,
+      connectors: [
+        new InjectedConnector({
+          options: {
+            shimDisconnect: false,
+          },
+        }),
+        new MetaMaskConnector({
+          options: {},
+        }),
+        new WalletConnectConnector({
+          options: {
+            qrcode: true,
+          },
+        }),
+        new CoinbaseWalletConnector({
+          options: { appName: 'Widget App' },
+        }),
+      ],
     });
   }, [provider]);
 
