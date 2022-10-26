@@ -60,7 +60,7 @@ const NotificationFeedProvider = ({
           },
         }),
         new CoinbaseWalletConnector({
-          options: { appName: 'Widget App' },
+          options: { appName: 'wherever' },
         }),
       ],
     });
