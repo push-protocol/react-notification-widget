@@ -62,7 +62,7 @@ const SubscribeInfo = () => {
   const { channelAddress, icon } = useChannelContext();
   const { address } = useAccount();
 
-  const { data: channelEns } = useEnsName({ address: channelAddress });
+  const { data: channelEns } = useEnsName({ address: channelAddress as `0x${string}` });
   const { data: userEns } = useEnsName({ address });
 
   return (
