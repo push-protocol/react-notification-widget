@@ -1,11 +1,8 @@
-import React, { PropsWithChildren, useEffect, useMemo } from 'react';
-import { WagmiConfig, createClient } from 'wagmi';
+import React, { PropsWithChildren, useEffect } from 'react';
+import { WagmiConfig } from 'wagmi';
 import { ThemeProvider } from 'styled-components';
-import { ethers, providers } from 'ethers';
-import { WalletConnectConnector } from 'wagmi/connectors/walletConnect';
-import { InjectedConnector } from 'wagmi/connectors/injected';
-import { CoinbaseWalletConnector } from 'wagmi/connectors/coinbaseWallet';
-import { MetaMaskConnector } from 'wagmi/connectors/metaMask';
+import { providers } from 'ethers';
+import useWagmiClient from './useWagmiClient';
 import { CustomTheme, makeTheme } from 'theme';
 import { Reset } from 'theme/ResetCss';
 import { RouterProvider } from 'context/RouterContext';
@@ -15,10 +12,15 @@ import { ApolloProvider } from 'components/ApolloProvider';
 import { EnvType, EnvironmentProvider } from 'context/EnvironmentContext';
 import analytics from 'services/analytics';
 
+export type ExternalProvider =
+  | providers.BaseProvider
+  | providers.ExternalProvider
+  | providers.JsonRpcFetchFunc;
+
 export type NotificationFeedProviderProps = PropsWithChildren<{
   partnerKey: string;
   env?: EnvType;
-  provider?: providers.BaseProvider | providers.ExternalProvider | providers.JsonRpcFetchFunc;
+  provider?: ExternalProvider;
   theme?: CustomTheme;
   disableAnalytics?: boolean;
 }>;
@@ -31,41 +33,7 @@ const NotificationFeedProvider = ({
   children,
   disableAnalytics,
 }: NotificationFeedProviderProps) => {
-  const wagmiClient = useMemo(() => {
-    let wagmiProvider = ethers.getDefaultProvider();
-
-    // runtime check to see if this is an ethers provider or not based on random property that exists on the BaseProvider type.
-    if ((provider as providers.BaseProvider)?._network) {
-      wagmiProvider = provider as providers.BaseProvider;
-    } else if (provider) {
-      // this is a standard EipProvider (web3js provider or similar)
-      wagmiProvider = new providers.Web3Provider(provider as providers.ExternalProvider);
-    }
-
-    return createClient({
-      autoConnect: true,
-      provider: wagmiProvider,
-      connectors: [
-        new WalletConnectConnector({
-          options: {
-            qrcode: true,
-          },
-        }),
-        new CoinbaseWalletConnector({
-          options: { appName: 'Widget App' },
-        }),
-        new MetaMaskConnector({
-          options: {},
-        }),
-        new InjectedConnector({
-          options: {
-            shimDisconnect: false,
-            shimChainChangedDisconnect: false,
-          },
-        }),
-      ],
-    });
-  }, [provider]);
+  const wagmiClient = useWagmiClient(provider);
 
   useEffect(() => {
     if (disableAnalytics) {

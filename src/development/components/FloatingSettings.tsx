@@ -60,7 +60,7 @@ const FloatingSettings = (props: FloatingSettingsProps) => {
       >
         <button onClick={() => setShowSettings(!showSettings)}>Settings</button>
         <select name="env" value={env} onChange={(e) => setEnv(e.target.value)}>
-          <option value="development">Dev</option>
+          <option value="development">Development</option>
           <option value="staging">Staging</option>
           <option value="production">Production</option>
         </select>

@@ -24,6 +24,9 @@ const StyledText = styled(Text)`
   color: ${({ theme }) => theme.colors.gray[400]};
 `;
 
+//wagmi connector IDs
+const ALLOWED_WALLETS = ['metaMask', 'walletConnect'];
+
 export const WalletDisconnected = () => {
   const { connect, connectors, isLoading } = useConnect();
 
@@ -37,18 +40,20 @@ export const WalletDisconnected = () => {
           Wallet not connected
         </StyledText>
       </Flex>
-      <Flex width={'100%'} direction={'column'}>
-        {connectors.map((connector) => (
-          <Button
-            disabled={!connector.ready || isLoading}
-            key={connector.id}
-            onClick={() => connect({ connector })}
-          >
-            Connect Wallet
-            {!connector.ready && ' (unsupported)'}
-            {isLoading && <Spinner size={15} />}
-          </Button>
-        ))}
+      <Flex width={'100%'} gap={1.5} direction={'column'}>
+        {connectors
+          .filter((connector) => ALLOWED_WALLETS.includes(connector.id))
+          .map((connector) => (
+            <Button
+              disabled={!connector.ready || isLoading}
+              key={connector.id}
+              onClick={() => connect({ connector })}
+            >
+              Connect with {connector.name}
+              {!connector.ready && ' (unsupported)'}
+              {isLoading && <Spinner size={15} />}
+            </Button>
+          ))}
       </Flex>
     </Screen>
   );

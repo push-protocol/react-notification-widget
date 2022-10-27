@@ -1,4 +1,5 @@
 import esbuildServe from 'esbuild-serve';
+import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfill';
 
 esbuildServe({
   entryPoints: ['./src/development/index.tsx'],
@@ -13,4 +14,10 @@ esbuildServe({
     'process.env.WHEREVER_ENV': JSON.stringify('development'),
     global: 'window',
   },
+  plugins: [
+    NodeGlobalsPolyfillPlugin({
+      buffer: true,
+      process: false
+    })
+  ],
 });

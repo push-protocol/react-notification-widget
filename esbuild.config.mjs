@@ -1,5 +1,6 @@
 import { nodeExternalsPlugin } from 'esbuild-node-externals';
 import { build } from 'esbuild';
+import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfill';
 
 const entryFile = 'src/index.tsx';
 
@@ -9,7 +10,13 @@ const shared = {
   logLevel: 'info',
   minify: true,
   sourcemap: true,
-  plugins: [nodeExternalsPlugin()],
+  plugins: [
+    nodeExternalsPlugin(),
+    NodeGlobalsPolyfillPlugin({
+      buffer: true,
+      process: false
+    })
+],
   define: {
     global: 'window',
     'process.env.WHEREVER_ENV': JSON.stringify('production')
