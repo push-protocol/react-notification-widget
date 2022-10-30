@@ -1,5 +1,6 @@
 import React from 'react';
 import styled, { useTheme } from 'styled-components';
+import analytics from '../../../services/analytics';
 import Flex from 'components/layout/Flex';
 import Text from 'components/Text';
 import { Boxes } from 'components/icons';
@@ -48,12 +49,17 @@ const FeedNavigation = ({ activeTab, setActiveTab }: FeedNavigationProps) => {
   const { name, icon } = useChannelContext();
   const theme = useTheme();
 
+  const handleTabClick = (tabName: NavigationTabs) => {
+    analytics.track('notifications tab switch', { tab: tabName });
+    setActiveTab(tabName);
+  };
+
   return (
     <Flex width={'100%'} mb={1} gap={1.5}>
       <NavigationItem
         isActive={activeTab === NavigationTabs.App}
         onClick={() => {
-          setActiveTab(NavigationTabs.App);
+          handleTabClick(NavigationTabs.App);
         }}
       >
         <ClientFeedIcon>
@@ -64,7 +70,7 @@ const FeedNavigation = ({ activeTab, setActiveTab }: FeedNavigationProps) => {
       <NavigationItem
         isActive={activeTab === NavigationTabs.All}
         onClick={() => {
-          setActiveTab(NavigationTabs.All);
+          handleTabClick(NavigationTabs.All);
         }}
       >
         <AllFeedIconContainer>

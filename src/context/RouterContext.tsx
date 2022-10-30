@@ -81,7 +81,7 @@ const RouterProvider = ({ children }: { children: ReactNode }) => {
   const [loginCallback, setLoginCallback] = useState<() => void>();
 
   const setRouteWithParams = (route: Routes, props?: RouterProps) => {
-    analytics.page(route);
+    analytics.track(`${route} page loaded`);
     setActive(route);
     if (props) setRouterProps(props);
   };
