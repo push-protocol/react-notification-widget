@@ -44,12 +44,7 @@ const FakeApp = () => {
   const widget = useMemo(() => {
     return (
       <div>
-        <NotificationFeedProvider
-          theme={theme}
-          env={env}
-          partnerKey={partnerKey}
-          disableAnalytics={true}
-        >
+        <NotificationFeedProvider theme={theme} env={env} partnerKey={partnerKey}>
           <NotificationFeed>
             <WidgetBellWrapper>
               <NotificationBell />

@@ -1,7 +1,6 @@
-import * as rudder from 'rudder-js';
+import * as rudder from 'rudder-sdk-js';
 
-let RUDDERSTACK_WRITE_KEY = '2EzhYQgCELoWCA4pQbfhSXnE4HE';
-let initialized = false;
+let RUDDERSTACK_WRITE_KEY: string;
 
 if (process.env.WHEREVER_ENV === 'production') {
   RUDDERSTACK_WRITE_KEY = '2EzrNnUAfbX1NnxeCDZzbSVd0p9';
@@ -11,16 +10,12 @@ if (process.env.WHEREVER_ENV === 'production') {
 
 export function rudderInitialize() {
   if (!RUDDERSTACK_WRITE_KEY) {
-    console.log('Dev env - no analytics');
+    console.log('No rudderstack key, probably dev env - disabling analytics');
     return;
   }
 
-  rudder.ready(() => {
-    console.log('rudder initialized');
-    initialized = true;
-  });
   rudder.load(RUDDERSTACK_WRITE_KEY, 'https://wherevernntiw.dataplane.rudderstack.com', {
-    logLevel: process.env.WHEREVER_ENV !== 'production' && 'DEBUG',
+    logLevel: process.env.WHEREVER_ENV !== 'production' ? 'DEBUG' : undefined,
     integrations: { All: true },
   });
 }
@@ -33,17 +28,17 @@ class Analytics {
   }
 
   identify(userAddress: string, traits: { channelName: string; channelAddress: string }) {
-    if (!initialized || this.disabled) return;
+    if (this.disabled) return;
     rudder.identify(userAddress, traits);
   }
 
   track(event: string, args?: Record<string, any>) {
-    if (!initialized || this.disabled) return;
+    if (this.disabled) return;
     rudder.track(event, args);
   }
 
   page(page: string) {
-    if (!initialized || this.disabled) return;
+    if (this.disabled) return;
     rudder.page(page);
   }
 

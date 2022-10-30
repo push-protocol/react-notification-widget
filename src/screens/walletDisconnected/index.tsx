@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useConnect } from 'wagmi';
-import { WalletConnectConnector } from 'wagmi/connectors/walletConnect';
+import { useConnect, Connector } from 'wagmi';
 import Spinner from '../../components/Spinner';
+import analytics from '../../services/analytics';
 import { Screen } from 'components/layout/Screen';
 import Button from 'components/Button';
 import Text from 'components/Text';
@@ -30,6 +30,11 @@ const ALLOWED_WALLETS = ['metaMask', 'walletConnect'];
 export const WalletDisconnected = () => {
   const { connect, connectors, isLoading } = useConnect();
 
+  const connectWallet = (connector: Connector) => {
+    analytics.track('wallet connect', { wallet: connector.id });
+    connect({ connector });
+  };
+
   return (
     <Screen>
       <Flex justifyContent={'center'} alignItems={'center'} direction={'column'} mb={16} mt={8}>
@@ -47,7 +52,7 @@ export const WalletDisconnected = () => {
             <Button
               disabled={!connector.ready || isLoading}
               key={connector.id}
-              onClick={() => connect({ connector })}
+              onClick={() => connectWallet(connector)}
             >
               Connect with {connector.name}
               {!connector.ready && ' (unsupported)'}
