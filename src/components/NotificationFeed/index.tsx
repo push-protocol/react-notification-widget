@@ -48,7 +48,7 @@ const NotificationFeed = (props: NotificationFeedProps): JSX.Element => {
   }, [activeRoute, Component, onNotificationClick]);
 
   const handleBellClick = () => {
-    analytics.track('widget opened');
+    analytics.track('bell clicked', { feedOpened: !feedOpen });
 
     setFeedOpen(!feedOpen);
   };
