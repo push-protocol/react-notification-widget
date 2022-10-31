@@ -12,10 +12,6 @@ import SubscribeDescription from 'screens/subscribe/components/SubscribeDescript
 import SubscribeInfo from 'screens/subscribe/components/SubscribeInfo';
 import { useRouterContext } from 'context/RouterContext';
 
-const StyledNewTag = styled(NewTag)`
-  margin-bottom: ${({ theme }) => theme.spacing(1)}px;
-`;
-
 export const Subscribe = () => {
   const { isLoading, subscribe } = useRouterContext();
   const { loading, channelAddress } = useChannelContext();
@@ -39,7 +35,9 @@ export const Subscribe = () => {
   return (
     <Screen>
       <Flex alignItems={'center'} direction={'column'} mb={4}>
-        <StyledNewTag />
+        <Flex mb={1}>
+          <NewTag />
+        </Flex>
         <Text size={'xl'} weight={700} align={'center'}>
           Wallet-to-wallet notifications
         </Text>
