@@ -1,0 +1,6 @@
+query UserInfo {
+    me {
+        telegramId,
+        telegramUsername
+    }
+}

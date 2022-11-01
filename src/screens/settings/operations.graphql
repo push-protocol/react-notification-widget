@@ -9,3 +9,9 @@ mutation DeleteUserEmail {
         success
     }
 }
+
+mutation GetTelegramVerificationLink {
+    telegramVerificationLink {
+        link
+    }
+}

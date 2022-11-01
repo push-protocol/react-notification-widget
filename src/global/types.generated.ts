@@ -20,8 +20,10 @@ export type AnalyticsRangeInput = {
 
 export type Audience = {
   __typename?: 'Audience';
+  contractEventAudience?: Maybe<ContractEventAudience>;
   createdAt: Scalars['DateTime'];
   id: Scalars['String'];
+  manualAudience?: Maybe<Array<ManualAudience>>;
   type: AudienceType;
   updatedAt: Scalars['DateTime'];
   workflowId: Scalars['String'];
@@ -75,6 +77,7 @@ export type CommsChannelStats = {
 export type CommsChannelSubscriber = {
   __typename?: 'CommsChannelSubscriber';
   emailConnected: Scalars['Boolean'];
+  telegramConnected: Scalars['Boolean'];
   tokens: Array<CommsChannelSubscriberToken>;
   walletAddress: Scalars['String'];
 };
@@ -90,6 +93,20 @@ export type CommsChannelSubscriberToken = {
 export enum CommsChannelType {
   Epns = 'EPNS'
 }
+
+export type ContractEventAudience = {
+  __typename?: 'ContractEventAudience';
+  audienceId: Scalars['String'];
+  fields: Scalars['JSON'];
+};
+
+export type ContractTrigger = {
+  __typename?: 'ContractTrigger';
+  contractAddress: Scalars['String'];
+  eventName: Scalars['String'];
+  id: Scalars['String'];
+  triggerId: Scalars['String'];
+};
 
 export type ContractTriggerInput = {
   contractAddress: Scalars['String'];
@@ -158,6 +175,13 @@ export type IncomingWebhookUpdateInput = {
   parameters: Array<IncomingWebhookCreateInputParameter>;
 };
 
+export type ManualAudience = {
+  __typename?: 'ManualAudience';
+  address: Scalars['String'];
+  audienceId: Scalars['String'];
+  id: Scalars['String'];
+};
+
 export type MessageSendInput = {
   addresses: Array<Scalars['String']>;
   apps: Array<MessagingApp>;
@@ -188,7 +212,8 @@ export type MessageStepApp = {
 
 export enum MessagingApp {
   Email = 'EMAIL',
-  Epns = 'EPNS'
+  Epns = 'EPNS',
+  Telegram = 'TELEGRAM'
 }
 
 export type Mutation = {
@@ -200,6 +225,7 @@ export type Mutation = {
   nonceGenerate: Nonce;
   projecTokenSave: GeneralResolverResponse;
   refreshToken: RefreshTokenPayload;
+  telegramVerificationLink: UserTelegramVerificationLinkPayload;
   userEmailDelete: GeneralResolverResponse;
   userEmailUpdate: GeneralResolverResponse;
   userEmailValidate: GeneralResolverResponse;
@@ -207,6 +233,7 @@ export type Mutation = {
   userNotificationRead: GeneralResolverResponse;
   workflowCreate: Workflow;
   workflowDelete: BatchActionResponse;
+  workflowUpdate: Workflow;
 };
 
 
@@ -267,6 +294,11 @@ export type MutationWorkflowCreateArgs = {
 
 export type MutationWorkflowDeleteArgs = {
   input: WorkflowDeleteInput;
+};
+
+
+export type MutationWorkflowUpdateArgs = {
+  input: WorkflowUpdateInput;
 };
 
 export type Nonce = {
@@ -331,7 +363,9 @@ export type RefreshTokenPayload = {
 
 export type Trigger = {
   __typename?: 'Trigger';
+  contract?: Maybe<ContractTrigger>;
   id: Scalars['String'];
+  incomingWebhook?: Maybe<ContractTrigger>;
   incomingWebhookId?: Maybe<Scalars['String']>;
   type: TriggerType;
   updatedAt: Scalars['DateTime'];
@@ -351,6 +385,8 @@ export type User = {
   id: Scalars['String'];
   lastName?: Maybe<Scalars['String']>;
   lastReadAt: Scalars['DateTime'];
+  telegramId?: Maybe<Scalars['Int']>;
+  telegramUsername?: Maybe<Scalars['String']>;
   updatedAt: Scalars['DateTime'];
   walletAddress: Scalars['String'];
 };
@@ -365,6 +401,7 @@ export type UserCommunicationChannelsPayload = {
   __typename?: 'UserCommunicationChannelsPayload';
   email: UserCommunicationChannel;
   epns: UserCommunicationChannel;
+  telegram: UserCommunicationChannel;
 };
 
 export type UserEmailUpdateInput = {
@@ -387,6 +424,11 @@ export type UserLoginPayload = {
   refreshToken: Scalars['String'];
   token: Scalars['String'];
   user: User;
+};
+
+export type UserTelegramVerificationLinkPayload = {
+  __typename?: 'UserTelegramVerificationLinkPayload';
+  link: Scalars['String'];
 };
 
 export type Workflow = {
@@ -429,9 +471,18 @@ export type WorkflowCreateMessageInput = {
 
 export type WorkflowCreateTriggerInput = {
   contract?: InputMaybe<ContractTriggerInput>;
+  incomingWebhookId?: InputMaybe<Scalars['String']>;
   type: Scalars['String'];
 };
 
 export type WorkflowDeleteInput = {
   ids: Array<Scalars['String']>;
+};
+
+export type WorkflowUpdateInput = {
+  audience: WorkflowCreateAudienceInput;
+  id: Scalars['String'];
+  message: WorkflowCreateMessageInput;
+  name: Scalars['String'];
+  trigger: WorkflowCreateTriggerInput;
 };

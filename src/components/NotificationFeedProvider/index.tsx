@@ -11,6 +11,7 @@ import { ChannelProvider } from 'context/ChannelContext';
 import { ApolloProvider } from 'components/ApolloProvider';
 import { EnvType, EnvironmentProvider } from 'context/EnvironmentContext';
 import analytics from 'services/analytics';
+import { UserProvider } from 'context/UserContext';
 
 export type ExternalProvider =
   | providers.BaseProvider
@@ -49,7 +50,9 @@ const NotificationFeedProvider = ({
             <ChannelProvider partnerKey={partnerKey}>
               <NotificationsProvider>
                 <Reset />
-                <RouterProvider>{children}</RouterProvider>
+                <RouterProvider>
+                  <UserProvider>{children}</UserProvider>
+                </RouterProvider>
               </NotificationsProvider>
             </ChannelProvider>
           </ApolloProvider>

@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled, { useTheme } from 'styled-components';
 import analytics from '../../services/analytics';
+import Spinner from 'components/Spinner';
 import { Screen } from 'components/layout/Screen';
 import Button from 'components/Button';
 import Text from 'components/Text';
@@ -12,10 +13,11 @@ import isEmailValid from 'helpers/functions/isEmailValid';
 import { Routes, useRouterContext } from 'context/RouterContext';
 import {
   useDeleteUserEmailMutation,
+  useGetTelegramVerificationLinkMutation,
   useSaveUserEmailMutation,
 } from 'screens/settings/operations.generated';
 import { useNotificationsContext } from 'context/NotificationsContext';
-import { useChannelContext } from 'context/ChannelContext';
+import { useUserContext } from 'context/UserContext';
 
 const EmailHiddenContainer = styled(Flex)`
   align-self: start;
@@ -40,17 +42,24 @@ const HeaderIcon = styled.div`
 `;
 
 export const Settings = () => {
+  const { telegramId, telegramUsername, handleGetUserInfo } = useUserContext();
   const { setRoute, activeRoute, unsubscribe, login, isLoggedIn } = useRouterContext();
   const { refetchCommsChannel } = useNotificationsContext();
   const theme = useTheme();
 
   const [email, setEmail] = useState('');
-
+  const [telegramUrl, setTelegramUrl] = useState('');
+  console.log(telegramId, telegramUsername, 'telegramUrl');
+  const [getTelegramLink, { loading: telegramLoading }] = useGetTelegramVerificationLinkMutation();
   const [saveEmail, { loading }] = useSaveUserEmailMutation({
     variables: {
       input: { email },
     },
   });
+  //
+  // useEffect(() => {
+  //   handleGetUserInfo();
+  // }, []);
 
   const [deleteEmail, { loading: deleteLoading }] = useDeleteUserEmailMutation();
 
@@ -92,6 +101,30 @@ export const Settings = () => {
         removeEmail();
       });
     }
+  };
+
+  const handleGetTelegramLink = async () => {
+    if (isLoggedIn) {
+      const response = await getTelegramLink();
+      console.log(
+        response?.data?.telegramVerificationLink?.link || '',
+        'response?.data?.telegramVerificationLink?.link'
+      );
+      setTelegramUrl(response?.data?.telegramVerificationLink?.link || '');
+    } else {
+      login(async () => {
+        const response = await getTelegramLink();
+        console.log(
+          response?.data?.telegramVerificationLink?.link || '',
+          'response?.data?.telegramVerificationLink?.link'
+        );
+        setTelegramUrl(response?.data?.telegramVerificationLink?.link || '');
+      });
+    }
+  };
+
+  const handleConnectTelegram = async () => {
+    window.open(telegramUrl, '_blank', 'noopener,noreferrer');
   };
 
   const handleSkip = () => {
@@ -144,6 +177,15 @@ export const Settings = () => {
             <Text size={'sm'}>Unsubscribe</Text>
           </Button>
         </Flex>
+      )}
+      {telegramUrl ? (
+        <Button variant={'primary'} onClick={handleConnectTelegram} disabled={telegramLoading}>
+          Connect Telegram
+        </Button>
+      ) : (
+        <Button variant={'primary'} onClick={handleGetTelegramLink} disabled={telegramLoading}>
+          Get Telegram Link
+        </Button>
       )}
     </Screen>
   );
