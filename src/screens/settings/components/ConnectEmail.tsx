@@ -30,7 +30,7 @@ type EnterEmailProps = {
   isLoading: boolean;
 };
 
-const EmailInput = ({
+const ConnectEmail = ({
   isValid,
   value,
   onChange,
@@ -105,4 +105,4 @@ const EmailInput = ({
   );
 };
 
-export default EmailInput;
+export default ConnectEmail;

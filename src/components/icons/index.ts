@@ -8,3 +8,6 @@ export * from './pack/Wallet';
 export * from './pack/Settings';
 export * from './pack/Boxes';
 export * from './pack/Globe';
+export * from './pack/Email';
+export * from './pack/Telegram';
+export * from './pack/OpenLink';

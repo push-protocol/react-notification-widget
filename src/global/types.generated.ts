@@ -365,7 +365,7 @@ export type Trigger = {
   __typename?: 'Trigger';
   contract?: Maybe<ContractTrigger>;
   id: Scalars['String'];
-  incomingWebhook?: Maybe<ContractTrigger>;
+  incomingWebhook?: Maybe<IncomingWebhook>;
   incomingWebhookId?: Maybe<Scalars['String']>;
   type: TriggerType;
   updatedAt: Scalars['DateTime'];

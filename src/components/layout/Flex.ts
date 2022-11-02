@@ -9,13 +9,14 @@ type PropsT = {
   gap?: number | string;
   alignItems?: 'space-between' | 'start' | 'end' | 'center';
   justifyContent?: 'space-between' | 'start' | 'end' | 'center';
+  bg?: string;
 } & Paddings &
   Margins;
 
 const Flex = styled.div<PropsT>`
-  ${({ theme, direction, height, width, gap, justifyContent, alignItems, ...rest }) => `
+  ${({ theme, direction, height, width, gap, justifyContent, alignItems, bg, ...rest }) => `
     display: flex;
-    ${conditionalRenderProp('background-color', theme.colors.bg.main)};
+    ${conditionalRenderProp('background-color', bg)};
     ${conditionalRenderProp('height', renderStringNumValue(height))};
     ${conditionalRenderProp('width', renderStringNumValue(width))};
     ${conditionalRenderProp('flex-direction', direction)};

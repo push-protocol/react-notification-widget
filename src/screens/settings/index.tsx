@@ -4,10 +4,10 @@ import analytics from '../../services/analytics';
 import { Screen } from 'components/layout/Screen';
 import Button from 'components/Button';
 import Text from 'components/Text';
-import { Bell } from 'components/icons';
+import { Bell, Email, Telegram } from 'components/icons';
 import Flex from 'components/layout/Flex';
-import EmailHiddenNotice from 'screens/settings/components/EmailHiddenNotice';
-import EmailInput from 'screens/settings/components/EmailInput';
+import HiddenNotice from 'screens/settings/components/HiddenNotice';
+import ConnectEmail from 'screens/settings/components/ConnectEmail';
 import isEmailValid from 'helpers/functions/isEmailValid';
 import { Routes, useRouterContext } from 'context/RouterContext';
 import {
@@ -18,10 +18,9 @@ import {
 import { useNotificationsContext } from 'context/NotificationsContext';
 import { useAuthContext } from 'context/AuthContext';
 import Spinner from 'components/Spinner';
-
-const EmailHiddenContainer = styled(Flex)`
-  align-self: start;
-`;
+import { changeColorShade } from 'components/utils';
+import SettingsItem from 'screens/settings/components/SettingsItem';
+import ConnectTelegram from 'screens/settings/components/ConnectTelegram';
 
 const HeaderIconContainer = styled.div`
   height: 40px;
@@ -39,6 +38,12 @@ const HeaderIcon = styled.div`
   width: 24px;
   border-radius: 100px;
   background: ${({ theme }) => theme.colors.primary.main};
+`;
+
+const Divider = styled.div`
+  border-top: 1px solid ${({ theme }) => changeColorShade(theme.colors.bg.main, 20)};
+  margin-bottom: ${({ theme }) => theme.spacing(2)}px;
+  width: 100%;
 `;
 
 export const Settings = () => {
@@ -79,14 +84,14 @@ export const Settings = () => {
     });
   };
 
-  const handleGetTelegramLink = async () => {
+  const handleGenerateUrl = async () => {
     login(async () => {
       const response = await getTelegramLink();
       setTelegramUrl(response?.data?.telegramVerificationLink?.link || '');
     });
   };
 
-  const handleConnectTelegram = async () => {
+  const handleOpenTG = async () => {
     window.open(telegramUrl, '_blank', 'noopener,noreferrer');
   };
 
@@ -127,38 +132,38 @@ export const Settings = () => {
           </HeaderIcon>
         </HeaderIconContainer>
         <Text size={'xl'} weight={700} mb={0.5}>
-          Connect your email
-        </Text>
-        <Text size={'md'} align={'center'}>
-          Get alerts when new messages are received in your wallet.
+          Set Up Notifications
         </Text>
       </Flex>
-      <EmailInput
-        onChange={setEmail}
-        value={email}
-        isValid={isEmailValid(email)}
-        isLoading={saveLoading || deleteLoading}
-        handleSave={handleSave}
-        handleRemove={handleRemove}
-      />
-      <EmailHiddenContainer>
-        <EmailHiddenNotice />
-      </EmailHiddenContainer>
+      <Flex gap={1} width={'100%'} direction={'column'} mb={2}>
+        <SettingsItem title={'Email'} icon={<Email />}>
+          <ConnectEmail
+            onChange={setEmail}
+            value={email}
+            isValid={isEmailValid(email)}
+            isLoading={saveLoading || deleteLoading}
+            handleSave={handleSave}
+            handleRemove={handleRemove}
+          />
+        </SettingsItem>
+        <SettingsItem title={'Telegram'} icon={<Telegram />}>
+          <ConnectTelegram
+            url={telegramUrl}
+            onGenerateUrl={handleGenerateUrl}
+            onOpenTG={handleOpenTG}
+            loading={telegramLoading}
+          />
+        </SettingsItem>
+      </Flex>
+
+      <Divider />
+      <HiddenNotice />
       {process.env.WHEREVER_ENV === 'development' && (
         <Flex width={'100%'} justifyContent={'center'}>
-          <Button variant={'outlined'} onClick={unsubscribe} height={20} p={0} mb={2} width={90}>
+          <Button variant={'outlined'} onClick={unsubscribe} height={20} p={0} mb={1} width={90}>
             <Text size={'sm'}>Unsubscribe</Text>
           </Button>
         </Flex>
-      )}
-      {telegramUrl ? (
-        <Button variant={'primary'} onClick={handleConnectTelegram} disabled={telegramLoading}>
-          Connect Telegram
-        </Button>
-      ) : (
-        <Button variant={'primary'} onClick={handleGetTelegramLink} disabled={telegramLoading}>
-          Get Telegram Link
-        </Button>
       )}
     </Screen>
   );

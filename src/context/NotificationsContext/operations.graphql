@@ -4,5 +4,9 @@ query UserCommunicationChannels ($address: String!) {
             exists
             hint
         }
+        telegram {
+            exists
+            hint
+        }
     }
 }
