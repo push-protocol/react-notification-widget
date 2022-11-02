@@ -1,5 +1,4 @@
 import React from 'react';
-import styled from 'styled-components';
 import Spinner from '../../components/Spinner';
 import analytics from '../../services/analytics';
 import { useChannelContext } from 'context/ChannelContext';
@@ -10,16 +9,19 @@ import Text from 'components/Text';
 import NewTag from 'components/NewTag';
 import SubscribeDescription from 'screens/subscribe/components/SubscribeDescription';
 import SubscribeInfo from 'screens/subscribe/components/SubscribeInfo';
-import { useRouterContext } from 'context/RouterContext';
+import { Routes, useRouterContext } from 'context/RouterContext';
+import { useAuthContext } from 'context/AuthContext';
 
 export const Subscribe = () => {
-  const { isLoading, subscribe } = useRouterContext();
+  const { isLoading, subscribe, setIsFirstLogin } = useAuthContext();
+  const { setRoute } = useRouterContext();
   const { loading, channelAddress } = useChannelContext();
 
   const handleSubscribe = async () => {
     analytics.track('channel subscribe', { channelAddress });
-
-    subscribe();
+    setIsFirstLogin(true);
+    await subscribe();
+    setRoute(Routes.ConnectEmail);
   };
 
   if (loading) {

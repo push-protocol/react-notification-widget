@@ -2,11 +2,12 @@ import React from 'react';
 import styled from 'styled-components';
 import { Screen } from 'components/layout/Screen';
 import Flex from 'components/layout/Flex';
-import { Routes, useRouterContext } from 'context/RouterContext';
 import Spinner from 'components/Spinner';
 import Button from 'components/Button';
 import Text from 'components/Text';
 import { Check } from 'components/icons';
+import { useAuthContext } from 'context/AuthContext';
+import { Routes, useRouterContext } from 'context/RouterContext';
 
 const HeaderIconContainer = styled.div`
   height: 40px;
@@ -26,7 +27,7 @@ const HeaderIcon = styled.div`
 `;
 
 export const Auth = () => {
-  const { isLoading, error, login, isLoggedIn } = useRouterContext();
+  const { isLoading, error, login, isLoggedIn } = useAuthContext();
   const { setRoute } = useRouterContext();
 
   const handleLogin = () => {
@@ -48,7 +49,7 @@ export const Auth = () => {
   }
 
   return (
-    <Screen>
+    <div>
       {error && (
         <Flex
           justifyContent="center"
@@ -77,6 +78,6 @@ export const Auth = () => {
           </Text>
         </Flex>
       )}
-    </Screen>
+    </div>
   );
 };

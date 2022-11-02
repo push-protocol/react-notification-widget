@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styled, { useTheme } from 'styled-components';
 import analytics from '../../services/analytics';
-import Spinner from 'components/Spinner';
 import { Screen } from 'components/layout/Screen';
 import Button from 'components/Button';
 import Text from 'components/Text';
@@ -17,7 +16,8 @@ import {
   useSaveUserEmailMutation,
 } from 'screens/settings/operations.generated';
 import { useNotificationsContext } from 'context/NotificationsContext';
-import { useUserContext } from 'context/UserContext';
+import { useAuthContext } from 'context/AuthContext';
+import Spinner from 'components/Spinner';
 
 const EmailHiddenContainer = styled(Flex)`
   align-self: start;
@@ -42,85 +42,48 @@ const HeaderIcon = styled.div`
 `;
 
 export const Settings = () => {
-  const { telegramId, telegramUsername, handleGetUserInfo } = useUserContext();
-  const { setRoute, activeRoute, unsubscribe, login, isLoggedIn } = useRouterContext();
+  const { unsubscribe, login, isLoading } = useAuthContext();
+  const { setRoute, activeRoute } = useRouterContext();
   const { refetchCommsChannel } = useNotificationsContext();
   const theme = useTheme();
 
   const [email, setEmail] = useState('');
   const [telegramUrl, setTelegramUrl] = useState('');
-  console.log(telegramId, telegramUsername, 'telegramUrl');
+
   const [getTelegramLink, { loading: telegramLoading }] = useGetTelegramVerificationLinkMutation();
-  const [saveEmail, { loading }] = useSaveUserEmailMutation({
+  const [saveEmail, { loading: saveLoading }] = useSaveUserEmailMutation({
     variables: {
       input: { email },
     },
   });
-  //
-  // useEffect(() => {
-  //   handleGetUserInfo();
-  // }, []);
 
   const [deleteEmail, { loading: deleteLoading }] = useDeleteUserEmailMutation();
 
   const handleSave = async () => {
-    if (isLoggedIn) {
-      await saveEmail();
-
-      analytics.track('email saved');
-
-      return setRoute(Routes.EmailVerify, { email });
-    }
-
     login(async () => {
       await saveEmail();
-
       analytics.track('email saved');
-
-      setRoute(Routes.EmailVerify, { email });
+      return setRoute(Routes.EmailVerify, { email });
     });
   };
 
   const handleRemove = async () => {
-    const removeEmail = async () => {
+    login(async () => {
       const response = await deleteEmail();
 
       if (response?.data?.userEmailDelete?.success) {
         await refetchCommsChannel();
-
         analytics.track('email deleted');
-
         return setRoute(Routes.Settings);
       }
-    };
-
-    if (isLoggedIn) {
-      removeEmail();
-    } else {
-      login(async () => {
-        removeEmail();
-      });
-    }
+    });
   };
 
   const handleGetTelegramLink = async () => {
-    if (isLoggedIn) {
+    login(async () => {
       const response = await getTelegramLink();
-      console.log(
-        response?.data?.telegramVerificationLink?.link || '',
-        'response?.data?.telegramVerificationLink?.link'
-      );
       setTelegramUrl(response?.data?.telegramVerificationLink?.link || '');
-    } else {
-      login(async () => {
-        const response = await getTelegramLink();
-        console.log(
-          response?.data?.telegramVerificationLink?.link || '',
-          'response?.data?.telegramVerificationLink?.link'
-        );
-        setTelegramUrl(response?.data?.telegramVerificationLink?.link || '');
-      });
-    }
+    });
   };
 
   const handleConnectTelegram = async () => {
@@ -130,6 +93,16 @@ export const Settings = () => {
   const handleSkip = () => {
     setRoute(Routes.NotificationsFeed);
   };
+
+  if (isLoading) {
+    return (
+      <Screen>
+        <Flex alignItems={'center'} justifyContent={'center'} height={200}>
+          <Spinner />
+        </Flex>
+      </Screen>
+    );
+  }
 
   return (
     <Screen
@@ -164,7 +137,7 @@ export const Settings = () => {
         onChange={setEmail}
         value={email}
         isValid={isEmailValid(email)}
-        isLoading={loading || deleteLoading}
+        isLoading={saveLoading || deleteLoading}
         handleSave={handleSave}
         handleRemove={handleRemove}
       />
