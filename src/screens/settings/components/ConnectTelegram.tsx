@@ -24,7 +24,7 @@ type ConnectTelegramProps = {
 
 const ConnectTelegram = ({ url, loading, onGenerateUrl, onOpenTG }: ConnectTelegramProps) => {
   const { userCommsChannels } = useNotificationsContext();
-  console.log(userCommsChannels?.telegram);
+  console.log(userCommsChannels?.telegram); // TODO: display telegram connected when BE returns value
   return (
     <Flex alignItems={'center'} width={'100%'} gap={1}>
       <Flex alignItems={'end'} gap={'4px'}>
