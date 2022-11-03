@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled, { useTheme } from 'styled-components';
 import analytics from '../../services/analytics';
 import { Screen } from 'components/layout/Screen';
@@ -49,7 +49,8 @@ const Divider = styled.div`
 export const Settings = () => {
   const { unsubscribe, login, isLoading } = useAuthContext();
   const { setRoute, activeRoute } = useRouterContext();
-  const { refetchCommsChannel } = useNotificationsContext();
+  const { refetchCommsChannel, setUserCommsChannelsPollInterval, userCommsChannels } =
+    useNotificationsContext();
   const theme = useTheme();
 
   const [email, setEmail] = useState('');
@@ -92,8 +93,15 @@ export const Settings = () => {
   };
 
   const handleOpenTG = async () => {
+    setUserCommsChannelsPollInterval(10000);
     window.open(telegramUrl, '_blank', 'noopener,noreferrer');
   };
+
+  useEffect(() => {
+    if (userCommsChannels?.telegram?.exists) {
+      setUserCommsChannelsPollInterval(0);
+    }
+  }, [setUserCommsChannelsPollInterval, userCommsChannels]);
 
   const handleSkip = () => {
     setRoute(Routes.NotificationsFeed);

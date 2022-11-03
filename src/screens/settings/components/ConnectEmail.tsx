@@ -88,6 +88,7 @@ const ConnectEmail = ({
               {!isEditing && userCommsChannels?.email?.exists && (
                 <Button
                   height={'27px'}
+                  width={'62px'}
                   fontSize={'sm'}
                   p={1}
                   borderRadius={'xs'}

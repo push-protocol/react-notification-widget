@@ -24,7 +24,32 @@ type ConnectTelegramProps = {
 
 const ConnectTelegram = ({ url, loading, onGenerateUrl, onOpenTG }: ConnectTelegramProps) => {
   const { userCommsChannels } = useNotificationsContext();
-  console.log(userCommsChannels?.telegram); // TODO: display telegram connected when BE returns value
+
+  const handleRemove = () => {
+    console.log('removing');
+  };
+
+  if (userCommsChannels?.telegram?.exists) {
+    return (
+      <Flex alignItems={'center'} width={'100%'} gap={1} justifyContent={'space-between'} p={1}>
+        <Text weight={'bold'}>
+          {userCommsChannels?.telegram?.hint ? userCommsChannels?.telegram?.hint : 'User Connected'}
+        </Text>
+        <Button
+          height={'27px'}
+          width={'62px'}
+          fontSize={'sm'}
+          p={1}
+          borderRadius={'xs'}
+          onClick={handleRemove}
+          variant={'danger'}
+        >
+          Remove
+        </Button>
+      </Flex>
+    );
+  }
+
   return (
     <Flex alignItems={'center'} width={'100%'} gap={1}>
       <Flex alignItems={'end'} gap={'4px'}>

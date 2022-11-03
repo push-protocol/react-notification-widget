@@ -15,6 +15,7 @@ export type Notification = {
 export type NotificationsContext = {
   notifications: Notification[];
   userCommsChannels?: UserCommunicationChannelsQuery['userCommunicationChannels'];
+  setUserCommsChannelsPollInterval: (interval: number) => void;
   isLoggedIn: boolean;
   isLoading: boolean;
   userAddress?: string;
