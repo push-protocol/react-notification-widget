@@ -6,6 +6,11 @@ import Button from 'components/Button';
 import { OpenLink } from 'components/icons';
 import Link from 'components/Link';
 import { useNotificationsContext } from 'context/NotificationsContext';
+import {
+  useDeleteTelegramIntegrationMutation,
+  useDeleteUserEmailMutation,
+} from 'screens/settings/operations.generated';
+import { useAuthContext } from 'context/AuthContext';
 
 const IconContainer = styled.div`
   height: 11px;
@@ -20,14 +25,17 @@ type ConnectTelegramProps = {
   loading?: boolean;
   onGenerateUrl(): void;
   onOpenTG(): void;
+  onRemoveTelegram(): void;
 };
 
-const ConnectTelegram = ({ url, loading, onGenerateUrl, onOpenTG }: ConnectTelegramProps) => {
+const ConnectTelegram = ({
+  url,
+  loading,
+  onGenerateUrl,
+  onOpenTG,
+  onRemoveTelegram,
+}: ConnectTelegramProps) => {
   const { userCommsChannels } = useNotificationsContext();
-
-  const handleRemove = () => {
-    console.log('removing');
-  };
 
   if (userCommsChannels?.telegram?.exists) {
     return (
@@ -41,7 +49,8 @@ const ConnectTelegram = ({ url, loading, onGenerateUrl, onOpenTG }: ConnectTeleg
           fontSize={'sm'}
           p={1}
           borderRadius={'xs'}
-          onClick={handleRemove}
+          onClick={onRemoveTelegram}
+          disabled={loading}
           variant={'danger'}
         >
           Remove

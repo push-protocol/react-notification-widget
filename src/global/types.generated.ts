@@ -225,12 +225,13 @@ export type Mutation = {
   nonceGenerate: Nonce;
   projecTokenSave: GeneralResolverResponse;
   refreshToken: RefreshTokenPayload;
-  telegramVerificationLink: UserTelegramVerificationLinkPayload;
+  telegramVerificationLinkGenerate: UserTelegramVerificationLinkPayload;
   userEmailDelete: GeneralResolverResponse;
   userEmailUpdate: GeneralResolverResponse;
   userEmailValidate: GeneralResolverResponse;
   userLogin: UserLoginPayload;
   userNotificationRead: GeneralResolverResponse;
+  userTelegramDelete: GeneralResolverResponse;
   workflowCreate: Workflow;
   workflowDelete: BatchActionResponse;
   workflowUpdate: Workflow;

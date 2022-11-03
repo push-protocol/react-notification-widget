@@ -15,3 +15,9 @@ mutation GetTelegramVerificationLink {
         link
     }
 }
+
+mutation DeleteTelegramIntegration {
+    userTelegramDelete {
+        success
+    }
+}

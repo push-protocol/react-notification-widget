@@ -11,6 +11,7 @@ import ConnectEmail from 'screens/settings/components/ConnectEmail';
 import isEmailValid from 'helpers/functions/isEmailValid';
 import { Routes, useRouterContext } from 'context/RouterContext';
 import {
+  useDeleteTelegramIntegrationMutation,
   useDeleteUserEmailMutation,
   useGetTelegramVerificationLinkMutation,
   useSaveUserEmailMutation,
@@ -64,6 +65,8 @@ export const Settings = () => {
   });
 
   const [deleteEmail, { loading: deleteLoading }] = useDeleteUserEmailMutation();
+  const [deleteTelegramIntegration, { loading: deleteTelegramLoading }] =
+    useDeleteTelegramIntegrationMutation();
 
   const handleSave = async () => {
     login(async () => {
@@ -85,10 +88,22 @@ export const Settings = () => {
     });
   };
 
+  const handleRemoveTelegramIntegration = async () => {
+    login(async () => {
+      const response = await deleteTelegramIntegration();
+
+      if (response?.data?.userTelegramDelete?.success) {
+        await refetchCommsChannel();
+        analytics.track('telegram integration removed');
+        return setRoute(Routes.Settings);
+      }
+    });
+  };
+
   const handleGenerateUrl = async () => {
     login(async () => {
       const response = await getTelegramLink();
-      setTelegramUrl(response?.data?.telegramVerificationLink?.link || '');
+      setTelegramUrl(response?.data?.telegramVerificationLinkGenerate?.link || '');
     });
   };
 
@@ -159,7 +174,8 @@ export const Settings = () => {
             url={telegramUrl}
             onGenerateUrl={handleGenerateUrl}
             onOpenTG={handleOpenTG}
-            loading={telegramLoading}
+            onRemoveTelegram={handleRemoveTelegramIntegration}
+            loading={telegramLoading || deleteTelegramLoading}
           />
         </SettingsItem>
       </Flex>
