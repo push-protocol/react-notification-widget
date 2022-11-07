@@ -22,6 +22,7 @@ import Spinner from 'components/Spinner';
 import { changeColorShade } from 'components/utils';
 import SettingsItem from 'screens/settings/components/SettingsItem';
 import ConnectTelegram from 'screens/settings/components/ConnectTelegram';
+import { LOCALSTORAGE_AUTH_KEY } from 'global/const';
 
 const HeaderIconContainer = styled.div`
   height: 40px;
@@ -55,9 +56,9 @@ export const Settings = () => {
   const theme = useTheme();
 
   const [email, setEmail] = useState('');
-  const [telegramUrl, setTelegramUrl] = useState('');
 
-  const [getTelegramLink, { loading: telegramLoading }] = useGetTelegramVerificationLinkMutation();
+  const [getTelegramLink, { loading: telegramLoading, data: telegramUrlData }] =
+    useGetTelegramVerificationLinkMutation();
   const [saveEmail, { loading: saveLoading }] = useSaveUserEmailMutation({
     variables: {
       input: { email },
@@ -102,14 +103,17 @@ export const Settings = () => {
 
   const handleGenerateUrl = async () => {
     login(async () => {
-      const response = await getTelegramLink();
-      setTelegramUrl(response?.data?.telegramVerificationLinkGenerate?.link || '');
+      await getTelegramLink();
     });
   };
 
   const handleOpenTG = async () => {
-    setUserCommsChannelsPollInterval(10000);
-    window.open(telegramUrl, '_blank', 'noopener,noreferrer');
+    setUserCommsChannelsPollInterval(5000);
+    window.open(
+      telegramUrlData?.telegramVerificationLinkGenerate?.link,
+      '_blank',
+      'noopener,noreferrer'
+    );
   };
 
   useEffect(() => {
@@ -171,9 +175,9 @@ export const Settings = () => {
         </SettingsItem>
         <SettingsItem title={'Telegram'} icon={<Telegram />}>
           <ConnectTelegram
-            url={telegramUrl}
+            url={telegramUrlData?.telegramVerificationLinkGenerate?.link}
             onGenerateUrl={handleGenerateUrl}
-            onOpenTG={handleOpenTG}
+            onOpenTg={handleOpenTG}
             onRemoveTelegram={handleRemoveTelegramIntegration}
             loading={telegramLoading || deleteTelegramLoading}
           />

@@ -24,7 +24,7 @@ type ConnectTelegramProps = {
   url?: string;
   loading?: boolean;
   onGenerateUrl(): void;
-  onOpenTG(): void;
+  onOpenTg(): void;
   onRemoveTelegram(): void;
 };
 
@@ -32,7 +32,7 @@ const ConnectTelegram = ({
   url,
   loading,
   onGenerateUrl,
-  onOpenTG,
+  onOpenTg,
   onRemoveTelegram,
 }: ConnectTelegramProps) => {
   const { userCommsChannels } = useNotificationsContext();
@@ -41,7 +41,9 @@ const ConnectTelegram = ({
     return (
       <Flex alignItems={'center'} width={'100%'} gap={1} justifyContent={'space-between'} p={1}>
         <Text weight={'bold'}>
-          {userCommsChannels?.telegram?.hint ? userCommsChannels?.telegram?.hint : 'User Connected'}
+          {userCommsChannels?.telegram?.hint
+            ? `Connected With: ${userCommsChannels?.telegram?.hint}`
+            : 'User Connected'}
         </Text>
         <Button
           height={'27px'}
@@ -63,13 +65,8 @@ const ConnectTelegram = ({
     <Flex alignItems={'center'} width={'100%'} gap={1}>
       <Flex alignItems={'end'} gap={'4px'}>
         <Flex width={'175px'}>
-          <Text>To get started, send a message to @wherever-bot </Text>
+          <Text>To get started, send a message to the Wherever bot using the generated link </Text>
         </Flex>
-        <Link src={'https://t.me/wherever_giorgi_test_bot/'}>
-          <IconContainer>
-            <OpenLink />
-          </IconContainer>
-        </Link>
       </Flex>
       <Flex width={'100%'}>
         {url ? (
@@ -78,7 +75,7 @@ const ConnectTelegram = ({
             fontSize={'sm'}
             p={1}
             borderRadius={'xs'}
-            onClick={onOpenTG}
+            onClick={onOpenTg}
             disabled={loading}
           >
             Open TG

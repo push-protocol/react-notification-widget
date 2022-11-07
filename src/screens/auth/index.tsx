@@ -49,7 +49,7 @@ export const Auth = () => {
   }
 
   return (
-    <div>
+    <Screen>
       {error && (
         <Flex
           justifyContent="center"
@@ -78,6 +78,6 @@ export const Auth = () => {
           </Text>
         </Flex>
       )}
-    </div>
+    </Screen>
   );
 };

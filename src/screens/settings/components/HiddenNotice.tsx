@@ -11,7 +11,7 @@ const NoticeContainer = styled(Flex)`
   align-self: start;
 `;
 
-const LockIcon = styled.div`
+const LockIconContainer = styled.div`
   width: 11px;
   height: 11px;
   display: flex;
@@ -29,9 +29,9 @@ const HiddenNotice = () => {
     <NoticeContainer>
       <Flex direction={'column'} gap={0.2}>
         <Flex gap={0.5} mb={0.5} alignItems={'center'}>
-          <LockIcon>
+          <LockIconContainer>
             <Lock color={text.primary} />
-          </LockIcon>
+          </LockIconContainer>
           <Text size={'md'} weight={600}>
             Your contact info is hidden
           </Text>

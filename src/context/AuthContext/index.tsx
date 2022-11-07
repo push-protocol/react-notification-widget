@@ -14,6 +14,7 @@ import { LOCALSTORAGE_AUTH_KEY, LOCALSTORAGE_AUTH_REFRESH_KEY } from 'global/con
 import { useAuthenticate } from 'hooks/auth/useAuthenticate';
 import { useChannelContext } from 'context/ChannelContext';
 import { useEnvironment } from 'context/EnvironmentContext';
+import { usePrevious } from 'hooks/usePrevious';
 
 export type AuthInfo = {
   subscribe(): void;
@@ -78,7 +79,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, [channelAddress, address, isConnected, epnsEnv, chainId]);
 
   const login = async (callback?: () => void) => {
-    if (isLoggedIn || !!localStorage.getItem(LOCALSTORAGE_AUTH_KEY)) {
+    if (isLoggedIn) {
       callback && callback();
       return;
     }
@@ -126,11 +127,21 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [isConnected, isSubscribed, isFirstLogin]);
 
+  const prevAddress = usePrevious(address);
+
   useEffect(() => {
-    localStorage.removeItem(LOCALSTORAGE_AUTH_KEY);
-    setIsFirstLogin(false);
-    setIsLoggedIn(false);
+    if (prevAddress && prevAddress !== address) {
+      localStorage.removeItem(LOCALSTORAGE_AUTH_KEY);
+      setIsFirstLogin(false);
+      setIsLoggedIn(false);
+    }
   }, [address]);
+
+  useEffect(() => {
+    if (localStorage.getItem(LOCALSTORAGE_AUTH_KEY)) {
+      setIsLoggedIn(true);
+    }
+  }, []);
 
   const toggleSubscription = async (action: 'sub' | 'unsub') => {
     setIsLoading(true);
@@ -161,7 +172,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
       value={{
         subscribe,
         unsubscribe,
-        isLoggedIn: isLoggedIn || !!localStorage.getItem(LOCALSTORAGE_AUTH_KEY),
+        isLoggedIn,
         isLoading,
         error,
         login,
