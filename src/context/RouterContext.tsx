@@ -51,21 +51,19 @@ const RouterContext = createContext<RouterContext>({
 const isUserSubscribed = async (args: {
   userAddress: string;
   channelAddress: string;
-  env: string;
   chainId: number;
 }): Promise<boolean> => {
-  const { userAddress, channelAddress, env, chainId } = args;
+  const { userAddress, channelAddress, chainId } = args;
   const subbedChannels: { channel: string }[] = await epns.user.getSubscriptions({
     user: `eip155:${chainId}:${userAddress}`,
-    env,
+    env: chainId === 1 ? undefined : 'staging',
   });
   const subbedChannelsLower = subbedChannels.map((s) => s.channel.toLowerCase());
   return subbedChannelsLower.indexOf(channelAddress.toLowerCase()) !== -1;
 };
 
 const RouterProvider = ({ children }: { children: ReactNode }) => {
-  const { channelAddress } = useChannelContext();
-  const { epnsEnv, chainId } = useEnvironment();
+  const { channelAddress, chainId } = useChannelContext();
   const { isConnected, address } = useAccount();
   const { data: signer } = useSigner();
   const { login: _login } = useAuthenticate();
@@ -97,7 +95,6 @@ const RouterProvider = ({ children }: { children: ReactNode }) => {
         await isUserSubscribed({
           userAddress: address as string,
           channelAddress,
-          env: epnsEnv,
           chainId,
         })
       );
@@ -179,7 +176,7 @@ const RouterProvider = ({ children }: { children: ReactNode }) => {
       signer: signer as any,
       channelAddress: `eip155:${chainId}:${channelAddress}`,
       userAddress: `eip155:${chainId}:${address}`,
-      env: epnsEnv,
+      env: chainId === 1 ? undefined : 'staging',
     };
 
     const response =

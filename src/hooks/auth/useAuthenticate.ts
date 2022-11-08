@@ -2,6 +2,7 @@ import { useAccount, useSigner } from 'wagmi';
 import { SiweMessage } from 'siwe';
 import { useNonceGenerateMutation, useUserLoginMutation } from 'screens/auth/operations.generated';
 import { useEnvironment } from 'context/EnvironmentContext';
+import { useChannelContext } from 'context/ChannelContext';
 
 type SignatureMessage = {
   domain: string;
@@ -21,7 +22,7 @@ export const useAuthenticate = () => {
   const [generateNonce] = useNonceGenerateMutation();
   const [loginUser] = useUserLoginMutation();
   const signer = useSigner();
-  const { chainId } = useEnvironment();
+  const { chainId } = useChannelContext();
 
   const login = async (channelAddress: string) => {
     const nonce = await getNonce();
@@ -72,6 +73,7 @@ export const useAuthenticate = () => {
           channel: channelAddress,
           message: JSON.stringify(msg),
           signature,
+          chainId,
         },
       },
     });

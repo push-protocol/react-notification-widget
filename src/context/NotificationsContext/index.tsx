@@ -10,8 +10,8 @@ const NotificationsContext = createContext<NotificationsContext>({} as any);
 
 export const NotificationsProvider = ({ children }: { children: ReactNode }) => {
   const { isConnected: isLoggedIn, address: userAddress } = useAccount();
-  const { chainId, epnsEnv } = useEnvironment();
-  const { channelAddress } = useChannelContext();
+  const { epnsEnv } = useEnvironment();
+  const { channelAddress, chainId } = useChannelContext();
 
   const [feedOpen, setFeedOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -30,7 +30,7 @@ export const NotificationsProvider = ({ children }: { children: ReactNode }) => 
   useEffect(() => {
     if (!userAddress || polling) return;
     const timeout = setInterval(async () => {
-      const notifs = await fetchNotifications(`eip155:${chainId}:${userAddress}`, epnsEnv);
+      const notifs = await fetchNotifications(`eip155:${chainId}:${userAddress}`, chainId);
       setNotifications(notifs || []);
     }, 4000);
 
@@ -44,7 +44,7 @@ export const NotificationsProvider = ({ children }: { children: ReactNode }) => 
 
     const run = async () => {
       setIsLoading(true);
-      const notifs = await fetchNotifications(`eip155:${chainId}:${userAddress}`, epnsEnv);
+      const notifs = await fetchNotifications(`eip155:${chainId}:${userAddress}`, chainId);
       setNotifications(notifs || []);
       setIsLoading(false);
     };

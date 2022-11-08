@@ -2,12 +2,12 @@ import * as epns from '@epnsproject/sdk-restapi';
 import dayjs from 'dayjs';
 import { EpnsNotificationRawResp, Notification } from './types';
 
-const fetchNotifications = async (epnsUserAddress: string, epnsEnv: string) => {
+const fetchNotifications = async (epnsUserAddress: string, chainId: number) => {
   const rawNotifs: EpnsNotificationRawResp[] = await epns.user
     .getFeeds({
       raw: true,
       user: epnsUserAddress,
-      env: epnsEnv,
+      env: chainId === 1 ? undefined : 'staging',
       page: 1,
       limit: 1000,
     })
