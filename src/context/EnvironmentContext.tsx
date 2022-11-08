@@ -2,8 +2,6 @@ import React, { createContext, useContext } from 'react';
 
 export type EnvType = 'production' | 'staging' | string;
 export type EnvironmentContextType = {
-  env: EnvType;
-  chainId: number;
   gqlEndpoint: string;
   epnsEnv: string;
 };
@@ -12,23 +10,11 @@ export const EnvironmentContext = createContext<EnvironmentContextType>(
   {} as EnvironmentContextType
 );
 
-export const EnvironmentProvider = ({
-  env = 'production',
-  children,
-}: {
-  env?: EnvType;
-  children: React.ReactNode;
-}) => {
+export const EnvironmentProvider = ({ children }: { env?: EnvType; children: React.ReactNode }) => {
   const gqlEndpointMap: { [key in EnvType]: string } = {
     development: 'http://localhost:4001/graphql',
     staging: 'https://staging-api.wherever.to/graphql',
     production: 'https://api.wherever.to/graphql',
-  };
-
-  const chainIdMap: { [key in EnvType]: number } = {
-    development: 5,
-    staging: 5,
-    production: 1,
   };
 
   const epnsEnvMap: { [key in EnvType]: string } = {
@@ -37,13 +23,13 @@ export const EnvironmentProvider = ({
     production: 'prod',
   };
 
+  const whereverEnv = process.env.WHEREVER_ENV as string;
+
   return (
     <EnvironmentContext.Provider
       value={{
-        env,
-        chainId: chainIdMap[env],
-        gqlEndpoint: gqlEndpointMap[env],
-        epnsEnv: epnsEnvMap[env],
+        gqlEndpoint: gqlEndpointMap[whereverEnv],
+        epnsEnv: epnsEnvMap[whereverEnv],
       }}
     >
       {children}
