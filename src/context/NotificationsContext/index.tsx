@@ -19,8 +19,9 @@ export const NotificationsProvider = ({ children }: { children: ReactNode }) => 
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [userCommsChannelsPollInterval, setUserCommsChannelsPollInterval] = useState(0);
 
-  const [getCommsChannels, { data, refetch: refetchCommsChannel }] =
-    useUserCommunicationChannelsLazyQuery({ pollInterval: userCommsChannelsPollInterval });
+  const [getCommsChannels, { data }] = useUserCommunicationChannelsLazyQuery({
+    pollInterval: userCommsChannelsPollInterval,
+  });
 
   useEffect(() => {
     if (!userAddress) return;
@@ -63,7 +64,6 @@ export const NotificationsProvider = ({ children }: { children: ReactNode }) => 
         userCommsChannels: data?.userCommunicationChannels,
         setUserCommsChannelsPollInterval,
         notifications,
-        refetchCommsChannel,
         userAddress,
       }}
     >

@@ -53,6 +53,7 @@ export const WalletDisconnected = () => {
               disabled={!connector.ready || isLoading}
               key={connector.id}
               onClick={() => connectWallet(connector)}
+              p={1.5}
             >
               Connect with {connector.name}
               {!connector.ready && ' (unsupported)'}

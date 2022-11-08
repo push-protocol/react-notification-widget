@@ -51,6 +51,8 @@ export const Subscribe = () => {
       <Flex width={'100%'} alignItems={'center'} direction={'column'} gap={1}>
         <Button
           variant={isLoading ? 'gray' : 'primary'}
+          width={'100%'}
+          p={1.5}
           onClick={handleSubscribe}
           disabled={isLoading}
         >

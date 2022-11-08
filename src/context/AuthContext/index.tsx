@@ -128,7 +128,8 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, [isConnected, isSubscribed, isFirstLogin]);
 
   const prevAddress = usePrevious(address);
-
+  // usePrevious is needed to detect address change and remove AUTH_KEY from local storage
+  // for cases when address is present but is different from previous address
   useEffect(() => {
     if (prevAddress && prevAddress !== address) {
       localStorage.removeItem(LOCALSTORAGE_AUTH_KEY);

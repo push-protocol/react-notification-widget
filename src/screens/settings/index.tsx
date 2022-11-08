@@ -22,7 +22,7 @@ import Spinner from 'components/Spinner';
 import { changeColorShade } from 'components/utils';
 import SettingsItem from 'screens/settings/components/SettingsItem';
 import ConnectTelegram from 'screens/settings/components/ConnectTelegram';
-import { LOCALSTORAGE_AUTH_KEY } from 'global/const';
+import { UserCommunicationChannelsDocument } from 'context/NotificationsContext/operations.generated';
 
 const HeaderIconContainer = styled.div`
   height: 40px;
@@ -51,23 +51,27 @@ const Divider = styled.div`
 export const Settings = () => {
   const { unsubscribe, login, isLoading } = useAuthContext();
   const { setRoute, activeRoute } = useRouterContext();
-  const { refetchCommsChannel, setUserCommsChannelsPollInterval, userCommsChannels } =
-    useNotificationsContext();
+  const { setUserCommsChannelsPollInterval, userCommsChannels } = useNotificationsContext();
   const theme = useTheme();
 
   const [email, setEmail] = useState('');
 
   const [getTelegramLink, { loading: telegramLoading, data: telegramUrlData }] =
     useGetTelegramVerificationLinkMutation();
+
   const [saveEmail, { loading: saveLoading }] = useSaveUserEmailMutation({
     variables: {
       input: { email },
     },
   });
 
-  const [deleteEmail, { loading: deleteLoading }] = useDeleteUserEmailMutation();
+  const [deleteEmail, { loading: deleteLoading }] = useDeleteUserEmailMutation({
+    refetchQueries: [UserCommunicationChannelsDocument],
+  });
   const [deleteTelegramIntegration, { loading: deleteTelegramLoading }] =
-    useDeleteTelegramIntegrationMutation();
+    useDeleteTelegramIntegrationMutation({
+      refetchQueries: [UserCommunicationChannelsDocument],
+    });
 
   const handleSave = async () => {
     login(async () => {
@@ -82,7 +86,6 @@ export const Settings = () => {
       const response = await deleteEmail();
 
       if (response?.data?.userEmailDelete?.success) {
-        await refetchCommsChannel();
         analytics.track('email deleted');
         return setRoute(Routes.Settings);
       }
@@ -94,7 +97,7 @@ export const Settings = () => {
       const response = await deleteTelegramIntegration();
 
       if (response?.data?.userTelegramDelete?.success) {
-        await refetchCommsChannel();
+        await getTelegramLink();
         analytics.track('telegram integration removed');
         return setRoute(Routes.Settings);
       }
@@ -139,15 +142,7 @@ export const Settings = () => {
   return (
     <Screen
       navbarActionComponent={
-        <Button
-          variant={'gray'}
-          width={'44px'}
-          height={'27px'}
-          fontSize={'sm'}
-          p={0}
-          borderRadius={'sm'}
-          onClick={handleSkip}
-        >
+        <Button variant={'gray'} fontSize={'sm'} p={1} borderRadius={'sm'} onClick={handleSkip}>
           {activeRoute === Routes.Settings ? 'Back' : 'Skip'}
         </Button>
       }

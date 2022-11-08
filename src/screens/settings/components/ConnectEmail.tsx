@@ -19,6 +19,8 @@ const ButtonWrapper = styled.div`
   top: 0;
   padding: 10px;
   box-sizing: border-box;
+  display: flex;
+  align-items: center;
 `;
 
 type EnterEmailProps = {
@@ -76,7 +78,6 @@ const ConnectEmail = ({
           ) : (
             <Flex gap={1}>
               <Button
-                height={'27px'}
                 fontSize={'sm'}
                 p={1}
                 disabled={isEditing && !isValid}
@@ -87,8 +88,6 @@ const ConnectEmail = ({
               </Button>
               {!isEditing && userCommsChannels?.email?.exists && (
                 <Button
-                  height={'27px'}
-                  width={'62px'}
                   fontSize={'sm'}
                   p={1}
                   borderRadius={'xs'}

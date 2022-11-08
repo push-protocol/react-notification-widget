@@ -53,8 +53,8 @@ const Button = styled.button<ButtonProps>`
   ${({
     theme,
     variant = 'primary',
-    width = '100%',
-    height = '39px',
+    width = 'unset',
+    height = 'unset',
     fontSize = 'md',
     textColor,
     borderRadius = 'md',
