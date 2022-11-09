@@ -14,7 +14,7 @@
     "build:noEmit": "yarn tsc --noEmit",
     "build:demo": "node esbuild.config.demo.mjs",
     "clean-dist": "rimraf dist",
-    "start": "node esbuild-serve.mjs -w",
+    "dev": "node esbuild-serve.mjs -w",
     "codegen": "graphql-codegen --config codegen.yml",
     "prepublishOnly": " yarn build:noEmit && yarn build",
     "publish:local": "YARN_VERSION_GIT_TAG='' yarn publish --registry=\"http://localhost:4873\""
