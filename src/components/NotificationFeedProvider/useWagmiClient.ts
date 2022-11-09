@@ -32,7 +32,7 @@ export default function useWagmiClient(provider?: ExternalProvider) {
           options: {},
         }),
         new CoinbaseWalletConnector({
-          options: { appName: 'Widget App' },
+          options: { appName: 'Wherever Widget' },
         }),
         new InjectedConnector({
           options: {
