@@ -43,8 +43,10 @@ export type BatchActionResponse = {
 export type CommsChannel = {
   __typename?: 'CommsChannel';
   analytics: CommsChannelAnalytics;
+  chainId: Scalars['Int'];
   channelAddress: Scalars['String'];
   createdAt: Scalars['DateTime'];
+  delegateWalletAddress?: Maybe<Scalars['String']>;
   id: Scalars['String'];
   isDelegate: Scalars['Boolean'];
   logo?: Maybe<Scalars['String']>;
@@ -67,6 +69,7 @@ export type CommsChannelAnalyticsSubscribersArgs = {
 
 export type CommsChannelStats = {
   __typename?: 'CommsChannelStats';
+  chainId: Scalars['Int'];
   commsChannelAddress: Scalars['String'];
   date: Scalars['DateTime'];
   id: Scalars['String'];
@@ -415,6 +418,7 @@ export type UserEmailValidateInput = {
 };
 
 export type UserLoginInput = {
+  chainId: Scalars['Float'];
   channel: Scalars['String'];
   message: Scalars['String'];
   signature: Scalars['String'];

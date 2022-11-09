@@ -31,7 +31,7 @@ const lightTheme = {
 };
 
 const FakeApp = () => {
-  const [partnerKey, setPartnerKey] = useState('cefa1b69-bfb9-4e70-bebc-9ee10316f882');
+  const [partnerKey, setPartnerKey] = useState('070d4d95-90fb-44b8-99cf-f440eeccf767');
   const [iframeUrl, setIframeUrl] = useState('');
   const [env, setEnv] = useState(process.env.WHEREVER_ENV as string);
   const [theme, setTheme] = useState<CustomTheme>({
@@ -44,7 +44,7 @@ const FakeApp = () => {
   const widget = useMemo(() => {
     return (
       <div>
-        <NotificationFeedProvider theme={theme} env={env} partnerKey={partnerKey}>
+        <NotificationFeedProvider theme={theme} partnerKey={partnerKey}>
           <NotificationFeed>
             <WidgetBellWrapper>
               <NotificationBell />

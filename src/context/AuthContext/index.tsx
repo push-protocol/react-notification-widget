@@ -13,7 +13,6 @@ import analytics from 'services/analytics';
 import { LOCALSTORAGE_AUTH_KEY, LOCALSTORAGE_AUTH_REFRESH_KEY } from 'global/const';
 import { useAuthenticate } from 'hooks/auth/useAuthenticate';
 import { useChannelContext } from 'context/ChannelContext';
-import { useEnvironment } from 'context/EnvironmentContext';
 import { usePrevious } from 'hooks/usePrevious';
 
 export type AuthInfo = {
@@ -29,13 +28,12 @@ export type AuthInfo = {
 const isUserSubscribed = async (args: {
   userAddress: string;
   channelAddress: string;
-  env: string;
   chainId: number;
 }): Promise<boolean> => {
-  const { userAddress, channelAddress, env, chainId } = args;
+  const { userAddress, channelAddress, chainId } = args;
   const subbedChannels: { channel: string }[] = await epns.user.getSubscriptions({
     user: `eip155:${chainId}:${userAddress}`,
-    env,
+    env: chainId === 1 ? undefined : 'staging',
   });
   const subbedChannelsLower = subbedChannels.map((s) => s.channel.toLowerCase());
   return subbedChannelsLower.indexOf(channelAddress.toLowerCase()) !== -1;
@@ -47,8 +45,7 @@ const AuthContext = createContext<AuthInfo & { loading?: boolean; handleGetUserI
 
 const AuthProvider = ({ children }: { children: ReactNode }) => {
   const { setRoute } = useRouterContext();
-  const { channelAddress } = useChannelContext();
-  const { epnsEnv, chainId } = useEnvironment();
+  const { channelAddress, chainId } = useChannelContext();
   const { isConnected, address } = useAccount();
   const { data: signer } = useSigner();
   const { login: _login } = useAuthenticate();
@@ -70,13 +67,12 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
         await isUserSubscribed({
           userAddress: address as string,
           channelAddress,
-          env: epnsEnv,
           chainId,
         })
       );
       setIsLoading(false);
     })();
-  }, [channelAddress, address, isConnected, epnsEnv, chainId]);
+  }, [channelAddress, address, isConnected, chainId]);
 
   const login = async (callback?: () => void) => {
     if (isLoggedIn) {
@@ -150,7 +146,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
       signer: signer as any,
       channelAddress: `eip155:${chainId}:${channelAddress}`,
       userAddress: `eip155:${chainId}:${address}`,
-      env: epnsEnv,
+      env: chainId === 1 ? undefined : 'staging',
     };
 
     const response =
@@ -162,6 +158,8 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     if (response.status == 'success') {
       setIsSubscribed(action === 'sub');
+    } else {
+      throw 'error';
     }
   };
 

@@ -28,7 +28,6 @@ export type NotificationFeedProviderProps = PropsWithChildren<{
 
 const NotificationFeedProvider = ({
   partnerKey,
-  env = 'production',
   provider,
   theme,
   children,
@@ -43,7 +42,7 @@ const NotificationFeedProvider = ({
   }, [disableAnalytics]);
 
   return (
-    <EnvironmentProvider env={env}>
+    <EnvironmentProvider>
       <ThemeProvider theme={makeTheme(theme)}>
         <WagmiConfig client={wagmiClient}>
           <ApolloProvider>

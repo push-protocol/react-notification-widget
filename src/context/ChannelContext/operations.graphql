@@ -3,6 +3,7 @@ query PartnerInfo ($input: PartnerInfoInput!) {
         id,
         channelAddress,
         logo,
-        name
+        name,
+        chainId
     }
 }

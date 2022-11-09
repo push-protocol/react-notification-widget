@@ -5,12 +5,14 @@ export type ChannelInfo = {
   icon: string;
   name: string;
   channelAddress: string;
+  chainId: number;
 };
 
 const emptyChannel = {
   channelAddress: '',
   icon: '',
   name: '',
+  chainId: 1,
 };
 
 const ChannelContext = createContext<ChannelInfo & { loading?: boolean }>({} as ChannelInfo);
@@ -29,6 +31,7 @@ const ChannelProvider = ({ partnerKey, children }: { partnerKey: string; childre
       channelAddress: data.partnerInfo.channelAddress,
       icon: data.partnerInfo.logo as string,
       name: data.partnerInfo.name,
+      chainId: data.partnerInfo.chainId,
     });
   }, [data]);
 
