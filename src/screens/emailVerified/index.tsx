@@ -44,7 +44,9 @@ export const EmailVerified = () => {
         </Text>
       </Flex>
       <Flex width={'100%'} mb={3}>
-        <Button onClick={handleContinue}>Continue</Button>
+        <Button onClick={handleContinue} width={'100%'} p={1.5}>
+          Continue
+        </Button>
       </Flex>
     </Screen>
   );

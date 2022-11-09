@@ -16,6 +16,16 @@ export type DeleteUserEmailMutationVariables = Types.Exact<{ [key: string]: neve
 
 export type DeleteUserEmailMutation = { __typename?: 'Mutation', userEmailDelete: { __typename?: 'GeneralResolverResponse', success: boolean } };
 
+export type GetTelegramVerificationLinkMutationVariables = Types.Exact<{ [key: string]: never; }>;
+
+
+export type GetTelegramVerificationLinkMutation = { __typename?: 'Mutation', telegramVerificationLinkGenerate: { __typename?: 'UserTelegramVerificationLinkPayload', link: string } };
+
+export type DeleteTelegramIntegrationMutationVariables = Types.Exact<{ [key: string]: never; }>;
+
+
+export type DeleteTelegramIntegrationMutation = { __typename?: 'Mutation', userTelegramDelete: { __typename?: 'GeneralResolverResponse', success: boolean } };
+
 
 export const SaveUserEmailDocument = gql`
     mutation SaveUserEmail($input: UserEmailUpdateInput!) {
@@ -82,3 +92,67 @@ export function useDeleteUserEmailMutation(baseOptions?: ApolloReactHooks.Mutati
 export type DeleteUserEmailMutationHookResult = ReturnType<typeof useDeleteUserEmailMutation>;
 export type DeleteUserEmailMutationResult = ApolloReactCommon.MutationResult<DeleteUserEmailMutation>;
 export type DeleteUserEmailMutationOptions = ApolloReactCommon.BaseMutationOptions<DeleteUserEmailMutation, DeleteUserEmailMutationVariables>;
+export const GetTelegramVerificationLinkDocument = gql`
+    mutation GetTelegramVerificationLink {
+  telegramVerificationLinkGenerate {
+    link
+  }
+}
+    `;
+export type GetTelegramVerificationLinkMutationFn = ApolloReactCommon.MutationFunction<GetTelegramVerificationLinkMutation, GetTelegramVerificationLinkMutationVariables>;
+
+/**
+ * __useGetTelegramVerificationLinkMutation__
+ *
+ * To run a mutation, you first call `useGetTelegramVerificationLinkMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useGetTelegramVerificationLinkMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [getTelegramVerificationLinkMutation, { data, loading, error }] = useGetTelegramVerificationLinkMutation({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetTelegramVerificationLinkMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<GetTelegramVerificationLinkMutation, GetTelegramVerificationLinkMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useMutation<GetTelegramVerificationLinkMutation, GetTelegramVerificationLinkMutationVariables>(GetTelegramVerificationLinkDocument, options);
+      }
+export type GetTelegramVerificationLinkMutationHookResult = ReturnType<typeof useGetTelegramVerificationLinkMutation>;
+export type GetTelegramVerificationLinkMutationResult = ApolloReactCommon.MutationResult<GetTelegramVerificationLinkMutation>;
+export type GetTelegramVerificationLinkMutationOptions = ApolloReactCommon.BaseMutationOptions<GetTelegramVerificationLinkMutation, GetTelegramVerificationLinkMutationVariables>;
+export const DeleteTelegramIntegrationDocument = gql`
+    mutation DeleteTelegramIntegration {
+  userTelegramDelete {
+    success
+  }
+}
+    `;
+export type DeleteTelegramIntegrationMutationFn = ApolloReactCommon.MutationFunction<DeleteTelegramIntegrationMutation, DeleteTelegramIntegrationMutationVariables>;
+
+/**
+ * __useDeleteTelegramIntegrationMutation__
+ *
+ * To run a mutation, you first call `useDeleteTelegramIntegrationMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteTelegramIntegrationMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteTelegramIntegrationMutation, { data, loading, error }] = useDeleteTelegramIntegrationMutation({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useDeleteTelegramIntegrationMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<DeleteTelegramIntegrationMutation, DeleteTelegramIntegrationMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useMutation<DeleteTelegramIntegrationMutation, DeleteTelegramIntegrationMutationVariables>(DeleteTelegramIntegrationDocument, options);
+      }
+export type DeleteTelegramIntegrationMutationHookResult = ReturnType<typeof useDeleteTelegramIntegrationMutation>;
+export type DeleteTelegramIntegrationMutationResult = ApolloReactCommon.MutationResult<DeleteTelegramIntegrationMutation>;
+export type DeleteTelegramIntegrationMutationOptions = ApolloReactCommon.BaseMutationOptions<DeleteTelegramIntegrationMutation, DeleteTelegramIntegrationMutationVariables>;

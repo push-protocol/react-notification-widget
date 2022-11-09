@@ -1,6 +1,6 @@
 import styled, { css, DefaultTheme } from 'styled-components';
 import { Margins, Paddings } from '../types';
-import { genSpaces, renderStringNumValue, adjustColor } from '../utils';
+import { genSpaces, renderStringNumValue, adjustColor, conditionalRenderProp } from '../utils';
 
 const fontSizes = {
   sm: '12px',
@@ -53,8 +53,8 @@ const Button = styled.button<ButtonProps>`
   ${({
     theme,
     variant = 'primary',
-    width = '100%',
-    height = '39px',
+    width,
+    height,
     fontSize = 'md',
     textColor,
     borderRadius = 'md',
@@ -75,8 +75,8 @@ const Button = styled.button<ButtonProps>`
     font-size: ${fontSizes[fontSize]};
     padding: ${theme.spacing(1)}px ${theme.spacing(3)}px;
     color: ${textColor || theme.colors.button.text};
-    width: ${renderStringNumValue(width)};
-    height: ${renderStringNumValue(height)};
+    ${conditionalRenderProp('width', renderStringNumValue(width))};
+    ${conditionalRenderProp('height', renderStringNumValue(height))};
     ${variantStyles(variant, theme).join('')}
     ${genSpaces(theme, rest)}
     &:disabled {

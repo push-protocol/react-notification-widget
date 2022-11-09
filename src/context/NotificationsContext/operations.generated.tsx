@@ -9,13 +9,17 @@ export type UserCommunicationChannelsQueryVariables = Types.Exact<{
 }>;
 
 
-export type UserCommunicationChannelsQuery = { __typename?: 'Query', userCommunicationChannels: { __typename?: 'UserCommunicationChannelsPayload', email: { __typename?: 'UserCommunicationChannel', exists: boolean, hint?: string | null } } };
+export type UserCommunicationChannelsQuery = { __typename?: 'Query', userCommunicationChannels: { __typename?: 'UserCommunicationChannelsPayload', email: { __typename?: 'UserCommunicationChannel', exists: boolean, hint?: string | null }, telegram: { __typename?: 'UserCommunicationChannel', exists: boolean, hint?: string | null } } };
 
 
 export const UserCommunicationChannelsDocument = gql`
     query UserCommunicationChannels($address: String!) {
   userCommunicationChannels(address: $address) {
     email {
+      exists
+      hint
+    }
+    telegram {
       exists
       hint
     }

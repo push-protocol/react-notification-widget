@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Flex from './Flex';
 import Text from 'components/Text';
 import Link from 'components/Link';
+import { FAQ_URL } from 'global/const';
 
 const POWERED_BY_HEIGHT = '20px';
 
@@ -51,7 +52,7 @@ export const WidgetContainer = ({ children }: LayoutProps) => {
         <Text size={'sm'} color={'secondary'} opacity={0.8} weight={500}>
           Powered by
         </Text>
-        <Link src={'https://faq.wherever.to'}>
+        <Link src={FAQ_URL}>
           <Text size={'sm'} opacity={0.8} weight={600} ml={0.4} color={'secondary'}>
             Wherever
           </Text>

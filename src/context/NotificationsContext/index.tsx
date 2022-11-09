@@ -17,9 +17,11 @@ export const NotificationsProvider = ({ children }: { children: ReactNode }) => 
   const [isLoading, setIsLoading] = useState(false);
   const [polling, setPolling] = useState(false);
   const [notifications, setNotifications] = useState<Notification[]>([]);
+  const [userCommsChannelsPollInterval, setUserCommsChannelsPollInterval] = useState(0);
 
-  const [getCommsChannels, { data, refetch: refetchCommsChannel }] =
-    useUserCommunicationChannelsLazyQuery({});
+  const [getCommsChannels, { data }] = useUserCommunicationChannelsLazyQuery({
+    pollInterval: userCommsChannelsPollInterval,
+  });
 
   useEffect(() => {
     if (!userAddress) return;
@@ -60,8 +62,8 @@ export const NotificationsProvider = ({ children }: { children: ReactNode }) => 
         feedOpen,
         setFeedOpen,
         userCommsChannels: data?.userCommunicationChannels,
+        setUserCommsChannelsPollInterval,
         notifications,
-        refetchCommsChannel,
         userAddress,
       }}
     >

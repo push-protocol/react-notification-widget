@@ -19,6 +19,8 @@ const ButtonWrapper = styled.div`
   top: 0;
   padding: 10px;
   box-sizing: border-box;
+  display: flex;
+  align-items: center;
 `;
 
 type EnterEmailProps = {
@@ -30,7 +32,7 @@ type EnterEmailProps = {
   isLoading: boolean;
 };
 
-const EmailInput = ({
+const ConnectEmail = ({
   isValid,
   value,
   onChange,
@@ -76,7 +78,6 @@ const EmailInput = ({
           ) : (
             <Flex gap={1}>
               <Button
-                height={'27px'}
                 fontSize={'sm'}
                 p={1}
                 disabled={isEditing && !isValid}
@@ -87,7 +88,6 @@ const EmailInput = ({
               </Button>
               {!isEditing && userCommsChannels?.email?.exists && (
                 <Button
-                  height={'27px'}
                   fontSize={'sm'}
                   p={1}
                   borderRadius={'xs'}
@@ -105,4 +105,4 @@ const EmailInput = ({
   );
 };
 
-export default EmailInput;
+export default ConnectEmail;
