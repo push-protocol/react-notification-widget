@@ -12,7 +12,7 @@ const emptyChannel = {
   channelAddress: '',
   icon: '',
   name: '',
-  chainId: 1,
+  chainId: 0,
 };
 
 const ChannelContext = createContext<ChannelInfo & { loading?: boolean }>({} as ChannelInfo);
@@ -27,6 +27,7 @@ const ChannelProvider = ({ partnerKey, children }: { partnerKey: string; childre
 
   useEffect(() => {
     if (!data) return;
+
     setChannel({
       channelAddress: data.partnerInfo.channelAddress,
       icon: data.partnerInfo.logo as string,

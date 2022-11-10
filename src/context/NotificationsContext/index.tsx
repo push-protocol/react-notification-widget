@@ -30,7 +30,8 @@ export const NotificationsProvider = ({ children }: { children: ReactNode }) => 
   }, [getCommsChannels, userAddress]);
 
   useEffect(() => {
-    if (!userAddress || polling) return;
+    if (!userAddress || polling || !chainId) return;
+
     const timeout = setInterval(async () => {
       const notifs = await fetchNotifications(`eip155:${chainId}:${userAddress}`, chainId);
       setNotifications(notifs || []);
@@ -39,7 +40,7 @@ export const NotificationsProvider = ({ children }: { children: ReactNode }) => 
     setPolling(true);
 
     return () => clearInterval(timeout);
-  }, [userAddress]);
+  }, [userAddress, chainId]);
 
   useEffect(() => {
     if (!userAddress || !channelAddress) return;
