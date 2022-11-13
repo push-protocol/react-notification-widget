@@ -9,6 +9,7 @@ node_modules/
 # Graphql
 schema.json
 schema.graphql
+global/types.d.ts
 
 # Optional npm cache directory
 .npm

@@ -150,6 +150,14 @@ export type IncomingWebhookCreateInputParameter = {
   name: Scalars['String'];
 };
 
+export type IncomingWebhookDeleteInput = {
+  incomingWebhookId: Scalars['String'];
+};
+
+export type IncomingWebhookFindInput = {
+  ids?: InputMaybe<Array<Scalars['String']>>;
+};
+
 export type IncomingWebhookLog = {
   __typename?: 'IncomingWebhookLog';
   createdAt: Scalars['DateTime'];
@@ -223,6 +231,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   emailUnsubscribe: GeneralResolverResponse;
   incomingWebhookCreate: IncomingWebhook;
+  incomingWebhookDelete: GeneralResolverResponse;
   incomingWebhookUpdate: IncomingWebhook;
   messageSend: Scalars['Boolean'];
   nonceGenerate: Nonce;
@@ -248,6 +257,11 @@ export type MutationEmailUnsubscribeArgs = {
 
 export type MutationIncomingWebhookCreateArgs = {
   input: IncomingWebhookCreateInput;
+};
+
+
+export type MutationIncomingWebhookDeleteArgs = {
+  input: IncomingWebhookDeleteInput;
 };
 
 
@@ -343,6 +357,11 @@ export type Query = {
   projectToken?: Maybe<ProjectToken>;
   userCommunicationChannels: UserCommunicationChannelsPayload;
   workflows: Array<Workflow>;
+};
+
+
+export type QueryIncomingWebhooksArgs = {
+  input?: InputMaybe<IncomingWebhookFindInput>;
 };
 
 

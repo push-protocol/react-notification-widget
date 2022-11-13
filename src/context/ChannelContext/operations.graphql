@@ -1,9 +1,9 @@
 query PartnerInfo ($input: PartnerInfoInput!) {
     partnerInfo(input: $input) {
-        id,
-        channelAddress,
-        logo,
-        name,
+        id
+        channelAddress
+        logo
+        name
         chainId
     }
 }
