@@ -2,14 +2,14 @@ import React, { PropsWithChildren, useEffect } from 'react';
 import { WagmiConfig } from 'wagmi';
 import { ThemeProvider } from 'styled-components';
 import { providers } from 'ethers';
+import { CustomTheme, makeTheme } from '../../theme';
 import useWagmiClient from './useWagmiClient';
-import { CustomTheme, makeTheme } from 'theme';
 import { Reset } from 'theme/ResetCss';
 import { RouterProvider } from 'context/RouterContext';
 import { NotificationsProvider } from 'context/NotificationsContext';
 import { ChannelProvider } from 'context/ChannelContext';
 import { ApolloProvider } from 'components/ApolloProvider';
-import { EnvType, EnvironmentProvider } from 'context/EnvironmentContext';
+import { EnvironmentProvider } from 'context/EnvironmentContext';
 import analytics from 'services/analytics';
 import { AuthProvider } from 'context/AuthContext';
 
@@ -20,7 +20,6 @@ export type ExternalProvider =
 
 export type NotificationFeedProviderProps = PropsWithChildren<{
   partnerKey: string;
-  env?: EnvType;
   provider?: ExternalProvider;
   theme?: CustomTheme;
   disableAnalytics?: boolean;
