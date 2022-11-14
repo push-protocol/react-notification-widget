@@ -1,4 +1,6 @@
 import React from 'react';
+import { useTheme } from 'styled-components';
+import { useNetwork } from 'wagmi';
 import Spinner from '../../components/Spinner';
 import analytics from '../../services/analytics';
 import { useChannelContext } from 'context/ChannelContext';
@@ -11,11 +13,15 @@ import SubscribeDescription from 'screens/subscribe/components/SubscribeDescript
 import SubscribeInfo from 'screens/subscribe/components/SubscribeInfo';
 import { Routes, useRouterContext } from 'context/RouterContext';
 import { useAuthContext } from 'context/AuthContext';
+import { CHAIN_NAMES } from 'global/const';
 
 export const Subscribe = () => {
   const { isLoading, subscribe, setIsFirstLogin } = useAuthContext();
   const { setRoute } = useRouterContext();
-  const { loading, channelAddress } = useChannelContext();
+  const { loading, channelAddress, chainId } = useChannelContext();
+  const { chain: walletChain } = useNetwork();
+
+  const theme = useTheme();
 
   const handleSubscribe = async () => {
     analytics.track('channel subscribe', { channelAddress });
@@ -54,10 +60,15 @@ export const Subscribe = () => {
           width={'100%'}
           p={1.5}
           onClick={handleSubscribe}
-          disabled={isLoading}
+          disabled={isLoading || chainId !== walletChain?.id}
         >
           Subscribe
         </Button>
+        {chainId !== walletChain?.id && (
+          <Text color={theme.colors.error.main}>
+            Incorrect network, please switch to {CHAIN_NAMES[chainId]}
+          </Text>
+        )}
         <Text size={'sm'} mt={1} mb={2} color={'secondary'} opacity={0.8} align={'center'}>
           You will need to sign a message to prove ownership of your wallet.
         </Text>

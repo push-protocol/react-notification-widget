@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled, { useTheme } from 'styled-components';
+import { useNetwork } from 'wagmi';
 import analytics from '../../services/analytics';
 import { Screen } from 'components/layout/Screen';
 import Button from 'components/Button';
@@ -23,6 +24,8 @@ import { changeColorShade } from 'components/utils';
 import SettingsItem from 'screens/settings/components/SettingsItem';
 import ConnectTelegram from 'screens/settings/components/ConnectTelegram';
 import { UserCommunicationChannelsDocument } from 'context/NotificationsContext/operations.generated';
+import { useChannelContext } from 'context/ChannelContext';
+import { CHAIN_NAMES } from 'global/const';
 
 const HeaderIconContainer = styled.div`
   height: 40px;
@@ -52,6 +55,9 @@ export const Settings = () => {
   const { unsubscribe, login, isLoading } = useAuthContext();
   const { setRoute, activeRoute } = useRouterContext();
   const { setUserCommsChannelsPollInterval, userCommsChannels } = useNotificationsContext();
+  const { chainId } = useChannelContext();
+  const { chain: walletChain } = useNetwork();
+
   const theme = useTheme();
 
   const [email, setEmail] = useState('');
@@ -182,11 +188,20 @@ export const Settings = () => {
       <Divider />
       <HiddenNotice />
       {process.env.WHEREVER_ENV === 'development' && (
-        <Flex width={'100%'} justifyContent={'center'}>
-          <Button variant={'outlined'} onClick={unsubscribe} height={20} p={0} mb={1} width={90}>
-            <Text size={'sm'}>Unsubscribe</Text>
-          </Button>
-        </Flex>
+        <>
+          <Flex width={'100%'} justifyContent={'center'}>
+            <Button variant={'outlined'} onClick={unsubscribe} height={20} p={0} mb={1} width={90}>
+              <Text size={'sm'}>Unsubscribe</Text>
+            </Button>
+          </Flex>
+          {chainId !== walletChain?.id && (
+            <Flex>
+              <Text color={theme.colors.error.main}>
+                Incorrect network, please switch to {CHAIN_NAMES[chainId]}
+              </Text>
+            </Flex>
+          )}
+        </>
       )}
     </Screen>
   );
