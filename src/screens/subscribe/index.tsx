@@ -13,14 +13,12 @@ import SubscribeDescription from 'screens/subscribe/components/SubscribeDescript
 import SubscribeInfo from 'screens/subscribe/components/SubscribeInfo';
 import { Routes, useRouterContext } from 'context/RouterContext';
 import { useAuthContext } from 'context/AuthContext';
-import { CHAIN_NAMES } from 'global/const';
+import { WrongNetworkError } from 'components/Errors/WrongNetworkError';
 
 export const Subscribe = () => {
   const { isLoading, subscribe, setIsFirstLogin } = useAuthContext();
   const { setRoute } = useRouterContext();
-  const { loading, channelAddress, chainId, error } = useChannelContext();
-  const { chain: walletChain } = useNetwork();
-  const isWrongNetwork = !!chainId && chainId !== walletChain?.id;
+  const { loading, channelAddress, isWrongNetwork, error } = useChannelContext();
 
   const theme = useTheme();
 
@@ -65,11 +63,7 @@ export const Subscribe = () => {
         >
           Subscribe
         </Button>
-        {isWrongNetwork && (
-          <Text color={theme.colors.error.main} align="center">
-            Wrong network, please switch to {CHAIN_NAMES[chainId]} in your wallet to make changes
-          </Text>
-        )}
+        <WrongNetworkError />
         {(error || !channelAddress) && (
           <Text color={theme.colors.error.main} align="center">
             Invalid partner key

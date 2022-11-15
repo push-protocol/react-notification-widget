@@ -26,6 +26,7 @@ import ConnectTelegram from 'screens/settings/components/ConnectTelegram';
 import { UserCommunicationChannelsDocument } from 'context/NotificationsContext/operations.generated';
 import { useChannelContext } from 'context/ChannelContext';
 import { CHAIN_NAMES } from 'global/const';
+import { WrongNetworkError } from 'components/Errors/WrongNetworkError';
 
 const HeaderIconContainer = styled.div`
   height: 40px;
@@ -55,9 +56,7 @@ export const Settings = () => {
   const { unsubscribe, login, isLoading } = useAuthContext();
   const { setRoute, activeRoute } = useRouterContext();
   const { setUserCommsChannelsPollInterval, userCommsChannels } = useNotificationsContext();
-  const { chainId } = useChannelContext();
-  const { chain: walletChain } = useNetwork();
-  const isWrongNetwork = !!chainId && chainId !== walletChain?.id;
+  const { isWrongNetwork } = useChannelContext();
 
   const theme = useTheme();
 
@@ -164,13 +163,7 @@ export const Settings = () => {
           Set Up Notifications
         </Text>
       </Flex>
-      {isWrongNetwork && (
-        <Flex mb={2}>
-          <Text color={theme.colors.error.main} align="center">
-            Wrong network, please switch to {CHAIN_NAMES[chainId]} in your wallet to make changes
-          </Text>
-        </Flex>
-      )}
+      <WrongNetworkError mb={2} />
       <Flex gap={1} width={'100%'} direction={'column'} mb={2}>
         <SettingsItem title={'Email'} icon={<Email />}>
           <ConnectEmail
