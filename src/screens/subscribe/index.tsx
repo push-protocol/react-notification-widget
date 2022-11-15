@@ -1,6 +1,5 @@
 import React from 'react';
 import { useTheme } from 'styled-components';
-import { useNetwork } from 'wagmi';
 import Spinner from '../../components/Spinner';
 import analytics from '../../services/analytics';
 import { useChannelContext } from 'context/ChannelContext';

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import styled, { useTheme } from 'styled-components';
-import { useNetwork } from 'wagmi';
 import analytics from '../../services/analytics';
 import { Screen } from 'components/layout/Screen';
 import Button from 'components/Button';
@@ -25,7 +24,6 @@ import SettingsItem from 'screens/settings/components/SettingsItem';
 import ConnectTelegram from 'screens/settings/components/ConnectTelegram';
 import { UserCommunicationChannelsDocument } from 'context/NotificationsContext/operations.generated';
 import { useChannelContext } from 'context/ChannelContext';
-import { CHAIN_NAMES } from 'global/const';
 import { WrongNetworkError } from 'components/Errors/WrongNetworkError';
 
 const HeaderIconContainer = styled.div`
