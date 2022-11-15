@@ -31,7 +31,7 @@ const lightTheme = {
 };
 
 const FakeApp = () => {
-  const [partnerKey, setPartnerKey] = useState('cefa1b69-bfb9-4e70-bebc-9ee10316f882');
+  const [partnerKey, setPartnerKey] = useState('asd');
   const [iframeUrl, setIframeUrl] = useState('');
   const [env, setEnv] = useState(process.env.WHEREVER_ENV as string);
   const [theme, setTheme] = useState<CustomTheme>({

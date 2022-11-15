@@ -1,5 +1,5 @@
 import React from 'react';
-import styled, { useTheme } from 'styled-components';
+import { useTheme } from 'styled-components';
 import { useNetwork } from 'wagmi';
 import Spinner from '../../components/Spinner';
 import analytics from '../../services/analytics';
@@ -14,15 +14,6 @@ import SubscribeInfo from 'screens/subscribe/components/SubscribeInfo';
 import { Routes, useRouterContext } from 'context/RouterContext';
 import { useAuthContext } from 'context/AuthContext';
 import { CHAIN_NAMES } from 'global/const';
-import { QuestionMark } from 'components/icons/pack/QuestionMark';
-
-const QuestionMarkIcon = styled.div`
-  width: 150px;
-  height: 150px;
-  margin: 0 auto;
-  margin-bottom: 15px;
-  color: ${({ theme }) => theme.colors.primary.light};
-`;
 
 export const Subscribe = () => {
   const { isLoading, subscribe, setIsFirstLogin } = useAuthContext();
@@ -47,19 +38,6 @@ export const Subscribe = () => {
           <Spinner size={25} />
         </Flex>
       </Screen>
-    );
-  }
-
-  if (!channelAddress || error) {
-    return (
-      <>
-        <QuestionMarkIcon>
-          <QuestionMark color={theme.colors.text.primary} />
-        </QuestionMarkIcon>
-        <Text color={theme.colors.error.main} align="center">
-          Invalid partner key
-        </Text>
-      </>
     );
   }
 
@@ -90,6 +68,11 @@ export const Subscribe = () => {
         {isWrongNetwork && (
           <Text color={theme.colors.error.main} align="center">
             Wrong network, please switch to {CHAIN_NAMES[chainId]} in your wallet to make changes
+          </Text>
+        )}
+        {(error || !channelAddress) && (
+          <Text color={theme.colors.error.main} align="center">
+            Invalid partner key
           </Text>
         )}
         <Text size={'sm'} mt={1} mb={2} color={'secondary'} opacity={0.8} align={'center'}>
