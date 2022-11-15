@@ -57,6 +57,7 @@ export const Settings = () => {
   const { setUserCommsChannelsPollInterval, userCommsChannels } = useNotificationsContext();
   const { chainId } = useChannelContext();
   const { chain: walletChain } = useNetwork();
+  const isWrongNetwork = !!chainId && chainId !== walletChain?.id;
 
   const theme = useTheme();
 
@@ -163,6 +164,13 @@ export const Settings = () => {
           Set Up Notifications
         </Text>
       </Flex>
+      {isWrongNetwork && (
+        <Flex mb={2}>
+          <Text color={theme.colors.error.main} align="center">
+            Wrong network, please switch to {CHAIN_NAMES[chainId]} in your wallet to make changes
+          </Text>
+        </Flex>
+      )}
       <Flex gap={1} width={'100%'} direction={'column'} mb={2}>
         <SettingsItem title={'Email'} icon={<Email />}>
           <ConnectEmail
@@ -188,20 +196,19 @@ export const Settings = () => {
       <Divider />
       <HiddenNotice />
       {process.env.WHEREVER_ENV === 'development' && (
-        <>
-          <Flex width={'100%'} justifyContent={'center'}>
-            <Button variant={'outlined'} onClick={unsubscribe} height={20} p={0} mb={1} width={90}>
-              <Text size={'sm'}>Unsubscribe</Text>
-            </Button>
-          </Flex>
-          {chainId !== walletChain?.id && (
-            <Flex>
-              <Text color={theme.colors.error.main}>
-                Incorrect network, please switch to {CHAIN_NAMES[chainId]}
-              </Text>
-            </Flex>
-          )}
-        </>
+        <Flex width={'100%'} justifyContent={'center'}>
+          <Button
+            variant={'outlined'}
+            onClick={unsubscribe}
+            height={20}
+            p={0}
+            mb={1}
+            width={90}
+            disabled={isWrongNetwork}
+          >
+            <Text size={'sm'}>Unsubscribe</Text>
+          </Button>
+        </Flex>
       )}
     </Screen>
   );

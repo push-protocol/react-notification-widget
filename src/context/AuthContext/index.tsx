@@ -7,7 +7,7 @@ import React, {
   useCallback,
 } from 'react';
 import * as epns from '@epnsproject/sdk-restapi';
-import { useAccount, useDisconnect, useNetwork, useSigner } from 'wagmi';
+import { useAccount, useDisconnect, useSigner } from 'wagmi';
 import { Routes, useRouterContext } from 'context/RouterContext';
 import analytics from 'services/analytics';
 import { LOCALSTORAGE_AUTH_KEY, LOCALSTORAGE_AUTH_REFRESH_KEY } from 'global/const';
