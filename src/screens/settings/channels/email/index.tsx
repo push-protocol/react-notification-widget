@@ -10,7 +10,7 @@ import { useAuthContext } from 'context/AuthContext';
 
 export const EmailChannel = () => {
   const { isLoading } = useAuthContext();
-
+  // TODO: what to do when Auth loading
   const {
     email,
     setEmail,
@@ -31,11 +31,7 @@ export const EmailChannel = () => {
     <SettingsItem title={'Email'} icon={<EmailIcon />} defaultOpen={true} connected={!!exists}>
       <Flex width={'100%'}>
         {isEditing && isVerify && (
-          <VerifyEmailView
-            email={email}
-            handleVerify={handleVerify}
-            isLoading={verifyLoading || isLoading}
-          />
+          <VerifyEmailView email={email} handleVerify={handleVerify} isLoading={verifyLoading} />
         )}
         {isEditing && !isVerify && (
           <EditEmailView
@@ -43,7 +39,7 @@ export const EmailChannel = () => {
             onChange={setEmail}
             handleSave={handleSave}
             handleEdit={setIsEditing}
-            isLoading={saveLoading || isLoading}
+            isLoading={saveLoading}
             exists={exists}
           />
         )}
@@ -52,7 +48,7 @@ export const EmailChannel = () => {
             hint={hint}
             handleRemove={handleRemove}
             handleEdit={() => setIsEditing(true)}
-            isLoading={deleteLoading || isLoading}
+            isLoading={deleteLoading}
           />
         )}
       </Flex>

@@ -4,8 +4,12 @@ import { Telegram as TelegramIcon } from 'components/icons';
 import useTelegramActions from 'screens/settings/channels/telegram/useTelegramActions';
 import ConnectedTelegramView from 'screens/settings/channels/telegram/components/ConnectedTelegramView';
 import IntegrateTelegramView from 'screens/settings/channels/telegram/components/IntegrateTelegramView';
+import { useAuthContext } from 'context/AuthContext';
 
 export const TelegramChannel = () => {
+  const { isLoading } = useAuthContext();
+  // TODO: what to do when Auth loading
+
   const {
     telegramVerificationUrl,
     handleSignMessage,

@@ -5,10 +5,8 @@ import Button from 'components/Button';
 import Text from 'components/Text';
 import { Bell } from 'components/icons';
 import Flex from 'components/layout/Flex';
-import HiddenNotice from 'screens/settings/components/HiddenNotice';
 import { Routes, useRouterContext } from 'context/RouterContext';
 import { useAuthContext } from 'context/AuthContext';
-import { changeColorShade } from 'components/utils';
 import { EmailChannel, TelegramChannel } from 'screens/settings/channels';
 
 const Header = styled(Flex)`
@@ -33,15 +31,10 @@ const HeaderIcon = styled.div`
   background: ${({ theme }) => theme.colors.primary.main};
 `;
 
-const Divider = styled.div`
-  border-top: 1px solid ${({ theme }) => changeColorShade(theme.colors.bg.main, 20)};
-  margin-bottom: ${({ theme }) => theme.spacing(2)}px;
-  width: 100%;
-`;
-
 export const Settings = () => {
   const { unsubscribe } = useAuthContext();
-  const { setRoute, activeRoute, props } = useRouterContext();
+  const { isFirstLogin } = useAuthContext();
+  const { setRoute } = useRouterContext();
   const theme = useTheme();
 
   const handleSkip = () => {
@@ -52,7 +45,7 @@ export const Settings = () => {
     <Screen
       navbarActionComponent={
         <Button variant={'gray'} fontSize={'sm'} p={1} borderRadius={'sm'} onClick={handleSkip}>
-          {activeRoute === Routes.Settings ? 'Back' : 'Skip'}
+          {isFirstLogin ? 'Skip' : 'Back'}
         </Button>
       }
     >
@@ -73,8 +66,6 @@ export const Settings = () => {
         <EmailChannel />
         <TelegramChannel />
       </Flex>
-      <Divider />
-      <HiddenNotice />
       {process.env.WHEREVER_ENV === 'development' && (
         <Flex width={'100%'} justifyContent={'center'}>
           <Button variant={'outlined'} onClick={unsubscribe} height={20} p={0} mb={1} width={90}>

@@ -22,6 +22,7 @@ export type AuthInfo = {
   error: boolean;
   isLoggedIn: boolean;
   login(callback?: () => void): void;
+  isFirstLogin: boolean;
   setIsFirstLogin(isFirst: boolean): void;
 };
 
@@ -175,6 +176,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
         isLoading,
         error,
         login,
+        isFirstLogin,
         setIsFirstLogin,
       }}
     >
