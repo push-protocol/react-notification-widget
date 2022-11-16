@@ -4,7 +4,7 @@ import { useChannelContext } from 'context/ChannelContext';
 import Text from 'components/Text';
 import { CHAIN_NAMES } from 'global/const';
 
-export const WrongNetworkError = ({ ...props }) => {
+const WrongNetworkError = ({ ...props }) => {
   const { chainId, isWrongNetwork } = useChannelContext();
   const theme = useTheme();
 
@@ -18,3 +18,5 @@ export const WrongNetworkError = ({ ...props }) => {
     </>
   );
 };
+
+export default WrongNetworkError;

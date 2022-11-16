@@ -12,7 +12,7 @@ import SubscribeDescription from 'screens/subscribe/components/SubscribeDescript
 import SubscribeInfo from 'screens/subscribe/components/SubscribeInfo';
 import { Routes, useRouterContext } from 'context/RouterContext';
 import { useAuthContext } from 'context/AuthContext';
-import { WrongNetworkError } from 'components/Errors/WrongNetworkError';
+import WrongNetworkError from 'components/Errors/WrongNetworkError';
 
 export const Subscribe = () => {
   const { isLoading, subscribe, setIsFirstLogin } = useAuthContext();

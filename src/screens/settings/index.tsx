@@ -24,7 +24,7 @@ import SettingsItem from 'screens/settings/components/SettingsItem';
 import ConnectTelegram from 'screens/settings/components/ConnectTelegram';
 import { UserCommunicationChannelsDocument } from 'context/NotificationsContext/operations.generated';
 import { useChannelContext } from 'context/ChannelContext';
-import { WrongNetworkError } from 'components/Errors/WrongNetworkError';
+import WrongNetworkError from 'components/Errors/WrongNetworkError';
 
 const HeaderIconContainer = styled.div`
   height: 40px;
