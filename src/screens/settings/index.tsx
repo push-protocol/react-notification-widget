@@ -11,6 +11,10 @@ import { useAuthContext } from 'context/AuthContext';
 import { changeColorShade } from 'components/utils';
 import { EmailChannel, TelegramChannel } from 'screens/settings/channels';
 
+const Header = styled(Flex)`
+  pointer-events: none;
+`;
+
 const HeaderIconContainer = styled.div`
   height: 40px;
   width: 40px;
@@ -37,7 +41,7 @@ const Divider = styled.div`
 
 export const Settings = () => {
   const { unsubscribe } = useAuthContext();
-  const { setRoute, activeRoute } = useRouterContext();
+  const { setRoute, activeRoute, props } = useRouterContext();
   const theme = useTheme();
 
   const handleSkip = () => {
@@ -52,21 +56,23 @@ export const Settings = () => {
         </Button>
       }
     >
-      <Flex justifyContent={'center'} alignItems={'center'} direction={'column'} mb={2} mt={-4}>
+      <Header justifyContent={'center'} alignItems={'center'} direction={'column'} mb={2} mt={-4}>
         <HeaderIconContainer>
           <HeaderIcon>
             <Bell color={theme.colors.button.text} />
           </HeaderIcon>
         </HeaderIconContainer>
-        <Text size={'xl'} weight={700} mb={0.5}>
+        <Text size={'xl'} weight={700} mb={1}>
           Set Up Notifications
         </Text>
-      </Flex>
+        <Text size={'md'} weight={500} mb={0.5} align={'center'}>
+          Choose one or more channels to receive alerts when new messages hit your wallet.
+        </Text>
+      </Header>
       <Flex gap={1} width={'100%'} direction={'column'} mb={2}>
         <EmailChannel />
         <TelegramChannel />
       </Flex>
-
       <Divider />
       <HiddenNotice />
       {process.env.WHEREVER_ENV === 'development' && (

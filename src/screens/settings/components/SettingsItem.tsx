@@ -1,16 +1,20 @@
 import React, { ReactNode, useState } from 'react';
-import styled from 'styled-components';
+import styled, { useTheme } from 'styled-components';
 import Flex from 'components/layout/Flex';
 import Text from 'components/Text';
 import { ArrowDown, ArrowRight } from 'components/icons';
 
 const Container = styled(Flex)<{ open?: boolean }>`
-  padding: 8px;
   border-radius: 8px;
   backdrop-filter: ${({ open }) => (open ? 'contrast(0.8)' : 'unset')};
+  :hover {
+    backdrop-filter: contrast(0.8);
+  }
 `;
 
 const Header = styled(Flex)`
+  padding: 8px;
+  cursor: pointer;
   background: transparent;
   display: flex;
   justify-content: space-between;
@@ -28,7 +32,6 @@ const DropdownIcon = styled(Flex)`
   display: flex;
   justify-content: center;
   align-items: center;
-  cursor: pointer;
   color: ${({ theme }) => theme.colors.text.primary};
 `;
 
@@ -39,6 +42,7 @@ const IconContainer = styled(Flex)`
 `;
 
 const Content = styled(Flex)`
+  padding: 8px;
   background: transparent;
 `;
 
@@ -52,21 +56,19 @@ type SettingsItemProps = {
 
 const SettingsItem = ({ children, icon, title, defaultOpen, connected }: SettingsItemProps) => {
   const [open, setOpen] = useState(!!defaultOpen);
-
+  const theme = useTheme();
   return (
     <Container gap={1} direction={'column'} open={open}>
-      <Header alignItems={'center'}>
+      <Header alignItems={'center'} onClick={() => setOpen((prevState) => !prevState)}>
         <HeaderInfo gap={1}>
-          <DropdownIcon onClick={() => setOpen((prevState) => !prevState)}>
-            {open ? <ArrowDown /> : <ArrowRight />}
-          </DropdownIcon>
+          <DropdownIcon>{open ? <ArrowDown /> : <ArrowRight />}</DropdownIcon>
           <IconContainer>{icon}</IconContainer>
           <Text size={'md'} weight={600}>
             {title}
           </Text>
         </HeaderInfo>
         {connected && (
-          <Text size={'sm'} color={'#6cf03e'} weight={600}>
+          <Text size={'sm'} color={theme.colors.success.main} weight={600}>
             • CONNECTED
           </Text>
         )}

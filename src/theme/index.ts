@@ -57,6 +57,9 @@ declare module 'styled-components' {
       error: {
         main: string;
       };
+      success: {
+        main: string;
+      };
     };
   }
 }
@@ -121,6 +124,9 @@ const defaultTheme: DefaultTheme = {
     },
     error: {
       main: '#FF6347',
+    },
+    success: {
+      main: '#6cf03e',
     },
   },
 };

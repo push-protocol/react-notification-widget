@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Flex from 'components/layout/Flex';
 import SettingsItem from 'screens/settings/components/SettingsItem';
 import { Email as EmailIcon } from 'components/icons';
@@ -34,7 +34,6 @@ export const EmailChannel = () => {
           <VerifyEmailView
             email={email}
             handleVerify={handleVerify}
-            handleEdit={() => setIsEditing(true)}
             isLoading={verifyLoading || isLoading}
           />
         )}
@@ -43,7 +42,9 @@ export const EmailChannel = () => {
             value={email}
             onChange={setEmail}
             handleSave={handleSave}
+            handleEdit={setIsEditing}
             isLoading={saveLoading || isLoading}
+            exists={exists}
           />
         )}
         {!isEditing && (

@@ -1,27 +1,21 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
 import Text from 'components/Text';
 import TextInput from 'components/TextInput';
 import Flex from 'components/layout/Flex';
 import Button from 'components/Button';
 import Spinner from 'components/Spinner';
 import { Routes, useRouterContext } from 'context/RouterContext';
-
-const TextLink = styled(Text)`
-  cursor: pointer;
-  color: ${({ theme }) => theme.colors.primary.main};
-`;
+import TextLink from 'components/TextLink';
 
 type VerifyEmailViewProps = {
   email: string;
   handleVerify: (code: string) => void;
-  handleEdit: (edit: boolean) => void;
   isLoading: boolean;
 };
 
 const CODE_REGEX = '^[0-9]*$';
 
-const VerifyEmailView = ({ email, handleVerify, isLoading, handleEdit }: VerifyEmailViewProps) => {
+const VerifyEmailView = ({ email, handleVerify, isLoading }: VerifyEmailViewProps) => {
   const { setRoute } = useRouterContext();
   const [code, setCode] = useState('');
 
