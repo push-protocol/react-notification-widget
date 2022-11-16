@@ -7,10 +7,12 @@ const fontSizes = {
   md: '16px',
 };
 
-type ButtonVariant = 'gray' | 'primary' | 'outlined' | 'danger';
+type ButtonVariant = 'gray' | 'primary' | 'outlined' | 'danger' | 'bgRelative';
+type ButtonSize = 'sm' | 'lg';
 
 type ButtonProps = {
   variant?: ButtonVariant;
+  size?: ButtonSize;
   fontSize?: keyof typeof fontSizes;
   textColor?: string;
   height?: string | number;
@@ -47,12 +49,33 @@ const variantStyles = (variant = 'primary', theme: DefaultTheme): any =>
         border-color: ${adjustColor(theme.colors.error.main, 0.8)};
       }
     `,
+    bgRelative: css`
+      background: ${adjustColor(theme.colors.bg.main, 0.6)};
+      &:hover {
+        background: ${adjustColor(theme.colors.bg.main, 0.4)};
+        border-color: ${adjustColor(theme.colors.bg.main, 0.4)};
+      }
+    `,
   }[variant]);
+
+const buttonSizeStyles = (size = 'sm', theme: DefaultTheme): any =>
+  ({
+    sm: css`
+      font-size: ${fontSizes['sm']};
+      border-radius: ${theme.borderRadius['xs']};
+    `,
+    lg: css`
+      height: 40px;
+      font-size: ${fontSizes['md']};
+      border-radius: ${theme.borderRadius['sm']};
+    `,
+  }[size]);
 
 const Button = styled.button<ButtonProps>`
   ${({
     theme,
     variant = 'primary',
+    size = 'sm',
     width,
     height,
     fontSize = 'md',
@@ -78,6 +101,7 @@ const Button = styled.button<ButtonProps>`
     ${conditionalRenderProp('width', renderStringNumValue(width))};
     ${conditionalRenderProp('height', renderStringNumValue(height))};
     ${variantStyles(variant, theme).join('')}
+    ${buttonSizeStyles(size, theme).join('')}
     ${genSpaces(theme, rest)}
     &:disabled {
       transform: unset;

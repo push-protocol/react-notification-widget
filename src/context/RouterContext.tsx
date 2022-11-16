@@ -42,7 +42,7 @@ const RouterProvider = ({ children }: { children: ReactNode }) => {
     [Routes.Settings]: Settings,
     [Routes.ConnectEmail]: Settings,
     [Routes.NotificationsFeed]: Feed,
-    [Routes.EmailVerify]: EmailVerify,
+    [Routes.EmailVerify]: Settings,
     [Routes.EmailVerified]: EmailVerified,
     [Routes.WalletDisconnected]: WalletDisconnected,
   };

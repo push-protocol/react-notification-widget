@@ -49,13 +49,7 @@ export const Subscribe = () => {
         <SubscribeDescription />
       </Flex>
       <Flex width={'100%'} alignItems={'center'} direction={'column'} gap={1}>
-        <Button
-          variant={isLoading ? 'gray' : 'primary'}
-          width={'100%'}
-          p={1.5}
-          onClick={handleSubscribe}
-          disabled={isLoading}
-        >
+        <Button width={'100%'} onClick={handleSubscribe} disabled={isLoading} size={'lg'}>
           Subscribe
         </Button>
         <Text size={'sm'} mt={1} mb={2} color={'secondary'} opacity={0.8} align={'center'}>

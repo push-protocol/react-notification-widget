@@ -12,14 +12,14 @@ import FloatingSettings from './components/FloatingSettings';
 const WidgetBellWrapper = styled.div`
   height: 52px;
   width: 52px;
-  background: #102544;
+  background: #414144;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
 
-  &:active {
-    background: #193969;
+  :hover {
+    filter: brightness(160%);
   }
 `;
 
@@ -27,18 +27,19 @@ const lightTheme = {
   primaryColor: '#3761F9',
   buttonTextColor: '#ffffff',
   backgroundColor: '#EDF2F7',
-  textColor: '#181c27',
+  textColor: '#0f3ebe',
+};
+
+const defaultTheme = {
+  fontFamily: '"Inter var", sans-serif',
+  bellColor: '#968c8c',
 };
 
 const FakeApp = () => {
   const [partnerKey, setPartnerKey] = useState('cefa1b69-bfb9-4e70-bebc-9ee10316f882');
   const [iframeUrl, setIframeUrl] = useState('');
   const [env, setEnv] = useState(process.env.WHEREVER_ENV as string);
-  const [theme, setTheme] = useState<CustomTheme>({
-    fontFamily: '"Inter var", sans-serif',
-    bellColor: '#d67a5a',
-    // ...lightTheme,
-  });
+  const [theme, setTheme] = useState<CustomTheme>(defaultTheme);
   const [coordinates, setCoordinates] = useState({ top: 1, left: 250 });
 
   const widget = useMemo(() => {
