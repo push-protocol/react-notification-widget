@@ -1,4 +1,6 @@
 import React, { createContext, useContext, ReactNode, useState, useEffect } from 'react';
+import { ApolloError } from '@apollo/client';
+import { useNetwork } from 'wagmi';
 import { usePartnerInfoQuery } from 'context/ChannelContext/operations.generated';
 
 export type ChannelInfo = {
@@ -15,15 +17,22 @@ const emptyChannel = {
   chainId: 0,
 };
 
-const ChannelContext = createContext<ChannelInfo & { loading?: boolean }>({} as ChannelInfo);
+const ChannelContext = createContext<
+  ChannelInfo & { loading?: boolean; error?: ApolloError; isWrongNetwork?: boolean }
+>({} as ChannelInfo);
 
 const ChannelProvider = ({ partnerKey, children }: { partnerKey: string; children: ReactNode }) => {
+  const { chain: walletChain } = useNetwork();
+
   const [channel, setChannel] = useState<ChannelInfo>();
-  const { data, loading } = usePartnerInfoQuery({
+  const { data, loading, error } = usePartnerInfoQuery({
     variables: {
       input: { partnerApiKey: partnerKey },
     },
+    skip: !partnerKey,
   });
+
+  const isWrongNetwork = !!channel?.chainId && channel.chainId !== walletChain?.id;
 
   useEffect(() => {
     if (!data) return;
@@ -37,7 +46,9 @@ const ChannelProvider = ({ partnerKey, children }: { partnerKey: string; childre
   }, [data]);
 
   return (
-    <ChannelContext.Provider value={{ ...(channel || emptyChannel), loading }}>
+    <ChannelContext.Provider
+      value={{ ...(channel || emptyChannel), loading, error, isWrongNetwork }}
+    >
       {children}
     </ChannelContext.Provider>
   );

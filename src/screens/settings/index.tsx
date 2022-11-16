@@ -23,6 +23,8 @@ import { changeColorShade } from 'components/utils';
 import SettingsItem from 'screens/settings/components/SettingsItem';
 import ConnectTelegram from 'screens/settings/components/ConnectTelegram';
 import { UserCommunicationChannelsDocument } from 'context/NotificationsContext/operations.generated';
+import { useChannelContext } from 'context/ChannelContext';
+import WrongNetworkError from 'components/Errors/WrongNetworkError';
 
 const HeaderIconContainer = styled.div`
   height: 40px;
@@ -52,6 +54,8 @@ export const Settings = () => {
   const { unsubscribe, login, isLoading } = useAuthContext();
   const { setRoute, activeRoute } = useRouterContext();
   const { setUserCommsChannelsPollInterval, userCommsChannels } = useNotificationsContext();
+  const { isWrongNetwork } = useChannelContext();
+
   const theme = useTheme();
 
   const [email, setEmail] = useState('');
@@ -157,6 +161,7 @@ export const Settings = () => {
           Set Up Notifications
         </Text>
       </Flex>
+      <WrongNetworkError mb={2} />
       <Flex gap={1} width={'100%'} direction={'column'} mb={2}>
         <SettingsItem title={'Email'} icon={<Email />}>
           <ConnectEmail
@@ -183,7 +188,15 @@ export const Settings = () => {
       <HiddenNotice />
       {process.env.WHEREVER_ENV === 'development' && (
         <Flex width={'100%'} justifyContent={'center'}>
-          <Button variant={'outlined'} onClick={unsubscribe} height={20} p={0} mb={1} width={90}>
+          <Button
+            variant={'outlined'}
+            onClick={unsubscribe}
+            height={20}
+            p={0}
+            mb={1}
+            width={90}
+            disabled={isWrongNetwork}
+          >
             <Text size={'sm'}>Unsubscribe</Text>
           </Button>
         </Flex>
