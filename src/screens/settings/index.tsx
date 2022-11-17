@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styled, { useTheme } from 'styled-components';
 import { Screen } from 'components/layout/Screen';
 import Button from 'components/Button';
