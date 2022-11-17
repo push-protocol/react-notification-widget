@@ -59,7 +59,7 @@ const IntegrateTelegramView = ({
             To get started, message @wherever-bot with <b>/start.</b>
           </Text>
         ) : (
-          <Text>Generate Url to link your wallet to your Telegram account.</Text>
+          <Text>Generate URL to link your wallet to your Telegram account.</Text>
         )}
       </Flex>
       <Flex justifyContent={'end'} width={'100%'}>
@@ -72,7 +72,7 @@ const IntegrateTelegramView = ({
           {isLoading ? (
             <Spinner size={15} />
           ) : (
-            <Text>{url ? 'Open Telegram' : 'Generate Url'}</Text>
+            <Text>{url ? 'Open Telegram' : 'Generate URL'}</Text>
           )}
         </Button>
       </Flex>

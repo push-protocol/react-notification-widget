@@ -43,7 +43,9 @@ export const Settings = () => {
   const { setRoute } = useRouterContext();
   const theme = useTheme();
 
-  const [channelOpen, setChannelOpen] = useState<CHANNELS | undefined>(CHANNELS.EMAIL);
+  const [channelOpen, setChannelOpen] = useState<CHANNELS | undefined>(
+    isFirstLogin ? CHANNELS.EMAIL : undefined
+  );
 
   const toggleChannelOpen = (channel: CHANNELS) => {
     channelOpen === channel ? setChannelOpen(undefined) : setChannelOpen(channel);
