@@ -1807,7 +1807,7 @@ this in the docs: http://dev.apollodata.com/core/fragments.html#unique-names`):s
   height: 40px;
   width: 40px;
   border-radius: 100px;
-  display: flex;N
+  display: flex;
   justify-content: center;
   align-items: center;
   background: ${({theme:t})=>t.colors.primary.main};
