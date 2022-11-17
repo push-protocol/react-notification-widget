@@ -1,14 +1,18 @@
 import React from 'react';
-import SettingsItem from 'screens/settings/components/SettingsItem';
+import ChannelDropdown from 'screens/settings/components/ChannelDropdown';
 import { Telegram as TelegramIcon } from 'components/icons';
 import useTelegramActions from 'screens/settings/channels/telegram/useTelegramActions';
 import ConnectedTelegramView from 'screens/settings/channels/telegram/components/ConnectedTelegramView';
 import IntegrateTelegramView from 'screens/settings/channels/telegram/components/IntegrateTelegramView';
 import { useAuthContext } from 'context/AuthContext';
 
-export const TelegramChannel = () => {
+type TelegramChannelProps = {
+  open: boolean;
+  setOpen: () => void;
+};
+
+export const TelegramChannel = ({ open, setOpen }: TelegramChannelProps) => {
   const { isLoading } = useAuthContext();
-  // TODO: what to do when Auth loading
 
   const {
     telegramVerificationUrl,
@@ -22,21 +26,27 @@ export const TelegramChannel = () => {
   } = useTelegramActions();
 
   return (
-    <SettingsItem title={'Telegram'} icon={<TelegramIcon />} connected={exists}>
+    <ChannelDropdown
+      title={'Telegram'}
+      icon={<TelegramIcon />}
+      connected={exists}
+      open={open}
+      setOpen={setOpen}
+    >
       {exists ? (
         <ConnectedTelegramView
           hint={hint}
           handleRemove={handleRemoveTelegramIntegration}
-          isLoading={deleteTelegramLoading}
+          isLoading={deleteTelegramLoading || isLoading}
         />
       ) : (
         <IntegrateTelegramView
           url={telegramVerificationUrl}
           onOpenTg={handleOpenTG}
           onSignMessage={handleSignMessage}
-          isLoading={telegramLoading}
+          isLoading={telegramLoading || isLoading}
         />
       )}
-    </SettingsItem>
+    </ChannelDropdown>
   );
 };

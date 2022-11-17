@@ -13,6 +13,7 @@ const useTelegramActions = () => {
   const { login } = useAuthContext();
   const { setRoute } = useRouterContext();
   const { setUserCommsChannelsPollInterval, userCommsChannels } = useNotificationsContext();
+  const { isFirstLogin, setIsFirstLogin } = useAuthContext();
 
   const [getTelegramLink, { loading: telegramLoading, data: telegramUrlData }] =
     useGetTelegramVerificationLinkMutation();
@@ -53,6 +54,11 @@ const useTelegramActions = () => {
   useEffect(() => {
     if (userCommsChannels?.telegram?.exists) {
       setUserCommsChannelsPollInterval(0);
+
+      if (isFirstLogin) {
+        setIsFirstLogin(false);
+        setRoute(Routes.NotificationsFeed);
+      }
     }
   }, [setUserCommsChannelsPollInterval, userCommsChannels]);
 

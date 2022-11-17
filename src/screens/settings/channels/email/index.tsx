@@ -1,6 +1,6 @@
 import React from 'react';
 import Flex from 'components/layout/Flex';
-import SettingsItem from 'screens/settings/components/SettingsItem';
+import ChannelDropdown from 'screens/settings/components/ChannelDropdown';
 import { Email as EmailIcon } from 'components/icons';
 import useEmailActions from 'screens/settings/channels/email/useEmailActions';
 import EditEmailView from 'screens/settings/channels/email/components/EditEmailView';
@@ -8,9 +8,14 @@ import VerifyEmailView from 'screens/settings/channels/email/components/VerifyEm
 import ConnectedEmailView from 'screens/settings/channels/email/components/ConnectedEmailView';
 import { useAuthContext } from 'context/AuthContext';
 
-export const EmailChannel = () => {
+type EmailChannelProps = {
+  open: boolean;
+  setOpen: () => void;
+};
+
+export const EmailChannel = ({ open, setOpen }: EmailChannelProps) => {
   const { isLoading } = useAuthContext();
-  // TODO: what to do when Auth loading
+
   const {
     email,
     setEmail,
@@ -28,10 +33,20 @@ export const EmailChannel = () => {
   } = useEmailActions();
 
   return (
-    <SettingsItem title={'Email'} icon={<EmailIcon />} defaultOpen={true} connected={!!exists}>
+    <ChannelDropdown
+      title={'Email'}
+      icon={<EmailIcon />}
+      open={open}
+      setOpen={setOpen}
+      connected={!!exists}
+    >
       <Flex width={'100%'}>
         {isEditing && isVerify && (
-          <VerifyEmailView email={email} handleVerify={handleVerify} isLoading={verifyLoading} />
+          <VerifyEmailView
+            email={email}
+            handleVerify={handleVerify}
+            isLoading={verifyLoading || isLoading}
+          />
         )}
         {isEditing && !isVerify && (
           <EditEmailView
@@ -39,7 +54,7 @@ export const EmailChannel = () => {
             onChange={setEmail}
             handleSave={handleSave}
             handleEdit={setIsEditing}
-            isLoading={saveLoading}
+            isLoading={saveLoading || isLoading}
             exists={exists}
           />
         )}
@@ -48,10 +63,10 @@ export const EmailChannel = () => {
             hint={hint}
             handleRemove={handleRemove}
             handleEdit={() => setIsEditing(true)}
-            isLoading={deleteLoading}
+            isLoading={deleteLoading || isLoading}
           />
         )}
       </Flex>
-    </SettingsItem>
+    </ChannelDropdown>
   );
 };

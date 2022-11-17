@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled, { useTheme } from 'styled-components';
 import { Screen } from 'components/layout/Screen';
 import Button from 'components/Button';
@@ -8,6 +8,7 @@ import Flex from 'components/layout/Flex';
 import { Routes, useRouterContext } from 'context/RouterContext';
 import { useAuthContext } from 'context/AuthContext';
 import { EmailChannel, TelegramChannel } from 'screens/settings/channels';
+import HiddenNotice from 'screens/settings/components/HiddenNotice';
 
 const Header = styled(Flex)`
   pointer-events: none;
@@ -31,14 +32,30 @@ const HeaderIcon = styled.div`
   background: ${({ theme }) => theme.colors.primary.main};
 `;
 
+enum CHANNELS {
+  EMAIL,
+  TELEGRAM,
+}
+
 export const Settings = () => {
   const { unsubscribe } = useAuthContext();
   const { isFirstLogin } = useAuthContext();
   const { setRoute } = useRouterContext();
   const theme = useTheme();
 
+  const [channelOpen, setChannelOpen] = useState<CHANNELS | undefined>(CHANNELS.EMAIL);
+
+  const toggleChannelOpen = (channel: CHANNELS) => {
+    channelOpen === channel ? setChannelOpen(undefined) : setChannelOpen(channel);
+  };
+
   const handleSkip = () => {
     setRoute(Routes.NotificationsFeed);
+  };
+
+  const handleUnsubscribe = () => {
+    setChannelOpen(undefined);
+    unsubscribe();
   };
 
   return (
@@ -63,16 +80,30 @@ export const Settings = () => {
         </Text>
       </Header>
       <Flex gap={1} width={'100%'} direction={'column'} mb={2}>
-        <EmailChannel />
-        <TelegramChannel />
+        <EmailChannel
+          open={channelOpen === CHANNELS.EMAIL}
+          setOpen={() => toggleChannelOpen(CHANNELS.EMAIL)}
+        />
+        <TelegramChannel
+          open={channelOpen === CHANNELS.TELEGRAM}
+          setOpen={() => toggleChannelOpen(CHANNELS.TELEGRAM)}
+        />
       </Flex>
       {process.env.WHEREVER_ENV === 'development' && (
         <Flex width={'100%'} justifyContent={'center'}>
-          <Button variant={'outlined'} onClick={unsubscribe} height={20} p={0} mb={1} width={90}>
+          <Button
+            variant={'outlined'}
+            onClick={handleUnsubscribe}
+            height={20}
+            p={0}
+            mb={1}
+            width={90}
+          >
             <Text size={'sm'}>Unsubscribe</Text>
           </Button>
         </Flex>
       )}
+      <HiddenNotice />
     </Screen>
   );
 };

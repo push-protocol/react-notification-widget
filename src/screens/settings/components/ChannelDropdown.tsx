@@ -50,16 +50,23 @@ type SettingsItemProps = {
   icon?: ReactNode;
   title?: string;
   children?: ReactNode;
-  defaultOpen?: boolean;
+  open?: boolean;
+  setOpen?: () => void;
   connected?: boolean;
 };
 
-const SettingsItem = ({ children, icon, title, defaultOpen, connected }: SettingsItemProps) => {
-  const [open, setOpen] = useState(!!defaultOpen);
+const ChannelDropdown = ({
+  children,
+  icon,
+  title,
+  open,
+  setOpen,
+  connected,
+}: SettingsItemProps) => {
   const theme = useTheme();
   return (
     <Container gap={1} direction={'column'} open={open}>
-      <Header alignItems={'center'} onClick={() => setOpen((prevState) => !prevState)}>
+      <Header alignItems={'center'} onClick={setOpen}>
         <HeaderInfo gap={1}>
           <DropdownIcon>{open ? <ArrowDown /> : <ArrowRight />}</DropdownIcon>
           <IconContainer>{icon}</IconContainer>
@@ -78,4 +85,4 @@ const SettingsItem = ({ children, icon, title, defaultOpen, connected }: Setting
   );
 };
 
-export default SettingsItem;
+export default ChannelDropdown;

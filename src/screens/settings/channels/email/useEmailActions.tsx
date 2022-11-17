@@ -11,7 +11,7 @@ import { useAuthContext } from 'context/AuthContext';
 import { useValidateUserEmailMutation } from 'screens/emailVerify/operations.generated';
 
 const useEmailActions = () => {
-  const { login } = useAuthContext();
+  const { login, isFirstLogin, setIsFirstLogin } = useAuthContext();
   const { setRoute } = useRouterContext();
   const { activeRoute } = useRouterContext();
   const { userCommsChannels } = useNotificationsContext();
@@ -55,7 +55,13 @@ const useEmailActions = () => {
       });
       analytics.track('email verified');
       setIsEditing(false);
-      setRoute(Routes.Settings);
+
+      if (isFirstLogin) {
+        setIsFirstLogin(false);
+        setRoute(Routes.NotificationsFeed);
+      } else {
+        setRoute(Routes.Settings);
+      }
     });
   };
 
