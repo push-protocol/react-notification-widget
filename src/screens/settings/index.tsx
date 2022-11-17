@@ -20,7 +20,7 @@ const HeaderIconContainer = styled.div`
   height: 40px;
   width: 40px;
   border-radius: 100px;
-  display: flex;
+  display: flex;N
   justify-content: center;
   align-items: center;
   background: ${({ theme }) => theme.colors.primary.main};
