@@ -37,14 +37,16 @@ export const TelegramChannel = ({ open, setOpen }: TelegramChannelProps) => {
         <ConnectedTelegramView
           hint={hint}
           handleRemove={handleRemoveTelegramIntegration}
-          isLoading={deleteTelegramLoading || isLoading}
+          isLoading={deleteTelegramLoading}
+          isDisabled={deleteTelegramLoading || isLoading}
         />
       ) : (
         <IntegrateTelegramView
           url={telegramVerificationUrl}
           onOpenTg={handleOpenTG}
           onGenerateUrl={handleGenerateUrl}
-          isLoading={telegramLoading || isLoading}
+          isLoading={telegramLoading}
+          isDisabled={telegramLoading || isLoading}
         />
       )}
     </ChannelDropdown>

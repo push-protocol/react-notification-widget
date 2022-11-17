@@ -13,6 +13,7 @@ type IntegrateTelegramViewProps = {
   onOpenTg: () => void;
   onGenerateUrl: () => void;
   isLoading: boolean;
+  isDisabled: boolean;
 };
 
 const IconContainer = styled.div`
@@ -42,6 +43,7 @@ const IntegrateTelegramView = ({
   onOpenTg,
   onGenerateUrl,
   isLoading,
+  isDisabled,
 }: IntegrateTelegramViewProps) => {
   const { icon } = useChannelContext();
 
@@ -66,7 +68,7 @@ const IntegrateTelegramView = ({
         <Button
           width={168}
           onClick={url ? onOpenTg : onGenerateUrl}
-          disabled={isLoading}
+          disabled={isDisabled}
           size={'lg'}
         >
           {isLoading ? (

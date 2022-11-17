@@ -45,7 +45,8 @@ export const EmailChannel = ({ open, setOpen }: EmailChannelProps) => {
           <VerifyEmailView
             email={email}
             handleVerify={handleVerify}
-            isLoading={verifyLoading || isLoading}
+            isLoading={verifyLoading}
+            isDisabled={verifyLoading || isLoading}
           />
         )}
         {isEditing && !isVerify && (
@@ -54,7 +55,8 @@ export const EmailChannel = ({ open, setOpen }: EmailChannelProps) => {
             onChange={setEmail}
             handleSave={handleSave}
             handleEdit={setIsEditing}
-            isLoading={saveLoading || isLoading}
+            isLoading={saveLoading}
+            isDisabled={saveLoading || isLoading}
             exists={exists}
           />
         )}
@@ -63,7 +65,8 @@ export const EmailChannel = ({ open, setOpen }: EmailChannelProps) => {
             hint={hint}
             handleRemove={handleRemove}
             handleEdit={() => setIsEditing(true)}
-            isLoading={deleteLoading || isLoading}
+            isLoading={deleteLoading}
+            isDisabled={deleteLoading || isLoading}
           />
         )}
       </Flex>

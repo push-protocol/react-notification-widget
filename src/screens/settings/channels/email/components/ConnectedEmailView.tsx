@@ -9,6 +9,7 @@ type ConnectedEmailViewProps = {
   handleRemove: () => void;
   handleEdit: () => void;
   isLoading: boolean;
+  isDisabled: boolean;
 };
 
 const ConnectedEmailView = ({
@@ -16,6 +17,7 @@ const ConnectedEmailView = ({
   handleRemove,
   handleEdit,
   isLoading,
+  isDisabled,
 }: ConnectedEmailViewProps) => (
   <Flex direction={'column'} gap={2} width={'100%'}>
     <Text>You are receiving alerts to {hint}</Text>
@@ -23,7 +25,7 @@ const ConnectedEmailView = ({
       <Button width={'100%'} onClick={handleEdit} variant={'bgRelative'}>
         Change
       </Button>
-      <Button width={'100%'} onClick={handleRemove} disabled={isLoading} variant={'bgRelative'}>
+      <Button width={'100%'} onClick={handleRemove} disabled={isDisabled} variant={'bgRelative'}>
         {isLoading ? <Spinner size={4} /> : 'Remove'}
       </Button>
     </Flex>

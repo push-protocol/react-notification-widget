@@ -11,11 +11,12 @@ type VerifyEmailViewProps = {
   email: string;
   handleVerify: (code: string) => void;
   isLoading: boolean;
+  isDisabled: boolean;
 };
 
 const CODE_REGEX = '^[0-9]*$';
 
-const VerifyEmailView = ({ email, handleVerify, isLoading }: VerifyEmailViewProps) => {
+const VerifyEmailView = ({ email, handleVerify, isLoading, isDisabled }: VerifyEmailViewProps) => {
   const { setRoute } = useRouterContext();
   const [code, setCode] = useState('');
 
@@ -53,7 +54,12 @@ const VerifyEmailView = ({ email, handleVerify, isLoading }: VerifyEmailViewProp
           <Text>Sent to {email}</Text>
           <TextLink onClick={handleModifyEmail}>Change</TextLink>
         </Flex>
-        <Button disabled={code.length !== 6 || isLoading} size={'lg'} onClick={onSubmit} width={96}>
+        <Button
+          disabled={code.length !== 6 || isDisabled}
+          size={'lg'}
+          onClick={onSubmit}
+          width={96}
+        >
           {isLoading ? <Spinner size={15} /> : 'Submit'}
         </Button>
       </Flex>

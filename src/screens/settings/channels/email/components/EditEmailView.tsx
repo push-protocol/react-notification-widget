@@ -13,6 +13,7 @@ type EditEmailViewProps = {
   handleSave: () => void;
   handleEdit: (edit: boolean) => void;
   isLoading: boolean;
+  isDisabled: boolean;
   email?: UserCommunicationChannel;
   exists?: boolean;
 };
@@ -23,6 +24,7 @@ const EditEmailView = ({
   handleSave,
   handleEdit,
   isLoading,
+  isDisabled,
   exists,
 }: EditEmailViewProps) => (
   <Flex justifyContent={'center'} alignItems={'center'} direction={'column'} width={'100%'} gap={1}>
@@ -34,7 +36,7 @@ const EditEmailView = ({
     <Flex justifyContent={exists ? 'space-between' : 'end'} alignItems={'center'} width={'100%'}>
       {exists && <TextLink onClick={() => handleEdit(false)}>Cancel</TextLink>}
       <Button
-        disabled={!isEmailValid(value) || isLoading}
+        disabled={!isEmailValid(value) || isDisabled}
         size={'lg'}
         onClick={handleSave}
         width={96}

@@ -48,7 +48,7 @@ enum CHANNELS {
 }
 
 export const Settings = () => {
-  const { isFirstLogin, unsubscribe } = useAuthContext();
+  const { isFirstLogin, unsubscribe, isLoading } = useAuthContext();
   const { setRoute } = useRouterContext();
   const { isWrongNetwork } = useChannelContext();
 
@@ -68,15 +68,8 @@ export const Settings = () => {
   };
 
   const handleUnsubscribe = () => {
-    setChannelOpen(undefined);
     unsubscribe();
   };
-
-  useEffect(() => {
-    if (isWrongNetwork) {
-      setChannelOpen(undefined);
-    }
-  }, [isWrongNetwork]);
 
   return (
     <Screen
@@ -125,7 +118,7 @@ export const Settings = () => {
             p={0}
             mb={1}
             width={90}
-            disabled={isWrongNetwork}
+            disabled={isWrongNetwork || isLoading}
           >
             <Text size={'sm'}>Unsubscribe</Text>
           </Button>
