@@ -12,14 +12,14 @@ import FloatingSettings from './components/FloatingSettings';
 const WidgetBellWrapper = styled.div`
   height: 52px;
   width: 52px;
-  background: #414144;
+  background: #102544;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
 
-  :hover {
-    filter: brightness(160%);
+  &:active {
+    background: #193969;
   }
 `;
 
@@ -27,7 +27,7 @@ const lightTheme = {
   primaryColor: '#3761F9',
   buttonTextColor: '#ffffff',
   backgroundColor: '#EDF2F7',
-  textColor: '#0f3ebe',
+  textColor: '#181c27',
 };
 
 const defaultTheme = {
@@ -36,7 +36,7 @@ const defaultTheme = {
 };
 
 const FakeApp = () => {
-  const [partnerKey, setPartnerKey] = useState('6a71067c-49c7-4863-bf16-a34511a277e1');
+  const [partnerKey, setPartnerKey] = useState('cefa1b69-bfb9-4e70-bebc-9ee10316f882');
   const [iframeUrl, setIframeUrl] = useState('');
   const [env, setEnv] = useState(process.env.WHEREVER_ENV as string);
   const [theme, setTheme] = useState<CustomTheme>(defaultTheme);
