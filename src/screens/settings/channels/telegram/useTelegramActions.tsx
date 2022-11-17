@@ -35,7 +35,7 @@ const useTelegramActions = () => {
     });
   };
 
-  const handleSignMessage = async () => {
+  const handleGenerateUrl = async () => {
     login(async () => {
       analytics.track('telegram url generated');
       await getTelegramLink();
@@ -66,7 +66,7 @@ const useTelegramActions = () => {
     telegramLoading,
     deleteTelegramLoading,
     telegramVerificationUrl: telegramUrlData?.telegramVerificationLinkGenerate?.link,
-    handleSignMessage,
+    handleGenerateUrl,
     handleOpenTG,
     handleRemoveTelegramIntegration,
     exists: userCommsChannels?.telegram?.exists,

@@ -16,7 +16,7 @@ export const TelegramChannel = ({ open, setOpen }: TelegramChannelProps) => {
 
   const {
     telegramVerificationUrl,
-    handleSignMessage,
+    handleGenerateUrl,
     handleOpenTG,
     handleRemoveTelegramIntegration,
     telegramLoading,
@@ -43,7 +43,7 @@ export const TelegramChannel = ({ open, setOpen }: TelegramChannelProps) => {
         <IntegrateTelegramView
           url={telegramVerificationUrl}
           onOpenTg={handleOpenTG}
-          onSignMessage={handleSignMessage}
+          onGenerateUrl={handleGenerateUrl}
           isLoading={telegramLoading || isLoading}
         />
       )}

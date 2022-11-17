@@ -11,7 +11,7 @@ import { useChannelContext } from 'context/ChannelContext';
 type IntegrateTelegramViewProps = {
   url?: string;
   onOpenTg: () => void;
-  onSignMessage: () => void;
+  onGenerateUrl: () => void;
   isLoading: boolean;
 };
 
@@ -40,7 +40,7 @@ const ClientIcon = styled.img`
 const IntegrateTelegramView = ({
   url,
   onOpenTg,
-  onSignMessage,
+  onGenerateUrl,
   isLoading,
 }: IntegrateTelegramViewProps) => {
   const { icon } = useChannelContext();
@@ -59,20 +59,20 @@ const IntegrateTelegramView = ({
             To get started, message @wherever-bot with <b>/start.</b>
           </Text>
         ) : (
-          <Text>Sign a message to link your wallet to your Telegram account.</Text>
+          <Text>Generate Url to link your wallet to your Telegram account.</Text>
         )}
       </Flex>
       <Flex justifyContent={'end'} width={'100%'}>
         <Button
           width={168}
-          onClick={url ? onOpenTg : onSignMessage}
+          onClick={url ? onOpenTg : onGenerateUrl}
           disabled={isLoading}
           size={'lg'}
         >
           {isLoading ? (
             <Spinner size={15} />
           ) : (
-            <Text>{url ? 'Open Telegram' : 'Sign message'}</Text>
+            <Text>{url ? 'Open Telegram' : 'Generate Url'}</Text>
           )}
         </Button>
       </Flex>
