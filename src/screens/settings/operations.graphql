@@ -10,6 +10,12 @@ mutation DeleteUserEmail {
     }
 }
 
+mutation ValidateUserEmail ($input: UserEmailValidateInput!) {
+    userEmailValidate(input: $input) {
+        success
+    }
+}
+
 mutation GetTelegramVerificationLink {
     telegramVerificationLinkGenerate {
         link

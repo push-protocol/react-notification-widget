@@ -6,11 +6,11 @@ import { Screen } from 'components/layout/Screen';
 import Flex from 'components/layout/Flex';
 import Button from 'components/Button';
 import Text from 'components/Text';
-import NewTag from 'components/NewTag';
-import SubscribeDescription from 'screens/subscribe/components/SubscribeDescription';
-import SubscribeInfo from 'screens/subscribe/components/SubscribeInfo';
+import ConnectDescription from 'screens/components/ConnectDescription';
+import ConnectInfo from 'screens/components/ConnectInfo';
 import { Routes, useRouterContext } from 'context/RouterContext';
 import { useAuthContext } from 'context/AuthContext';
+import ConnectHeader from 'screens/components/ConnectHeader';
 
 export const Subscribe = () => {
   const { isLoading, subscribe, setIsFirstLogin } = useAuthContext();
@@ -36,17 +36,14 @@ export const Subscribe = () => {
 
   return (
     <Screen>
-      <Flex alignItems={'center'} direction={'column'} mb={4}>
-        <Flex mb={1}>
-          <NewTag />
-        </Flex>
-        <Text size={'xl'} weight={700} align={'center'}>
-          Wallet-to-wallet notifications
-        </Text>
-      </Flex>
+      <ConnectHeader />
       <Flex alignItems={'center'} direction={'column'} mb={3} mt={2}>
-        <SubscribeInfo />
-        <SubscribeDescription />
+        <ConnectInfo />
+        <ConnectDescription
+          text={
+            'is using the Ethereum Push Notifications protocol to securly message its users. No spam, opt-out at any time.'
+          }
+        />
       </Flex>
       <Flex width={'100%'} alignItems={'center'} direction={'column'} gap={1}>
         <Button width={'100%'} onClick={handleSubscribe} disabled={isLoading} size={'lg'}>

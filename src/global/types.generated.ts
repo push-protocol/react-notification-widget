@@ -23,6 +23,7 @@ export type Audience = {
   contractEventAudience?: Maybe<ContractEventAudience>;
   createdAt: Scalars['DateTime'];
   id: Scalars['String'];
+  incomingWebhookAudience?: Maybe<IncomingWebhookAudience>;
   manualAudience?: Maybe<Array<ManualAudience>>;
   type: AudienceType;
   updatedAt: Scalars['DateTime'];
@@ -32,6 +33,7 @@ export type Audience = {
 export enum AudienceType {
   AllEpnsSubscribers = 'ALL_EPNS_SUBSCRIBERS',
   ContractEvent = 'CONTRACT_EVENT',
+  IncomingWebhookData = 'INCOMING_WEBHOOK_DATA',
   Manual = 'MANUAL'
 }
 
@@ -140,6 +142,12 @@ export type IncomingWebhook = {
   secret: Scalars['String'];
 };
 
+export type IncomingWebhookAudience = {
+  __typename?: 'IncomingWebhookAudience';
+  audienceId: Scalars['String'];
+  field: Scalars['String'];
+};
+
 export type IncomingWebhookCreateInput = {
   isActive: Scalars['Boolean'];
   name: Scalars['String'];
@@ -161,6 +169,7 @@ export type IncomingWebhookFindInput = {
 export type IncomingWebhookLog = {
   __typename?: 'IncomingWebhookLog';
   createdAt: Scalars['DateTime'];
+  error?: Maybe<Scalars['String']>;
   id: Scalars['String'];
   incomingWebhookId: Scalars['String'];
   receivedData: Scalars['JSON'];
@@ -397,7 +406,7 @@ export type Trigger = {
 
 export enum TriggerType {
   ContractEvent = 'CONTRACT_EVENT',
-  Webhook = 'WEBHOOK'
+  IncomingWebhook = 'INCOMING_WEBHOOK'
 }
 
 export type User = {
@@ -475,6 +484,7 @@ export type WorkflowCreateAudienceInput = {
   addresses?: InputMaybe<Array<Scalars['String']>>;
   allSubscribers?: InputMaybe<Scalars['Boolean']>;
   contractEventFields?: InputMaybe<Array<Scalars['String']>>;
+  incomingWebhookDataField?: InputMaybe<Scalars['String']>;
   segmentId?: InputMaybe<Scalars['String']>;
 };
 

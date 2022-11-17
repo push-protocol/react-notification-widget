@@ -1,6 +1,6 @@
 import React, { createContext, useContext, ReactNode, useState, ElementType } from 'react';
 import analytics from '../services/analytics';
-import { EmailVerified, Feed, Settings, Subscribe, EmailVerify, WalletDisconnected } from 'screens';
+import { Feed, Settings, Subscribe, WalletDisconnected } from 'screens';
 
 enum Routes {
   Subscribe = 'Subscribe',
@@ -8,7 +8,6 @@ enum Routes {
   ConnectEmail = 'ConnectEmail',
   NotificationsFeed = 'NotificationsFeed',
   EmailVerify = 'EmailVerify',
-  EmailVerified = 'EmailVerified',
   WalletDisconnected = 'WalletDisconnected',
 }
 
@@ -43,7 +42,6 @@ const RouterProvider = ({ children }: { children: ReactNode }) => {
     [Routes.ConnectEmail]: Settings,
     [Routes.NotificationsFeed]: Feed,
     [Routes.EmailVerify]: Settings,
-    [Routes.EmailVerified]: EmailVerified,
     [Routes.WalletDisconnected]: WalletDisconnected,
   };
 

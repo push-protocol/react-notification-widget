@@ -1,28 +1,13 @@
 import React from 'react';
-import styled from 'styled-components';
 import { useConnect, Connector } from 'wagmi';
 import Spinner from '../../components/Spinner';
 import analytics from '../../services/analytics';
 import { Screen } from 'components/layout/Screen';
 import Button from 'components/Button';
-import Text from 'components/Text';
-import { Wallet } from 'components/icons';
 import Flex from 'components/layout/Flex';
-
-const HeaderIconContainer = styled.div`
-  height: 50px;
-  width: 50px;
-  border-radius: 100px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: ${({ theme }) => theme.colors.bg.main};
-  margin-bottom: ${({ theme }) => theme.spacing(1.5)}px;
-`;
-
-const StyledText = styled(Text)`
-  color: ${({ theme }) => theme.colors.gray[400]};
-`;
+import ConnectHeader from 'screens/components/ConnectHeader';
+import ConnectInfo from 'screens/components/ConnectInfo';
+import ConnectDescription from 'screens/components/ConnectDescription';
 
 //wagmi connector IDs
 const ALLOWED_WALLETS = ['metaMask', 'walletConnect'];
@@ -37,13 +22,14 @@ export const WalletDisconnected = () => {
 
   return (
     <Screen>
-      <Flex justifyContent={'center'} alignItems={'center'} direction={'column'} mb={16} mt={8}>
-        <HeaderIconContainer>
-          <Wallet />
-        </HeaderIconContainer>
-        <StyledText size={'xl'} weight={700} mb={0.5}>
-          Wallet not connected
-        </StyledText>
+      <ConnectHeader />
+      <Flex alignItems={'center'} direction={'column'} mb={3} mt={2}>
+        <ConnectInfo hideAddress={true} />
+        <ConnectDescription
+          text={
+            'is using the Push Protocol to securly message its users. No spam, opt-out at any time.'
+          }
+        />
       </Flex>
       <Flex width={'100%'} gap={1.5} direction={'column'}>
         {connectors

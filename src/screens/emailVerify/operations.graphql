@@ -1,5 +1,0 @@
-mutation ValidateUserEmail ($input: UserEmailValidateInput!) {
-    userEmailValidate(input: $input) {
-        success
-    }
-}

@@ -3,12 +3,12 @@ import { useNotificationsContext } from 'context/NotificationsContext';
 import {
   useDeleteUserEmailMutation,
   useSaveUserEmailMutation,
+  useValidateUserEmailMutation,
 } from 'screens/settings/operations.generated';
 import { UserCommunicationChannelsDocument } from 'context/NotificationsContext/operations.generated';
 import analytics from 'services/analytics';
 import { Routes, useRouterContext } from 'context/RouterContext';
 import { useAuthContext } from 'context/AuthContext';
-import { useValidateUserEmailMutation } from 'screens/emailVerify/operations.generated';
 
 const useEmailActions = () => {
   const { login, isFirstLogin, setIsFirstLogin } = useAuthContext();

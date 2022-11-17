@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { useAccount, useEnsName } from 'wagmi';
 import Text from 'components/Text';
-import { Dots, ExportWallet } from 'components/icons';
+import { Dots, ExportWallet, OpenLink } from 'components/icons';
 import formatAddress from 'helpers/functions/formatAddress';
 import { useChannelContext } from 'context/ChannelContext';
 
@@ -45,6 +45,17 @@ const WalletText = styled.div`
   height: 20px;
   text-align: center;
   margin-top: ${({ theme }) => theme.spacing(0.5)}px;
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  justify-content: center;
+`;
+
+const IconContainer = styled.div`
+  width: 11px;
+  height: 11px;
+  display: flex;
+  flex-shrink: 0;
 `;
 
 const Separator = styled.div`
@@ -58,7 +69,7 @@ const SeparatorIcon = styled.div`
   color: ${({ theme }) => theme.colors.primary.main};
 `;
 
-const SubscribeInfo = () => {
+const ConnectInfo = ({ hideAddress }: { hideAddress?: boolean }) => {
   const { channelAddress, icon } = useChannelContext();
   const { address } = useAccount();
 
@@ -71,9 +82,14 @@ const SubscribeInfo = () => {
         <FromWalletIcon>
           <img src={icon} alt="channel icon" />
         </FromWalletIcon>
-        <WalletText>
-          <Text size={'sm'}>{channelEns || formatAddress(channelAddress)}</Text>
-        </WalletText>
+        {!hideAddress && (
+          <WalletText>
+            <Text size={'sm'}>{channelEns || formatAddress(channelAddress)}</Text>
+            <IconContainer>
+              <OpenLink />
+            </IconContainer>
+          </WalletText>
+        )}
       </WalletContainer>
       <Separator>
         <SeparatorIcon>
@@ -84,12 +100,14 @@ const SubscribeInfo = () => {
         <WalletIcon>
           <ExportWallet />
         </WalletIcon>
-        <WalletText>
-          <Text size={'sm'}>{userEns || formatAddress(address)}</Text>
-        </WalletText>
+        {!hideAddress && (
+          <WalletText>
+            <Text size={'sm'}>{userEns || formatAddress(address)}</Text>
+          </WalletText>
+        )}
       </WalletContainer>
     </Container>
   );
 };
 
-export default SubscribeInfo;
+export default ConnectInfo;
