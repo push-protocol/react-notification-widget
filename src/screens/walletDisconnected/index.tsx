@@ -5,9 +5,9 @@ import analytics from '../../services/analytics';
 import { Screen } from 'components/layout/Screen';
 import Button from 'components/Button';
 import Flex from 'components/layout/Flex';
-import ConnectHeader from 'screens/components/ConnectHeader';
-import ConnectInfo from 'screens/components/ConnectInfo';
-import ConnectDescription from 'screens/components/ConnectDescription';
+import SubscribeHeader from 'screens/subscribe/components/SubscribeHeader';
+import SubscribeInfo from 'screens/subscribe/components/SubscribeInfo';
+import SubscribeDescription from 'screens/subscribe/components/SubscribeDescription';
 
 //wagmi connector IDs
 const ALLOWED_WALLETS = ['metaMask', 'walletConnect'];
@@ -22,10 +22,10 @@ export const WalletDisconnected = () => {
 
   return (
     <Screen>
-      <ConnectHeader />
+      <SubscribeHeader />
       <Flex alignItems={'center'} direction={'column'} mb={3} mt={2}>
-        <ConnectInfo hideAddress={true} />
-        <ConnectDescription
+        <SubscribeInfo hideAddress={true} />
+        <SubscribeDescription
           text={
             'is using the Push Protocol to securly message its users. No spam, opt-out at any time.'
           }

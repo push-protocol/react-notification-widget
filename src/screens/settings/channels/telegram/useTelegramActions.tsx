@@ -56,6 +56,7 @@ const useTelegramActions = () => {
       setUserCommsChannelsPollInterval(0);
 
       if (isFirstLogin) {
+        // This will redirect user from onBoarding to feed if user has already has telegram integrated
         setIsFirstLogin(false);
         setRoute(Routes.NotificationsFeed);
       }

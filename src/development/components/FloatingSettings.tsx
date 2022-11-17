@@ -70,7 +70,7 @@ const FloatingSettings = (props: FloatingSettingsProps) => {
         style={{
           display: showSettings ? 'flex' : 'none',
           position: 'fixed',
-          bottom: 200,
+          bottom: 120,
           right: 1,
           zIndex: 100,
           background: 'white',

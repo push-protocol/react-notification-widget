@@ -3,7 +3,7 @@ import Text from 'components/Text';
 import Flex from 'components/layout/Flex';
 import NewTag from 'components/NewTag';
 
-const ConnectHeader = () => {
+const SubscribeHeader = () => {
   return (
     <Flex alignItems={'center'} direction={'column'} mb={4}>
       <Flex mb={1}>
@@ -16,4 +16,4 @@ const ConnectHeader = () => {
   );
 };
 
-export default ConnectHeader;
+export default SubscribeHeader;

@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useAccount, useEnsName } from 'wagmi';
+import { useAccount, useEnsName, useNetwork } from 'wagmi';
 import Text from 'components/Text';
 import { Dots, ExportWallet, OpenLink } from 'components/icons';
 import formatAddress from 'helpers/functions/formatAddress';
@@ -15,6 +15,7 @@ const WalletContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 84px;
 `;
 
 const WalletIcon = styled.div`
@@ -40,7 +41,7 @@ const FromWalletIcon = styled.div`
   }
 `;
 
-const WalletText = styled.div`
+const WalletText = styled.a`
   width: 86px;
   height: 20px;
   text-align: center;
@@ -49,6 +50,7 @@ const WalletText = styled.div`
   gap: 4px;
   align-items: center;
   justify-content: center;
+  text-decoration: none;
 `;
 
 const IconContainer = styled.div`
@@ -69,9 +71,13 @@ const SeparatorIcon = styled.div`
   color: ${({ theme }) => theme.colors.primary.main};
 `;
 
-const ConnectInfo = ({ hideAddress }: { hideAddress?: boolean }) => {
+const SubscribeInfo = ({ hideAddress }: { hideAddress: boolean }) => {
+  const { chain } = useNetwork();
+
   const { channelAddress, icon } = useChannelContext();
   const { address } = useAccount();
+
+  const blockExplorerUrl = `${chain?.blockExplorers?.default?.url}/address/${channelAddress}`;
 
   const { data: channelEns } = useEnsName({ address: channelAddress as `0x${string}` });
   const { data: userEns } = useEnsName({ address });
@@ -83,7 +89,7 @@ const ConnectInfo = ({ hideAddress }: { hideAddress?: boolean }) => {
           <img src={icon} alt="channel icon" />
         </FromWalletIcon>
         {!hideAddress && (
-          <WalletText>
+          <WalletText href={blockExplorerUrl} target={'_blank'} rel={'noopener'}>
             <Text size={'sm'}>{channelEns || formatAddress(channelAddress)}</Text>
             <IconContainer>
               <OpenLink />
@@ -110,4 +116,4 @@ const ConnectInfo = ({ hideAddress }: { hideAddress?: boolean }) => {
   );
 };
 
-export default ConnectInfo;
+export default SubscribeInfo;

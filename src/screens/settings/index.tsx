@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled, { useTheme } from 'styled-components';
 import { Screen } from 'components/layout/Screen';
 import Button from 'components/Button';
@@ -9,6 +9,8 @@ import { Routes, useRouterContext } from 'context/RouterContext';
 import { useAuthContext } from 'context/AuthContext';
 import { EmailChannel, TelegramChannel } from 'screens/settings/channels';
 import HiddenNotice from 'screens/settings/components/HiddenNotice';
+import { useChannelContext } from 'context/ChannelContext';
+import WrongNetworkError from 'components/Errors/WrongNetworkError';
 
 const Header = styled(Flex)`
   pointer-events: none;
@@ -32,15 +34,24 @@ const HeaderIcon = styled.div`
   background: ${({ theme }) => theme.colors.primary.main};
 `;
 
+const ChannelsContainer = styled(Flex)<{ wrongNetwork?: boolean }>`
+  ${({ wrongNetwork }) =>
+    wrongNetwork &&
+    `
+    pointer-events: none;
+  `}
+`;
+
 enum CHANNELS {
   EMAIL,
   TELEGRAM,
 }
 
 export const Settings = () => {
-  const { unsubscribe } = useAuthContext();
-  const { isFirstLogin } = useAuthContext();
+  const { isFirstLogin, unsubscribe } = useAuthContext();
   const { setRoute } = useRouterContext();
+  const { isWrongNetwork } = useChannelContext();
+
   const theme = useTheme();
 
   const [channelOpen, setChannelOpen] = useState<CHANNELS | undefined>(
@@ -48,6 +59,7 @@ export const Settings = () => {
   );
 
   const toggleChannelOpen = (channel: CHANNELS) => {
+    if (isWrongNetwork) return;
     channelOpen === channel ? setChannelOpen(undefined) : setChannelOpen(channel);
   };
 
@@ -59,6 +71,12 @@ export const Settings = () => {
     setChannelOpen(undefined);
     unsubscribe();
   };
+
+  useEffect(() => {
+    if (isWrongNetwork) {
+      setChannelOpen(undefined);
+    }
+  }, [isWrongNetwork]);
 
   return (
     <Screen
@@ -81,7 +99,14 @@ export const Settings = () => {
           Choose one or more channels to receive alerts when new messages hit your wallet.
         </Text>
       </Header>
-      <Flex gap={1} width={'100%'} direction={'column'} mb={2}>
+      <WrongNetworkError mb={2} />
+      <ChannelsContainer
+        wrongNetwork={isWrongNetwork}
+        gap={1}
+        width={'100%'}
+        direction={'column'}
+        mb={2}
+      >
         <EmailChannel
           open={channelOpen === CHANNELS.EMAIL}
           setOpen={() => toggleChannelOpen(CHANNELS.EMAIL)}
@@ -90,7 +115,7 @@ export const Settings = () => {
           open={channelOpen === CHANNELS.TELEGRAM}
           setOpen={() => toggleChannelOpen(CHANNELS.TELEGRAM)}
         />
-      </Flex>
+      </ChannelsContainer>
       {process.env.WHEREVER_ENV === 'development' && (
         <Flex width={'100%'} justifyContent={'center'}>
           <Button
@@ -100,6 +125,7 @@ export const Settings = () => {
             p={0}
             mb={1}
             width={90}
+            disabled={isWrongNetwork}
           >
             <Text size={'sm'}>Unsubscribe</Text>
           </Button>

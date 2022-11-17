@@ -10,7 +10,7 @@ const Container = styled.div`
   line-height: 22px;
 `;
 
-const ConnectDescription = ({ text }: { text: string }) => {
+const SubscribeDescription = ({ text }: { text: string }) => {
   const { name } = useChannelContext();
 
   return (
@@ -22,4 +22,4 @@ const ConnectDescription = ({ text }: { text: string }) => {
   );
 };
 
-export default ConnectDescription;
+export default SubscribeDescription;

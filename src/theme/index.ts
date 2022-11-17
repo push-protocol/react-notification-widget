@@ -123,7 +123,7 @@ const defaultTheme: DefaultTheme = {
       color: '#FCFCFC',
     },
     error: {
-      main: '#FF6347',
+      main: '#FF0000',
     },
     success: {
       main: '#6cf03e',

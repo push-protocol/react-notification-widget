@@ -29,6 +29,12 @@ const variantStyles = (variant = 'primary', theme: DefaultTheme): any =>
         background: ${adjustColor(theme.colors.primary.main, 0.8)};
         border-color: ${adjustColor(theme.colors.primary.main, 0.8)};
       }
+      &:disabled {
+        transform: unset;
+        background: ${adjustColor(theme.colors.primary.main, 0.5)};
+        border-color: ${adjustColor(theme.colors.primary.main, 0.5)};
+        cursor: default;
+      }
     `,
     gray: css`
       background: ${theme.colors.gray[500]};
@@ -38,9 +44,21 @@ const variantStyles = (variant = 'primary', theme: DefaultTheme): any =>
         background: ${theme.colors.gray[300]};
         border-color: ${theme.colors.gray[300]};
       }
+      &:disabled {
+        transform: unset;
+        background: ${theme.colors.gray['300']};
+        color: ${theme.colors.gray['50']};
+        cursor: default;
+      }
     `,
     outlined: css`
       background-color: transparent;
+      &:disabled {
+        transform: unset;
+        background: ${theme.colors.gray['300']};
+        color: ${theme.colors.gray['50']};
+        cursor: default;
+      }
     `,
     danger: css`
       background: ${theme.colors.error.main};
@@ -48,12 +66,24 @@ const variantStyles = (variant = 'primary', theme: DefaultTheme): any =>
         background: ${adjustColor(theme.colors.error.main, 0.8)};
         border-color: ${adjustColor(theme.colors.error.main, 0.8)};
       }
+      &:disabled {
+        transform: unset;
+        background: ${theme.colors.gray['300']};
+        color: ${theme.colors.gray['50']};
+        cursor: default;
+      }
     `,
     bgRelative: css`
       background: ${adjustColor(theme.colors.bg.main, 0.6)};
       &:hover {
         background: ${adjustColor(theme.colors.bg.main, 0.4)};
         border-color: ${adjustColor(theme.colors.bg.main, 0.4)};
+      }
+      &:disabled {
+        transform: unset;
+        background: ${theme.colors.gray['300']};
+        color: ${theme.colors.gray['50']};
+        cursor: default;
       }
     `,
   }[variant]);
@@ -100,15 +130,9 @@ const Button = styled.button<ButtonProps>`
     color: ${textColor || theme.colors.button.text};
     ${conditionalRenderProp('width', renderStringNumValue(width))};
     ${conditionalRenderProp('height', renderStringNumValue(height))};
+    ${genSpaces(theme, rest)}
     ${variantStyles(variant, theme).join('')}
     ${buttonSizeStyles(size, theme).join('')}
-    ${genSpaces(theme, rest)}
-    &:disabled {
-      transform: unset;
-      background: ${theme.colors.gray['300']};
-      color: ${theme.colors.gray['50']};
-      cursor: default;
-    };
   `};
 `;
 
