@@ -22,6 +22,7 @@ export type NotificationFeedProviderProps = PropsWithChildren<{
   partnerKey: string;
   provider?: ExternalProvider;
   theme?: CustomTheme;
+  jsonRpcUrl?: string;
   disableAnalytics?: boolean;
 }>;
 
@@ -31,8 +32,9 @@ const NotificationFeedProvider = ({
   theme,
   children,
   disableAnalytics,
+  jsonRpcUrl,
 }: NotificationFeedProviderProps) => {
-  const wagmiClient = useWagmiClient(provider);
+  const wagmiClient = useWagmiClient(provider, jsonRpcUrl);
 
   useEffect(() => {
     if (disableAnalytics) {

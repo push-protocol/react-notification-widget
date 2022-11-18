@@ -7,7 +7,7 @@ import { MetaMaskConnector } from 'wagmi/connectors/metaMask';
 import { InjectedConnector } from 'wagmi/connectors/injected';
 import { ExternalProvider } from './index';
 
-export default function useWagmiClient(provider?: ExternalProvider) {
+export default function useWagmiClient(provider?: ExternalProvider, jsonRpcUrl?: string) {
   return useMemo(() => {
     let wagmiProvider = ethers.getDefaultProvider();
 
@@ -18,6 +18,11 @@ export default function useWagmiClient(provider?: ExternalProvider) {
       // this is a standard EipProvider (web3js provider or similar)
       wagmiProvider = new providers.Web3Provider(provider as providers.ExternalProvider);
     }
+
+    if (jsonRpcUrl)
+      wagmiProvider = new providers.JsonRpcProvider({
+        url: jsonRpcUrl,
+      });
 
     return createClient({
       autoConnect: true,
