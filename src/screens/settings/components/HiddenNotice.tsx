@@ -8,7 +8,6 @@ import { useChannelContext } from 'context/ChannelContext';
 const NoticeContainer = styled(Flex)`
   align-self: start;
   color: ${({ theme }) => theme.colors.gray[50]};
-  padding: ${({ theme }) => theme.spacing(1)}px;
 `;
 
 const LockIconContainer = styled.div`

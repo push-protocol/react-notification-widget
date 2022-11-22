@@ -2,15 +2,12 @@ import React, { PropsWithChildren, ReactElement } from 'react';
 import styled from 'styled-components';
 import Text from '../Text';
 import Button from '../Button';
-import { useNotificationsContext } from '../../context/NotificationsContext';
 import Flex from './Flex';
+import { useNotificationsContext } from 'context/NotificationsContext';
 
-export const CenteredContainer = styled.div`
+export const CenteredContainer = styled(Flex)`
   width: 100%;
   height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 `;
 
 const MobileCloseButton = styled(Button)(({ theme }) => ({
@@ -32,20 +29,21 @@ const TitleBar = styled(Flex)`
 
 type ScreenPropsT = PropsWithChildren<{
   title?: string;
+  mb?: number;
   navbarActionComponent?: ReactElement;
 }>;
 
-export const Screen = (props: ScreenPropsT) => {
+export const Screen = ({ title, navbarActionComponent, mb = 0, children }: ScreenPropsT) => {
   const { setFeedOpen } = useNotificationsContext();
 
   return (
-    <CenteredContainer>
-      <TitleBar mb={props.title || props.navbarActionComponent ? 2 : 0}>
+    <CenteredContainer direction={'column'} alignItems={'center'} mb={mb}>
+      <TitleBar mb={title || navbarActionComponent ? 2 : 0}>
         <Text size={'xl'} weight={700}>
-          {props.title}
+          {title}
         </Text>
         <Flex style={{ flexBasis: 1 }} alignItems={'center'} gap={1} mr={1}>
-          {props.navbarActionComponent}
+          {navbarActionComponent}
           <MobileCloseButton
             onClick={() => setFeedOpen(false)}
             fontSize={'sm'}
@@ -55,7 +53,7 @@ export const Screen = (props: ScreenPropsT) => {
           </MobileCloseButton>
         </Flex>
       </TitleBar>
-      {props.children}
+      {children}
     </CenteredContainer>
   );
 };

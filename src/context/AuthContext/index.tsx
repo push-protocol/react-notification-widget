@@ -23,6 +23,7 @@ export type AuthInfo = {
   isLoggedIn: boolean;
   login(callback?: () => void): void;
   isFirstLogin: boolean;
+  userDisconnected: boolean;
   setIsFirstLogin(isFirst: boolean): void;
 };
 
@@ -51,6 +52,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
   const { data: signer } = useSigner();
   const { login: _login } = useAuthenticate();
   const dc = useDisconnect();
+  const [userDisconnected, setUserDisconnected] = useState(false);
   const [isSubscribed, setIsSubscribed] = useState(false);
   const [isFirstLogin, setIsFirstLogin] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -112,15 +114,17 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     if (!isConnected) {
       logout();
-      setRoute(Routes.WalletDisconnected);
+      setUserDisconnected(true);
       return;
     } else if (!isSubscribed) {
       setRoute(Routes.Subscribe);
+      setUserDisconnected(false);
       return;
     }
 
     if (!isFirstLogin) {
       setRoute(Routes.NotificationsFeed);
+      setUserDisconnected(false);
     }
   }, [isConnected, isSubscribed, isFirstLogin]);
 
@@ -178,6 +182,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
         login,
         isFirstLogin,
         setIsFirstLogin,
+        userDisconnected,
       }}
     >
       {children}

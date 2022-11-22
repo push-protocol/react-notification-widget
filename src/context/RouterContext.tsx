@@ -8,7 +8,6 @@ enum Routes {
   ConnectEmail = 'ConnectEmail',
   NotificationsFeed = 'NotificationsFeed',
   EmailVerify = 'EmailVerify',
-  WalletDisconnected = 'WalletDisconnected',
 }
 
 type RouterProps = {
@@ -42,7 +41,6 @@ const RouterProvider = ({ children }: { children: ReactNode }) => {
     [Routes.ConnectEmail]: Settings,
     [Routes.NotificationsFeed]: Feed,
     [Routes.EmailVerify]: Settings,
-    [Routes.WalletDisconnected]: Subscribe,
   };
 
   return (

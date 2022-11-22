@@ -7,17 +7,15 @@ import Flex from 'components/layout/Flex';
 import Text from 'components/Text';
 import SubscribeDescription from 'screens/subscribe/components/SubscribeDescription';
 import SubscribeInfo from 'screens/subscribe/components/SubscribeInfo';
-import { Routes, useRouterContext } from 'context/RouterContext';
 import SubscribeHeader from 'screens/subscribe/components/SubscribeHeader';
 import WrongNetworkError from 'components/Errors/WrongNetworkError';
 import ConnectWalletButtons from 'screens/subscribe/components/ConnectWalletButtons';
 import SubscribeActions from 'screens/subscribe/components/SubscribeActions';
+import { useAuthContext } from 'context/AuthContext';
 
 export const Subscribe = () => {
-  const { activeRoute } = useRouterContext();
+  const { userDisconnected } = useAuthContext();
   const { loading, channelAddress, isWrongNetwork, error } = useChannelContext();
-
-  const userDisconnected = activeRoute === Routes.WalletDisconnected;
 
   const theme = useTheme();
 
@@ -32,7 +30,7 @@ export const Subscribe = () => {
   }
 
   return (
-    <Screen>
+    <Screen mb={1}>
       <SubscribeHeader />
       <Flex alignItems={'center'} direction={'column'} mb={3} mt={2}>
         <SubscribeInfo hideAddress={userDisconnected} />

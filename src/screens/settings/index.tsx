@@ -78,6 +78,7 @@ export const Settings = () => {
           {isFirstLogin ? 'Skip' : 'Back'}
         </Button>
       }
+      mb={1}
     >
       <Header justifyContent={'center'} alignItems={'center'} direction={'column'} mb={2} mt={-4}>
         <HeaderIconContainer>
