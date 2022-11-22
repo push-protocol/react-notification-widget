@@ -18,10 +18,13 @@ export type ExternalProvider =
   | providers.ExternalProvider
   | providers.JsonRpcFetchFunc;
 
+export type RpcUrls = { ethereum: string };
+
 export type NotificationFeedProviderProps = PropsWithChildren<{
   partnerKey: string;
   provider?: ExternalProvider;
   theme?: CustomTheme;
+  rpcUrls?: RpcUrls;
   disableAnalytics?: boolean;
 }>;
 
@@ -31,8 +34,9 @@ const NotificationFeedProvider = ({
   theme,
   children,
   disableAnalytics,
+  rpcUrls,
 }: NotificationFeedProviderProps) => {
-  const wagmiClient = useWagmiClient(provider);
+  const wagmiClient = useWagmiClient(provider, rpcUrls);
 
   useEffect(() => {
     if (disableAnalytics) {

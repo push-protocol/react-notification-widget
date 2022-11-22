@@ -5,9 +5,9 @@ import { WalletConnectConnector } from 'wagmi/connectors/walletConnect';
 import { CoinbaseWalletConnector } from 'wagmi/connectors/coinbaseWallet';
 import { MetaMaskConnector } from 'wagmi/connectors/metaMask';
 import { InjectedConnector } from 'wagmi/connectors/injected';
-import { ExternalProvider } from './index';
+import { ExternalProvider, RpcUrls } from './index';
 
-export default function useWagmiClient(provider?: ExternalProvider) {
+export default function useWagmiClient(provider?: ExternalProvider, rpcUrls?: RpcUrls) {
   return useMemo(() => {
     let wagmiProvider = ethers.getDefaultProvider();
 
@@ -18,6 +18,11 @@ export default function useWagmiClient(provider?: ExternalProvider) {
       // this is a standard EipProvider (web3js provider or similar)
       wagmiProvider = new providers.Web3Provider(provider as providers.ExternalProvider);
     }
+
+    if (rpcUrls)
+      wagmiProvider = new providers.JsonRpcProvider({
+        url: rpcUrls.ethereum,
+      });
 
     return createClient({
       autoConnect: true,
