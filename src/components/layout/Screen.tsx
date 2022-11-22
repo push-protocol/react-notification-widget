@@ -5,11 +5,6 @@ import Button from '../Button';
 import Flex from './Flex';
 import { useNotificationsContext } from 'context/NotificationsContext';
 
-export const CenteredContainer = styled(Flex)`
-  width: 100%;
-  height: 100%;
-`;
-
 const MobileCloseButton = styled(Button)(({ theme }) => ({
   [`@media (min-width: ${theme.breakpoints.mobile}px)`]: {
     display: 'none',
@@ -29,7 +24,7 @@ const TitleBar = styled(Flex)`
 
 type ScreenPropsT = PropsWithChildren<{
   title?: string;
-  mb?: number;
+  mb?: number; // spacing is needed on all screens besides NotificationsFeed
   navbarActionComponent?: ReactElement;
 }>;
 
@@ -37,7 +32,7 @@ export const Screen = ({ title, navbarActionComponent, mb = 0, children }: Scree
   const { setFeedOpen } = useNotificationsContext();
 
   return (
-    <CenteredContainer direction={'column'} alignItems={'center'} mb={mb}>
+    <Flex direction={'column'} alignItems={'center'} width={'100%'} height={'100%'} mb={mb}>
       <TitleBar mb={title || navbarActionComponent ? 2 : 0}>
         <Text size={'xl'} weight={700}>
           {title}
@@ -54,6 +49,6 @@ export const Screen = ({ title, navbarActionComponent, mb = 0, children }: Scree
         </Flex>
       </TitleBar>
       {children}
-    </CenteredContainer>
+    </Flex>
   );
 };
