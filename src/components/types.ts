@@ -1,4 +1,4 @@
-import { Notification } from '../context/NotificationsContext/types';
+import { Notification } from 'context/NotificationsContext/types';
 
 export type Margins = {
   m?: string | number;

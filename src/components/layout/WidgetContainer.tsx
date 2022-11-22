@@ -4,8 +4,9 @@ import Flex from './Flex';
 import Text from 'components/Text';
 import Link from 'components/Link';
 import { FAQ_URL } from 'global/const';
+import { changeColorShade } from 'components/utils';
 
-const POWERED_BY_HEIGHT = '20px';
+const POWERED_BY_HEIGHT = '40px';
 
 const LayoutContainer = styled.div(({ theme }) => ({
   [`@media (max-width: ${theme.breakpoints.mobile}px)`]: {
@@ -25,18 +26,22 @@ const LayoutContainer = styled.div(({ theme }) => ({
   boxShadow: '0 20px 36px rgba(0, 0, 0, 0.25)',
   backgroundColor: theme.colors.bg.main,
   color: theme.colors.text.primary,
-  padding: '18px 18px 8px 18px',
   '&::-webkit-scrollbar': {
     display: 'none',
   },
 }));
 
-const PoweredBy = styled(Flex)({
-  height: POWERED_BY_HEIGHT,
-});
+const PoweredBy = styled(Flex)`
+  height: ${POWERED_BY_HEIGHT};
+  box-sizing: border-box;
+  border-top: 1px solid ${({ theme }) => changeColorShade(theme.colors.bg.main, 20)};
+  padding: 12px;
+  backdrop-filter: brightness(0.75);
+`;
 
 const ChildrenContainer = styled.div`
   height: calc(100% - ${POWERED_BY_HEIGHT});
+  padding: 18px 18px 0 18px;
 `;
 
 interface LayoutProps {

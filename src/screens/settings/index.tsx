@@ -1,30 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styled, { useTheme } from 'styled-components';
-import analytics from '../../services/analytics';
 import { Screen } from 'components/layout/Screen';
 import Button from 'components/Button';
 import Text from 'components/Text';
-import { Bell, Email, Telegram } from 'components/icons';
+import { Bell } from 'components/icons';
 import Flex from 'components/layout/Flex';
-import HiddenNotice from 'screens/settings/components/HiddenNotice';
-import ConnectEmail from 'screens/settings/components/ConnectEmail';
-import isEmailValid from 'helpers/functions/isEmailValid';
 import { Routes, useRouterContext } from 'context/RouterContext';
-import {
-  useDeleteTelegramIntegrationMutation,
-  useDeleteUserEmailMutation,
-  useGetTelegramVerificationLinkMutation,
-  useSaveUserEmailMutation,
-} from 'screens/settings/operations.generated';
-import { useNotificationsContext } from 'context/NotificationsContext';
 import { useAuthContext } from 'context/AuthContext';
-import Spinner from 'components/Spinner';
-import { changeColorShade } from 'components/utils';
-import SettingsItem from 'screens/settings/components/SettingsItem';
-import ConnectTelegram from 'screens/settings/components/ConnectTelegram';
-import { UserCommunicationChannelsDocument } from 'context/NotificationsContext/operations.generated';
+import { EmailChannel, TelegramChannel } from 'screens/settings/channels';
+import HiddenNotice from 'screens/settings/components/HiddenNotice';
 import { useChannelContext } from 'context/ChannelContext';
 import WrongNetworkError from 'components/Errors/WrongNetworkError';
+
+const Header = styled(Flex)`
+  pointer-events: none;
+`;
 
 const HeaderIconContainer = styled.div`
   height: 40px;
@@ -44,163 +34,98 @@ const HeaderIcon = styled.div`
   background: ${({ theme }) => theme.colors.primary.main};
 `;
 
-const Divider = styled.div`
-  border-top: 1px solid ${({ theme }) => changeColorShade(theme.colors.bg.main, 20)};
-  margin-bottom: ${({ theme }) => theme.spacing(2)}px;
-  width: 100%;
+const ChannelsContainer = styled(Flex)<{ wrongNetwork?: boolean }>`
+  ${({ wrongNetwork }) =>
+    wrongNetwork &&
+    `
+    pointer-events: none;
+  `}
 `;
 
+enum Channels {
+  EMAIL,
+  TELEGRAM,
+}
+
 export const Settings = () => {
-  const { unsubscribe, login, isLoading } = useAuthContext();
-  const { setRoute, activeRoute } = useRouterContext();
-  const { setUserCommsChannelsPollInterval, userCommsChannels } = useNotificationsContext();
+  const { isFirstLogin, unsubscribe, isLoading } = useAuthContext();
+  const { setRoute } = useRouterContext();
   const { isWrongNetwork } = useChannelContext();
 
   const theme = useTheme();
 
-  const [email, setEmail] = useState('');
+  const [channelOpen, setChannelOpen] = useState<Channels | undefined>(
+    isFirstLogin ? Channels.EMAIL : undefined
+  );
 
-  const [getTelegramLink, { loading: telegramLoading, data: telegramUrlData }] =
-    useGetTelegramVerificationLinkMutation();
-
-  const [saveEmail, { loading: saveLoading }] = useSaveUserEmailMutation({
-    variables: {
-      input: { email },
-    },
-  });
-
-  const [deleteEmail, { loading: deleteLoading }] = useDeleteUserEmailMutation({
-    refetchQueries: [UserCommunicationChannelsDocument],
-  });
-  const [deleteTelegramIntegration, { loading: deleteTelegramLoading }] =
-    useDeleteTelegramIntegrationMutation({
-      refetchQueries: [UserCommunicationChannelsDocument],
-    });
-
-  const handleSave = async () => {
-    login(async () => {
-      await saveEmail();
-      analytics.track('email saved');
-      return setRoute(Routes.EmailVerify, { email });
-    });
+  const toggleChannelOpen = (channel: Channels) => {
+    if (isWrongNetwork) return;
+    channelOpen === channel ? setChannelOpen(undefined) : setChannelOpen(channel);
   };
-
-  const handleRemove = async () => {
-    login(async () => {
-      const response = await deleteEmail();
-
-      if (response?.data?.userEmailDelete?.success) {
-        analytics.track('email deleted');
-        return setRoute(Routes.Settings);
-      }
-    });
-  };
-
-  const handleRemoveTelegramIntegration = async () => {
-    login(async () => {
-      const response = await deleteTelegramIntegration();
-
-      if (response?.data?.userTelegramDelete?.success) {
-        await getTelegramLink();
-        analytics.track('telegram integration removed');
-        return setRoute(Routes.Settings);
-      }
-    });
-  };
-
-  const handleGenerateUrl = async () => {
-    login(async () => {
-      await getTelegramLink();
-    });
-  };
-
-  const handleOpenTG = async () => {
-    setUserCommsChannelsPollInterval(5000);
-    window.open(
-      telegramUrlData?.telegramVerificationLinkGenerate?.link,
-      '_blank',
-      'noopener,noreferrer'
-    );
-  };
-
-  useEffect(() => {
-    if (userCommsChannels?.telegram?.exists) {
-      setUserCommsChannelsPollInterval(0);
-    }
-  }, [setUserCommsChannelsPollInterval, userCommsChannels]);
 
   const handleSkip = () => {
     setRoute(Routes.NotificationsFeed);
   };
 
-  if (isLoading) {
-    return (
-      <Screen>
-        <Flex alignItems={'center'} justifyContent={'center'} height={200}>
-          <Spinner />
-        </Flex>
-      </Screen>
-    );
-  }
+  const handleUnsubscribe = () => {
+    unsubscribe();
+  };
 
   return (
     <Screen
       navbarActionComponent={
         <Button variant={'gray'} fontSize={'sm'} p={1} borderRadius={'sm'} onClick={handleSkip}>
-          {activeRoute === Routes.Settings ? 'Back' : 'Skip'}
+          {isFirstLogin ? 'Skip' : 'Back'}
         </Button>
       }
+      mb={1}
     >
-      <Flex justifyContent={'center'} alignItems={'center'} direction={'column'} mb={2}>
+      <Header justifyContent={'center'} alignItems={'center'} direction={'column'} mb={2} mt={-4}>
         <HeaderIconContainer>
           <HeaderIcon>
             <Bell color={theme.colors.button.text} />
           </HeaderIcon>
         </HeaderIconContainer>
-        <Text size={'xl'} weight={700} mb={0.5}>
+        <Text size={'xl'} weight={700} mb={1}>
           Set Up Notifications
         </Text>
-      </Flex>
+        <Text size={'md'} weight={500} mb={0.5} align={'center'}>
+          Choose one or more channels to receive alerts when new messages hit your wallet.
+        </Text>
+      </Header>
       <WrongNetworkError mb={2} />
-      <Flex gap={1} width={'100%'} direction={'column'} mb={2}>
-        <SettingsItem title={'Email'} icon={<Email />}>
-          <ConnectEmail
-            onChange={setEmail}
-            value={email}
-            isValid={isEmailValid(email)}
-            isLoading={saveLoading || deleteLoading}
-            handleSave={handleSave}
-            handleRemove={handleRemove}
-          />
-        </SettingsItem>
-        <SettingsItem title={'Telegram'} icon={<Telegram />}>
-          <ConnectTelegram
-            url={telegramUrlData?.telegramVerificationLinkGenerate?.link}
-            onGenerateUrl={handleGenerateUrl}
-            onOpenTg={handleOpenTG}
-            onRemoveTelegram={handleRemoveTelegramIntegration}
-            loading={telegramLoading || deleteTelegramLoading}
-          />
-        </SettingsItem>
-      </Flex>
-
-      <Divider />
-      <HiddenNotice />
+      <ChannelsContainer
+        wrongNetwork={isWrongNetwork}
+        gap={1}
+        width={'100%'}
+        direction={'column'}
+        mb={2}
+      >
+        <EmailChannel
+          open={channelOpen === Channels.EMAIL}
+          setOpen={() => toggleChannelOpen(Channels.EMAIL)}
+        />
+        <TelegramChannel
+          open={channelOpen === Channels.TELEGRAM}
+          setOpen={() => toggleChannelOpen(Channels.TELEGRAM)}
+        />
+      </ChannelsContainer>
       {process.env.WHEREVER_ENV === 'development' && (
         <Flex width={'100%'} justifyContent={'center'}>
           <Button
             variant={'outlined'}
-            onClick={unsubscribe}
+            onClick={handleUnsubscribe}
             height={20}
             p={0}
             mb={1}
             width={90}
-            disabled={isWrongNetwork}
+            disabled={isWrongNetwork || isLoading}
           >
             <Text size={'sm'}>Unsubscribe</Text>
           </Button>
         </Flex>
       )}
+      <HiddenNotice />
     </Screen>
   );
 };

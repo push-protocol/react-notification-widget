@@ -30,15 +30,16 @@ const lightTheme = {
   textColor: '#181c27',
 };
 
+const defaultTheme = {
+  fontFamily: '"Inter var", sans-serif',
+  bellColor: '#968c8c',
+};
+
 const FakeApp = () => {
   const [partnerKey, setPartnerKey] = useState('cefa1b69-bfb9-4e70-bebc-9ee10316f882');
   const [iframeUrl, setIframeUrl] = useState('');
   const [env, setEnv] = useState(process.env.WHEREVER_ENV as string);
-  const [theme, setTheme] = useState<CustomTheme>({
-    fontFamily: '"Inter var", sans-serif',
-    bellColor: '#d67a5a',
-    // ...lightTheme,
-  });
+  const [theme, setTheme] = useState<CustomTheme>(defaultTheme);
   const [coordinates, setCoordinates] = useState({ top: 1, left: 250 });
 
   const widget = useMemo(() => {
