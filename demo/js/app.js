@@ -1738,7 +1738,7 @@ this in the docs: http://dev.apollodata.com/core/fragments.html#unique-names`):s
   background: transparent;
   max-height: 500px;
   overflow: hidden;
-  animation: ${aRt} 1s linear;
+  animation: ${aRt} 0.5s linear;
 `,cRt=({children:t,icon:e,title:r,open:n,setOpen:i,isConnected:o})=>{let s=ho();return $f.default.createElement(rRt,{gap:1,direction:"column",open:n},$f.default.createElement(nRt,{alignItems:"center",onClick:i},$f.default.createElement(iRt,{gap:1},$f.default.createElement(oRt,{open:n},$f.default.createElement(die,null)),$f.default.createElement(sRt,null,e),$f.default.createElement(Jt,{size:"md",weight:600},r)),o&&$f.default.createElement(Jt,{size:"sm",color:s.colors.success.main,weight:600},"\u2022 CONNECTED")),n&&$f.default.createElement(uRt,null,t))},IR=cRt;var BX=ze(ut());var q6={},lRt=Gi`
     mutation SaveUserEmail($input: UserEmailUpdateInput!) {
   userEmailUpdate(input: $input) {
