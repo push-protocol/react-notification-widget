@@ -70,7 +70,7 @@ const useTelegramActions = () => {
     handleGenerateUrl,
     handleOpenTG,
     handleRemoveTelegramIntegration,
-    exists: userCommsChannels?.telegram?.exists,
+    isConnected: userCommsChannels?.telegram?.exists,
     hint: userCommsChannels?.telegram?.hint || '',
   };
 };

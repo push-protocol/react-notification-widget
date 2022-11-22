@@ -4,7 +4,7 @@ import Flex from 'components/layout/Flex';
 import Button from 'components/Button';
 import Text from 'components/Text';
 
-type ConnectedEmailViewProps = {
+type ConnectedEmailProps = {
   hint: string;
   handleRemove: () => void;
   handleEdit: () => void;
@@ -12,24 +12,29 @@ type ConnectedEmailViewProps = {
   isDisabled: boolean;
 };
 
-const ConnectedEmailView = ({
+const ConnectedEmail = ({
   hint,
   handleRemove,
   handleEdit,
   isLoading,
   isDisabled,
-}: ConnectedEmailViewProps) => (
+}: ConnectedEmailProps) => (
   <Flex direction={'column'} gap={2} width={'100%'}>
     <Text>You are receiving alerts to {hint}</Text>
     <Flex gap={2}>
-      <Button width={'100%'} onClick={handleEdit} variant={'bgRelative'}>
+      <Button width={'100%'} onClick={handleEdit} variant={'semitransparent'}>
         Change
       </Button>
-      <Button width={'100%'} onClick={handleRemove} disabled={isDisabled} variant={'bgRelative'}>
+      <Button
+        width={'100%'}
+        onClick={handleRemove}
+        disabled={isDisabled}
+        variant={'semitransparent'}
+      >
         {isLoading ? <Spinner size={4} /> : 'Remove'}
       </Button>
     </Flex>
   </Flex>
 );
 
-export default ConnectedEmailView;
+export default ConnectedEmail;

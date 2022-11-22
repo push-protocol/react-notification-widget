@@ -42,7 +42,7 @@ const ChannelsContainer = styled(Flex)<{ wrongNetwork?: boolean }>`
   `}
 `;
 
-enum CHANNELS {
+enum Channels {
   EMAIL,
   TELEGRAM,
 }
@@ -54,11 +54,11 @@ export const Settings = () => {
 
   const theme = useTheme();
 
-  const [channelOpen, setChannelOpen] = useState<CHANNELS | undefined>(
-    isFirstLogin ? CHANNELS.EMAIL : undefined
+  const [channelOpen, setChannelOpen] = useState<Channels | undefined>(
+    isFirstLogin ? Channels.EMAIL : undefined
   );
 
-  const toggleChannelOpen = (channel: CHANNELS) => {
+  const toggleChannelOpen = (channel: Channels) => {
     if (isWrongNetwork) return;
     channelOpen === channel ? setChannelOpen(undefined) : setChannelOpen(channel);
   };
@@ -101,12 +101,12 @@ export const Settings = () => {
         mb={2}
       >
         <EmailChannel
-          open={channelOpen === CHANNELS.EMAIL}
-          setOpen={() => toggleChannelOpen(CHANNELS.EMAIL)}
+          open={channelOpen === Channels.EMAIL}
+          setOpen={() => toggleChannelOpen(Channels.EMAIL)}
         />
         <TelegramChannel
-          open={channelOpen === CHANNELS.TELEGRAM}
-          setOpen={() => toggleChannelOpen(CHANNELS.TELEGRAM)}
+          open={channelOpen === Channels.TELEGRAM}
+          setOpen={() => toggleChannelOpen(Channels.TELEGRAM)}
         />
       </ChannelsContainer>
       {process.env.WHEREVER_ENV === 'development' && (

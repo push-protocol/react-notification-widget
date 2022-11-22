@@ -2,8 +2,8 @@ import React from 'react';
 import ChannelDropdown from 'screens/settings/components/ChannelDropdown';
 import { Telegram as TelegramIcon } from 'components/icons';
 import useTelegramActions from 'screens/settings/channels/telegram/useTelegramActions';
-import ConnectedTelegramView from 'screens/settings/channels/telegram/components/ConnectedTelegramView';
-import IntegrateTelegramView from 'screens/settings/channels/telegram/components/IntegrateTelegramView';
+import ConnectedTelegram from 'screens/settings/channels/telegram/components/ConnectedTelegram';
+import IntegrateTelegram from 'screens/settings/channels/telegram/components/IntegrateTelegram';
 import { useAuthContext } from 'context/AuthContext';
 
 type TelegramChannelProps = {
@@ -21,7 +21,7 @@ export const TelegramChannel = ({ open, setOpen }: TelegramChannelProps) => {
     handleRemoveTelegramIntegration,
     telegramLoading,
     deleteTelegramLoading,
-    exists,
+    isConnected,
     hint,
   } = useTelegramActions();
 
@@ -29,19 +29,19 @@ export const TelegramChannel = ({ open, setOpen }: TelegramChannelProps) => {
     <ChannelDropdown
       title={'Telegram'}
       icon={<TelegramIcon />}
-      connected={exists}
+      isConnected={isConnected}
       open={open}
       setOpen={setOpen}
     >
-      {exists ? (
-        <ConnectedTelegramView
+      {isConnected ? (
+        <ConnectedTelegram
           hint={hint}
           handleRemove={handleRemoveTelegramIntegration}
           isLoading={deleteTelegramLoading}
           isDisabled={deleteTelegramLoading || isLoading}
         />
       ) : (
-        <IntegrateTelegramView
+        <IntegrateTelegram
           url={telegramVerificationUrl}
           onOpenTg={handleOpenTG}
           onGenerateUrl={handleGenerateUrl}

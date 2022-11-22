@@ -5,9 +5,8 @@ import Flex from 'components/layout/Flex';
 import Button from 'components/Button';
 import Spinner from 'components/Spinner';
 import { Routes, useRouterContext } from 'context/RouterContext';
-import TextLink from 'components/TextLink';
 
-type VerifyEmailViewProps = {
+type VerifyEmailProps = {
   email: string;
   handleVerify: (code: string) => void;
   isLoading: boolean;
@@ -16,7 +15,7 @@ type VerifyEmailViewProps = {
 
 const CODE_REGEX = '^[0-9]*$';
 
-const VerifyEmailView = ({ email, handleVerify, isLoading, isDisabled }: VerifyEmailViewProps) => {
+const VerifyEmail = ({ email, handleVerify, isLoading, isDisabled }: VerifyEmailProps) => {
   const { setRoute } = useRouterContext();
   const [code, setCode] = useState('');
 
@@ -26,6 +25,7 @@ const VerifyEmailView = ({ email, handleVerify, isLoading, isDisabled }: VerifyE
     }
   };
 
+  // Settings, VerifyEmail and ConnectEmail routes render same page but is used for convenient UI rendering based on route
   const handleModifyEmail = () => {
     setRoute(Routes.Settings);
   };
@@ -52,7 +52,9 @@ const VerifyEmailView = ({ email, handleVerify, isLoading, isDisabled }: VerifyE
       <Flex justifyContent={'space-between'} width={'100%'}>
         <Flex direction={'column'} height={'100%'} justifyContent={'center'}>
           <Text>Sent to {email}</Text>
-          <TextLink onClick={handleModifyEmail}>Change</TextLink>
+          <Button variant="text" onClick={handleModifyEmail} size={'md'}>
+            Change
+          </Button>
         </Flex>
         <Button
           disabled={code.length !== 6 || isDisabled}
@@ -67,4 +69,4 @@ const VerifyEmailView = ({ email, handleVerify, isLoading, isDisabled }: VerifyE
   );
 };
 
-export default VerifyEmailView;
+export default VerifyEmail;

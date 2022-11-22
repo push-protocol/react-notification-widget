@@ -4,27 +4,34 @@ import Flex from 'components/layout/Flex';
 import Button from 'components/Button';
 import Text from 'components/Text';
 
-type ConnectedTelegramViewProps = {
+type ConnectedTelegramProps = {
   hint: string;
   handleRemove: () => void;
   isLoading: boolean;
   isDisabled: boolean;
 };
 
-const ConnectedTelegramView = ({
+const ConnectedTelegram = ({
   hint,
   handleRemove,
   isLoading,
   isDisabled,
-}: ConnectedTelegramViewProps) => (
+}: ConnectedTelegramProps) => (
   <Flex direction={'column'} gap={2} width={'100%'}>
-    <Text>{hint ? `You are receiving alerts to ${hint}` : 'User Connected'}</Text>
+    <Text>
+      {hint ? `You are receiving alerts to ${hint}` : 'You Telegram account is connected'}
+    </Text>
     <Flex gap={2}>
-      <Button width={'100%'} onClick={handleRemove} disabled={isDisabled} variant={'bgRelative'}>
+      <Button
+        width={'100%'}
+        onClick={handleRemove}
+        disabled={isDisabled}
+        variant={'semitransparent'}
+      >
         {isLoading ? <Spinner size={4} /> : 'Remove'}
       </Button>
     </Flex>
   </Flex>
 );
 
-export default ConnectedTelegramView;
+export default ConnectedTelegram;

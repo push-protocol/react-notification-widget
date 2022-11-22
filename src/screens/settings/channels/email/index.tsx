@@ -3,9 +3,9 @@ import Flex from 'components/layout/Flex';
 import ChannelDropdown from 'screens/settings/components/ChannelDropdown';
 import { Email as EmailIcon } from 'components/icons';
 import useEmailActions from 'screens/settings/channels/email/useEmailActions';
-import EditEmailView from 'screens/settings/channels/email/components/EditEmailView';
-import VerifyEmailView from 'screens/settings/channels/email/components/VerifyEmailView';
-import ConnectedEmailView from 'screens/settings/channels/email/components/ConnectedEmailView';
+import EditEmail from 'screens/settings/channels/email/components/EditEmail';
+import VerifyEmail from 'screens/settings/channels/email/components/VerifyEmail';
+import ConnectedEmail from 'screens/settings/channels/email/components/ConnectedEmail';
 import { useAuthContext } from 'context/AuthContext';
 
 type EmailChannelProps = {
@@ -19,8 +19,6 @@ export const EmailChannel = ({ open, setOpen }: EmailChannelProps) => {
   const {
     email,
     setEmail,
-    isEditing,
-    isVerify,
     handleSave,
     handleVerify,
     handleRemove,
@@ -28,7 +26,10 @@ export const EmailChannel = ({ open, setOpen }: EmailChannelProps) => {
     saveLoading,
     verifyLoading,
     deleteLoading,
-    exists,
+    renderVerify,
+    renderEdit,
+    renderConnected,
+    isConnected,
     hint,
   } = useEmailActions();
 
@@ -38,30 +39,30 @@ export const EmailChannel = ({ open, setOpen }: EmailChannelProps) => {
       icon={<EmailIcon />}
       open={open}
       setOpen={setOpen}
-      connected={!!exists}
+      isConnected={!!isConnected}
     >
       <Flex width={'100%'}>
-        {isEditing && isVerify && (
-          <VerifyEmailView
+        {renderVerify && (
+          <VerifyEmail
             email={email}
             handleVerify={handleVerify}
             isLoading={verifyLoading}
             isDisabled={verifyLoading || isLoading}
           />
         )}
-        {isEditing && !isVerify && (
-          <EditEmailView
+        {renderEdit && (
+          <EditEmail
             value={email}
             onChange={setEmail}
             handleSave={handleSave}
             handleEdit={setIsEditing}
             isLoading={saveLoading}
             isDisabled={saveLoading || isLoading}
-            exists={exists}
+            isConnected={isConnected}
           />
         )}
-        {!isEditing && (
-          <ConnectedEmailView
+        {renderConnected && (
+          <ConnectedEmail
             hint={hint}
             handleRemove={handleRemove}
             handleEdit={() => setIsEditing(true)}

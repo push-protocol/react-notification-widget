@@ -41,7 +41,7 @@ const PoweredBy = styled(Flex)`
 
 const ChildrenContainer = styled.div`
   height: calc(100% - ${POWERED_BY_HEIGHT});
-  padding: 18px 18px 8px 18px;
+  padding: 18px 18px 0 18px;
 `;
 
 interface LayoutProps {

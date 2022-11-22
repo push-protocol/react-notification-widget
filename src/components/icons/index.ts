@@ -5,7 +5,6 @@ export * from './pack/BellBadge';
 export * from './pack/Lock';
 export * from './pack/Check';
 export * from './pack/Wallet';
-export * from './pack/WalletFull';
 export * from './pack/Settings';
 export * from './pack/Boxes';
 export * from './pack/Globe';

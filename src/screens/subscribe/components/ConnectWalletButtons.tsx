@@ -6,7 +6,7 @@ import analytics from 'services/analytics';
 
 const ALLOWED_WALLETS = ['metaMask', 'walletConnect'];
 
-const ConnectActions = () => {
+const ConnectWalletButtons = () => {
   const { connect, connectors, isLoading } = useConnect();
 
   const connectWallet = (connector: Connector) => {
@@ -35,4 +35,4 @@ const ConnectActions = () => {
   );
 };
 
-export default ConnectActions;
+export default ConnectWalletButtons;

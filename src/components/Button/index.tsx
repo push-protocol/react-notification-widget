@@ -4,11 +4,12 @@ import { genSpaces, renderStringNumValue, adjustColor, conditionalRenderProp } f
 
 const fontSizes = {
   sm: '12px',
-  md: '16px',
+  md: '14px',
+  lg: '16px',
 };
 
-type ButtonVariant = 'gray' | 'primary' | 'outlined' | 'danger' | 'bgRelative';
-type ButtonSize = 'sm' | 'lg';
+type ButtonVariant = 'gray' | 'primary' | 'outlined' | 'danger' | 'semitransparent' | 'text';
+type ButtonSize = 'sm' | 'md' | 'lg';
 
 type ButtonProps = {
   variant?: ButtonVariant;
@@ -20,6 +21,15 @@ type ButtonProps = {
   borderRadius?: keyof DefaultTheme['borderRadius'];
 } & Margins &
   Paddings;
+
+const disabledState = (theme: DefaultTheme): any => css`
+  &:disabled {
+    transform: unset;
+    background: ${theme.colors.gray['300']};
+    color: ${theme.colors.gray['50']};
+    cursor: default;
+  }
+`;
 
 const variantStyles = (variant = 'primary', theme: DefaultTheme): any =>
   ({
@@ -44,21 +54,11 @@ const variantStyles = (variant = 'primary', theme: DefaultTheme): any =>
         background: ${theme.colors.gray[300]};
         border-color: ${theme.colors.gray[300]};
       }
-      &:disabled {
-        transform: unset;
-        background: ${theme.colors.gray['300']};
-        color: ${theme.colors.gray['50']};
-        cursor: default;
-      }
+      ${disabledState(theme)}
     `,
     outlined: css`
       background-color: transparent;
-      &:disabled {
-        transform: unset;
-        background: ${theme.colors.gray['300']};
-        color: ${theme.colors.gray['50']};
-        cursor: default;
-      }
+      ${disabledState(theme)}
     `,
     danger: css`
       background: ${theme.colors.error.main};
@@ -66,25 +66,23 @@ const variantStyles = (variant = 'primary', theme: DefaultTheme): any =>
         background: ${adjustColor(theme.colors.error.main, 0.8)};
         border-color: ${adjustColor(theme.colors.error.main, 0.8)};
       }
-      &:disabled {
-        transform: unset;
-        background: ${theme.colors.gray['300']};
-        color: ${theme.colors.gray['50']};
-        cursor: default;
-      }
+      ${disabledState(theme)}
     `,
-    bgRelative: css`
+    semitransparent: css`
       background: ${adjustColor(theme.colors.bg.main, 0.6)};
       &:hover {
         background: ${adjustColor(theme.colors.bg.main, 0.4)};
         border-color: ${adjustColor(theme.colors.bg.main, 0.4)};
       }
-      &:disabled {
-        transform: unset;
-        background: ${theme.colors.gray['300']};
-        color: ${theme.colors.gray['50']};
-        cursor: default;
-      }
+      ${disabledState(theme)}
+    `,
+    text: css`
+      background-color: transparent;
+      color: ${theme.colors.primary.main};
+      padding: 0;
+      height: unset;
+      width: fit-content;
+      color: ${disabledState(theme)};
     `,
   }[variant]);
 
@@ -94,9 +92,13 @@ const buttonSizeStyles = (size = 'sm', theme: DefaultTheme): any =>
       font-size: ${fontSizes['sm']};
       border-radius: ${theme.borderRadius['xs']};
     `,
+    md: css`
+      font-size: ${fontSizes['md']};
+      border-radius: ${theme.borderRadius['xs']};
+    `,
     lg: css`
       height: 40px;
-      font-size: ${fontSizes['md']};
+      font-size: ${fontSizes['lg']};
       border-radius: ${theme.borderRadius['sm']};
     `,
   }[size]);

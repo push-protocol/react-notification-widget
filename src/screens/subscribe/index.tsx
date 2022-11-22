@@ -10,14 +10,14 @@ import SubscribeInfo from 'screens/subscribe/components/SubscribeInfo';
 import { Routes, useRouterContext } from 'context/RouterContext';
 import SubscribeHeader from 'screens/subscribe/components/SubscribeHeader';
 import WrongNetworkError from 'components/Errors/WrongNetworkError';
-import ConnectActions from 'screens/subscribe/components/ConnectActions';
+import ConnectWalletButtons from 'screens/subscribe/components/ConnectWalletButtons';
 import SubscribeActions from 'screens/subscribe/components/SubscribeActions';
 
 export const Subscribe = () => {
   const { activeRoute } = useRouterContext();
   const { loading, channelAddress, isWrongNetwork, error } = useChannelContext();
 
-  const isConnect = activeRoute === Routes.WalletDisconnected;
+  const userDisconnected = activeRoute === Routes.WalletDisconnected;
 
   const theme = useTheme();
 
@@ -35,10 +35,10 @@ export const Subscribe = () => {
     <Screen>
       <SubscribeHeader />
       <Flex alignItems={'center'} direction={'column'} mb={3} mt={2}>
-        <SubscribeInfo hideAddress={isConnect} />
+        <SubscribeInfo hideAddress={userDisconnected} />
         <SubscribeDescription
           text={
-            isConnect
+            userDisconnected
               ? 'is using the Push Protocol to securly message its users. No spam, opt-out at any time.'
               : 'is using the Ethereum Push Notifications protocol to securly message its users. No spam, opt-out at any time.'
           }
@@ -46,15 +46,15 @@ export const Subscribe = () => {
       </Flex>
       <Flex direction={'column'} width={'100%'} gap={1}>
         <Flex width={'100%'} alignItems={'center'} direction={'column'} gap={1}>
-          {isConnect ? <ConnectActions /> : <SubscribeActions />}
+          {userDisconnected ? <ConnectWalletButtons /> : <SubscribeActions />}
         </Flex>
         {(error || !channelAddress) && (
           <Text color={theme.colors.error.main} align="center">
             Invalid partner key
           </Text>
         )}
-        {!isConnect && <WrongNetworkError />}
-        {!isWrongNetwork && isConnect && (
+        {!userDisconnected && <WrongNetworkError />}
+        {!isWrongNetwork && userDisconnected && (
           <Text size={'sm'} mt={1} mb={2} color={'secondary'} opacity={0.8} align={'center'}>
             You will need to sign a message to prove ownership of your wallet.
           </Text>

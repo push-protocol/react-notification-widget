@@ -4,11 +4,11 @@ import Spinner from 'components/Spinner';
 import Flex from 'components/layout/Flex';
 import Button from 'components/Button';
 import Text from 'components/Text';
-import { WalletFull } from 'components/icons';
+import { Wallet } from 'components/icons';
 import { TelegramSquare } from 'components/icons/pack/TelegramSquare';
 import { useChannelContext } from 'context/ChannelContext';
 
-type IntegrateTelegramViewProps = {
+type IntegrateTelegramProps = {
   url?: string;
   onOpenTg: () => void;
   onGenerateUrl: () => void;
@@ -38,28 +38,26 @@ const ClientIcon = styled.img`
   border-radius: 100%;
 `;
 
-const IntegrateTelegramView = ({
+const IntegrateTelegram = ({
   url,
   onOpenTg,
   onGenerateUrl,
   isLoading,
   isDisabled,
-}: IntegrateTelegramViewProps) => {
+}: IntegrateTelegramProps) => {
   const { icon } = useChannelContext();
 
   return (
     <Flex direction={'column'} width={'100%'} gap={2}>
       <Flex gap={2} alignItems={'center'}>
         <IconContainer>
-          {url ? <ClientIcon src={icon} alt="channel icon" /> : <WalletFull />}
+          {url ? <ClientIcon src={icon} alt="channel icon" /> : <Wallet />}
           <TelegramIconContainer>
             <TelegramSquare />
           </TelegramIconContainer>
         </IconContainer>
         {url ? (
-          <Text>
-            To get started, message @wherever-bot with <b>/start.</b>
-          </Text>
+          <Text>Verify your account with the @wherever bot.</Text>
         ) : (
           <Text>Generate URL to link your wallet to your Telegram account.</Text>
         )}
@@ -82,4 +80,4 @@ const IntegrateTelegramView = ({
   );
 };
 
-export default IntegrateTelegramView;
+export default IntegrateTelegram;
