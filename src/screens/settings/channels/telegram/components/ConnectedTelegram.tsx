@@ -21,13 +21,7 @@ const ConnectedTelegram = ({
       {hint ? `You are receiving alerts to ${hint}` : 'You Telegram account is connected'}
     </Text>
     <Flex gap={2}>
-      <Button
-        width={'100%'}
-        onClick={handleRemove}
-        disabled={isDisabled}
-        variant={'semitransparent'}
-        isLoading={isLoading}
-      >
+      <Button width={'100%'} onClick={handleRemove} disabled={isDisabled} isLoading={isLoading}>
         Remove
       </Button>
     </Flex>

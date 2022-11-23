@@ -11,7 +11,7 @@ const fontSizes = {
   lg: '16px',
 };
 
-type ButtonVariant = 'gray' | 'primary' | 'outlined' | 'danger' | 'semitransparent' | 'text';
+type ButtonVariant = 'gray' | 'primary' | 'outlined' | 'danger' | 'text';
 type ButtonSize = 'sm' | 'md' | 'lg';
 
 type ButtonProps = PropsWithChildren<
@@ -71,14 +71,6 @@ const variantStyles = (variant = 'primary', theme: DefaultTheme): any =>
       &:hover {
         background: ${adjustColor(theme.colors.error.main, 0.8)};
         border-color: ${adjustColor(theme.colors.error.main, 0.8)};
-      }
-      ${disabledState(theme)}
-    `,
-    semitransparent: css`
-      background: ${adjustColor(theme.colors.bg.main, 0.6)};
-      &:hover {
-        background: ${adjustColor(theme.colors.bg.main, 0.4)};
-        border-color: ${adjustColor(theme.colors.bg.main, 0.4)};
       }
       ${disabledState(theme)}
     `,

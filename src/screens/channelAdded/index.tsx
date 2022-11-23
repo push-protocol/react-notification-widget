@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Routes, useRouterContext } from '../../context/RouterContext';
-import { useAuthContext } from '../../context/AuthContext';
 import { Screen } from 'components/layout/Screen';
 import Button from 'components/Button';
 import Text from 'components/Text';
@@ -23,6 +22,7 @@ const HeaderIcon = styled.div`
   height: 24px;
   width: 24px;
   border-radius: 100px;
+  color: ${({ theme }) => theme.colors.button.text};
 `;
 
 type PropsT = {

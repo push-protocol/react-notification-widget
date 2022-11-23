@@ -23,6 +23,15 @@ const WidgetBellWrapper = styled.div`
   }
 `;
 
+const hatsTheme = {
+  buttonTextColor: '#000000',
+  bellColor: '#8AFCFD',
+  backgroundColor: '#0C1436',
+  primaryColor: '#8AFCFD',
+  borderRadius: 'none' as const,
+  fontFamily: '"RobotoMono", sans-serif',
+};
+
 const lightTheme = {
   primaryColor: '#3761F9',
   buttonTextColor: '#ffffff',
@@ -40,7 +49,7 @@ const FakeApp = () => {
   const [partnerKey, setPartnerKey] = useState('cefa1b69-bfb9-4e70-bebc-9ee10316f882');
   const [iframeUrl, setIframeUrl] = useState('');
   const [env, setEnv] = useState(process.env.WHEREVER_ENV as string);
-  const [theme, setTheme] = useState<CustomTheme>(defaultTheme);
+  const [theme, setTheme] = useState<CustomTheme>(hatsTheme);
   const [coordinates, setCoordinates] = useState({ top: 1, left: 250 });
 
   const widget = useMemo(() => {
