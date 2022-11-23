@@ -7,6 +7,8 @@ import { useChannelContext } from 'context/ChannelContext';
 
 const NoticeContainer = styled(Flex)`
   align-self: start;
+  justify-content: center;
+  width: 100%;
   color: ${({ theme }) => theme.colors.gray[50]};
 `;
 

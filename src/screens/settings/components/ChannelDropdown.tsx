@@ -53,7 +53,7 @@ const Content = styled(Flex)<{ open?: boolean }>`
   background: transparent;
   max-height: 500px;
   overflow: hidden;
-  animation: ${openDropdown} 0.5s linear;
+  animation: ${openDropdown} 1s linear;
 `;
 
 type SettingsItemProps = {

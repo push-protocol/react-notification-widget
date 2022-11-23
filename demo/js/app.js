@@ -1747,7 +1747,7 @@ this in the docs: http://dev.apollodata.com/core/fragments.html#unique-names`):a
   background: transparent;
   max-height: 500px;
   overflow: hidden;
-  animation: ${WAt} 0.5s linear;
+  animation: ${WAt} 1s linear;
 `,QAt=({children:t,icon:e,title:r,open:n,setOpen:i,isConnected:o})=>{let a=Zi();return Ff.default.createElement(VAt,{gap:1,direction:"column",open:n},Ff.default.createElement(zAt,{alignItems:"center",onClick:i},Ff.default.createElement(JAt,{gap:1},Ff.default.createElement(GAt,{open:n},Ff.default.createElement(rre,null)),Ff.default.createElement($At,null,e),Ff.default.createElement(qt,{size:"md",weight:600},r)),o&&Ff.default.createElement(qt,{size:"sm",color:a.colors.success.main,weight:600},"\u2022 CONNECTED")),n&&Ff.default.createElement(KAt,null,t))},PP=QAt;var CK=Ne(et());var v6={},XAt=Ri`
     mutation SaveUserEmail($input: UserEmailUpdateInput!) {
   userEmailUpdate(input: $input) {
@@ -1792,6 +1792,8 @@ this in the docs: http://dev.apollodata.com/core/fragments.html#unique-names`):a
   right: -2px;
 `,pCt=({url:t,onOpenTg:e,onGenerateUrl:r,isLoading:n,isDisabled:i})=>il.default.createElement(St,{direction:"column",width:"100%",gap:2},il.default.createElement(St,{gap:2,alignItems:"center"},il.default.createElement(dCt,null,il.default.createElement(Kte,null),il.default.createElement(hCt,null,il.default.createElement(iTe,null))),t?il.default.createElement(qt,null,"Verify your account with the @wherever bot."):il.default.createElement(qt,null,"Generate URL to link your wallet to your Telegram account.")),il.default.createElement(St,{justifyContent:"end",width:"100%"},il.default.createElement(Kn,{onClick:t?e:r,disabled:i,isLoading:n},t?"Open Telegram":"Generate URL"))),oTe=pCt;var aTe=({open:t,setOpen:e})=>{let{isLoading:r}=nu(),{telegramVerificationUrl:n,handleGenerateUrl:i,handleOpenTG:o,handleRemoveTelegramIntegration:a,telegramLoading:s,deleteTelegramLoading:u,isConnected:c,hint:l}=rTe();return y6.default.createElement(PP,{title:"Telegram",icon:y6.default.createElement(ere,null),isConnected:c,open:t,setOpen:e},c?y6.default.createElement(nTe,{hint:l,handleRemove:a,isLoading:u,isDisabled:u||r}):y6.default.createElement(oTe,{url:n,onOpenTg:o,onGenerateUrl:i,isLoading:s,isDisabled:s||r}))};var Nx=Ne(et());var mCt=gt(St)`
   align-self: start;
+  justify-content: center;
+  width: 100%;
   color: ${({theme:t})=>t.colors.gray[50]};
 `,vCt=gt.div`
   width: 11px;
