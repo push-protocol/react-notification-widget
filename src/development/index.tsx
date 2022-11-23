@@ -46,11 +46,7 @@ const FakeApp = () => {
   const widget = useMemo(() => {
     return (
       <div>
-        <NotificationFeedProvider
-          rpcUrls={{ ethereum: 'https://daemon.ethereum.shapeshift.com' }}
-          theme={theme}
-          partnerKey={partnerKey}
-        >
+        <NotificationFeedProvider theme={theme} partnerKey={partnerKey}>
           <NotificationFeed>
             <WidgetBellWrapper>
               <NotificationBell />

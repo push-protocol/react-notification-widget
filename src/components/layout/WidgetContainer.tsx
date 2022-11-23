@@ -56,10 +56,10 @@ export const WidgetContainer = ({ children }: LayoutProps) => {
 
       <PoweredBy pt={1} alignItems={'center'} justifyContent={'center'}>
         <Text size={'sm'} color={'secondary'} opacity={0.8} weight={500}>
-          Powered by
+          Powered by&nbsp;
         </Text>
         <Link src={FAQ_URL}>
-          <Text size={'sm'} opacity={0.8} weight={600} ml={0.4} color={'secondary'}>
+          <Text size={'sm'} opacity={0.8} weight={600} color={'secondary'}>
             Wherever
           </Text>
         </Link>
