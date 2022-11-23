@@ -54,10 +54,11 @@ const useEmailActions = () => {
         },
       });
       analytics.track('email verified');
+
       setIsEditing(false);
+      setIsOnboarding(false);
 
       if (isOnboarding) {
-        setIsOnboarding(false);
         setRoute(Routes.ChannelAdded, { channel: 'Email' });
       } else {
         setRoute(Routes.Settings);

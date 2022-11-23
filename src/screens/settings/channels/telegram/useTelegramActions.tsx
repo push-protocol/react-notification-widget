@@ -55,9 +55,10 @@ const useTelegramActions = () => {
     if (userCommsChannels?.telegram?.exists) {
       setUserCommsChannelsPollInterval(0);
 
+      setIsOnboarding(false);
+
       if (isOnboarding) {
         // This will redirect user from onBoarding to feed if user has already has telegram integrated
-        setIsOnboarding(false);
         setRoute(Routes.ChannelAdded, { channel: 'Telegram' });
       }
     }

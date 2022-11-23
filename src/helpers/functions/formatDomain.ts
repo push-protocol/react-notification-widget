@@ -1,6 +1,12 @@
 const formatDomain = (url?: string) => {
   if (!url) return '';
-  return new URL(url).hostname.replace('https://', '').replace('www.', '');
+
+  try {
+    return new URL(url).hostname.replace('https://', '').replace('www.', '');
+  } catch (e) {
+    // malformed URL
+    return '';
+  }
 };
 
 export default formatDomain;
