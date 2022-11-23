@@ -22,9 +22,10 @@ export type AuthInfo = {
   error: boolean;
   isLoggedIn: boolean;
   login(callback?: () => void): void;
-  isFirstLogin: boolean;
+  isOnboarding: boolean;
+  isSubscribed: boolean;
   userDisconnected: boolean;
-  setIsFirstLogin(isFirst: boolean): void;
+  setIsOnboarding(isFirst: boolean): void;
 };
 
 const isUserSubscribed = async (args: {
@@ -54,7 +55,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
   const dc = useDisconnect();
   const [userDisconnected, setUserDisconnected] = useState(false);
   const [isSubscribed, setIsSubscribed] = useState(false);
-  const [isFirstLogin, setIsFirstLogin] = useState(false);
+  const [isOnboarding, setIsOnboarding] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(false);
@@ -121,12 +122,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
       setUserDisconnected(false);
       return;
     }
-
-    if (!isFirstLogin) {
-      setRoute(Routes.NotificationsFeed);
-      setUserDisconnected(false);
-    }
-  }, [isConnected, isSubscribed, isFirstLogin]);
+  }, [isConnected, isSubscribed, isOnboarding]);
 
   const prevAddress = usePrevious(address);
   // usePrevious is needed to detect address change and remove AUTH_KEY from local storage
@@ -134,7 +130,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     if (prevAddress && prevAddress !== address) {
       localStorage.removeItem(LOCALSTORAGE_AUTH_KEY);
-      setIsFirstLogin(false);
+      setIsOnboarding(false);
       setIsLoggedIn(false);
     }
   }, [address]);
@@ -175,13 +171,14 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
     <AuthContext.Provider
       value={{
         subscribe,
+        isSubscribed,
         unsubscribe,
         isLoggedIn,
         isLoading,
         error,
         login,
-        isFirstLogin,
-        setIsFirstLogin,
+        isOnboarding,
+        setIsOnboarding,
         userDisconnected,
       }}
     >

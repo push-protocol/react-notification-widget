@@ -126,7 +126,7 @@ const defaultTheme: DefaultTheme = {
       main: '#FF0000',
     },
     success: {
-      main: '#6cf03e',
+      main: '#3ba417',
     },
   },
 };

@@ -11,7 +11,7 @@ import { Routes, useRouterContext } from 'context/RouterContext';
 import { useAuthContext } from 'context/AuthContext';
 
 const useEmailActions = () => {
-  const { login, isFirstLogin, setIsFirstLogin } = useAuthContext();
+  const { login, isOnboarding, setIsOnboarding } = useAuthContext();
   const { setRoute } = useRouterContext();
   const { activeRoute } = useRouterContext();
   const { userCommsChannels } = useNotificationsContext();
@@ -56,9 +56,9 @@ const useEmailActions = () => {
       analytics.track('email verified');
       setIsEditing(false);
 
-      if (isFirstLogin) {
-        setIsFirstLogin(false);
-        setRoute(Routes.NotificationsFeed);
+      if (isOnboarding) {
+        setIsOnboarding(false);
+        setRoute(Routes.ChannelAdded, { channel: 'Email' });
       } else {
         setRoute(Routes.Settings);
       }

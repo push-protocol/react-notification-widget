@@ -44,11 +44,10 @@ const EditEmail = ({
       )}
       <Button
         disabled={!isEmailValid(value) || isDisabled}
-        size={'lg'}
+        isLoading={isLoading}
         onClick={handleSave}
-        width={96}
       >
-        {isLoading ? <Spinner size={15} /> : 'Next'}
+        Next
       </Button>
     </Flex>
   </Flex>

@@ -1,5 +1,4 @@
 import React from 'react';
-import Spinner from 'components/Spinner';
 import Flex from 'components/layout/Flex';
 import Button from 'components/Button';
 import Text from 'components/Text';
@@ -27,8 +26,9 @@ const ConnectedTelegram = ({
         onClick={handleRemove}
         disabled={isDisabled}
         variant={'semitransparent'}
+        isLoading={isLoading}
       >
-        {isLoading ? <Spinner size={4} /> : 'Remove'}
+        Remove
       </Button>
     </Flex>
   </Flex>

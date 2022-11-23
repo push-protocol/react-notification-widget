@@ -56,13 +56,8 @@ const VerifyEmail = ({ email, handleVerify, isLoading, isDisabled }: VerifyEmail
             Change
           </Button>
         </Flex>
-        <Button
-          disabled={code.length !== 6 || isDisabled}
-          size={'lg'}
-          onClick={onSubmit}
-          width={96}
-        >
-          {isLoading ? <Spinner size={15} /> : 'Submit'}
+        <Button disabled={code.length !== 6 || isDisabled} onClick={onSubmit} isLoading={isLoading}>
+          Submit
         </Button>
       </Flex>
     </Flex>

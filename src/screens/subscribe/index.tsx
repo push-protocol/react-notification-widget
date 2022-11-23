@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useTheme } from 'styled-components';
 import Spinner from '../../components/Spinner';
+import { useRouterContext, Routes } from '../../context/RouterContext';
+import analytics from '../../services/analytics';
+import Button from '../../components/Button';
 import { useChannelContext } from 'context/ChannelContext';
 import { Screen } from 'components/layout/Screen';
 import Flex from 'components/layout/Flex';
@@ -10,24 +13,38 @@ import SubscribeInfo from 'screens/subscribe/components/SubscribeInfo';
 import SubscribeHeader from 'screens/subscribe/components/SubscribeHeader';
 import WrongNetworkError from 'components/Errors/WrongNetworkError';
 import ConnectWalletButtons from 'screens/subscribe/components/ConnectWalletButtons';
-import SubscribeActions from 'screens/subscribe/components/SubscribeActions';
 import { useAuthContext } from 'context/AuthContext';
 
 export const Subscribe = () => {
-  const { userDisconnected } = useAuthContext();
+  const { userDisconnected, isSubscribed, setIsOnboarding, isOnboarding, subscribe, isLoading } =
+    useAuthContext();
+  const { setRoute } = useRouterContext();
   const { loading, channelAddress, isWrongNetwork, error } = useChannelContext();
 
   const theme = useTheme();
+
+  useEffect(() => {
+    if (isSubscribed && !isOnboarding) {
+      setRoute(Routes.NotificationsFeed);
+    }
+  }, [isSubscribed, isOnboarding]);
 
   if (loading) {
     return (
       <Screen>
         <Flex alignItems={'center'} height={200}>
-          <Spinner size={25} />
+          <Spinner size={30} />
         </Flex>
       </Screen>
     );
   }
+
+  const handleSubscribe = async () => {
+    analytics.track('channel subscribe', { channelAddress });
+    setIsOnboarding(true);
+    await subscribe();
+    setRoute(Routes.ConnectEmail);
+  };
 
   return (
     <Screen mb={1}>
@@ -44,7 +61,18 @@ export const Subscribe = () => {
       </Flex>
       <Flex direction={'column'} width={'100%'} gap={1}>
         <Flex width={'100%'} alignItems={'center'} direction={'column'} gap={1}>
-          {userDisconnected ? <ConnectWalletButtons /> : <SubscribeActions />}
+          {userDisconnected ? (
+            <ConnectWalletButtons />
+          ) : (
+            <Button
+              width={'100%'}
+              onClick={handleSubscribe}
+              disabled={isLoading || isWrongNetwork || !channelAddress}
+              size={'lg'}
+            >
+              Subscribe
+            </Button>
+          )}
         </Flex>
         {(error || !channelAddress) && (
           <Text color={theme.colors.error.main} align="center">

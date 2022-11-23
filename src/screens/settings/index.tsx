@@ -48,14 +48,14 @@ enum Channels {
 }
 
 export const Settings = () => {
-  const { isFirstLogin, unsubscribe, isLoading } = useAuthContext();
+  const { isOnboarding, unsubscribe } = useAuthContext();
   const { setRoute } = useRouterContext();
   const { isWrongNetwork } = useChannelContext();
 
   const theme = useTheme();
 
   const [channelOpen, setChannelOpen] = useState<Channels | undefined>(
-    isFirstLogin ? Channels.EMAIL : undefined
+    isOnboarding ? Channels.EMAIL : undefined
   );
 
   const toggleChannelOpen = (channel: Channels) => {
@@ -75,7 +75,7 @@ export const Settings = () => {
     <Screen
       navbarActionComponent={
         <Button variant={'gray'} fontSize={'sm'} p={1} borderRadius={'sm'} onClick={handleSkip}>
-          {isFirstLogin ? 'Skip' : 'Back'}
+          {isOnboarding ? 'Skip' : 'Back'}
         </Button>
       }
       mb={1}
@@ -112,15 +112,7 @@ export const Settings = () => {
       </ChannelsContainer>
       {process.env.WHEREVER_ENV === 'development' && (
         <Flex width={'100%'} justifyContent={'center'}>
-          <Button
-            variant={'outlined'}
-            onClick={handleUnsubscribe}
-            height={20}
-            p={0}
-            mb={1}
-            width={90}
-            disabled={isWrongNetwork || isLoading}
-          >
+          <Button variant={'outlined'} onClick={handleUnsubscribe} height={20}>
             <Text size={'sm'}>Unsubscribe</Text>
           </Button>
         </Flex>

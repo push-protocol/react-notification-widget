@@ -1,6 +1,9 @@
 import styled, { css, DefaultTheme } from 'styled-components';
+import React, { ButtonHTMLAttributes, PropsWithChildren } from 'react';
 import { Margins, Paddings } from '../types';
 import { genSpaces, renderStringNumValue, adjustColor, conditionalRenderProp } from '../utils';
+import Spinner from '../Spinner';
+import Flex from 'components/layout/Flex';
 
 const fontSizes = {
   sm: '12px',
@@ -11,16 +14,19 @@ const fontSizes = {
 type ButtonVariant = 'gray' | 'primary' | 'outlined' | 'danger' | 'semitransparent' | 'text';
 type ButtonSize = 'sm' | 'md' | 'lg';
 
-type ButtonProps = {
-  variant?: ButtonVariant;
-  size?: ButtonSize;
-  fontSize?: keyof typeof fontSizes;
-  textColor?: string;
-  height?: string | number;
-  width?: string | number;
-  borderRadius?: keyof DefaultTheme['borderRadius'];
-} & Margins &
-  Paddings;
+type ButtonProps = PropsWithChildren<
+  {
+    variant?: ButtonVariant;
+    size?: ButtonSize;
+    fontSize?: keyof typeof fontSizes;
+    textColor?: string;
+    height?: string | number;
+    width?: string | number;
+    isLoading?: boolean;
+    borderRadius?: keyof DefaultTheme['borderRadius'];
+  } & Margins &
+    Paddings
+>;
 
 const disabledState = (theme: DefaultTheme): any => css`
   &:disabled {
@@ -97,13 +103,12 @@ const buttonSizeStyles = (size = 'sm', theme: DefaultTheme): any =>
       border-radius: ${theme.borderRadius['xs']};
     `,
     lg: css`
-      height: 40px;
       font-size: ${fontSizes['lg']};
       border-radius: ${theme.borderRadius['sm']};
     `,
   }[size]);
 
-const Button = styled.button<ButtonProps>`
+const ButtonWrapper = styled.button<ButtonProps>`
   ${({
     theme,
     variant = 'primary',
@@ -124,6 +129,8 @@ const Button = styled.button<ButtonProps>`
     border: none;
     font-weight: 600;
     display: flex;
+    align-self: flex-start;
+    min-height: 32px;
     align-items: center;
     gap: 8px;
     justify-content: center;
@@ -137,5 +144,19 @@ const Button = styled.button<ButtonProps>`
     ${buttonSizeStyles(size, theme).join('')}
   `};
 `;
+
+const Button = (props: ButtonProps & ButtonHTMLAttributes<any>) => {
+  const { children, ...rest } = props;
+  return (
+    <ButtonWrapper {...rest}>
+      {children}
+      {rest.isLoading && (
+        <Flex ml={1} style={{ overflow: 'hidden' }}>
+          <Spinner size={10} />
+        </Flex>
+      )}
+    </ButtonWrapper>
+  );
+};
 
 export default Button;

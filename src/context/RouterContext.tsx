@@ -1,24 +1,25 @@
 import React, { createContext, useContext, ReactNode, useState, ElementType } from 'react';
 import analytics from '../services/analytics';
+import { ChannelAdded } from '../screens/channelAdded';
 import { Feed, Settings, Subscribe } from 'screens';
 
 enum Routes {
   Subscribe = 'Subscribe',
   Settings = 'Settings',
+  ChannelAdded = 'ChannelAdded',
   ConnectEmail = 'ConnectEmail',
   NotificationsFeed = 'NotificationsFeed',
   EmailVerify = 'EmailVerify',
 }
 
-type RouterProps = {
-  [key: string]: string;
-};
+type RouteProps = Record<string, any>;
 
 type RouterContext = {
   activeRoute: Routes;
-  setRoute(route: Routes, props?: RouterProps): void;
+  setRoute(route: Routes, props?: RouteProps): void;
   Component: ElementType;
-  props?: RouterProps;
+  routeProps: RouteProps;
+  props?: RouteProps;
 };
 
 const RouterContext = createContext<RouterContext>({
@@ -27,12 +28,13 @@ const RouterContext = createContext<RouterContext>({
 
 const RouterProvider = ({ children }: { children: ReactNode }) => {
   const [active, setActive] = useState(Routes.Subscribe);
-  const [routerProps, setRouterProps] = useState<RouterProps>({});
+  const [routeProps, setRouteProps] = useState<RouteProps>({});
 
-  const setRouteWithParams = (route: Routes, props?: RouterProps) => {
+  const setRouteWithParams = (route: Routes, props?: RouteProps) => {
     analytics.track(`${route} page loaded`);
     setActive(route);
-    if (props) setRouterProps(props);
+
+    props ? setRouteProps(props) : setRouteProps({});
   };
 
   const RouteScreens = {
@@ -41,15 +43,17 @@ const RouterProvider = ({ children }: { children: ReactNode }) => {
     [Routes.ConnectEmail]: Settings,
     [Routes.NotificationsFeed]: Feed,
     [Routes.EmailVerify]: Settings,
+    [Routes.ChannelAdded]: ChannelAdded,
   };
 
   return (
     <RouterContext.Provider
       value={{
         activeRoute: active,
+        routeProps,
         setRoute: setRouteWithParams,
         Component: RouteScreens[active],
-        props: routerProps,
+        props: routeProps,
       }}
     >
       {children}

@@ -9,7 +9,7 @@ import {
 } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import { onError } from '@apollo/client/link/error';
-import { LOCALSTORAGE_AUTH_KEY, LOCALSTORAGE_AUTH_REFRESH_KEY } from 'global/const';
+import { LOCALSTORAGE_AUTH_KEY, LOCALSTORAGE_AUTH_REFRESH_KEY, WIDGET_VERSION } from 'global/const';
 
 export const getApolloClient = ({ endpoint }: { endpoint: string }) => {
   const httpMainApiLink = new HttpLink({
@@ -22,6 +22,7 @@ export const getApolloClient = ({ endpoint }: { endpoint: string }) => {
 
       return {
         headers: {
+          'x-widget-version': WIDGET_VERSION,
           ...(authParams && { Authorization: `Bearer ${authParams}` }),
         },
       };

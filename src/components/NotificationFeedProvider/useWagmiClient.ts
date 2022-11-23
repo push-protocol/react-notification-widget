@@ -1,15 +1,21 @@
 import { useMemo } from 'react';
-import { ethers, providers } from 'ethers';
-import { createClient } from 'wagmi';
+import { providers } from 'ethers';
+import { createClient, configureChains, chain } from 'wagmi';
+import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { WalletConnectConnector } from 'wagmi/connectors/walletConnect';
 import { CoinbaseWalletConnector } from 'wagmi/connectors/coinbaseWallet';
 import { MetaMaskConnector } from 'wagmi/connectors/metaMask';
 import { InjectedConnector } from 'wagmi/connectors/injected';
-import { ExternalProvider, RpcUrls } from './index';
+import { ExternalProvider } from './index';
 
-export default function useWagmiClient(provider?: ExternalProvider, rpcUrls?: RpcUrls) {
+const ALCHEMY_KEY = 'OAFEClC2JW9MaAAd0F-93QJNx2EoVQSV';
+
+export default function useWagmiClient(provider?: ExternalProvider) {
   return useMemo(() => {
-    let wagmiProvider = ethers.getDefaultProvider();
+    let wagmiProvider: providers.BaseProvider = new providers.AlchemyProvider(
+      undefined,
+      ALCHEMY_KEY
+    );
 
     // runtime check to see if this is an ethers provider or not based on random property that exists on the BaseProvider type.
     if ((provider as providers.BaseProvider)?._isProvider) {
@@ -19,27 +25,31 @@ export default function useWagmiClient(provider?: ExternalProvider, rpcUrls?: Rp
       wagmiProvider = new providers.Web3Provider(provider as providers.ExternalProvider);
     }
 
-    if (rpcUrls)
-      wagmiProvider = new providers.JsonRpcProvider({
-        url: rpcUrls.ethereum,
-      });
+    const { chains } = configureChains(
+      [chain.goerli, chain.mainnet, chain.polygon, chain.arbitrum],
+      // setup a provider so that wagmi only tries to use alchemy
+      [alchemyProvider({ apiKey: ALCHEMY_KEY })]
+    );
 
     return createClient({
       autoConnect: true,
       provider: wagmiProvider,
       connectors: [
         new WalletConnectConnector({
+          chains,
           options: {
             qrcode: true,
           },
         }),
         new MetaMaskConnector({
           options: {},
+          chains,
         }),
         new CoinbaseWalletConnector({
           options: { appName: 'Wherever Widget' },
         }),
         new InjectedConnector({
+          chains,
           options: {
             shimDisconnect: false,
             shimChainChangedDisconnect: false,

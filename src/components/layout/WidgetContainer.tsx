@@ -33,10 +33,11 @@ const LayoutContainer = styled.div(({ theme }) => ({
 
 const PoweredBy = styled(Flex)`
   height: ${POWERED_BY_HEIGHT};
+  font-family: 'Inter var', sans-serif;
   box-sizing: border-box;
   border-top: 1px solid ${({ theme }) => changeColorShade(theme.colors.bg.main, 20)};
   padding: 12px;
-  backdrop-filter: brightness(0.75);
+  backdrop-filter: brightness(0.85);
 `;
 
 const ChildrenContainer = styled.div`

@@ -1,12 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
-import Spinner from 'components/Spinner';
 import Flex from 'components/layout/Flex';
 import Button from 'components/Button';
 import Text from 'components/Text';
 import { Wallet } from 'components/icons';
 import { TelegramSquare } from 'components/icons/pack/TelegramSquare';
-import { useChannelContext } from 'context/ChannelContext';
 
 type IntegrateTelegramProps = {
   url?: string;
@@ -32,12 +30,6 @@ const TelegramIconContainer = styled.div`
   right: -2px;
 `;
 
-const ClientIcon = styled.img`
-  width: 100%;
-  height: 100%;
-  border-radius: 100%;
-`;
-
 const IntegrateTelegram = ({
   url,
   onOpenTg,
@@ -45,13 +37,11 @@ const IntegrateTelegram = ({
   isLoading,
   isDisabled,
 }: IntegrateTelegramProps) => {
-  const { icon } = useChannelContext();
-
   return (
     <Flex direction={'column'} width={'100%'} gap={2}>
       <Flex gap={2} alignItems={'center'}>
         <IconContainer>
-          {url ? <ClientIcon src={icon} alt="channel icon" /> : <Wallet />}
+          <Wallet />
           <TelegramIconContainer>
             <TelegramSquare />
           </TelegramIconContainer>
@@ -64,16 +54,11 @@ const IntegrateTelegram = ({
       </Flex>
       <Flex justifyContent={'end'} width={'100%'}>
         <Button
-          width={168}
           onClick={url ? onOpenTg : onGenerateUrl}
           disabled={isDisabled}
-          size={'lg'}
+          isLoading={isLoading}
         >
-          {isLoading ? (
-            <Spinner size={15} />
-          ) : (
-            <Text>{url ? 'Open Telegram' : 'Generate URL'}</Text>
-          )}
+          {url ? 'Open Telegram' : 'Generate URL'}
         </Button>
       </Flex>
     </Flex>

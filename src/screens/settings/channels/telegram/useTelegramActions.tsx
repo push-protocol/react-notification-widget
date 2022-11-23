@@ -13,7 +13,7 @@ const useTelegramActions = () => {
   const { login } = useAuthContext();
   const { setRoute } = useRouterContext();
   const { setUserCommsChannelsPollInterval, userCommsChannels } = useNotificationsContext();
-  const { isFirstLogin, setIsFirstLogin } = useAuthContext();
+  const { isOnboarding, setIsOnboarding } = useAuthContext();
 
   const [getTelegramLink, { loading: telegramLoading, data: telegramUrlData }] =
     useGetTelegramVerificationLinkMutation();
@@ -55,10 +55,10 @@ const useTelegramActions = () => {
     if (userCommsChannels?.telegram?.exists) {
       setUserCommsChannelsPollInterval(0);
 
-      if (isFirstLogin) {
+      if (isOnboarding) {
         // This will redirect user from onBoarding to feed if user has already has telegram integrated
-        setIsFirstLogin(false);
-        setRoute(Routes.NotificationsFeed);
+        setIsOnboarding(false);
+        setRoute(Routes.ChannelAdded, { channel: 'Telegram' });
       }
     }
   }, [setUserCommsChannelsPollInterval, userCommsChannels]);

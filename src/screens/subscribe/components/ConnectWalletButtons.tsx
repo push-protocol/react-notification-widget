@@ -1,13 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Connector, useConnect } from 'wagmi';
 import Button from 'components/Button';
-import Spinner from 'components/Spinner';
 import analytics from 'services/analytics';
 
 const ALLOWED_WALLETS = ['metaMask', 'walletConnect'];
 
 const ConnectWalletButtons = () => {
   const { connect, connectors, isLoading } = useConnect();
+  const [selectedWallet, setSelectedWallet] = useState('');
 
   const connectWallet = (connector: Connector) => {
     analytics.track('wallet connect', { wallet: connector.id });
@@ -22,13 +22,15 @@ const ConnectWalletButtons = () => {
           <Button
             disabled={!connector.ready || isLoading}
             key={connector.id}
-            onClick={() => connectWallet(connector)}
-            size={'lg'}
+            onClick={() => {
+              setSelectedWallet(connector.id);
+              connectWallet(connector);
+            }}
             width={'100%'}
+            isLoading={isLoading && selectedWallet === connector.id}
           >
             Connect with {connector.name}
             {!connector.ready && ' (unsupported)'}
-            {isLoading && <Spinner size={15} />}
           </Button>
         ))}
     </>

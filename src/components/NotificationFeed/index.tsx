@@ -30,7 +30,7 @@ const NotificationFeed = (props: NotificationFeedProps): JSX.Element => {
   const { feedOpen, setFeedOpen } = useNotificationsContext();
   const { address } = useAccount();
   const { channelAddress, name } = useChannelContext();
-  const { Component, activeRoute } = useRouterContext();
+  const { Component, activeRoute, routeProps } = useRouterContext();
   const theme = useTheme();
   const size = useWindowSize();
 
@@ -44,7 +44,7 @@ const NotificationFeed = (props: NotificationFeedProps): JSX.Element => {
     if (activeRoute === Routes.NotificationsFeed)
       return <Component onNotificationClick={onNotificationClick} />;
 
-    return <Component />;
+    return <Component {...routeProps} />;
   }, [activeRoute, Component, onNotificationClick]);
 
   const handleBellClick = () => {
