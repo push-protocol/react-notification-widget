@@ -5,7 +5,7 @@ import NewTag from 'components/NewTag';
 
 const SubscribeHeader = () => {
   return (
-    <Flex alignItems={'center'} direction={'column'} mb={4}>
+    <Flex alignItems={'center'} direction={'column'} mb={3}>
       <Flex mb={1}>
         <NewTag />
       </Flex>

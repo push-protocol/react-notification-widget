@@ -41,7 +41,7 @@ const PoweredBy = styled(Flex)`
 `;
 
 const ChildrenContainer = styled.div`
-  height: calc(100% - ${POWERED_BY_HEIGHT});
+  height: calc(100% - ${POWERED_BY_HEIGHT} - 8px);
   padding: 18px 18px 0 18px;
 `;
 

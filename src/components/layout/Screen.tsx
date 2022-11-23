@@ -9,8 +9,8 @@ const MobileCloseButton = styled(Button)(({ theme }) => ({
   [`@media (min-width: ${theme.breakpoints.mobile}px)`]: {
     display: 'none',
   },
-  width: 34,
-  height: 34,
+  width: 30,
+  height: 30,
   background: 'transparent',
   padding: 0,
 }));
@@ -38,12 +38,10 @@ export const Screen = ({ title, navbarActionComponent, mb = 0, children }: Scree
         </Text>
         <Flex style={{ flexBasis: 1 }} alignItems={'center'} gap={1} mr={1}>
           {navbarActionComponent}
-          <MobileCloseButton
-            onClick={() => setFeedOpen(false)}
-            fontSize={'sm'}
-            variant={'outlined'}
-          >
-            <Text>X</Text>
+          <MobileCloseButton onClick={() => setFeedOpen(false)} variant={'outlined'}>
+            <Text weight={400} size={'xl'}>
+              X
+            </Text>
           </MobileCloseButton>
         </Flex>
       </TitleBar>

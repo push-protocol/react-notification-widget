@@ -8,6 +8,7 @@ import { useChannelContext } from 'context/ChannelContext';
 
 const Container = styled.div`
   display: flex;
+  justify-content: center;
   margin-bottom: ${({ theme }) => theme.spacing(2)}px;
 `;
 
