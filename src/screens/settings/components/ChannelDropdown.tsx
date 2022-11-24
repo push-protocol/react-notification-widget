@@ -5,7 +5,7 @@ import Text from 'components/Text';
 import { ArrowRight } from 'components/icons';
 
 const Container = styled(Flex)<{ open?: boolean }>`
-  border-radius: 8px;
+  border-radius: ${({ theme }) => theme.borderRadius.md};
   backdrop-filter: ${({ open }) => (open ? 'contrast(0.8)' : 'unset')};
   :hover {
     backdrop-filter: contrast(0.8);

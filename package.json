@@ -5,6 +5,10 @@
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
   "types": "dist/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/whereverlabs/react-notification-widget.git"
+  },
   "lint-staged": {
     "*.{ts,js,tsx,jsx}": "eslint --fix --quiet"
   },
