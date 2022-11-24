@@ -4,7 +4,7 @@
   "description": "",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
-  "types": "dist/index.d.ts",
+  "types": "dist/types/src/index.d.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/whereverlabs/react-notification-widget.git"
@@ -14,13 +14,13 @@
   },
   "scripts": {
     "prepare": "husky install",
-    "build": "npm run clean-dist && node esbuild.config.mjs && tsc --emitDeclarationOnly --outDir dist",
+    "build": "npm run clean-dist && node esbuild.config.mjs && tsc --emitDeclarationOnly",
     "build:noEmit": "yarn tsc --noEmit",
     "build:demo": "node esbuild.config.demo.mjs",
     "clean-dist": "rimraf dist",
     "dev": "node esbuild-serve.mjs -w",
     "codegen": "graphql-codegen --config codegen.yml",
-    "prepublishOnly": " yarn build:noEmit && yarn build",
+    "prepublishOnly": "yarn build:noEmit && yarn build",
     "publish:local": "YARN_VERSION_GIT_TAG='' yarn publish --registry=\"http://localhost:4873\""
   },
   "files": [

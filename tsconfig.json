@@ -20,14 +20,15 @@
     "jsx": "react-jsx",
     "baseUrl": "src",
     "outDir": "./dist",
-    "declarationDir": "./dist",
+    "declarationDir": "./dist/types",
     "declaration": true,
     "sourceMap": true
   },
   "include": [
     "src"
   ],
-  "exclude": ["node_modules",
-    "src/development/index.tsx"
+  "exclude": [
+    "node_modules",
+    "src/development"
   ]
 }
