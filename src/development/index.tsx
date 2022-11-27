@@ -25,6 +25,7 @@ const WidgetBellWrapper = styled.div`
 
 const hatsTheme = {
   buttonTextColor: '#000000',
+  capitalizePageTitles: true,
   bellColor: '#8AFCFD',
   backgroundColor: '#0C1436',
   primaryColor: '#8AFCFD',

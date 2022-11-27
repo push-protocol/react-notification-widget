@@ -1,8 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useAccount, useEnsName, useNetwork } from 'wagmi';
+import { UserWalletIcon } from './UserWalletIcon';
 import Text from 'components/Text';
-import { Dots, ExportWallet, OpenLink } from 'components/icons';
+import { Dots, OpenLink } from 'components/icons';
 import formatAddress from 'helpers/functions/formatAddress';
 import { useChannelContext } from 'context/ChannelContext';
 
@@ -54,7 +55,7 @@ const WalletText = styled.a`
   text-decoration: none;
 `;
 
-const IconContainer = styled.div`
+const OpenEtherscanLinkContainer = styled.div`
   width: 11px;
   height: 11px;
   display: flex;
@@ -72,7 +73,7 @@ const SeparatorIcon = styled.div`
   color: ${({ theme }) => theme.colors.primary.main};
 `;
 
-const SubscribeInfo = ({ hideAddress }: { hideAddress: boolean }) => {
+const ChannelToUserIcons = ({ hideAddress }: { hideAddress: boolean }) => {
   const { chain } = useNetwork();
 
   const { channelAddress, icon } = useChannelContext();
@@ -92,9 +93,9 @@ const SubscribeInfo = ({ hideAddress }: { hideAddress: boolean }) => {
         {!hideAddress && (
           <WalletText href={blockExplorerUrl} target={'_blank'} rel={'noopener'}>
             <Text size={'sm'}>{channelEns || formatAddress(channelAddress)}</Text>
-            <IconContainer>
+            <OpenEtherscanLinkContainer>
               <OpenLink />
-            </IconContainer>
+            </OpenEtherscanLinkContainer>
           </WalletText>
         )}
       </WalletContainer>
@@ -105,7 +106,7 @@ const SubscribeInfo = ({ hideAddress }: { hideAddress: boolean }) => {
       </Separator>
       <WalletContainer>
         <WalletIcon>
-          <ExportWallet />
+          <UserWalletIcon />
         </WalletIcon>
         {!hideAddress && (
           <WalletText>
@@ -117,4 +118,4 @@ const SubscribeInfo = ({ hideAddress }: { hideAddress: boolean }) => {
   );
 };
 
-export default SubscribeInfo;
+export default ChannelToUserIcons;

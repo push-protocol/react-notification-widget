@@ -1,0 +1,5 @@
+mutation UserSubscribed {
+    userSubscribeToChannel {
+        success
+    }
+}

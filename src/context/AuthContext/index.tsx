@@ -11,7 +11,7 @@ import { useAccount, useDisconnect, useSigner } from 'wagmi';
 import { Routes, useRouterContext } from 'context/RouterContext';
 import analytics from 'services/analytics';
 import { LOCALSTORAGE_AUTH_KEY, LOCALSTORAGE_AUTH_REFRESH_KEY } from 'global/const';
-import { useAuthenticate } from 'hooks/auth/useAuthenticate';
+import { useAuthenticate } from 'hooks/useAuthenticate';
 import { useChannelContext } from 'context/ChannelContext';
 import { usePrevious } from 'hooks/usePrevious';
 

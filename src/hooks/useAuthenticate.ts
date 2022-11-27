@@ -1,7 +1,6 @@
 import { useAccount, useSigner } from 'wagmi';
 import { SiweMessage } from 'siwe';
 import { useNonceGenerateMutation, useUserLoginMutation } from 'screens/auth/operations.generated';
-import { useEnvironment } from 'context/EnvironmentContext';
 import { useChannelContext } from 'context/ChannelContext';
 
 type SignatureMessage = {
@@ -49,7 +48,7 @@ export const useAuthenticate = () => {
     const msg: SignatureMessage = {
       domain: location.host,
       address: address as string,
-      statement: 'Sign in with Ethereum to the app',
+      statement: 'Verify you are the owner of this wallet to receive notifications.',
       uri: location.origin,
       version: '1',
       chainId,

@@ -10,6 +10,7 @@ type MainColor = {
 declare module 'styled-components' {
   export interface DefaultTheme {
     mode: 'dark' | 'light';
+    uppercasePageTitles: boolean;
     spacing: (units: number) => number;
     fontFamily?: string;
     breakpoints: {
@@ -74,12 +75,14 @@ export type CustomTheme = {
   textColor?: string;
   buttonTextColor?: string;
   mobileBreakpoint?: number;
+  uppercasePageTitles?: boolean;
 };
 
 const br = (xs: string, sm: string, md: string, lg: string) => ({ xs, sm, md, lg });
 
 const defaultTheme: DefaultTheme = {
   mode: 'dark',
+  uppercasePageTitles: false,
   spacing: (units) => units * 8,
   borderRadius: br('4px', '6px', '8px', '12px'),
   fontSize: { sm: '12px', md: '14px', lg: '16px', xl: '18px' },
@@ -136,6 +139,7 @@ export const makeTheme = (customTheme?: CustomTheme): DefaultTheme => {
 
   return {
     ...defaultTheme,
+    uppercasePageTitles: !!customTheme.uppercasePageTitles,
     fontFamily: customTheme.fontFamily || defaultTheme.fontFamily,
     breakpoints: {
       mobile: customTheme.mobileBreakpoint || defaultTheme.breakpoints.mobile,

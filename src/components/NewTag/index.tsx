@@ -9,11 +9,9 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  text-transform: uppercase;
-  padding: 2px 4px;
+  padding: 4px;
   width: 35px;
-  height: 17px;
-  font-size: 11px;
+  font-size: 12px;
 `;
 
 interface NewTagProps {
@@ -25,7 +23,7 @@ const NewTag = ({ className }: NewTagProps) => {
 
   return (
     <Container className={className}>
-      <Text color={theme.colors.button.text}>new</Text>
+      <Text color={theme.colors.button.text}>NEW</Text>
     </Container>
   );
 };

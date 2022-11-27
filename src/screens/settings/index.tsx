@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled, { useTheme } from 'styled-components';
+import PageTitle from '../../components/PageTitle';
 import { Screen } from 'components/layout/Screen';
 import Button from 'components/Button';
 import Text from 'components/Text';
@@ -86,9 +87,7 @@ export const Settings = () => {
             <Bell color={theme.colors.button.text} />
           </HeaderIcon>
         </HeaderIconContainer>
-        <Text size={'xl'} weight={700} mb={1}>
-          Set Up Notifications
-        </Text>
+        <PageTitle mb={1}>Set Up Notifications</PageTitle>
         <Text size={'md'} weight={500} mb={0.5} align={'center'}>
           Choose one or more channels to receive alerts when new messages hit your wallet.
         </Text>

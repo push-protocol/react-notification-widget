@@ -3,14 +3,17 @@ import styled, { useTheme } from 'styled-components';
 import Spinner from '../../components/Spinner';
 import { useRouterContext, Routes } from '../../context/RouterContext';
 import analytics from '../../services/analytics';
-import Button from '../../components/Button';
+import { FAQ_URL } from '../../global/const';
+import NewTag from '../../components/NewTag';
+import PageTitle from '../../components/PageTitle';
+import { useUserSubscribedMutation } from './operations.generated';
+import Button from 'components/Button';
+import Link from 'components/Link';
 import { useChannelContext } from 'context/ChannelContext';
 import { Screen } from 'components/layout/Screen';
 import Flex from 'components/layout/Flex';
 import Text from 'components/Text';
-import SubscribeDescription from 'screens/subscribe/components/SubscribeDescription';
-import SubscribeInfo from 'screens/subscribe/components/SubscribeInfo';
-import SubscribeHeader from 'screens/subscribe/components/SubscribeHeader';
+import ChannelToUserIcons from 'screens/subscribe/components/ChannelToUserIcons';
 import WrongNetworkError from 'components/Errors/WrongNetworkError';
 import ConnectWalletButtons from 'screens/subscribe/components/ConnectWalletButtons';
 import { useAuthContext } from 'context/AuthContext';
@@ -22,11 +25,31 @@ const Container = styled(Flex)(({ theme }) => ({
   },
 }));
 
+const SubscribeDescription = styled.div`
+  text-align: center;
+  line-height: 22px;
+`;
+
 export const Subscribe = () => {
-  const { userDisconnected, isSubscribed, setIsOnboarding, isOnboarding, subscribe, isLoading } =
-    useAuthContext();
+  const {
+    userDisconnected,
+    isSubscribed,
+    setIsOnboarding,
+    isOnboarding,
+    subscribe,
+    isLoading: authLoading,
+    login,
+  } = useAuthContext();
+
+  const [subscribeUser] = useUserSubscribedMutation();
   const { setRoute } = useRouterContext();
-  const { loading, channelAddress, isWrongNetwork, error } = useChannelContext();
+  const {
+    loading: channelLoading,
+    channelAddress,
+    name: channelName,
+    isWrongNetwork,
+    error,
+  } = useChannelContext();
 
   const theme = useTheme();
 
@@ -36,7 +59,7 @@ export const Subscribe = () => {
     }
   }, [isSubscribed, isOnboarding]);
 
-  if (loading) {
+  if (channelLoading || authLoading) {
     return (
       <Screen>
         <Flex alignItems={'center'} height={200}>
@@ -50,43 +73,50 @@ export const Subscribe = () => {
     analytics.track('channel subscribe', { channelAddress });
     setIsOnboarding(true);
     await subscribe();
+    await login();
+
+    subscribeUser(); // don't wait for this to finish as it can trigger workflows
     setRoute(Routes.ConnectEmail);
   };
 
   return (
     <Screen mb={1}>
       <Container>
-        <SubscribeHeader />
+        <Flex alignItems={'center'} direction={'column'} gap={1}>
+          <NewTag />
+          <PageTitle align={'center'}>Wallet-to-wallet notifications</PageTitle>
+        </Flex>
         <Flex alignItems={'center'} direction={'column'} mb={3} mt={2}>
-          <SubscribeInfo hideAddress={userDisconnected} />
-          <SubscribeDescription
-            text={
-              userDisconnected
-                ? 'is using the Push Protocol to securly message its users. No spam, opt-out at any time.'
-                : 'is using the Ethereum Push Notifications protocol to securly message its users. No spam, opt-out at any time.'
-            }
-          />
+          <ChannelToUserIcons hideAddress={userDisconnected} />
+          <SubscribeDescription>
+            <Text size={'md'}>
+              {`${channelName} is using the Ethereum Push Notifications protocol to securely message its users. No spam, opt-out at any time.`}{' '}
+              <Link display={'inline-block'} src={FAQ_URL}>
+                Learn more.
+              </Link>
+            </Text>
+          </SubscribeDescription>
         </Flex>
         <Flex direction={'column'} width={'100%'} gap={1}>
-          <Flex width={'100%'} alignItems={'center'} direction={'column'} gap={1}>
+          <Flex width={'100%'} mb={2} alignItems={'center'} direction={'column'} gap={1}>
             {userDisconnected ? (
               <ConnectWalletButtons />
             ) : (
               <Button
                 width={'100%'}
                 onClick={handleSubscribe}
-                disabled={isLoading || isWrongNetwork || !channelAddress}
+                disabled={channelLoading || isWrongNetwork || !channelAddress}
                 size={'lg'}
               >
                 Subscribe
               </Button>
             )}
+            {(error || !channelAddress) && (
+              <Text color={theme.colors.error.main} align="center">
+                Invalid partner key
+              </Text>
+            )}
           </Flex>
-          {(error || !channelAddress) && (
-            <Text color={theme.colors.error.main} align="center">
-              Invalid partner key
-            </Text>
-          )}
           {!userDisconnected && <WrongNetworkError />}
           {!isWrongNetwork && userDisconnected && (
             <Text size={'sm'} mt={1} mb={2} color={'secondary'} opacity={0.8} align={'center'}>

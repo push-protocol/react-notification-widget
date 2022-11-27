@@ -1,5 +1,5 @@
 export * from './pack/Dots';
-export * from './pack/ExportWallet';
+export * from '../../screens/subscribe/components/UserWalletIcon';
 export * from './pack/Bell';
 export * from './pack/BellBadge';
 export * from './pack/Lock';

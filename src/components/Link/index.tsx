@@ -2,8 +2,17 @@ import React, { ReactNode } from 'react';
 import styled from 'styled-components';
 import { textSizes } from 'components/Text';
 
-const StyledLink = styled.a<{ fontWeight?: string | number; fontSize?: keyof typeof textSizes }>`
+type LinkProps = {
+  src?: string;
+  display?: 'inline-block' | 'block' | 'flex';
+  children?: ReactNode;
+  fontWeight?: string | number;
+  fontSize?: keyof typeof textSizes;
+};
+
+const StyledLink = styled.a<LinkProps>`
   text-decoration: none;
+  display: ${({ display }) => display};
   font-size: ${({ theme, fontSize }) =>
     fontSize ? `${textSizes[fontSize]}px` : theme.fontSize.md};
   color: ${({ theme }) => theme.colors.primary.light};
@@ -11,16 +20,10 @@ const StyledLink = styled.a<{ fontWeight?: string | number; fontSize?: keyof typ
   font-family: ${({ theme }) => theme.fontFamily};
 `;
 
-type LinkProps = {
-  src?: string;
-  children?: ReactNode;
-  fontWeight?: string | number;
-  fontSize?: keyof typeof textSizes;
-};
-
-const Link = ({ src, children, fontWeight, fontSize }: LinkProps) => {
+const Link = ({ src, children, fontWeight, fontSize, display }: LinkProps) => {
   return (
     <StyledLink
+      display={display}
       href={src}
       target={'_blank'}
       rel="noopener"

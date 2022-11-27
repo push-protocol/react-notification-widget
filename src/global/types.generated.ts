@@ -34,7 +34,8 @@ export enum AudienceType {
   AllEpnsSubscribers = 'ALL_EPNS_SUBSCRIBERS',
   ContractEvent = 'CONTRACT_EVENT',
   IncomingWebhookData = 'INCOMING_WEBHOOK_DATA',
-  Manual = 'MANUAL'
+  Manual = 'MANUAL',
+  NewSubscriber = 'NEW_SUBSCRIBER'
 }
 
 export type BatchActionResponse = {
@@ -252,6 +253,7 @@ export type Mutation = {
   userEmailValidate: GeneralResolverResponse;
   userLogin: UserLoginPayload;
   userNotificationRead: GeneralResolverResponse;
+  userSubscribeToChannel: GeneralResolverResponse;
   userTelegramDelete: GeneralResolverResponse;
   workflowCreate: Workflow;
   workflowDelete: BatchActionResponse;
@@ -406,7 +408,8 @@ export type Trigger = {
 
 export enum TriggerType {
   ContractEvent = 'CONTRACT_EVENT',
-  IncomingWebhook = 'INCOMING_WEBHOOK'
+  IncomingWebhook = 'INCOMING_WEBHOOK',
+  NewSubscriber = 'NEW_SUBSCRIBER'
 }
 
 export type User = {
@@ -485,6 +488,7 @@ export type WorkflowCreateAudienceInput = {
   allSubscribers?: InputMaybe<Scalars['Boolean']>;
   contractEventFields?: InputMaybe<Array<Scalars['String']>>;
   incomingWebhookDataField?: InputMaybe<Scalars['String']>;
+  newSubscriber?: InputMaybe<Scalars['Boolean']>;
   segmentId?: InputMaybe<Scalars['String']>;
 };
 

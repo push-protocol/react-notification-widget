@@ -14,7 +14,8 @@ export const textSizes = {
 
 type ColorKeys = 'primary' | 'secondary';
 
-type TextProps = {
+export type TextProps = {
+  display?: 'inline-block' | 'block' | 'flex';
   size?: keyof typeof textSizes;
   color?: ColorKeys | string;
   weight?: string | number;
@@ -26,7 +27,7 @@ type TextProps = {
   Paddings;
 
 const Text = styled.p<TextProps>`
-  ${({ theme, size, color, flexBasis, weight, opacity, align, fontFamily, ...rest }) => `
+  ${({ theme, size, color, flexBasis, weight, opacity, align, fontFamily, display, ...rest }) => `
     ${conditionalRenderProp(
       'color',
       color ? theme.colors.text[color as ColorKeys] || color : theme.colors.text.primary
@@ -40,6 +41,7 @@ const Text = styled.p<TextProps>`
     ${conditionalRenderProp('text-align', align)};
     ${conditionalRenderProp('opacity', opacity)};
     ${conditionalRenderProp('flex-basis', flexBasis)};
+    ${conditionalRenderProp('display', display)};
     ${genSpaces(theme, rest)}
   `};
 `;
