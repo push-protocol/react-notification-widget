@@ -5,7 +5,7 @@ import Text from 'components/Text';
 
 const Container = styled.div`
   border-radius: 3px;
-  background: ${({ theme }) => adjustColor(theme.colors.primary.light, 0.8)};
+  background: ${({ theme }) => theme.colors.primary.light};
   display: flex;
   align-items: center;
   justify-content: center;

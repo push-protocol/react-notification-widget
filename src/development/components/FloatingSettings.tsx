@@ -37,6 +37,7 @@ const FloatingSettings = (props: FloatingSettingsProps) => {
     'textColor',
     'primaryColor',
     'secondaryColor',
+    'buttonTextColor',
   ];
 
   return (
@@ -77,7 +78,7 @@ const FloatingSettings = (props: FloatingSettingsProps) => {
           border: '1px solid black',
           color: 'black',
           flexDirection: 'column',
-          gap: 16,
+          gap: 8,
           padding: 8,
         }}
       >
