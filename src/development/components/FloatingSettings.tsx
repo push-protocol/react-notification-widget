@@ -72,6 +72,8 @@ const FloatingSettings = (props: FloatingSettingsProps) => {
         onClick={(e) => e.stopPropagation()}
         style={{
           overflowY: 'auto',
+          overflowX: 'hidden',
+          padding: 16,
           height: 450,
           display: showSettings ? 'flex' : 'none',
           position: 'fixed',
@@ -92,7 +94,7 @@ const FloatingSettings = (props: FloatingSettingsProps) => {
         </div>
         {[
           { title: 'Widget position from top', key: 'top' },
-          { title: 'Widget position from right', key: 'left' },
+          { title: 'Widget position from left', key: 'left' },
         ].map((item) => (
           <div key={item.title}>
             <p>{item.title}</p>
@@ -114,7 +116,7 @@ const FloatingSettings = (props: FloatingSettingsProps) => {
           <div key={key}>
             <p>{key}</p>
             <StyledInput
-              value={theme[key] || ''}
+              value={(theme[key] as string) || ''}
               onChange={(e) =>
                 setTheme((oldTheme: CustomTheme) => ({ ...oldTheme, [key]: e.target.value }))
               }
