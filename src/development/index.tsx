@@ -12,7 +12,10 @@ import FloatingSettings from './components/FloatingSettings';
 const WidgetBellWrapper = styled.div`
   height: 52px;
   width: 52px;
+  border-radius: 15px;
   background: #102544;
+  box-shadow: rgba(206, 193, 193, 0.1) 0px 0px 0px 1px, rgba(192, 179, 179, 0.2) 0px 5px 10px,
+    rgba(210, 195, 195, 0.4) 0px 15px 40px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -21,6 +24,16 @@ const WidgetBellWrapper = styled.div`
   &:active {
     background: #193969;
   }
+`;
+
+const TopBar = styled.div`
+  width: 100%;
+  height: 100px;
+  padding: 8px;
+  padding-left: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 `;
 
 const hatsTheme = {
@@ -49,15 +62,14 @@ const defaultTheme = {
 const FakeApp = () => {
   const [partnerKey, setPartnerKey] = useState('cefa1b69-bfb9-4e70-bebc-9ee10316f882');
   const [iframeUrl, setIframeUrl] = useState('');
-  const [env, setEnv] = useState(process.env.WHEREVER_ENV as string);
-  const [theme, setTheme] = useState<CustomTheme>(hatsTheme);
-  const [coordinates, setCoordinates] = useState({ top: 1, left: 250 });
+  const [theme, setTheme] = useState<CustomTheme>(defaultTheme);
+  const [coordinates, setCoordinates] = useState({ top: 100, left: '45%' });
 
   const widget = useMemo(() => {
     return (
       <div>
         <NotificationFeedProvider theme={theme} partnerKey={partnerKey}>
-          <NotificationFeed>
+          <NotificationFeed gapFromBell={10}>
             <WidgetBellWrapper>
               <NotificationBell />
             </WidgetBellWrapper>
@@ -65,55 +77,62 @@ const FakeApp = () => {
         </NotificationFeedProvider>
       </div>
     );
-  }, [partnerKey, theme, env]);
+  }, [partnerKey, theme]);
 
   return (
-    <div style={{ display: 'flex', height: '80vh', width: '95vw' }}>
-      <div style={{ height: '100vh', width: 120, border: '1px solid black', background: 'yellow' }}>
-        NAV BAR
-      </div>
-      <div style={{ height: '100%', width: '100%' }}>
-        <div style={{ display: 'flex', height: '52px', width: '100%', border: '1px solid black' }}>
-          <div style={{ width: 200, marginRight: '5vw' }}>TOOLBAR</div>
-          {/****************WIDGET****************/}
-          <div
-            style={{
-              position: 'absolute',
-              top: coordinates.top,
-              left: coordinates.left,
-              zIndex: 10,
-            }}
-          >
-            {widget}
-          </div>
-          {/********************************/}
-        </div>
+    <div style={{ display: 'flex', height: '100vh', width: '100vw', background: '#010d2a' }}>
+      <TopBar>
+        <img
+          style={{ height: 50 }}
+          src={
+            'https://faq.wherever.to/_next/image?url=https%3A%2F%2Fsuper-static-assets.s3.amazonaws.com%2Fb2419fb7-0552-4357-ae27-c07a6223dfee%2Fuploads%2Flogo%2F29bb2912-3d75-47a4-b9fb-bc1a532efb95.png&w=1200&q=80'
+          }
+        />
 
-        <div
-          style={{ position: 'fixed', top: 0, left: 0, height: '100vh', width: '100vw', zIndex: 2 }}
-        >
-          <iframe
-            src={iframeUrl}
-            width={'100%'}
-            height={'100%'}
-            sandbox={'allow-scripts allow-same-origin'}
-          />
-        </div>
-        <FloatingSettings
-          {...{
-            env,
-            setEnv,
-            partnerKey,
-            setPartnerKey,
-            iframeUrl,
-            setIframeUrl,
-            theme,
-            setTheme,
-            coordinates,
-            setCoordinates,
-          }}
+        <div />
+      </TopBar>
+      {/****************WIDGET****************/}
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 24,
+          alignItems: 'center',
+          position: 'absolute',
+          top: coordinates.top,
+          left: coordinates.left,
+          zIndex: 10,
+        }}
+      >
+        <p style={{ fontFamily: 'Roboto, serif', fontSize: 20, color: 'white' }}>
+          ✨ Widget Demo ✨
+        </p>
+        {widget}
+      </div>
+      {/********************************/}
+
+      <div
+        style={{ position: 'fixed', top: 0, left: 0, height: '100vh', width: '100vw', zIndex: 2 }}
+      >
+        <iframe
+          src={iframeUrl}
+          width={'100%'}
+          height={'100%'}
+          sandbox={'allow-scripts allow-same-origin'}
         />
       </div>
+      <FloatingSettings
+        {...{
+          partnerKey,
+          setPartnerKey,
+          iframeUrl,
+          setIframeUrl,
+          theme,
+          setTheme,
+          coordinates,
+          setCoordinates,
+        }}
+      />
     </div>
   );
 };

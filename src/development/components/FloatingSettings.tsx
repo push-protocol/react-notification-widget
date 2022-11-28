@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
+import styled from 'styled-components';
 import { CustomTheme } from '../../theme';
 
 type FloatingSettingsProps = {
-  env: string;
-  setEnv: (env: string) => void;
   partnerKey: string;
   setPartnerKey: (key: string) => void;
   theme: CustomTheme;
@@ -13,6 +12,15 @@ type FloatingSettingsProps = {
   coordinates: { top: number; left: number };
   setCoordinates: (args: { top: number; left: number }) => void;
 };
+
+const StyledInput = styled.input`
+  width: 300px;
+  font-family: Roboto, serif;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 10px;
+  background: slategray;
+`;
 
 const FloatingSettings = (props: FloatingSettingsProps) => {
   const {
@@ -24,8 +32,6 @@ const FloatingSettings = (props: FloatingSettingsProps) => {
     partnerKey,
     coordinates,
     setCoordinates,
-    env,
-    setEnv,
   } = props;
   const [showSettings, setShowSettings] = useState(false);
 
@@ -42,41 +48,39 @@ const FloatingSettings = (props: FloatingSettingsProps) => {
 
   return (
     <>
-      <div
+      <button
         style={{
           position: 'fixed',
           bottom: 60,
           right: 70,
-          height: 70,
-          width: 120,
+          height: 80,
+          width: 80,
           zIndex: 100,
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
-          background: 'black',
+          background: '#102544',
           color: 'white',
-          borderRadius: '30%',
+          borderRadius: '50%',
         }}
+        onClick={() => setShowSettings(!showSettings)}
       >
-        <button onClick={() => setShowSettings(!showSettings)}>Settings</button>
-        <select name="env" value={env} onChange={(e) => setEnv(e.target.value)}>
-          <option value="development">Development</option>
-          <option value="staging">Staging</option>
-          <option value="production">Production</option>
-        </select>
-      </div>
+        Settings
+      </button>
       <div
         onClick={(e) => e.stopPropagation()}
         style={{
+          overflowY: 'auto',
+          height: 450,
           display: showSettings ? 'flex' : 'none',
           position: 'fixed',
-          bottom: 120,
+          bottom: 150,
           right: 1,
           zIndex: 100,
-          background: 'white',
-          border: '1px solid black',
-          color: 'black',
+          fontFamily: 'Roboto, serif',
+          background: '#102544',
+          color: 'white',
           flexDirection: 'column',
           gap: 8,
           padding: 8,
@@ -84,46 +88,32 @@ const FloatingSettings = (props: FloatingSettingsProps) => {
       >
         <div>
           <p>Partner Key (paste whole value)</p>
-          <input
-            style={{ width: 300 }}
-            value={partnerKey}
-            onChange={(e) => setPartnerKey(e.target.value)}
-          />
+          <StyledInput value={partnerKey} onChange={(e) => setPartnerKey(e.target.value)} />
         </div>
-        <div>
-          <p>Widget position from top</p>
-          <input
-            style={{ width: 300 }}
-            value={coordinates.top}
-            type={'number'}
-            onChange={(e) =>
-              setCoordinates({ top: Number(e.target.value), left: coordinates.left })
-            }
-          />
-        </div>
-        <div>
-          <p>Widget position from right</p>
-          <input
-            style={{ width: 300 }}
-            value={coordinates.left}
-            type={'number'}
-            onChange={(e) => setCoordinates({ top: coordinates.top, left: Number(e.target.value) })}
-          />
-        </div>
+        {[
+          { title: 'Widget position from top', key: 'top' },
+          { title: 'Widget position from right', key: 'left' },
+        ].map((item) => (
+          <div key={item.title}>
+            <p>{item.title}</p>
+            <StyledInput
+              value={coordinates[item.key as 'top' | 'left']}
+              type={'number'}
+              onChange={(e) =>
+                setCoordinates({ ...coordinates, [item.key]: Number(e.target.value) })
+              }
+            />
+          </div>
+        ))}
 
         <div>
           <p>Iframe Url (paste whole value)</p>
-          <input
-            style={{ width: 300 }}
-            value={iframeUrl}
-            onChange={(e) => setIframeUrl(e.target.value)}
-          />
+          <StyledInput value={iframeUrl} onChange={(e) => setIframeUrl(e.target.value)} />
         </div>
         {themeKeys.map((key) => (
           <div key={key}>
             <p>{key}</p>
-            <input
-              style={{ width: 300 }}
+            <StyledInput
               value={theme[key] || ''}
               onChange={(e) =>
                 setTheme((oldTheme: CustomTheme) => ({ ...oldTheme, [key]: e.target.value }))
