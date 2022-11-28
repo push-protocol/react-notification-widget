@@ -36,6 +36,22 @@ const TopBar = styled.div`
   align-items: center;
 `;
 
+const WidgetContainer = styled.div<{ top: number; left: number }>`
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: center;
+  position: absolute;
+  top: ${({ top }) => `${top}px`};
+  left: ${({ left }) => (typeof left === 'string' ? left : `${left}px`)};
+  @media (max-width: 450px) {
+    width: 100%;
+    justify-content: center;
+    top: 150px;
+    left: 0;
+  } ;
+`;
+
 const hatsTheme = {
   buttonTextColor: '#000000',
   capitalizePageTitles: true,
@@ -92,22 +108,12 @@ const FakeApp = () => {
         <div />
       </TopBar>
       {/****************WIDGET****************/}
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 24,
-          alignItems: 'center',
-          position: 'absolute',
-          top: coordinates.top,
-          left: coordinates.left,
-        }}
-      >
+      <WidgetContainer top={coordinates.top} left={coordinates.left}>
         <p style={{ fontFamily: 'Roboto, serif', fontSize: 20, color: 'white' }}>
           ✨ Widget Demo ✨
         </p>
         <div style={{ zIndex: 10 }}>{widget}</div>
-      </div>
+      </WidgetContainer>
       {/********************************/}
 
       <div
