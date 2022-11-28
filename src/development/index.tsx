@@ -101,13 +101,12 @@ const FakeApp = () => {
           position: 'absolute',
           top: coordinates.top,
           left: coordinates.left,
-          zIndex: 10,
         }}
       >
         <p style={{ fontFamily: 'Roboto, serif', fontSize: 20, color: 'white' }}>
           ✨ Widget Demo ✨
         </p>
-        {widget}
+        <div style={{ zIndex: 10 }}>{widget}</div>
       </div>
       {/********************************/}
 
