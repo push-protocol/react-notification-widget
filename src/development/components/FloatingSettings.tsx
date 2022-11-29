@@ -10,7 +10,7 @@ type FloatingSettingsProps = {
   iframeUrl: string;
   setIframeUrl: (url: string) => void;
   coordinates: { top: number; left: number };
-  setCoordinates: (args: { top: number; left: number }) => void;
+  setCoordinates: (args: { top: number; left: number | string }) => void;
 };
 
 const StyledInput = styled.input`
@@ -19,7 +19,7 @@ const StyledInput = styled.input`
   color: white;
   padding: 4px 8px;
   border-radius: 10px;
-  background: slategray;
+  background: #33373a;
 `;
 
 const FloatingSettings = (props: FloatingSettingsProps) => {
@@ -60,7 +60,7 @@ const FloatingSettings = (props: FloatingSettingsProps) => {
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
-          background: '#102544',
+          background: '#040f1e',
           color: 'white',
           borderRadius: '50%',
         }}
@@ -81,11 +81,10 @@ const FloatingSettings = (props: FloatingSettingsProps) => {
           right: 1,
           zIndex: 100,
           fontFamily: 'Roboto, serif',
-          background: '#102544',
+          background: '#040f1e',
           color: 'white',
           flexDirection: 'column',
           gap: 8,
-          padding: 8,
         }}
       >
         <div>
