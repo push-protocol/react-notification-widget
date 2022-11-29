@@ -4,6 +4,7 @@ import Flex from 'components/layout/Flex';
 import { Lock } from 'components/icons';
 import Text from 'components/Text';
 import { useChannelContext } from 'context/ChannelContext';
+import { SettingsViews } from 'screens/settings/index';
 
 const NoticeContainer = styled(Flex)`
   align-self: start;
@@ -19,8 +20,14 @@ const LockIconContainer = styled.div`
   color: inherit;
 `;
 
-const HiddenNotice = () => {
+const HiddenNotice = ({ view }: { view: SettingsViews }) => {
   const { name } = useChannelContext();
+
+  let notice = `${name} won't have access to your contact info`;
+
+  if (view === SettingsViews.DEFAULT || view === SettingsViews.SUBSCRIBE_ONLY_COMPLETED) {
+    notice = `${name} doesn't have access to your contact info`;
+  }
 
   return (
     <NoticeContainer>
@@ -29,7 +36,7 @@ const HiddenNotice = () => {
           <Lock />
         </LockIconContainer>
         <Text size={'sm'} color={'inherit'} opacity={0.8} weight={500} align={'center'}>
-          {name} won’t have access to your contact info
+          {notice}
         </Text>
       </Flex>
     </NoticeContainer>

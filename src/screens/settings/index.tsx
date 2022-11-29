@@ -72,7 +72,7 @@ export const Settings = () => {
           </Button>
         </Flex>
       )}
-      <HiddenNotice />
+      <HiddenNotice view={view} />
     </Screen>
   );
 };
