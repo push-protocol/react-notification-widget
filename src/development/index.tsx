@@ -35,7 +35,7 @@ const defaultTheme = {
 };
 
 const FakeApp = () => {
-  const [partnerKey, setPartnerKey] = useState('cefa1b69-bfb9-4e70-bebc-9ee10316f882');
+  const [partnerKey, setPartnerKey] = useState('259bdea9-7329-4654-bb4a-45f452a208ce');
   const [iframeUrl, setIframeUrl] = useState('');
   const [theme, setTheme] = useState<CustomTheme>(defaultTheme);
   const [coordinates, setCoordinates] = useState({ top: 100, left: '45%' });

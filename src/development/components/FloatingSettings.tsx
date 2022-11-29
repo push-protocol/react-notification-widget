@@ -9,7 +9,7 @@ type FloatingSettingsProps = {
   setTheme: any;
   iframeUrl: string;
   setIframeUrl: (url: string) => void;
-  coordinates: { top: number; left: number };
+  coordinates: { top: number; left: number | string };
   setCoordinates: (args: { top: number; left: number | string }) => void;
 };
 
