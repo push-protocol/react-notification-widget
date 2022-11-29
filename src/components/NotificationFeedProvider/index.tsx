@@ -6,7 +6,7 @@ import { CustomTheme, makeTheme } from '../../theme';
 import useWagmiClient from './useWagmiClient';
 import { Reset } from 'theme/ResetCss';
 import { RouterProvider } from 'context/RouterContext';
-import { NotificationsProvider } from 'context/NotificationsContext';
+import { NotificationsProvider, useNotificationsContext } from 'context/NotificationsContext';
 import { ChannelProvider } from 'context/ChannelContext';
 import { ApolloProvider } from 'components/ApolloProvider';
 import { EnvironmentProvider } from 'context/EnvironmentContext';
@@ -25,6 +25,8 @@ export type NotificationFeedProviderProps = PropsWithChildren<{
   provider?: ExternalProvider;
   theme?: CustomTheme;
   disableAnalytics?: boolean;
+  mode?: 'default' | 'subscribeOnly';
+  isOpen?: boolean;
 }>;
 
 const NotificationFeedProvider = ({
@@ -33,6 +35,8 @@ const NotificationFeedProvider = ({
   theme,
   children,
   disableAnalytics,
+  isOpen,
+  mode,
 }: NotificationFeedProviderProps) => {
   const wagmiClient = useWagmiClient(provider);
 
@@ -43,12 +47,12 @@ const NotificationFeedProvider = ({
   }, [disableAnalytics]);
 
   return (
-    <EnvironmentProvider>
+    <EnvironmentProvider mode={mode}>
       <ThemeProvider theme={makeTheme(theme)}>
         <WagmiConfig client={wagmiClient}>
           <ApolloProvider>
             <ChannelProvider partnerKey={partnerKey}>
-              <NotificationsProvider>
+              <NotificationsProvider isOpen={isOpen}>
                 <Reset />
                 <RouterProvider>
                   <AuthProvider>{children}</AuthProvider>

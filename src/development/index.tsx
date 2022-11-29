@@ -7,7 +7,7 @@ import {
   NotificationBell,
   CustomTheme,
 } from '../index';
-import FloatingSettings from './components/FloatingSettings';
+import FloatingSettings, { Coordinates } from './components/FloatingSettings';
 
 const WidgetBellWrapper = styled.div`
   height: 52px;
@@ -36,7 +36,7 @@ const TopBar = styled.div`
   align-items: center;
 `;
 
-const WidgetContainer = styled.div<{ top: number; left: number }>`
+const WidgetContainer = styled.div<Coordinates>`
   display: flex;
   flex-direction: column;
   gap: 24px;
@@ -79,7 +79,7 @@ const FakeApp = () => {
   const [partnerKey, setPartnerKey] = useState('cefa1b69-bfb9-4e70-bebc-9ee10316f882');
   const [iframeUrl, setIframeUrl] = useState('');
   const [theme, setTheme] = useState<CustomTheme>(defaultTheme);
-  const [coordinates, setCoordinates] = useState({ top: 100, left: '45%' });
+  const [coordinates, setCoordinates] = useState<Coordinates>({ top: 100, left: '45%' });
 
   const widget = useMemo(() => {
     return (

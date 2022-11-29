@@ -1,15 +1,14 @@
 import React, { createContext, useContext, ReactNode, useState, ElementType } from 'react';
 import analytics from '../services/analytics';
-import { ChannelAdded } from '../screens/channelAdded';
-import { Feed, Settings, Subscribe } from 'screens';
+import { Feed, Settings, Subscribe, ChannelAdded, SubscribeOnlyNotice } from 'screens';
 
 enum Routes {
   Subscribe = 'Subscribe',
   Settings = 'Settings',
   ChannelAdded = 'ChannelAdded',
-  ConnectEmail = 'ConnectEmail',
   NotificationsFeed = 'NotificationsFeed',
   EmailVerify = 'EmailVerify',
+  SubscribeOnlyNotice = 'SubscribeOnlyNotice',
 }
 
 type RouteProps = Record<string, any>;
@@ -40,10 +39,10 @@ const RouterProvider = ({ children }: { children: ReactNode }) => {
   const RouteScreens = {
     [Routes.Subscribe]: Subscribe,
     [Routes.Settings]: Settings,
-    [Routes.ConnectEmail]: Settings,
     [Routes.NotificationsFeed]: Feed,
     [Routes.EmailVerify]: Settings,
     [Routes.ChannelAdded]: ChannelAdded,
+    [Routes.SubscribeOnlyNotice]: SubscribeOnlyNotice,
   };
 
   return (

@@ -8,12 +8,13 @@ import { UserCommunicationChannelsDocument } from 'context/NotificationsContext/
 import analytics from 'services/analytics';
 import { Routes, useRouterContext } from 'context/RouterContext';
 import { useAuthContext } from 'context/AuthContext';
+import { useEnvironment } from 'context/EnvironmentContext';
 
 const useTelegramActions = () => {
-  const { login } = useAuthContext();
-  const { setRoute } = useRouterContext();
+  const { isSubscribeOnly } = useEnvironment();
+  const { login, isOnboarding, setIsOnboarding } = useAuthContext();
+  const { setRoute, routeProps } = useRouterContext();
   const { setUserCommsChannelsPollInterval, userCommsChannels } = useNotificationsContext();
-  const { isOnboarding, setIsOnboarding } = useAuthContext();
 
   const [getTelegramLink, { loading: telegramLoading, data: telegramUrlData }] =
     useGetTelegramVerificationLinkMutation();
@@ -30,7 +31,7 @@ const useTelegramActions = () => {
       if (response?.data?.userTelegramDelete?.success) {
         await getTelegramLink();
         analytics.track('telegram integration removed');
-        return setRoute(Routes.Settings);
+        return setRoute(Routes.Settings, { isSubscriber: routeProps?.isSubscriber });
       }
     });
   };
@@ -55,12 +56,14 @@ const useTelegramActions = () => {
     if (userCommsChannels?.telegram?.exists) {
       setUserCommsChannelsPollInterval(0);
 
-      setIsOnboarding(false);
+      if (isSubscribeOnly) return;
 
       if (isOnboarding) {
         // This will redirect user from onBoarding to feed if user has already has telegram integrated
         setRoute(Routes.ChannelAdded, { channel: 'Telegram' });
       }
+
+      setIsOnboarding(false);
     }
   }, [setUserCommsChannelsPollInterval, userCommsChannels]);
 

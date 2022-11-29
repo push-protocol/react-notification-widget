@@ -8,7 +8,15 @@ import fetchNotifications from './fetchNotifications';
 
 const NotificationsContext = createContext<NotificationsContext>({} as any);
 
-export const NotificationsProvider = ({ children }: { children: ReactNode }) => {
+export const NotificationsProvider = ({
+  children,
+  isOpen,
+  mode = 'default',
+}: {
+  children: ReactNode;
+  isOpen?: boolean;
+  mode?: 'default' | 'subscribeOnly';
+}) => {
   const { isConnected: isLoggedIn, address: userAddress } = useAccount();
   const { epnsEnv } = useEnvironment();
   const { channelAddress, chainId } = useChannelContext();
@@ -55,13 +63,24 @@ export const NotificationsProvider = ({ children }: { children: ReactNode }) => 
     run();
   }, [channelAddress, chainId, epnsEnv, userAddress]);
 
+  useEffect(() => {
+    if (isOpen) {
+      setFeedOpen(true);
+    }
+  }, [isOpen]);
+
+  const toggleFeedOpen = (open: boolean) => {
+    if (isOpen) return;
+    setFeedOpen(open);
+  };
+
   return (
     <NotificationsContext.Provider
       value={{
         isLoggedIn,
         isLoading,
         feedOpen,
-        setFeedOpen,
+        setFeedOpen: toggleFeedOpen,
         userCommsChannels: data?.userCommunicationChannels,
         setUserCommsChannelsPollInterval,
         notifications,

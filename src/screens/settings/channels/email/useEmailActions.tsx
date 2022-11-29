@@ -9,10 +9,12 @@ import { UserCommunicationChannelsDocument } from 'context/NotificationsContext/
 import analytics from 'services/analytics';
 import { Routes, useRouterContext } from 'context/RouterContext';
 import { useAuthContext } from 'context/AuthContext';
+import { useEnvironment } from 'context/EnvironmentContext';
 
 const useEmailActions = () => {
+  const { isSubscribeOnly } = useEnvironment();
   const { login, isOnboarding, setIsOnboarding } = useAuthContext();
-  const { setRoute } = useRouterContext();
+  const { setRoute, routeProps } = useRouterContext();
   const { activeRoute } = useRouterContext();
   const { userCommsChannels } = useNotificationsContext();
 
@@ -56,13 +58,16 @@ const useEmailActions = () => {
       analytics.track('email verified');
 
       setIsEditing(false);
-      setIsOnboarding(false);
+
+      if (isSubscribeOnly) return;
 
       if (isOnboarding) {
         setRoute(Routes.ChannelAdded, { channel: 'Email' });
       } else {
         setRoute(Routes.Settings);
       }
+
+      setIsOnboarding(false);
     });
   };
 
@@ -74,7 +79,7 @@ const useEmailActions = () => {
         analytics.track('email deleted');
         setIsEditing(true);
         setEmail('');
-        return setRoute(Routes.Settings);
+        return setRoute(Routes.Settings, { isSubscriber: routeProps?.isSubscriber });
       }
     });
   };
@@ -89,7 +94,7 @@ const useEmailActions = () => {
     setIsEditing,
     email,
     setEmail,
-    renderVerify: isVerify,
+    renderVerify: isVerify && isEditing,
     renderEdit: isEditing && !isVerify,
     renderConnected: !isEditing,
     isConnected: userCommsChannels?.email?.exists,

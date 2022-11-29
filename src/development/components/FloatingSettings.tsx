@@ -2,6 +2,12 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { CustomTheme } from '../../theme';
 
+// Needed because of ts error of string (45%) passing when expected number
+export type Coordinates = {
+  top: number | string;
+  left: number | string;
+};
+
 type FloatingSettingsProps = {
   partnerKey: string;
   setPartnerKey: (key: string) => void;
@@ -9,8 +15,8 @@ type FloatingSettingsProps = {
   setTheme: any;
   iframeUrl: string;
   setIframeUrl: (url: string) => void;
-  coordinates: { top: number; left: number };
-  setCoordinates: (args: { top: number; left: number }) => void;
+  coordinates: Coordinates;
+  setCoordinates: (args: Coordinates) => void;
 };
 
 const StyledInput = styled.input`
@@ -73,7 +79,6 @@ const FloatingSettings = (props: FloatingSettingsProps) => {
         style={{
           overflowY: 'auto',
           overflowX: 'hidden',
-          padding: 16,
           height: 450,
           display: showSettings ? 'flex' : 'none',
           position: 'fixed',
