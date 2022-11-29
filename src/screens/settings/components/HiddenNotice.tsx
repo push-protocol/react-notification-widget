@@ -23,10 +23,10 @@ const LockIconContainer = styled.div`
 const HiddenNotice = ({ view }: { view: SettingsViews }) => {
   const { name } = useChannelContext();
 
-  let notice = `${name} won't have access to your contact info`;
+  let notice = `${name} doesn't have access to your contact info`;
 
-  if (view === SettingsViews.DEFAULT || view === SettingsViews.SUBSCRIBE_ONLY_COMPLETED) {
-    notice = `${name} doesn't have access to your contact info`;
+  if (view === SettingsViews.ONBOARDING || view === SettingsViews.SUBSCRIBE_ONLY) {
+    notice = `${name} won't have access to your contact info`;
   }
 
   return (
