@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { CustomTheme } from '../../theme';
 
-// Needed because of ts error of string (45%) passing when expected number
 export type Coordinates = {
   top: number | string;
   left: number | string;
@@ -25,7 +24,7 @@ const StyledInput = styled.input`
   color: white;
   padding: 4px 8px;
   border-radius: 10px;
-  background: slategray;
+  background: #33373a;
 `;
 
 const FloatingSettings = (props: FloatingSettingsProps) => {
@@ -66,7 +65,7 @@ const FloatingSettings = (props: FloatingSettingsProps) => {
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
-          background: '#102544',
+          background: '#040f1e',
           color: 'white',
           borderRadius: '50%',
         }}
@@ -79,6 +78,7 @@ const FloatingSettings = (props: FloatingSettingsProps) => {
         style={{
           overflowY: 'auto',
           overflowX: 'hidden',
+          padding: 16,
           height: 450,
           display: showSettings ? 'flex' : 'none',
           position: 'fixed',
@@ -86,11 +86,10 @@ const FloatingSettings = (props: FloatingSettingsProps) => {
           right: 1,
           zIndex: 100,
           fontFamily: 'Roboto, serif',
-          background: '#102544',
+          background: '#040f1e',
           color: 'white',
           flexDirection: 'column',
           gap: 8,
-          padding: 8,
         }}
       >
         <div>
