@@ -46,7 +46,9 @@ const SettingsHeader = ({ view }: { view: SettingsViews }) => {
         <HeaderIconContainer size={58}>
           <HeaderImage src={icon} alt={'channel icon'} />
         </HeaderIconContainer>
-        <PageTitle mb={1}>You are subscriberd to {name}!</PageTitle>
+        <PageTitle mb={1} align={'center'}>
+          You are subscriberd to {name}!
+        </PageTitle>
       </Header>
     );
   }

@@ -18,6 +18,7 @@ const LockIconContainer = styled.div`
   height: 11px;
   display: flex;
   color: inherit;
+  padding: 1px 0;
 `;
 
 const HiddenNotice = ({ view }: { view: SettingsViews }) => {
@@ -31,7 +32,7 @@ const HiddenNotice = ({ view }: { view: SettingsViews }) => {
 
   return (
     <NoticeContainer>
-      <Flex gap={0.5} alignItems={'center'}>
+      <Flex gap={0.5} alignItems={'start'}>
         <LockIconContainer>
           <Lock />
         </LockIconContainer>

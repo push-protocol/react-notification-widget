@@ -4,7 +4,6 @@ import Flex from 'components/layout/Flex';
 import { UserCommunicationChannel } from 'global/types.generated';
 import Button from 'components/Button';
 import isEmailValid from 'helpers/functions/isEmailValid';
-import Spinner from 'components/Spinner';
 
 type EditEmailProps = {
   value: string;

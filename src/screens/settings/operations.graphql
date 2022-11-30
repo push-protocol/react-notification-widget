@@ -27,3 +27,15 @@ mutation DeleteTelegramIntegration {
         success
     }
 }
+
+mutation VerifyUserDiscord ($input: UserDiscordVerifyInput!) {
+    userDiscordVerify(input: $input) {
+        success
+    }
+}
+
+mutation DeleteUserDiscord {
+    userDiscordDelete {
+        success
+    }
+}

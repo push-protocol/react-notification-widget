@@ -8,6 +8,7 @@ import { useChannelContext } from 'context/ChannelContext';
 
 export enum Channels {
   EMAIL,
+  DISCORD,
   TELEGRAM,
 }
 

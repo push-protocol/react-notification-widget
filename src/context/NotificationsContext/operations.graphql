@@ -8,5 +8,9 @@ query UserCommunicationChannels ($address: String!) {
             exists
             hint
         }
+        discord {
+            exists
+            hint
+        }
     }
 }

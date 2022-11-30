@@ -35,14 +35,19 @@ const defaultTheme = {
 };
 
 const FakeApp = () => {
-  const [partnerKey, setPartnerKey] = useState('259bdea9-7329-4654-bb4a-45f452a208ce');
+  const [partnerKey, setPartnerKey] = useState('6a71067c-49c7-4863-bf16-a34511a277e1');
   const [iframeUrl, setIframeUrl] = useState('');
   const [theme, setTheme] = useState<CustomTheme>(defaultTheme);
   const [coordinates, setCoordinates] = useState<Coordinates>({ top: 100, left: '45%' });
 
   const widget = useMemo(() => {
     return (
-      <NotificationFeedProvider theme={theme} partnerKey={partnerKey}>
+      <NotificationFeedProvider
+        theme={theme}
+        partnerKey={partnerKey}
+        isOpen={true}
+        mode={'subscribeOnly'}
+      >
         <NotificationFeed gapFromBell={10}>
           <S.WidgetBellWrapper>
             <NotificationBell />

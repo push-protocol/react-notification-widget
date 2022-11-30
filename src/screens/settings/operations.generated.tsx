@@ -33,6 +33,18 @@ export type DeleteTelegramIntegrationMutationVariables = Types.Exact<{ [key: str
 
 export type DeleteTelegramIntegrationMutation = { __typename?: 'Mutation', userTelegramDelete: { __typename?: 'GeneralResolverResponse', success: boolean } };
 
+export type VerifyUserDiscordMutationVariables = Types.Exact<{
+  input: Types.UserDiscordVerifyInput;
+}>;
+
+
+export type VerifyUserDiscordMutation = { __typename?: 'Mutation', userDiscordVerify: { __typename?: 'GeneralResolverResponse', success: boolean } };
+
+export type DeleteUserDiscordMutationVariables = Types.Exact<{ [key: string]: never; }>;
+
+
+export type DeleteUserDiscordMutation = { __typename?: 'Mutation', userDiscordDelete: { __typename?: 'GeneralResolverResponse', success: boolean } };
+
 
 export const SaveUserEmailDocument = gql`
     mutation SaveUserEmail($input: UserEmailUpdateInput!) {
@@ -196,3 +208,68 @@ export function useDeleteTelegramIntegrationMutation(baseOptions?: ApolloReactHo
 export type DeleteTelegramIntegrationMutationHookResult = ReturnType<typeof useDeleteTelegramIntegrationMutation>;
 export type DeleteTelegramIntegrationMutationResult = ApolloReactCommon.MutationResult<DeleteTelegramIntegrationMutation>;
 export type DeleteTelegramIntegrationMutationOptions = ApolloReactCommon.BaseMutationOptions<DeleteTelegramIntegrationMutation, DeleteTelegramIntegrationMutationVariables>;
+export const VerifyUserDiscordDocument = gql`
+    mutation VerifyUserDiscord($input: UserDiscordVerifyInput!) {
+  userDiscordVerify(input: $input) {
+    success
+  }
+}
+    `;
+export type VerifyUserDiscordMutationFn = ApolloReactCommon.MutationFunction<VerifyUserDiscordMutation, VerifyUserDiscordMutationVariables>;
+
+/**
+ * __useVerifyUserDiscordMutation__
+ *
+ * To run a mutation, you first call `useVerifyUserDiscordMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useVerifyUserDiscordMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [verifyUserDiscordMutation, { data, loading, error }] = useVerifyUserDiscordMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useVerifyUserDiscordMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<VerifyUserDiscordMutation, VerifyUserDiscordMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useMutation<VerifyUserDiscordMutation, VerifyUserDiscordMutationVariables>(VerifyUserDiscordDocument, options);
+      }
+export type VerifyUserDiscordMutationHookResult = ReturnType<typeof useVerifyUserDiscordMutation>;
+export type VerifyUserDiscordMutationResult = ApolloReactCommon.MutationResult<VerifyUserDiscordMutation>;
+export type VerifyUserDiscordMutationOptions = ApolloReactCommon.BaseMutationOptions<VerifyUserDiscordMutation, VerifyUserDiscordMutationVariables>;
+export const DeleteUserDiscordDocument = gql`
+    mutation DeleteUserDiscord {
+  userDiscordDelete {
+    success
+  }
+}
+    `;
+export type DeleteUserDiscordMutationFn = ApolloReactCommon.MutationFunction<DeleteUserDiscordMutation, DeleteUserDiscordMutationVariables>;
+
+/**
+ * __useDeleteUserDiscordMutation__
+ *
+ * To run a mutation, you first call `useDeleteUserDiscordMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteUserDiscordMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteUserDiscordMutation, { data, loading, error }] = useDeleteUserDiscordMutation({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useDeleteUserDiscordMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<DeleteUserDiscordMutation, DeleteUserDiscordMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useMutation<DeleteUserDiscordMutation, DeleteUserDiscordMutationVariables>(DeleteUserDiscordDocument, options);
+      }
+export type DeleteUserDiscordMutationHookResult = ReturnType<typeof useDeleteUserDiscordMutation>;
+export type DeleteUserDiscordMutationResult = ApolloReactCommon.MutationResult<DeleteUserDiscordMutation>;
+export type DeleteUserDiscordMutationOptions = ApolloReactCommon.BaseMutationOptions<DeleteUserDiscordMutation, DeleteUserDiscordMutationVariables>;

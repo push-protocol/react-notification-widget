@@ -11,6 +11,7 @@ import WrongNetworkError from 'components/Errors/WrongNetworkError';
 import NavbarActions from 'screens/settings/components/NavbarActions';
 import SettingsHeader from 'screens/settings/components/SettingsHeader';
 import useSettingsActions, { Channels } from 'screens/settings/useSettingsActions';
+import { DiscordChannel } from 'screens/settings/channels/discord';
 
 const ChannelsContainer = styled(Flex)<{ wrongNetwork?: boolean }>`
   ${({ wrongNetwork }) =>
@@ -52,6 +53,10 @@ export const Settings = () => {
         <EmailChannel
           open={channelOpen === Channels.EMAIL}
           setOpen={() => toggleChannelOpen(Channels.EMAIL)}
+        />
+        <DiscordChannel
+          open={channelOpen === Channels.DISCORD}
+          setOpen={() => toggleChannelOpen(Channels.DISCORD)}
         />
         <TelegramChannel
           open={channelOpen === Channels.TELEGRAM}

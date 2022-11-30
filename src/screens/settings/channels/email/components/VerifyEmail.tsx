@@ -3,7 +3,6 @@ import Text from 'components/Text';
 import TextInput from 'components/TextInput';
 import Flex from 'components/layout/Flex';
 import Button from 'components/Button';
-import Spinner from 'components/Spinner';
 import { Routes, useRouterContext } from 'context/RouterContext';
 
 type VerifyEmailProps = {
