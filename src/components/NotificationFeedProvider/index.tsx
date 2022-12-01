@@ -44,8 +44,8 @@ const NotificationFeedProvider = ({
   const wagmiClient = useWagmiClient(provider);
 
   useEffect(() => {
-    if (disableAnalytics) {
-      analytics.disableAnalytics();
+    if (!disableAnalytics) {
+      analytics.initialize();
     }
   }, [disableAnalytics]);
 

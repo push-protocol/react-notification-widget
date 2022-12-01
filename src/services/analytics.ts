@@ -21,29 +21,20 @@ export function rudderInitialize() {
 }
 
 class Analytics {
-  disabled = false;
-
-  constructor() {
+  initialize() {
     rudderInitialize();
   }
 
   identify(userAddress: string, traits: { channelName: string; channelAddress: string }) {
-    if (this.disabled) return;
     rudder.identify(userAddress, traits);
   }
 
   track(event: string, args?: Record<string, any>) {
-    if (this.disabled) return;
     rudder.track(event, args);
   }
 
   page(page: string) {
-    if (this.disabled) return;
     rudder.page(page);
-  }
-
-  disableAnalytics() {
-    this.disabled = true;
   }
 }
 
