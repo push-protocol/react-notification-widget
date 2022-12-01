@@ -58,6 +58,7 @@ export const useAuthenticate = () => {
     const message = new SiweMessage(msg).prepareMessage();
 
     try {
+      await signer.refetch();
       const signature = await signer.data?.signMessage(message);
       return [msg, signature as string];
     } catch (e) {
