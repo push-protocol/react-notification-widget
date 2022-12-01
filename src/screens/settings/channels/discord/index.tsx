@@ -3,8 +3,7 @@ import ChannelDropdown from 'screens/settings/components/ChannelDropdown';
 import { Discord as DiscordIcon } from 'components/icons';
 import { useAuthContext } from 'context/AuthContext';
 import useDiscordActions from 'screens/settings/channels/discord/useDiscordActions';
-import ConnectedDiscord from 'screens/settings/channels/discord/components/ConnectedDiscord';
-import IntegrateDiscord from 'screens/settings/channels/discord/components/IntegrateDiscord';
+import ConnectedChannel from 'screens/settings/components/ConnectedChannel';
 
 type DiscordChannelProps = {
   open: boolean;
@@ -14,8 +13,7 @@ type DiscordChannelProps = {
 export const DiscordChannel = ({ open, setOpen }: DiscordChannelProps) => {
   const { isLoading } = useAuthContext();
 
-  const { handleVerify, verifyLoading, deleteDiscordLoading, handleRemove, isConnected, hint } =
-    useDiscordActions();
+  const { deleteDiscordLoading, handleRemove, isConnected, hint } = useDiscordActions();
 
   return (
     <ChannelDropdown
@@ -25,20 +23,14 @@ export const DiscordChannel = ({ open, setOpen }: DiscordChannelProps) => {
       open={open}
       setOpen={setOpen}
     >
-      {isConnected ? (
-        <ConnectedDiscord
-          hint={hint}
-          handleRemove={handleRemove}
-          isLoading={deleteDiscordLoading}
-          isDisabled={deleteDiscordLoading || isLoading}
-        />
-      ) : (
-        <IntegrateDiscord
-          handleVerify={handleVerify}
-          isLoading={verifyLoading}
-          isDisabled={verifyLoading || isLoading}
-        />
-      )}
+      <ConnectedChannel
+        description={
+          hint ? `You are receiving alerts to ${hint}` : 'You Discord account is connected'
+        }
+        handleRemove={handleRemove}
+        isLoading={deleteDiscordLoading}
+        isDisabled={deleteDiscordLoading || isLoading}
+      />
     </ChannelDropdown>
   );
 };

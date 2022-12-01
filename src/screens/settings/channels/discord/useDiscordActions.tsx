@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useNotificationsContext } from 'context/NotificationsContext';
 import {
   useDeleteUserDiscordMutation,
@@ -11,7 +12,7 @@ import analytics from 'services/analytics';
 
 const useDiscordActions = () => {
   const { isSubscribeOnly } = useEnvironment();
-  const { login, isOnboarding, setIsOnboarding } = useAuthContext();
+  const { login, isOnboarding, setIsOnboarding, discordToken } = useAuthContext();
   const { setRoute, routeProps } = useRouterContext();
   const { userCommsChannels } = useNotificationsContext();
 
@@ -23,9 +24,7 @@ const useDiscordActions = () => {
     refetchQueries: [UserCommunicationChannelsDocument],
   });
 
-  const handleVerify = async () => {
-    const token = 'clb3rwyc90002qaje5f4rmj4p'; // TODO: remove, temp token for testing
-
+  const handleVerify = async (token: string) => {
     login(async () => {
       await verifyDiscord({
         variables: {
@@ -47,6 +46,12 @@ const useDiscordActions = () => {
       setIsOnboarding(false);
     });
   };
+
+  useEffect(() => {
+    if (discordToken && userCommsChannels && !userCommsChannels?.discord?.exists) {
+      handleVerify(discordToken);
+    }
+  }, [discordToken]);
 
   const handleRemove = async () => {
     login(async () => {

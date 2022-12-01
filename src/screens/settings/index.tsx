@@ -12,6 +12,7 @@ import NavbarActions from 'screens/settings/components/NavbarActions';
 import SettingsHeader from 'screens/settings/components/SettingsHeader';
 import useSettingsActions, { Channels } from 'screens/settings/useSettingsActions';
 import { DiscordChannel } from 'screens/settings/channels/discord';
+import useDiscordActions from 'screens/settings/channels/discord/useDiscordActions';
 
 const ChannelsContainer = styled(Flex)<{ wrongNetwork?: boolean }>`
   ${({ wrongNetwork }) =>
@@ -30,6 +31,7 @@ export enum SettingsViews {
 
 export const Settings = () => {
   const { isWrongNetwork } = useChannelContext();
+  const { isConnected } = useDiscordActions();
   const {
     channelOpen,
     toggleChannelOpen,
@@ -50,13 +52,15 @@ export const Settings = () => {
         direction={'column'}
         mb={2}
       >
+        {isConnected && ( // this is temporary check until there is integration flow from widget
+          <DiscordChannel
+            open={channelOpen === Channels.DISCORD}
+            setOpen={() => toggleChannelOpen(Channels.DISCORD)}
+          />
+        )}
         <EmailChannel
           open={channelOpen === Channels.EMAIL}
           setOpen={() => toggleChannelOpen(Channels.EMAIL)}
-        />
-        <DiscordChannel
-          open={channelOpen === Channels.DISCORD}
-          setOpen={() => toggleChannelOpen(Channels.DISCORD)}
         />
         <TelegramChannel
           open={channelOpen === Channels.TELEGRAM}

@@ -3,24 +3,29 @@ import Flex from 'components/layout/Flex';
 import Button from 'components/Button';
 import Text from 'components/Text';
 
-type ConnectedTelegramProps = {
-  hint: string;
+type ConnectedChannelProps = {
+  description: string;
   handleRemove: () => void;
+  handleEdit?: () => void;
   isLoading: boolean;
   isDisabled: boolean;
 };
 
-const ConnectedTelegram = ({
-  hint,
+const ConnectedChannel = ({
+  description,
   handleRemove,
+  handleEdit,
   isLoading,
   isDisabled,
-}: ConnectedTelegramProps) => (
+}: ConnectedChannelProps) => (
   <Flex direction={'column'} gap={2} width={'100%'}>
-    <Text>
-      {hint ? `You are receiving alerts to ${hint}` : 'You Telegram account is connected'}
-    </Text>
+    <Text>{description}</Text>
     <Flex gap={2}>
+      {handleEdit && (
+        <Button width={'100%'} onClick={handleEdit}>
+          Change
+        </Button>
+      )}
       <Button width={'100%'} onClick={handleRemove} disabled={isDisabled} isLoading={isLoading}>
         Remove
       </Button>
@@ -28,4 +33,4 @@ const ConnectedTelegram = ({
   </Flex>
 );
 
-export default ConnectedTelegram;
+export default ConnectedChannel;

@@ -2,9 +2,9 @@ import React from 'react';
 import ChannelDropdown from 'screens/settings/components/ChannelDropdown';
 import { Telegram as TelegramIcon } from 'components/icons';
 import useTelegramActions from 'screens/settings/channels/telegram/useTelegramActions';
-import ConnectedTelegram from 'screens/settings/channels/telegram/components/ConnectedTelegram';
 import IntegrateTelegram from 'screens/settings/channels/telegram/components/IntegrateTelegram';
 import { useAuthContext } from 'context/AuthContext';
+import ConnectedChannel from 'screens/settings/components/ConnectedChannel';
 
 type TelegramChannelProps = {
   open: boolean;
@@ -34,8 +34,10 @@ export const TelegramChannel = ({ open, setOpen }: TelegramChannelProps) => {
       setOpen={setOpen}
     >
       {isConnected ? (
-        <ConnectedTelegram
-          hint={hint}
+        <ConnectedChannel
+          description={
+            hint ? `You are receiving alerts to ${hint}` : 'You Telegram account is connected'
+          }
           handleRemove={handleRemoveTelegramIntegration}
           isLoading={deleteTelegramLoading}
           isDisabled={deleteTelegramLoading || isLoading}

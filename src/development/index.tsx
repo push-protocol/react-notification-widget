@@ -42,12 +42,7 @@ const FakeApp = () => {
 
   const widget = useMemo(() => {
     return (
-      <NotificationFeedProvider
-        theme={theme}
-        partnerKey={partnerKey}
-        isOpen={true}
-        mode={'subscribeOnly'}
-      >
+      <NotificationFeedProvider theme={theme} partnerKey={partnerKey}>
         <NotificationFeed gapFromBell={10}>
           <S.WidgetBellWrapper>
             <NotificationBell />

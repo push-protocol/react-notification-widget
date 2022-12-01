@@ -5,8 +5,8 @@ import { Email as EmailIcon } from 'components/icons';
 import useEmailActions from 'screens/settings/channels/email/useEmailActions';
 import EditEmail from 'screens/settings/channels/email/components/EditEmail';
 import VerifyEmail from 'screens/settings/channels/email/components/VerifyEmail';
-import ConnectedEmail from 'screens/settings/channels/email/components/ConnectedEmail';
 import { useAuthContext } from 'context/AuthContext';
+import ConnectedChannel from 'screens/settings/components/ConnectedChannel';
 
 type EmailChannelProps = {
   open: boolean;
@@ -62,8 +62,8 @@ export const EmailChannel = ({ open, setOpen }: EmailChannelProps) => {
           />
         )}
         {renderConnected && (
-          <ConnectedEmail
-            hint={hint}
+          <ConnectedChannel
+            description={`You are receiving alerts to ${hint}`}
             handleRemove={handleRemove}
             handleEdit={() => setIsEditing(true)}
             isLoading={deleteLoading}

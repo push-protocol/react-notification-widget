@@ -12,6 +12,7 @@ import { ApolloProvider } from 'components/ApolloProvider';
 import { EnvironmentProvider } from 'context/EnvironmentContext';
 import analytics from 'services/analytics';
 import { AuthProvider } from 'context/AuthContext';
+import useDiscordActions from 'screens/settings/channels/discord/useDiscordActions';
 
 export type ExternalProvider =
   | providers.BaseProvider
@@ -22,6 +23,7 @@ export type RpcUrls = { ethereum: string };
 
 export type NotificationFeedProviderProps = PropsWithChildren<{
   partnerKey: string;
+  discordToken?: string;
   provider?: ExternalProvider;
   theme?: CustomTheme;
   disableAnalytics?: boolean;
@@ -31,6 +33,7 @@ export type NotificationFeedProviderProps = PropsWithChildren<{
 
 const NotificationFeedProvider = ({
   partnerKey,
+  discordToken,
   provider,
   theme,
   children,
@@ -55,7 +58,7 @@ const NotificationFeedProvider = ({
               <NotificationsProvider isOpen={isOpen}>
                 <Reset />
                 <RouterProvider>
-                  <AuthProvider>{children}</AuthProvider>
+                  <AuthProvider discordToken={discordToken}>{children}</AuthProvider>
                 </RouterProvider>
               </NotificationsProvider>
             </ChannelProvider>
