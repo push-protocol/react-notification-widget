@@ -59,8 +59,8 @@ export const useAuthenticate = () => {
 
     try {
       // in some cases wagmi returns an undefined signer, even though one is instantiated. This(refetch) validates an actual signer is always returned
-      await signer.refetch();
-      const signature = await signer.data?.signMessage(message);
+      const refetchedSigner = await signer.refetch();
+      const signature = await refetchedSigner.data?.signMessage(message);
       return [msg, signature as string];
     } catch (e) {
       throw new LoginError("Can't obtain signature");
