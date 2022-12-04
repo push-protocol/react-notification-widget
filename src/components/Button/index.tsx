@@ -64,7 +64,14 @@ const variantStyles = (variant = 'primary', theme: DefaultTheme): any =>
     `,
     outlined: css`
       background-color: transparent;
-      ${disabledState(theme)}
+      border: 2px solid ${theme.colors.primary.main};
+      color: ${theme.colors.primary.main};
+      &:disabled {
+        transform: unset;
+        border-color: ${adjustColor(theme.colors.primary.main, 0.5)};
+        color: ${adjustColor(theme.colors.primary.main, 0.5)};
+        cursor: default;
+      }
     `,
     danger: css`
       background: ${theme.colors.error.main};
