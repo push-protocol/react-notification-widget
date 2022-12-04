@@ -34,8 +34,13 @@ const defaultTheme = {
   bellColor: '#968c8c',
 };
 
+const DEFAULT_PARTNER_KEY =
+  process.env.WHEREVER_ENV === 'production'
+    ? '259bdea9-7329-4654-bb4a-45f452a208ce'
+    : 'cefa1b69-bfb9-4e70-bebc-9ee10316f882';
+
 const FakeApp = () => {
-  const [partnerKey, setPartnerKey] = useState('259bdea9-7329-4654-bb4a-45f452a208ce');
+  const [partnerKey, setPartnerKey] = useState(DEFAULT_PARTNER_KEY);
   const [iframeUrl, setIframeUrl] = useState('');
   const [theme, setTheme] = useState<CustomTheme>(defaultTheme);
   const [coordinates, setCoordinates] = useState({ top: 100, left: '45%' });
