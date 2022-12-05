@@ -22,7 +22,7 @@ const HeaderIcon = styled.img`
   border-radius: 100px;
 `;
 
-export const SubscribeOnlyNotice = () => {
+export const SubscriptionFlowEnded = () => {
   const { name, icon } = useChannelContext();
 
   return (

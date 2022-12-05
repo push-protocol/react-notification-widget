@@ -29,7 +29,7 @@ const useSettingsActions = () => {
   };
 
   const handleFinalizeSubscription = () => {
-    setRoute(Routes.SubscribeOnlyNotice);
+    setRoute(Routes.SubscriptionFlowEnded);
   };
 
   const view = useMemo(() => {

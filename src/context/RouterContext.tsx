@@ -1,6 +1,6 @@
 import React, { createContext, useContext, ReactNode, useState, ElementType } from 'react';
 import analytics from '../services/analytics';
-import { Feed, Settings, Subscribe, ChannelAdded, SubscribeOnlyNotice } from 'screens';
+import { Feed, Settings, Subscribe, ChannelAdded, SubscriptionFlowEnded } from 'screens';
 
 enum Routes {
   Subscribe = 'Subscribe',
@@ -8,7 +8,7 @@ enum Routes {
   ChannelAdded = 'ChannelAdded',
   NotificationsFeed = 'NotificationsFeed',
   EmailVerify = 'EmailVerify',
-  SubscribeOnlyNotice = 'SubscribeOnlyNotice',
+  SubscriptionFlowEnded = 'SubscriptionFlowEnded',
 }
 
 type RouteProps = Record<string, any>;
@@ -42,7 +42,7 @@ const RouterProvider = ({ children }: { children: ReactNode }) => {
     [Routes.NotificationsFeed]: Feed,
     [Routes.EmailVerify]: Settings,
     [Routes.ChannelAdded]: ChannelAdded,
-    [Routes.SubscribeOnlyNotice]: SubscribeOnlyNotice,
+    [Routes.SubscriptionFlowEnded]: SubscriptionFlowEnded,
   };
 
   return (
