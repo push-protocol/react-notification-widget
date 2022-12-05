@@ -10,9 +10,10 @@ import { useChannelContext } from 'context/ChannelContext';
 import WrongNetworkError from 'components/Errors/WrongNetworkError';
 import NavbarActions from 'screens/settings/components/NavbarActions';
 import SettingsHeader from 'screens/settings/components/SettingsHeader';
-import useSettingsActions, { Channels } from 'screens/settings/useSettingsActions';
+import useSettingsActions from 'screens/settings/useSettingsActions';
 import { DiscordChannel } from 'screens/settings/channels/discord';
 import useDiscordActions from 'screens/settings/channels/discord/useDiscordActions';
+import { MessagingApp } from 'global/types.generated';
 
 const ChannelsContainer = styled(Flex)<{ wrongNetwork?: boolean }>`
   ${({ wrongNetwork }) =>
@@ -36,7 +37,7 @@ export const Settings = () => {
     channelOpen,
     toggleChannelOpen,
     view,
-    renderFinalizeButton,
+    shouldRenderFinishButton,
     handleUnsubscribe,
     handleFinalizeSubscription,
   } = useSettingsActions();
@@ -54,20 +55,20 @@ export const Settings = () => {
       >
         {isConnected && ( // this is temporary check until there is integration flow from widget
           <DiscordChannel
-            open={channelOpen === Channels.DISCORD}
-            setOpen={() => toggleChannelOpen(Channels.DISCORD)}
+            open={channelOpen === MessagingApp.Discord}
+            setOpen={() => toggleChannelOpen(MessagingApp.Discord)}
           />
         )}
         <EmailChannel
-          open={channelOpen === Channels.EMAIL}
-          setOpen={() => toggleChannelOpen(Channels.EMAIL)}
+          open={channelOpen === MessagingApp.Email}
+          setOpen={() => toggleChannelOpen(MessagingApp.Email)}
         />
         <TelegramChannel
-          open={channelOpen === Channels.TELEGRAM}
-          setOpen={() => toggleChannelOpen(Channels.TELEGRAM)}
+          open={channelOpen === MessagingApp.Telegram}
+          setOpen={() => toggleChannelOpen(MessagingApp.Telegram)}
         />
       </ChannelsContainer>
-      {renderFinalizeButton && (
+      {shouldRenderFinishButton && (
         <Flex width={'100%'} justifyContent={'center'}>
           <Button onClick={handleFinalizeSubscription} height={20}>
             <Text>Finish</Text>

@@ -4,8 +4,6 @@ import { Screen } from 'components/layout/Screen';
 import Text from 'components/Text';
 import Flex from 'components/layout/Flex';
 import { useChannelContext } from 'context/ChannelContext';
-import Link from 'components/Link';
-import { DASHBOARD_URL } from 'global/const';
 
 const HeaderIconContainer = styled.div`
   height: 58px;
@@ -44,10 +42,7 @@ export const SubscribeOnlyNotice = () => {
           Thank you for subscribing to {name}!
         </Text>
         <Text size={'lg'} align={'center'}>
-          Change your preferences at any time by visiting{' '}
-          <Link src={DASHBOARD_URL} display={'inline-block'}>
-            app.wherever.to
-          </Link>
+          Change your preferences at any time by visiting this page again.
         </Text>
       </Flex>
     </Screen>

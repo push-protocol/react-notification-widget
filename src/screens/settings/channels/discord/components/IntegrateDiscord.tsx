@@ -29,7 +29,7 @@ const IntegrateDiscord = ({ isLoading, isDisabled }: IntegrateDiscordProps) => {
       </Flex>
       <Flex justifyContent={'end'} width={'100%'}>
         <Button disabled={isDisabled} isLoading={isLoading}>
-          Verify Discord
+          Open Discord
         </Button>
       </Flex>
     </Flex>

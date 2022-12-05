@@ -1,7 +1,10 @@
 import React, { createContext, useContext } from 'react';
 
 export type EnvType = 'production' | 'staging' | string;
-export type WidgetMode = 'default' | 'subscribeOnly';
+export enum WidgetMode {
+  Default = 'Default',
+  subscribeOnly = 'subscribeOnly',
+}
 
 export type EnvironmentContextType = {
   gqlEndpoint: string;
@@ -40,7 +43,7 @@ export const EnvironmentProvider = ({
       value={{
         gqlEndpoint: gqlEndpointMap[whereverEnv],
         epnsEnv: epnsEnvMap[whereverEnv],
-        isSubscribeOnly: mode === 'subscribeOnly',
+        isSubscribeOnly: mode === WidgetMode.subscribeOnly,
       }}
     >
       {children}

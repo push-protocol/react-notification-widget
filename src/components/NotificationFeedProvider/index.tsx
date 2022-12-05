@@ -6,13 +6,12 @@ import { CustomTheme, makeTheme } from '../../theme';
 import useWagmiClient from './useWagmiClient';
 import { Reset } from 'theme/ResetCss';
 import { RouterProvider } from 'context/RouterContext';
-import { NotificationsProvider, useNotificationsContext } from 'context/NotificationsContext';
+import { NotificationsProvider } from 'context/NotificationsContext';
 import { ChannelProvider } from 'context/ChannelContext';
 import { ApolloProvider } from 'components/ApolloProvider';
-import { EnvironmentProvider } from 'context/EnvironmentContext';
+import { EnvironmentProvider, WidgetMode } from 'context/EnvironmentContext';
 import analytics from 'services/analytics';
 import { AuthProvider } from 'context/AuthContext';
-import useDiscordActions from 'screens/settings/channels/discord/useDiscordActions';
 
 export type ExternalProvider =
   | providers.BaseProvider
@@ -27,7 +26,7 @@ export type NotificationFeedProviderProps = PropsWithChildren<{
   provider?: ExternalProvider;
   theme?: CustomTheme;
   disableAnalytics?: boolean;
-  mode?: 'default' | 'subscribeOnly';
+  mode?: WidgetMode;
   isOpen?: boolean;
 }>;
 

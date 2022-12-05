@@ -20,7 +20,7 @@ export const TelegramChannel = ({ open, setOpen }: TelegramChannelProps) => {
     handleOpenTG,
     handleRemoveTelegramIntegration,
     telegramLoading,
-    deleteTelegramLoading,
+    deleteLoading,
     isConnected,
     hint,
   } = useTelegramActions();
@@ -39,8 +39,8 @@ export const TelegramChannel = ({ open, setOpen }: TelegramChannelProps) => {
             hint ? `You are receiving alerts to ${hint}` : 'You Telegram account is connected'
           }
           handleRemove={handleRemoveTelegramIntegration}
-          isLoading={deleteTelegramLoading}
-          isDisabled={deleteTelegramLoading || isLoading}
+          isLoading={deleteLoading}
+          isDisabled={deleteLoading || isLoading}
         />
       ) : (
         <IntegrateTelegram

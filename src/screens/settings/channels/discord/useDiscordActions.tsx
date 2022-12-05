@@ -48,7 +48,7 @@ const useDiscordActions = () => {
   };
 
   useEffect(() => {
-    if (discordToken && userCommsChannels && !userCommsChannels?.discord?.exists) {
+    if (discordToken && userCommsChannels && !userCommsChannels.discord?.exists) {
       handleVerify(discordToken);
     }
   }, [discordToken]);
@@ -65,7 +65,7 @@ const useDiscordActions = () => {
   };
 
   return {
-    deleteDiscordLoading: deleteLoading,
+    deleteLoading,
     handleRemove,
     handleVerify,
     verifyLoading,

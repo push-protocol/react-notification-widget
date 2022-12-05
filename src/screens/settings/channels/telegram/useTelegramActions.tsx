@@ -19,7 +19,7 @@ const useTelegramActions = () => {
   const [getTelegramLink, { loading: telegramLoading, data: telegramUrlData }] =
     useGetTelegramVerificationLinkMutation();
 
-  const [deleteTelegramIntegration, { loading: deleteTelegramLoading }] =
+  const [deleteTelegramIntegration, { loading: deleteLoading }] =
     useDeleteTelegramIntegrationMutation({
       refetchQueries: [UserCommunicationChannelsDocument],
     });
@@ -69,7 +69,7 @@ const useTelegramActions = () => {
 
   return {
     telegramLoading,
-    deleteTelegramLoading,
+    deleteLoading,
     telegramVerificationUrl: telegramUrlData?.telegramVerificationLinkGenerate?.link,
     handleGenerateUrl,
     handleOpenTG,

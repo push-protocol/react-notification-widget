@@ -13,7 +13,7 @@ type DiscordChannelProps = {
 export const DiscordChannel = ({ open, setOpen }: DiscordChannelProps) => {
   const { isLoading } = useAuthContext();
 
-  const { deleteDiscordLoading, handleRemove, isConnected, hint } = useDiscordActions();
+  const { deleteLoading, handleRemove, isConnected, hint } = useDiscordActions();
 
   return (
     <ChannelDropdown
@@ -25,11 +25,11 @@ export const DiscordChannel = ({ open, setOpen }: DiscordChannelProps) => {
     >
       <ConnectedChannel
         description={
-          hint ? `You are receiving alerts to ${hint}` : 'You Discord account is connected'
+          hint ? `You are receiving alerts to ${hint}` : 'Your Discord account is connected'
         }
         handleRemove={handleRemove}
-        isLoading={deleteDiscordLoading}
-        isDisabled={deleteDiscordLoading || isLoading}
+        isLoading={deleteLoading}
+        isDisabled={deleteLoading || isLoading}
       />
     </ChannelDropdown>
   );
