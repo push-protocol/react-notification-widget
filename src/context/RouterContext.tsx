@@ -1,9 +1,18 @@
-import React, { createContext, useContext, ReactNode, useState, ElementType } from 'react';
+import React, {
+  createContext,
+  useContext,
+  ReactNode,
+  useState,
+  ElementType,
+  ReactElement,
+} from 'react';
 import analytics from '../services/analytics';
 import { ChannelAdded } from '../screens/channelAdded';
+import Preferences from '../screens/preferences';
 import { Feed, Settings, Subscribe } from 'screens';
 
 enum Routes {
+  Preferences = 'Preferences',
   Subscribe = 'Subscribe',
   Settings = 'Settings',
   ChannelAdded = 'ChannelAdded',
@@ -37,7 +46,8 @@ const RouterProvider = ({ children }: { children: ReactNode }) => {
     props ? setRouteProps(props) : setRouteProps({});
   };
 
-  const RouteScreens = {
+  const RouteScreens: { [key in Routes]: (...args: any[]) => ReactElement } = {
+    [Routes.Preferences]: Preferences,
     [Routes.Subscribe]: Subscribe,
     [Routes.Settings]: Settings,
     [Routes.ConnectEmail]: Settings,

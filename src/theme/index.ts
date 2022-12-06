@@ -95,7 +95,7 @@ const defaultTheme: DefaultTheme = {
       text: '#ffffff',
     },
     text: {
-      primary: 'rgba(255,255,255,0.9)',
+      primary: '#FFFFFE',
       secondary: '#bfbfbf',
     },
     bg: {
