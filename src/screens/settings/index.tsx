@@ -12,7 +12,6 @@ import NavbarActions from 'screens/settings/components/NavbarActions';
 import SettingsHeader from 'screens/settings/components/SettingsHeader';
 import useSettingsActions from 'screens/settings/useSettingsActions';
 import { DiscordChannel } from 'screens/settings/channels/discord';
-import useDiscordActions from 'screens/settings/channels/discord/useDiscordActions';
 import { MessagingApp } from 'global/types.generated';
 
 const ChannelsContainer = styled(Flex)<{ wrongNetwork?: boolean }>`
@@ -27,12 +26,11 @@ export enum SettingsViews {
   DEFAULT = 'DEFAULT',
   ONBOARDING = 'ONBOARDING',
   SUBSCRIBE_ONLY = 'SUBSCRIBE_ONLY',
-  SUBSCRIBE_ONLY_COMPLETED = 'SUBSCRIBE_ONLY_COMPLETED',
+  SUBSCRIBE_ONLY_CONNECTED = 'SUBSCRIBE_ONLY_CONNECTED', // This is for subscribeOnly mode when user visits page second time
 }
 
 export const Settings = () => {
   const { isWrongNetwork } = useChannelContext();
-  const { isConnected } = useDiscordActions();
   const {
     channelOpen,
     toggleChannelOpen,
@@ -53,12 +51,10 @@ export const Settings = () => {
         direction={'column'}
         mb={2}
       >
-        {isConnected && ( // this is temporary check until there is integration flow from widget
-          <DiscordChannel
-            open={channelOpen === MessagingApp.Discord}
-            setOpen={() => toggleChannelOpen(MessagingApp.Discord)}
-          />
-        )}
+        <DiscordChannel
+          open={channelOpen === MessagingApp.Discord}
+          setOpen={() => toggleChannelOpen(MessagingApp.Discord)}
+        />
         <EmailChannel
           open={channelOpen === MessagingApp.Email}
           setOpen={() => toggleChannelOpen(MessagingApp.Email)}

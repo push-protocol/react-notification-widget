@@ -9,9 +9,11 @@ import { Routes, useRouterContext } from 'context/RouterContext';
 import { useAuthContext } from 'context/AuthContext';
 import { useEnvironment } from 'context/EnvironmentContext';
 import analytics from 'services/analytics';
+import { useChannelContext } from 'context/ChannelContext';
 
 const useDiscordActions = () => {
   const { isSubscribeOnly } = useEnvironment();
+  const { discordGuildUrl } = useChannelContext();
   const { login, isOnboarding, setIsOnboarding, discordToken } = useAuthContext();
   const { setRoute, routeProps } = useRouterContext();
   const { userCommsChannels } = useNotificationsContext();
@@ -39,12 +41,16 @@ const useDiscordActions = () => {
 
       if (isOnboarding) {
         setRoute(Routes.ChannelAdded, { channel: 'Discord' });
-      } else {
-        setRoute(Routes.Settings);
       }
 
       setIsOnboarding(false);
     });
+  };
+
+  const handleOpenDiscord = async () => {
+    if (discordGuildUrl) {
+      window.open(discordGuildUrl, '_blank', 'noopener,noreferrer');
+    }
   };
 
   useEffect(() => {
@@ -69,6 +75,7 @@ const useDiscordActions = () => {
     handleRemove,
     handleVerify,
     verifyLoading,
+    handleOpenDiscord,
     isConnected: userCommsChannels?.discord?.exists,
     hint: userCommsChannels?.discord?.hint || '',
   };

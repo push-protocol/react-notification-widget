@@ -46,8 +46,9 @@ const FakeApp = () => {
       <NotificationFeedProvider
         theme={theme}
         partnerKey={partnerKey}
-        isOpen={true}
-        mode={WidgetMode.subscribeOnly}
+        // isOpen={true}
+        // mode={WidgetMode.subscribeOnly}
+        // discordToken={'clbca9zhe0011epjepof0okyb'}
       >
         <NotificationFeed gapFromBell={10}>
           <S.WidgetBellWrapper>
@@ -63,7 +64,6 @@ const FakeApp = () => {
       <S.BackgroundLogoContainer>
         <BackgroundLogo />
       </S.BackgroundLogoContainer>
-
       <S.TopBar>
         <Logo />
         <S.Text>Widget Demo</S.Text>

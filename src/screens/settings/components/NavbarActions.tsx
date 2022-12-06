@@ -22,7 +22,7 @@ const NavbarActions = ({ view }: { view: SettingsViews }) => {
       </Button>
     ),
     [SettingsViews.SUBSCRIBE_ONLY]: null,
-    [SettingsViews.SUBSCRIBE_ONLY_COMPLETED]: null,
+    [SettingsViews.SUBSCRIBE_ONLY_CONNECTED]: null,
   };
 
   return renderView[view];

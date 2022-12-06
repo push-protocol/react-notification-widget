@@ -40,7 +40,7 @@ const SettingsHeader = ({ view }: { view: SettingsViews }) => {
   const { name, icon } = useChannelContext();
   const theme = useTheme();
 
-  if (view === SettingsViews.SUBSCRIBE_ONLY_COMPLETED) {
+  if (view === SettingsViews.SUBSCRIBE_ONLY_CONNECTED) {
     return (
       <Header justifyContent={'center'} alignItems={'center'} direction={'column'} mb={2}>
         <HeaderIconContainer size={58}>

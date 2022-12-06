@@ -35,7 +35,7 @@ const useSettingsActions = () => {
   const view = useMemo(() => {
     if (isSubscribeOnly) {
       return routeProps?.isSubscriber
-        ? SettingsViews.SUBSCRIBE_ONLY_COMPLETED
+        ? SettingsViews.SUBSCRIBE_ONLY_CONNECTED
         : SettingsViews.SUBSCRIBE_ONLY;
     } else {
       return isOnboarding ? SettingsViews.ONBOARDING : SettingsViews.DEFAULT;

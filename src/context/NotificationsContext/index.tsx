@@ -10,7 +10,7 @@ const NotificationsContext = createContext<NotificationsContext>({} as any);
 
 export const NotificationsProvider = ({
   children,
-  isOpen = false,
+  isOpen,
 }: {
   children: ReactNode;
   isOpen?: boolean;
@@ -19,7 +19,7 @@ export const NotificationsProvider = ({
   const { epnsEnv } = useEnvironment();
   const { channelAddress, chainId } = useChannelContext();
 
-  const [feedOpen, setFeedOpen] = useState(isOpen);
+  const [feedOpen, setFeedOpen] = useState(isOpen || false);
   const [isLoading, setIsLoading] = useState(false);
   const [polling, setPolling] = useState(false);
   const [notifications, setNotifications] = useState<Notification[]>([]);
@@ -62,9 +62,15 @@ export const NotificationsProvider = ({
   }, [channelAddress, chainId, epnsEnv, userAddress]);
 
   const toggleFeedOpen = (open: boolean) => {
-    if (isOpen) return;
+    if (isOpen !== undefined) return;
     setFeedOpen(open);
   };
+
+  useEffect(() => {
+    if (isOpen !== undefined) {
+      setFeedOpen(isOpen);
+    }
+  }, [isOpen]);
 
   return (
     <NotificationsContext.Provider

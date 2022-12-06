@@ -14,11 +14,12 @@ const IconContainer = styled.div`
 `;
 
 type IntegrateDiscordProps = {
-  isLoading: boolean;
-  isDisabled: boolean;
+  isLoading?: boolean;
+  isDisabled?: boolean;
+  onOpenDiscord: () => void;
 };
 
-const IntegrateDiscord = ({ isLoading, isDisabled }: IntegrateDiscordProps) => {
+const IntegrateDiscord = ({ onOpenDiscord, isLoading, isDisabled }: IntegrateDiscordProps) => {
   return (
     <Flex direction={'column'} width={'100%'} gap={2}>
       <Flex gap={2} alignItems={'center'}>
@@ -28,7 +29,7 @@ const IntegrateDiscord = ({ isLoading, isDisabled }: IntegrateDiscordProps) => {
         <Text>Verify your account with the @wherever bot.</Text>
       </Flex>
       <Flex justifyContent={'end'} width={'100%'}>
-        <Button disabled={isDisabled} isLoading={isLoading}>
+        <Button disabled={isDisabled} isLoading={isLoading} onClick={onOpenDiscord}>
           Open Discord
         </Button>
       </Flex>

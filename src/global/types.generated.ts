@@ -50,7 +50,9 @@ export type CommsChannel = {
   channelAddress: Scalars['String'];
   createdAt: Scalars['DateTime'];
   delegateWalletAddress?: Maybe<Scalars['String']>;
+  discordBotAdded: Scalars['Boolean'];
   discordGuildId?: Maybe<Scalars['String']>;
+  discordGuildUrl?: Maybe<Scalars['String']>;
   id: Scalars['String'];
   isDelegate: Scalars['Boolean'];
   logo?: Maybe<Scalars['String']>;
@@ -118,6 +120,10 @@ export type ContractTrigger = {
 export type ContractTriggerInput = {
   contractAddress: Scalars['String'];
   eventName: Scalars['String'];
+};
+
+export type DiscordGuildIdUpdateInput = {
+  discordGuildId: Scalars['String'];
 };
 
 export type EmailUnsubscribeInput = {
@@ -241,6 +247,7 @@ export enum MessagingApp {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  discordGuildIdUpdate: CommsChannel;
   emailUnsubscribe: GeneralResolverResponse;
   incomingWebhookCreate: IncomingWebhook;
   incomingWebhookDelete: GeneralResolverResponse;
@@ -262,6 +269,11 @@ export type Mutation = {
   workflowCreate: Workflow;
   workflowDelete: BatchActionResponse;
   workflowUpdate: Workflow;
+};
+
+
+export type MutationDiscordGuildIdUpdateArgs = {
+  input: DiscordGuildIdUpdateInput;
 };
 
 
