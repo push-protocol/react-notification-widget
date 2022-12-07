@@ -12,7 +12,7 @@ type VerifyEmailProps = {
   isDisabled: boolean;
 };
 
-const MAX_EMAIL_LENGTH = 20;
+const MAX_EMAIL_LENGTH = 16;
 const CODE_REGEX = '^[0-9]*$';
 
 const VerifyEmail = ({ email, handleVerify, isLoading, isDisabled }: VerifyEmailProps) => {

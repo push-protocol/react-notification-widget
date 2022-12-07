@@ -4,7 +4,7 @@ import pkg from '../../package.json';
 
 export const LOCALSTORAGE_AUTH_KEY = 'whereverAuthToken';
 export const LOCALSTORAGE_AUTH_REFRESH_KEY = 'whereverAuthRefreshToken';
-export const FAQ_URL = 'https://faq.wherever.to';
+export const WHEREVER_HOMEPAGE = 'https://wherever.to';
 
 export const WIDGET_VERSION = pkg.version;
 

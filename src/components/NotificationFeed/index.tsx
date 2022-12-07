@@ -3,6 +3,7 @@ import { usePopper } from 'react-popper';
 import ClickAwayListener from 'react-click-away-listener';
 import styled, { useTheme } from 'styled-components';
 import { useAccount } from 'wagmi';
+import { Placement } from '@popperjs/core';
 import useWindowSize from '../../helpers/hooks/useWindowSize';
 import { NotificationClickProp } from '../types';
 import analytics from '../../services/analytics';
@@ -22,6 +23,7 @@ const BellRef = forwardRef<HTMLDivElement, { children: ReactElement }>(({ childr
 
 export type NotificationFeedProps = NotificationClickProp & {
   gapFromBell?: number;
+  placement?: Placement;
   children: ReactElement;
 };
 
@@ -57,7 +59,7 @@ const NotificationFeed = (props: NotificationFeedProps): JSX.Element => {
   const [popperRef, setPopperRef] = useState<HTMLDivElement | null>(null);
 
   const { styles, attributes } = usePopper(referenceRef, popperRef, {
-    placement: 'bottom',
+    placement: props.placement || 'bottom',
     modifiers: [
       {
         name: 'offset',

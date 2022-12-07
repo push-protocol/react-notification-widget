@@ -3,7 +3,7 @@ import styled, { useTheme } from 'styled-components';
 import Spinner from '../../components/Spinner';
 import { useRouterContext, Routes } from '../../context/RouterContext';
 import analytics from '../../services/analytics';
-import { FAQ_URL } from '../../global/const';
+import { WHEREVER_HOMEPAGE } from '../../global/const';
 import NewTag from '../../components/NewTag';
 import PageTitle from '../../components/PageTitle';
 import { useUserSubscribedMutation } from './operations.generated';
@@ -91,7 +91,7 @@ export const Subscribe = () => {
           <SubscribeDescription>
             <Text size={'md'}>
               {`${channelName} is using the Ethereum Push Notifications protocol to securely message its users. No spam, opt-out at any time.`}{' '}
-              <Link display={'inline-block'} src={FAQ_URL}>
+              <Link display={'inline-block'} src={WHEREVER_HOMEPAGE}>
                 Learn more.
               </Link>
             </Text>
