@@ -1,13 +1,20 @@
 import React, { createContext, useContext, ReactNode, useState, ElementType } from 'react';
 import analytics from '../services/analytics';
-import { Feed, Settings, Subscribe, ChannelAdded, SubscriptionFlowEnded } from 'screens';
+import {
+  Feed,
+  Settings,
+  Subscribe,
+  ChannelAdded,
+  SubscriptionFlowEnded,
+  ConnectChannels,
+} from 'screens';
 
 enum Routes {
   Subscribe = 'Subscribe',
   Settings = 'Settings',
   ChannelAdded = 'ChannelAdded',
+  ConnectChannels = 'ConnectChannels',
   NotificationsFeed = 'NotificationsFeed',
-  EmailVerify = 'EmailVerify',
   SubscriptionFlowEnded = 'SubscriptionFlowEnded',
 }
 
@@ -40,8 +47,8 @@ const RouterProvider = ({ children }: { children: ReactNode }) => {
     [Routes.Subscribe]: Subscribe,
     [Routes.Settings]: Settings,
     [Routes.NotificationsFeed]: Feed,
-    [Routes.EmailVerify]: Settings,
     [Routes.ChannelAdded]: ChannelAdded,
+    [Routes.ConnectChannels]: ConnectChannels,
     [Routes.SubscriptionFlowEnded]: SubscriptionFlowEnded,
   };
 

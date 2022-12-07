@@ -1,5 +1,6 @@
-import React, { useState, useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { render } from 'react-dom';
+import { WidgetMode } from '../context/EnvironmentContext';
 import {
   CustomTheme,
   NotificationBell,

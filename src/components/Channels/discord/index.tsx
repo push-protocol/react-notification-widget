@@ -1,10 +1,10 @@
 import React from 'react';
-import ChannelDropdown from 'screens/settings/components/ChannelDropdown';
 import { Discord as DiscordIcon } from 'components/icons';
 import { useAuthContext } from 'context/AuthContext';
-import useDiscordActions from 'screens/settings/channels/discord/useDiscordActions';
-import ConnectedChannel from 'screens/settings/components/ConnectedChannel';
-import IntegrateDiscord from 'screens/settings/channels/discord/components/IntegrateDiscord';
+import IntegrateDiscord from 'components/Channels/discord/components/IntegrateDiscord';
+import useDiscordActions from 'components/Channels/discord/useDiscordActions';
+import ChannelDropdown from 'components/Channels/ChannelDropdown';
+import ConnectedChannel from 'components/Channels/ConnectedChannel';
 
 type DiscordChannelProps = {
   open: boolean;

@@ -4,12 +4,13 @@ import Flex from 'components/layout/Flex';
 import { UserCommunicationChannel } from 'global/types.generated';
 import Button from 'components/Button';
 import isEmailValid from 'helpers/functions/isEmailValid';
+import { ConnectEmailViews } from 'components/Channels/email/useEmailActions';
 
 type EditEmailProps = {
   value: string;
   onChange(value: string): void;
   handleSave: () => void;
-  handleEdit: (edit: boolean) => void;
+  handleCancel: () => void;
   isLoading: boolean;
   isDisabled: boolean;
   email?: UserCommunicationChannel;
@@ -20,7 +21,7 @@ const EditEmail = ({
   value,
   onChange,
   handleSave,
-  handleEdit,
+  handleCancel,
   isLoading,
   isDisabled,
   isConnected,
@@ -37,7 +38,7 @@ const EditEmail = ({
       width={'100%'}
     >
       {isConnected && (
-        <Button variant="text" onClick={() => handleEdit(false)} size={'md'}>
+        <Button variant="text" onClick={handleCancel} size={'md'}>
           Cancel
         </Button>
       )}

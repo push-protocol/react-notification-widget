@@ -11,15 +11,21 @@ import { Routes, useRouterContext } from 'context/RouterContext';
 import { useAuthContext } from 'context/AuthContext';
 import { useEnvironment } from 'context/EnvironmentContext';
 
+export enum ConnectEmailViews {
+  Edit = 'Edit',
+  Verify = 'Verify',
+  Connected = 'Connected',
+}
+
 const useEmailActions = () => {
   const { isSubscribeOnly } = useEnvironment();
   const { login, isOnboarding, setIsOnboarding } = useAuthContext();
-  const { setRoute, routeProps } = useRouterContext();
-  const { activeRoute } = useRouterContext();
+  const { setRoute } = useRouterContext();
   const { userCommsChannels } = useNotificationsContext();
 
-  const [isEditing, setIsEditing] = useState(!userCommsChannels?.email?.exists);
-  const isVerify = activeRoute === Routes.EmailVerify;
+  const [connectEmailView, setConnectEmailView] = useState(
+    !userCommsChannels?.email?.exists ? ConnectEmailViews.Edit : ConnectEmailViews.Connected
+  );
 
   const [email, setEmail] = useState('');
 
@@ -41,7 +47,7 @@ const useEmailActions = () => {
     login(async () => {
       await saveEmail();
       analytics.track('email saved');
-      return setRoute(Routes.EmailVerify, { email });
+      setConnectEmailView(ConnectEmailViews.Verify);
     });
   };
 
@@ -57,7 +63,7 @@ const useEmailActions = () => {
       });
       analytics.track('email verified');
 
-      setIsEditing(false);
+      setConnectEmailView(ConnectEmailViews.Connected);
 
       if (isSubscribeOnly) return;
 
@@ -77,9 +83,9 @@ const useEmailActions = () => {
 
       if (response?.data?.userEmailDelete?.success) {
         analytics.track('email deleted');
-        setIsEditing(true);
+        setConnectEmailView(ConnectEmailViews.Edit);
         setEmail('');
-        return setRoute(Routes.Settings, { isSubscriber: routeProps?.isSubscriber });
+        return setRoute(Routes.Settings);
       }
     });
   };
@@ -91,12 +97,10 @@ const useEmailActions = () => {
     handleSave,
     handleVerify,
     handleRemove,
-    setIsEditing,
+    connectEmailView,
+    setConnectEmailView,
     email,
     setEmail,
-    renderVerify: isVerify && isEditing,
-    renderEdit: isEditing && !isVerify,
-    renderConnected: !isEditing,
     isConnected: userCommsChannels?.email?.exists,
     hint: userCommsChannels?.email?.hint || '',
   };

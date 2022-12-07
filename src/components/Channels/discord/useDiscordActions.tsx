@@ -65,7 +65,7 @@ const useDiscordActions = () => {
 
       if (response?.data?.userDiscordDelete?.success) {
         analytics.track('discord deleted');
-        return setRoute(Routes.Settings, { isSubscriber: routeProps?.isSubscriber });
+        return setRoute(Routes.Settings);
       }
     });
   };

@@ -31,7 +31,7 @@ const useTelegramActions = () => {
       if (response?.data?.userTelegramDelete?.success) {
         await getTelegramLink();
         analytics.track('telegram integration removed');
-        return setRoute(Routes.Settings, { isSubscriber: routeProps?.isSubscriber });
+        return setRoute(Routes.Settings);
       }
     });
   };

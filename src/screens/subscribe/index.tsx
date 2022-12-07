@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 import styled, { useTheme } from 'styled-components';
 import Spinner from '../../components/Spinner';
-import { Routes, useRouterContext } from '../../context/RouterContext';
 import analytics from '../../services/analytics';
-import { WHEREVER_HOMEPAGE } from '../../global/const';
 import NewTag from '../../components/NewTag';
 import PageTitle from '../../components/PageTitle';
 import { useUserSubscribedMutation } from './operations.generated';
+import { WHEREVER_HOMEPAGE } from 'global/const';
+import { Routes, useRouterContext } from 'context/RouterContext';
 import Button from 'components/Button';
 import Link from 'components/Link';
 import { useChannelContext } from 'context/ChannelContext';
@@ -58,7 +58,7 @@ export const Subscribe = () => {
   useEffect(() => {
     if (isSubscribed && !isOnboarding) {
       if (isSubscribeOnly) {
-        setRoute(Routes.Settings, { isSubscriber: true });
+        setRoute(Routes.Settings);
       } else {
         setRoute(Routes.NotificationsFeed);
       }
@@ -82,7 +82,7 @@ export const Subscribe = () => {
     await login();
 
     subscribeUser(); // don't wait for this to finish as it can trigger workflows
-    setRoute(Routes.Settings);
+    setRoute(Routes.ConnectChannels);
   };
 
   return (
