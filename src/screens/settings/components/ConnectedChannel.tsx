@@ -26,7 +26,13 @@ const ConnectedChannel = ({
           Change
         </Button>
       )}
-      <Button width={'100%'} onClick={handleRemove} disabled={isDisabled} isLoading={isLoading}>
+      <Button
+        variant={'outlined'}
+        width={'100%'}
+        onClick={handleRemove}
+        disabled={isDisabled}
+        isLoading={isLoading}
+      >
         Remove
       </Button>
     </Flex>

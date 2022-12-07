@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import Flex from './Flex';
 import Text from 'components/Text';
 import Link from 'components/Link';
-import { FAQ_URL } from 'global/const';
+import { WHEREVER_HOMEPAGE } from 'global/const';
 import { changeColorShade } from 'components/utils';
 
 const POWERED_BY_HEIGHT = '42px';
@@ -60,7 +60,7 @@ export const WidgetContainer = ({ children }: LayoutProps) => {
         <Text size={'sm'} color={'secondary'} opacity={0.8} weight={500}>
           Powered by&nbsp;
         </Text>
-        <Link src={FAQ_URL}>
+        <Link src={WHEREVER_HOMEPAGE}>
           <Text size={'sm'} opacity={0.8} weight={600} color={'secondary'}>
             Wherever
           </Text>

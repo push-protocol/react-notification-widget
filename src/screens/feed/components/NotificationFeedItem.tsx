@@ -118,7 +118,7 @@ const NotificationFeedItem = ({
             <img src={notification.senderLogo} alt={''} />
           </SenderImage>
         )}
-        <Flex direction={'column'}>
+        <Flex width={'100%'} direction={'column'}>
           {showSenderDetails && (
             <Text size={'md'} weight={500}>
               {notification.appName}

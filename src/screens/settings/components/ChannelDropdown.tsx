@@ -49,7 +49,7 @@ const openDropdown = keyframes`
 `;
 
 const Content = styled(Flex)<{ open?: boolean }>`
-  padding: 8px;
+  padding: 8px 8px 12px 8px;
   background: transparent;
   max-height: 500px;
   overflow: hidden;

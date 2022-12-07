@@ -12,6 +12,7 @@ type VerifyEmailProps = {
   isDisabled: boolean;
 };
 
+const MAX_EMAIL_LENGTH = 16;
 const CODE_REGEX = '^[0-9]*$';
 
 const VerifyEmail = ({ email, handleVerify, isLoading, isDisabled }: VerifyEmailProps) => {
@@ -50,7 +51,10 @@ const VerifyEmail = ({ email, handleVerify, isLoading, isDisabled }: VerifyEmail
       />
       <Flex justifyContent={'space-between'} width={'100%'}>
         <Flex direction={'column'} height={'100%'} justifyContent={'center'}>
-          <Text>Sent to {email}</Text>
+          <Text>
+            Sent to {email.slice(0, MAX_EMAIL_LENGTH)}
+            {email.length >= MAX_EMAIL_LENGTH ? '...' : ''}
+          </Text>
           <Button variant="text" onClick={handleModifyEmail} size={'md'}>
             Change
           </Button>

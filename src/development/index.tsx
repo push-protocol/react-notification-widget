@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { render } from 'react-dom';
 import {
   CustomTheme,
@@ -6,7 +6,6 @@ import {
   NotificationFeed,
   NotificationFeedProvider,
 } from '../index';
-import { WidgetMode } from '../context/EnvironmentContext';
 import * as S from './styles';
 import FloatingSettings, { Coordinates } from './components/FloatingSettings';
 import Logo from './components/Logo';
@@ -35,21 +34,20 @@ const defaultTheme = {
   bellColor: '#968c8c',
 };
 
+const DEFAULT_PARTNER_KEY =
+  process.env.WHEREVER_ENV === 'production'
+    ? '259bdea9-7329-4654-bb4a-45f452a208ce'
+    : 'cefa1b69-bfb9-4e70-bebc-9ee10316f882';
+
 const FakeApp = () => {
-  const [partnerKey, setPartnerKey] = useState('6a71067c-49c7-4863-bf16-a34511a277e1');
+  const [partnerKey, setPartnerKey] = useState(DEFAULT_PARTNER_KEY);
   const [iframeUrl, setIframeUrl] = useState('');
   const [theme, setTheme] = useState<CustomTheme>(defaultTheme);
   const [coordinates, setCoordinates] = useState<Coordinates>({ top: 100, left: '45%' });
 
   const widget = useMemo(() => {
     return (
-      <NotificationFeedProvider
-        theme={theme}
-        partnerKey={partnerKey}
-        // isOpen={true}
-        // mode={WidgetMode.subscribeOnly}
-        // discordToken={'clbca9zhe0011epjepof0okyb'}
-      >
+      <NotificationFeedProvider theme={theme} partnerKey={partnerKey}>
         <NotificationFeed gapFromBell={10}>
           <S.WidgetBellWrapper>
             <NotificationBell />

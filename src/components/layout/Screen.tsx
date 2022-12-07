@@ -37,7 +37,7 @@ export const Screen = ({ title, navbarActionComponent, mb = 0, children }: Scree
         <PageTitle>{title}</PageTitle>
         <Flex style={{ flexBasis: 1 }} alignItems={'center'} gap={1} mr={1}>
           {navbarActionComponent}
-          <MobileCloseButton onClick={() => setFeedOpen(false)} variant={'outlined'}>
+          <MobileCloseButton onClick={() => setFeedOpen(false)} variant={'text'}>
             <Text weight={400} size={'xl'}>
               X
             </Text>

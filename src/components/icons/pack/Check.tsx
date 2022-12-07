@@ -12,7 +12,7 @@ export const Check = ({ className }: IconProps) => {
     >
       <path
         d="M2 8.5L7.97561 15.5L19.5 2"
-        stroke="#FCFCFC"
+        stroke="currentColor"
         strokeWidth="4"
         fill={'transparent'}
         strokeLinecap="round"
