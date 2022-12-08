@@ -1,10 +1,10 @@
 import React from 'react';
+import ChannelDropdown from '../ChannelDropdown';
+import ConnectedChannel from '../ConnectedChannel';
+import IntegrateDiscord from './components/IntegrateDiscord';
+import useDiscordActions from './useDiscordActions';
 import { Discord as DiscordIcon } from 'components/icons';
 import { useAuthContext } from 'context/AuthContext';
-import IntegrateDiscord from 'components/Channels/discord/components/IntegrateDiscord';
-import useDiscordActions from 'components/Channels/discord/useDiscordActions';
-import ChannelDropdown from 'components/Channels/ChannelDropdown';
-import ConnectedChannel from 'components/Channels/ConnectedChannel';
 
 type DiscordChannelProps = {
   open: boolean;
@@ -14,7 +14,8 @@ type DiscordChannelProps = {
 export const DiscordChannel = ({ open, setOpen }: DiscordChannelProps) => {
   const { isLoading } = useAuthContext();
 
-  const { deleteLoading, handleRemove, handleOpenDiscord, isConnected, hint } = useDiscordActions();
+  const { deleteLoading, handleRemove, handleOpenDiscord, discordGuildUrl, isConnected, hint } =
+    useDiscordActions();
 
   return (
     <ChannelDropdown

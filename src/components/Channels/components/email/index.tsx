@@ -1,12 +1,12 @@
 import React from 'react';
-import Flex from 'components/layout/Flex';
-import { Email as EmailIcon } from 'components/icons';
+import ChannelDropdown from '../ChannelDropdown';
+import ConnectedChannel from '../ConnectedChannel';
+import VerifyEmail from './components/VerifyEmail';
+import EditEmail from './components/EditEmail';
+import useEmailActions, { ConnectEmailViews } from './useEmailActions';
 import { useAuthContext } from 'context/AuthContext';
-import VerifyEmail from 'components/Channels/email/components/VerifyEmail';
-import EditEmail from 'components/Channels/email/components/EditEmail';
-import useEmailActions, { ConnectEmailViews } from 'components/Channels/email/useEmailActions';
-import ChannelDropdown from 'components/Channels/ChannelDropdown';
-import ConnectedChannel from 'components/Channels/ConnectedChannel';
+import { Email as EmailIcon } from 'components/icons';
+import Flex from 'components/layout/Flex';
 
 type EmailChannelProps = {
   open: boolean;

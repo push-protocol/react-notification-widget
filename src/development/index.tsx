@@ -51,7 +51,7 @@ const FakeApp = () => {
       <NotificationFeedProvider
         theme={theme}
         partnerKey={partnerKey}
-        // mode={WidgetMode.SubscribeOnly}
+        mode={WidgetMode.SubscribeOnly}
       >
         <NotificationFeed gapFromBell={10}>
           <S.WidgetBellWrapper>

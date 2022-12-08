@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { DiscordChannel } from 'components/Channels/discord';
+import useDiscordActions from './components/discord/useDiscordActions';
+import { DiscordChannel } from './components/discord';
+import { EmailChannel } from './components/email';
+import { TelegramChannel } from './components/telegram';
 import { MessagingApp } from 'global/types.generated';
-import { EmailChannel } from 'components/Channels/email';
-import { TelegramChannel } from 'components/Channels/telegram';
 import { useAuthContext } from 'context/AuthContext';
 import { useChannelContext } from 'context/ChannelContext';
 import Flex from 'components/layout/Flex';
@@ -19,6 +20,7 @@ const ChannelsContainer = styled(Flex)<{ wrongNetwork?: boolean }>`
 const Channels = () => {
   const { isWrongNetwork } = useChannelContext();
   const { isOnboarding } = useAuthContext();
+  const { discordGuildUrl, isConnected } = useDiscordActions();
 
   const [channelOpen, setChannelOpen] = useState<MessagingApp | undefined>(
     isOnboarding ? MessagingApp.Email : undefined
@@ -37,10 +39,12 @@ const Channels = () => {
       direction={'column'}
       mb={2}
     >
-      <DiscordChannel
-        open={channelOpen === MessagingApp.Discord}
-        setOpen={() => toggleChannelOpen(MessagingApp.Discord)}
-      />
+      {(isConnected || discordGuildUrl) && (
+        <DiscordChannel
+          open={channelOpen === MessagingApp.Discord}
+          setOpen={() => toggleChannelOpen(MessagingApp.Discord)}
+        />
+      )}
       <EmailChannel
         open={channelOpen === MessagingApp.Email}
         setOpen={() => toggleChannelOpen(MessagingApp.Email)}

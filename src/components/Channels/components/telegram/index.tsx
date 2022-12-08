@@ -1,10 +1,10 @@
 import React from 'react';
-import { Telegram as TelegramIcon } from 'components/icons';
+import ChannelDropdown from '../ChannelDropdown';
+import ConnectedChannel from '../ConnectedChannel';
+import IntegrateTelegram from './components/IntegrateTelegram';
+import useTelegramActions from './useTelegramActions';
 import { useAuthContext } from 'context/AuthContext';
-import IntegrateTelegram from 'components/Channels/telegram/components/IntegrateTelegram';
-import useTelegramActions from 'components/Channels/telegram/useTelegramActions';
-import ChannelDropdown from 'components/Channels/ChannelDropdown';
-import ConnectedChannel from 'components/Channels/ConnectedChannel';
+import { Telegram as TelegramIcon } from 'components/icons';
 
 type TelegramChannelProps = {
   open: boolean;

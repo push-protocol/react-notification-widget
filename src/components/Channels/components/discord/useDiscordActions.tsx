@@ -15,7 +15,7 @@ const useDiscordActions = () => {
   const { isSubscribeOnly } = useEnvironment();
   const { discordGuildUrl } = useChannelContext();
   const { login, isOnboarding, setIsOnboarding, discordToken } = useAuthContext();
-  const { setRoute, routeProps } = useRouterContext();
+  const { setRoute } = useRouterContext();
   const { userCommsChannels } = useNotificationsContext();
 
   const [deleteDiscord, { loading: deleteLoading }] = useDeleteUserDiscordMutation({
@@ -76,6 +76,7 @@ const useDiscordActions = () => {
     handleVerify,
     verifyLoading,
     handleOpenDiscord,
+    discordGuildUrl,
     isConnected: userCommsChannels?.discord?.exists,
     hint: userCommsChannels?.discord?.hint || '',
   };
