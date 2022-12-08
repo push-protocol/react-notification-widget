@@ -1,8 +1,6 @@
 import React from 'react';
-import styled, { useTheme } from 'styled-components';
-import { Bell } from 'components/icons';
+import styled from 'styled-components';
 import PageTitle from 'components/PageTitle';
-import Text from 'components/Text';
 import Flex from 'components/layout/Flex';
 
 const Header = styled(Flex)`
@@ -20,29 +18,22 @@ const HeaderIconContainer = styled.div<{ size?: number }>`
   margin-bottom: ${({ theme }) => theme.spacing(1.5)}px;
 `;
 
-const HeaderIcon = styled.div`
-  height: 24px;
-  width: 24px;
+const HeaderImage = styled.img`
+  height: 100%;
+  width: 100%;
   border-radius: 100px;
   background: ${({ theme }) => theme.colors.primary.main};
 `;
 
-const SettingsHeader = () => {
-  const theme = useTheme();
-
-  return (
-    <Header justifyContent={'center'} alignItems={'center'} direction={'column'} mb={2}>
-      <HeaderIconContainer>
-        <HeaderIcon>
-          <Bell color={theme.colors.button.text} />
-        </HeaderIcon>
-      </HeaderIconContainer>
-      <PageTitle mb={1}>Settings</PageTitle>
-      <Text size={'md'} weight={500} mb={0.5} align={'center'}>
-        Choose one or more channels to receive alerts when new messages hit your wallet.
-      </Text>
-    </Header>
-  );
-};
+const SettingsHeader = ({ title, icon }: { title: string; icon: string }) => (
+  <Header justifyContent={'center'} alignItems={'center'} direction={'column'} mb={2}>
+    <HeaderIconContainer size={58}>
+      <HeaderImage src={icon} alt={'channel icon'} />
+    </HeaderIconContainer>
+    <PageTitle mb={1} align={'center'}>
+      {title}
+    </PageTitle>
+  </Header>
+);
 
 export default SettingsHeader;

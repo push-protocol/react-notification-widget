@@ -3,7 +3,7 @@ import React, { createContext, useContext } from 'react';
 export type EnvType = 'production' | 'staging' | string;
 export enum WidgetMode {
   Default = 'Default',
-  subscribeOnly = 'subscribeOnly',
+  SubscribeOnly = 'SubscribeOnly',
 }
 
 export type EnvironmentContextType = {
@@ -43,7 +43,7 @@ export const EnvironmentProvider = ({
       value={{
         gqlEndpoint: gqlEndpointMap[whereverEnv],
         epnsEnv: epnsEnvMap[whereverEnv],
-        isSubscribeOnly: mode === WidgetMode.subscribeOnly,
+        isSubscribeOnly: mode === WidgetMode.SubscribeOnly,
       }}
     >
       {children}

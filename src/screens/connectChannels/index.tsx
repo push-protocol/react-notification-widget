@@ -1,4 +1,5 @@
 import React from 'react';
+import styled from 'styled-components';
 import Flex from 'components/layout/Flex';
 import { Screen } from 'components/layout/Screen';
 import Channels from 'components/Channels';
@@ -12,6 +13,11 @@ import { Routes, useRouterContext } from 'context/RouterContext';
 import { useEnvironment } from 'context/EnvironmentContext';
 import { useNotificationsContext } from 'context/NotificationsContext';
 
+const Header = styled.div`
+  width: 210px;
+  text-align: center;
+`;
+
 export const ConnectChannels = () => {
   const { name } = useChannelContext();
   const { setRoute } = useRouterContext();
@@ -24,25 +30,24 @@ export const ConnectChannels = () => {
   };
 
   const shouldRenderFinishButton =
-    isSubscribeOnly &&
-    (!!userCommsChannels?.email?.exists ||
-      !!userCommsChannels?.telegram?.exists ||
-      !!userCommsChannels?.discord?.exists);
+    !!userCommsChannels?.email?.exists ||
+    !!userCommsChannels?.telegram?.exists ||
+    !!userCommsChannels?.discord?.exists;
 
   return (
     <Screen mb={1}>
-      <PageTitle mb={1}>Set Up Notifications</PageTitle>
+      <Header>
+        <PageTitle mb={2}>Connect the channels you selected</PageTitle>
+      </Header>
       <WrongNetworkError mb={2} />
       <Channels />
-
       {shouldRenderFinishButton && (
-        <Flex width={'100%'} justifyContent={'center'}>
+        <Flex width={'100%'} justifyContent={'center'} mb={2}>
           <Button onClick={handleFinalizeSubscription} height={20}>
             <Text>Finish</Text>
           </Button>
         </Flex>
       )}
-
       <HiddenNotice text={`${name} won't have access to your contact info`} />
     </Screen>
   );

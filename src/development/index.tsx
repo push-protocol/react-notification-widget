@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { render } from 'react-dom';
+import { WidgetMode } from '../context/EnvironmentContext';
 import {
   CustomTheme,
   NotificationBell,
@@ -47,7 +48,11 @@ const FakeApp = () => {
 
   const widget = useMemo(() => {
     return (
-      <NotificationFeedProvider theme={theme} partnerKey={partnerKey}>
+      <NotificationFeedProvider
+        theme={theme}
+        partnerKey={partnerKey}
+        // mode={WidgetMode.SubscribeOnly}
+      >
         <NotificationFeed gapFromBell={10}>
           <S.WidgetBellWrapper>
             <NotificationBell />

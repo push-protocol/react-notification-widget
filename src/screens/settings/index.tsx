@@ -14,7 +14,7 @@ import { useEnvironment } from 'context/EnvironmentContext';
 
 export const Settings = () => {
   const { isSubscribeOnly } = useEnvironment();
-  const { name } = useChannelContext();
+  const { name, icon } = useChannelContext();
 
   const { unsubscribe } = useAuthContext();
 
@@ -24,7 +24,10 @@ export const Settings = () => {
 
   return (
     <Screen navbarActionComponent={!isSubscribeOnly ? <NavbarActions /> : undefined} mb={1}>
-      <SettingsHeader />
+      <SettingsHeader
+        title={isSubscribeOnly ? `You are subscriberd to ${name}` : 'Notification Settings'}
+        icon={icon}
+      />
       <WrongNetworkError mb={2} />
       <Channels />
       {process.env.WHEREVER_ENV === 'development' && (
