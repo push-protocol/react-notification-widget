@@ -1,8 +1,8 @@
 import React from 'react';
 import ChannelDropdown from '../ChannelDropdown';
 import ConnectedChannel from '../ConnectedChannel';
-import VerifyEmail from './components/VerifyEmail';
-import EditEmail from './components/EditEmail';
+import VerifyEmail from './VerifyEmail';
+import EditEmail from './EditEmail';
 import useEmailActions, { ConnectEmailViews } from './useEmailActions';
 import { useAuthContext } from 'context/AuthContext';
 import { Email as EmailIcon } from 'components/icons';

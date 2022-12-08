@@ -4,7 +4,6 @@ import Flex from 'components/layout/Flex';
 import { Screen } from 'components/layout/Screen';
 import Channels from 'components/Channels';
 import { useChannelContext } from 'context/ChannelContext';
-import WrongNetworkError from 'components/Errors/WrongNetworkError';
 import HiddenNotice from 'components/HiddenNotice';
 import PageTitle from 'components/PageTitle';
 import Button from 'components/Button';
@@ -39,7 +38,6 @@ export const ConnectChannels = () => {
       <Header>
         <PageTitle mb={2}>Connect the channels you selected</PageTitle>
       </Header>
-      <WrongNetworkError mb={2} />
       <Channels />
       {shouldRenderFinishButton && (
         <Flex width={'100%'} justifyContent={'center'} mb={2}>

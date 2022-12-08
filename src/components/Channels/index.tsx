@@ -9,9 +9,9 @@ import { useAuthContext } from 'context/AuthContext';
 import { useChannelContext } from 'context/ChannelContext';
 import Flex from 'components/layout/Flex';
 
-const ChannelsContainer = styled(Flex)<{ wrongNetwork?: boolean }>`
-  ${({ wrongNetwork }) =>
-    wrongNetwork &&
+const ChannelsContainer = styled(Flex)<{ disablePointerEvents?: boolean }>`
+  ${({ disablePointerEvents }) =>
+    disablePointerEvents &&
     `
     pointer-events: none;
   `}
@@ -19,7 +19,7 @@ const ChannelsContainer = styled(Flex)<{ wrongNetwork?: boolean }>`
 
 const Channels = () => {
   const { isWrongNetwork } = useChannelContext();
-  const { isOnboarding } = useAuthContext();
+  const { isOnboarding, isLoggedIn } = useAuthContext();
   const { discordGuildUrl, isConnected } = useDiscordActions();
 
   const [channelOpen, setChannelOpen] = useState<MessagingApp | undefined>(
@@ -33,7 +33,7 @@ const Channels = () => {
 
   return (
     <ChannelsContainer
-      wrongNetwork={isWrongNetwork}
+      disablePointerEvents={isWrongNetwork && !isLoggedIn}
       gap={1}
       width={'100%'}
       direction={'column'}

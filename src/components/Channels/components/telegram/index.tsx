@@ -1,7 +1,7 @@
 import React from 'react';
 import ChannelDropdown from '../ChannelDropdown';
 import ConnectedChannel from '../ConnectedChannel';
-import IntegrateTelegram from './components/IntegrateTelegram';
+import IntegrateTelegram from './IntegrateTelegram';
 import useTelegramActions from './useTelegramActions';
 import { useAuthContext } from 'context/AuthContext';
 import { Telegram as TelegramIcon } from 'components/icons';

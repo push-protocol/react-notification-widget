@@ -62,7 +62,7 @@ export const NotificationsProvider = ({
   }, [channelAddress, chainId, epnsEnv, userAddress]);
 
   const toggleFeedOpen = (open: boolean) => {
-    if (isOpen !== undefined) return;
+    if (isOpen !== undefined) return; // ignore if controlled through prop
     setFeedOpen(open);
   };
 

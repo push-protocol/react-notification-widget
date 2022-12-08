@@ -1,7 +1,7 @@
 import React from 'react';
 import ChannelDropdown from '../ChannelDropdown';
 import ConnectedChannel from '../ConnectedChannel';
-import IntegrateDiscord from './components/IntegrateDiscord';
+import IntegrateDiscord from './IntegrateDiscord';
 import useDiscordActions from './useDiscordActions';
 import { Discord as DiscordIcon } from 'components/icons';
 import { useAuthContext } from 'context/AuthContext';
