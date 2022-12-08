@@ -1,15 +1,16 @@
 import { useEffect } from 'react';
 import { useNotificationsContext } from 'context/NotificationsContext';
-import {
-  useDeleteUserDiscordMutation,
-  useVerifyUserDiscordMutation,
-} from 'screens/settings/operations.generated';
 import { UserCommunicationChannelsDocument } from 'context/NotificationsContext/operations.generated';
 import { Routes, useRouterContext } from 'context/RouterContext';
 import { useAuthContext } from 'context/AuthContext';
 import { useEnvironment } from 'context/EnvironmentContext';
 import analytics from 'services/analytics';
 import { useChannelContext } from 'context/ChannelContext';
+import {
+  useDeleteChannelMutation,
+  useVerifyUserDiscordMutation,
+} from 'components/Channels/operations.generated';
+import { MessagingApp } from 'global/types.generated';
 
 const useDiscordActions = () => {
   const { isSubscribeOnly } = useEnvironment();
@@ -18,8 +19,13 @@ const useDiscordActions = () => {
   const { setRoute } = useRouterContext();
   const { userCommsChannels } = useNotificationsContext();
 
-  const [deleteDiscord, { loading: deleteLoading }] = useDeleteUserDiscordMutation({
+  const [deleteDiscord, { loading: deleteLoading }] = useDeleteChannelMutation({
     refetchQueries: [UserCommunicationChannelsDocument],
+    variables: {
+      input: {
+        app: MessagingApp.Discord,
+      },
+    },
   });
 
   const [verifyDiscord, { loading: verifyLoading }] = useVerifyUserDiscordMutation({
@@ -63,7 +69,7 @@ const useDiscordActions = () => {
     login(async () => {
       const response = await deleteDiscord();
 
-      if (response?.data?.userDiscordDelete?.success) {
+      if (response?.data?.userCommunicationsChannelDelete?.success) {
         analytics.track('discord deleted');
         return setRoute(Routes.Settings);
       }

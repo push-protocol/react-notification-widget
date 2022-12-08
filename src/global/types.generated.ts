@@ -122,10 +122,6 @@ export type ContractTriggerInput = {
   eventName: Scalars['String'];
 };
 
-export type DiscordGuildIdUpdateInput = {
-  discordGuildId: Scalars['String'];
-};
-
 export type EmailUnsubscribeInput = {
   email: Scalars['String'];
   token: Scalars['String'];
@@ -247,7 +243,6 @@ export enum MessagingApp {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  discordGuildIdUpdate: CommsChannel;
   emailUnsubscribe: GeneralResolverResponse;
   incomingWebhookCreate: IncomingWebhook;
   incomingWebhookDelete: GeneralResolverResponse;
@@ -257,23 +252,16 @@ export type Mutation = {
   projecTokenSave: GeneralResolverResponse;
   refreshToken: RefreshTokenPayload;
   telegramVerificationLinkGenerate: UserTelegramVerificationLinkPayload;
-  userDiscordDelete: GeneralResolverResponse;
+  userCommunicationsChannelDelete: GeneralResolverResponse;
   userDiscordVerify: GeneralResolverResponse;
-  userEmailDelete: GeneralResolverResponse;
   userEmailUpdate: GeneralResolverResponse;
   userEmailValidate: GeneralResolverResponse;
   userLogin: UserLoginPayload;
   userNotificationRead: GeneralResolverResponse;
   userSubscribeToChannel: GeneralResolverResponse;
-  userTelegramDelete: GeneralResolverResponse;
   workflowCreate: Workflow;
   workflowDelete: BatchActionResponse;
   workflowUpdate: Workflow;
-};
-
-
-export type MutationDiscordGuildIdUpdateArgs = {
-  input: DiscordGuildIdUpdateInput;
 };
 
 
@@ -314,6 +302,11 @@ export type MutationProjecTokenSaveArgs = {
 
 export type MutationRefreshTokenArgs = {
   input: RefreshTokenInput;
+};
+
+
+export type MutationUserCommunicationsChannelDeleteArgs = {
+  input: UserCommunicationChannelDeleteInput;
 };
 
 
@@ -453,6 +446,10 @@ export type UserCommunicationChannel = {
   __typename?: 'UserCommunicationChannel';
   exists: Scalars['Boolean'];
   hint?: Maybe<Scalars['String']>;
+};
+
+export type UserCommunicationChannelDeleteInput = {
+  app: MessagingApp;
 };
 
 export type UserCommunicationChannelsPayload = {

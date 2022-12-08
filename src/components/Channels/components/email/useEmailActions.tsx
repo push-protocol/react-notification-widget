@@ -1,15 +1,16 @@
 import { useState } from 'react';
 import { useNotificationsContext } from 'context/NotificationsContext';
-import {
-  useDeleteUserEmailMutation,
-  useSaveUserEmailMutation,
-  useValidateUserEmailMutation,
-} from 'screens/settings/operations.generated';
 import { UserCommunicationChannelsDocument } from 'context/NotificationsContext/operations.generated';
 import analytics from 'services/analytics';
 import { Routes, useRouterContext } from 'context/RouterContext';
 import { useAuthContext } from 'context/AuthContext';
 import { useEnvironment } from 'context/EnvironmentContext';
+import {
+  useDeleteChannelMutation,
+  useSaveUserEmailMutation,
+  useValidateUserEmailMutation,
+} from 'components/Channels/operations.generated';
+import { MessagingApp } from 'global/types.generated';
 
 export enum ConnectEmailViews {
   Edit = 'Edit',
@@ -35,8 +36,13 @@ const useEmailActions = () => {
     },
   });
 
-  const [deleteEmail, { loading: deleteLoading }] = useDeleteUserEmailMutation({
+  const [deleteEmail, { loading: deleteLoading }] = useDeleteChannelMutation({
     refetchQueries: [UserCommunicationChannelsDocument],
+    variables: {
+      input: {
+        app: MessagingApp.Email,
+      },
+    },
   });
 
   const [validateEmail, { loading: verifyLoading }] = useValidateUserEmailMutation({
@@ -81,7 +87,7 @@ const useEmailActions = () => {
     login(async () => {
       const response = await deleteEmail();
 
-      if (response?.data?.userEmailDelete?.success) {
+      if (response?.data?.userCommunicationsChannelDelete?.success) {
         analytics.track('email deleted');
         setConnectEmailView(ConnectEmailViews.Edit);
         setEmail('');
