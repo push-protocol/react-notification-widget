@@ -7,6 +7,7 @@ import {
   ChannelAdded,
   SubscriptionFlowEnded,
   ConnectChannels,
+  UserPreferences,
 } from 'screens';
 
 enum Routes {
@@ -14,6 +15,7 @@ enum Routes {
   Settings = 'Settings',
   ChannelAdded = 'ChannelAdded',
   ConnectChannels = 'ConnectChannels',
+  UserPreferences = 'UserPreferences',
   NotificationsFeed = 'NotificationsFeed',
   SubscriptionFlowEnded = 'SubscriptionFlowEnded',
 }
@@ -50,6 +52,7 @@ const RouterProvider = ({ children }: { children: ReactNode }) => {
     [Routes.ChannelAdded]: ChannelAdded,
     [Routes.ConnectChannels]: ConnectChannels,
     [Routes.SubscriptionFlowEnded]: SubscriptionFlowEnded,
+    [Routes.UserPreferences]: UserPreferences,
   };
 
   return (

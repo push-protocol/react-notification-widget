@@ -2,6 +2,19 @@ import React, { createContext, useContext, ReactNode, useState, useEffect } from
 import { ApolloError } from '@apollo/client';
 import { useNetwork } from 'wagmi';
 import { usePartnerInfoQuery } from 'context/ChannelContext/operations.generated';
+import { MessagingApp } from 'global/types.generated';
+
+export type UserPrefs = Record<string, { [key in MessagingApp]: boolean }>;
+
+export const userChannels = ['DISCORD', 'TELEGRAM', 'EMAIL'] as MessagingApp[];
+
+// Temp categories
+const prefCategories = [
+  { title: 'Marketing' },
+  { title: 'Product Updates' },
+  { title: 'Announcements' },
+  { title: 'Liquidation Alerts' },
+];
 
 export type ChannelInfo = {
   icon: string;
@@ -9,6 +22,11 @@ export type ChannelInfo = {
   channelAddress: string;
   chainId: number;
   discordGuildUrl?: string | null;
+  userPrefs: UserPrefs;
+  prefCategories: { title: string }[];
+  enabledPrefs: Record<string, boolean>;
+  togglePref?: (pref: string) => void;
+  handlePreferenceChange?: (pref: string, channel: MessagingApp) => void;
 };
 
 const emptyChannel = {
@@ -16,6 +34,9 @@ const emptyChannel = {
   icon: '',
   name: '',
   chainId: 0,
+  prefCategories: [],
+  userPrefs: {},
+  enabledPrefs: {},
 };
 
 const ChannelContext = createContext<
@@ -35,6 +56,34 @@ const ChannelProvider = ({ partnerKey, children }: { partnerKey: string; childre
 
   const isWrongNetwork = !!channel?.chainId && channel.chainId !== walletChain?.id;
 
+  const [userPrefs, setUserPrefs] = useState<UserPrefs>({});
+  const [enabledPrefs, setEnabledPrefs] = useState<Record<string, boolean>>({});
+
+  const togglePref = (pref: string) => {
+    const newPrefSetting = !enabledPrefs[pref];
+
+    if (!newPrefSetting) {
+      setUserPrefs({ ...userPrefs, [pref]: {} } as UserPrefs);
+    }
+
+    setEnabledPrefs((oldPrefs) => ({ ...oldPrefs, [pref]: newPrefSetting }));
+  };
+
+  const handlePreferenceChange = (pref: string, channel: MessagingApp) => {
+    if (!enabledPrefs[pref]) return;
+    const isPrefEnabled = userPrefs[pref]?.[channel];
+
+    const newPrefs: UserPrefs = {
+      ...userPrefs,
+      [pref]: {
+        ...userPrefs[pref],
+        [channel]: !isPrefEnabled,
+      },
+    };
+
+    setUserPrefs(newPrefs);
+  };
+
   useEffect(() => {
     if (!data) return;
 
@@ -44,8 +93,13 @@ const ChannelProvider = ({ partnerKey, children }: { partnerKey: string; childre
       name: data.partnerInfo.name,
       chainId: data.partnerInfo.chainId,
       discordGuildUrl: data.partnerInfo.discordGuildUrl,
+      userPrefs,
+      enabledPrefs,
+      handlePreferenceChange,
+      prefCategories,
+      togglePref,
     });
-  }, [data]);
+  }, [data, enabledPrefs, userPrefs]);
 
   return (
     <ChannelContext.Provider

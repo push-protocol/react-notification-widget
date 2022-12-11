@@ -24,14 +24,18 @@ export const ConnectChannels = () => {
   const { isSubscribeOnly } = useEnvironment();
   const { userCommsChannels } = useNotificationsContext();
 
+  const handleGoBack = () => {
+    setRoute(Routes.UserPreferences);
+  };
+
   const handleFinalizeSubscription = () => {
     setRoute(isSubscribeOnly ? Routes.SubscriptionFlowEnded : Routes.NotificationsFeed);
   };
 
-  const shouldRenderFinishButton =
-    !!userCommsChannels?.email?.exists ||
-    !!userCommsChannels?.telegram?.exists ||
-    !!userCommsChannels?.discord?.exists;
+  const finishButtonDisabled =
+    !userCommsChannels?.email?.exists &&
+    !userCommsChannels?.telegram?.exists &&
+    !userCommsChannels?.discord?.exists;
 
   return (
     <Screen mb={1}>
@@ -39,13 +43,19 @@ export const ConnectChannels = () => {
         <PageTitle mb={2}>Connect the channels you selected</PageTitle>
       </Header>
       <Channels />
-      {shouldRenderFinishButton && (
-        <Flex width={'100%'} justifyContent={'center'} mb={2}>
-          <Button onClick={handleFinalizeSubscription} height={20}>
-            <Text>Finish</Text>
-          </Button>
-        </Flex>
-      )}
+      <Flex width={'100%'} justifyContent={'space-between'} gap={1} mb={2}>
+        <Button onClick={handleGoBack} height={20} width={'100%'} variant={'gray'}>
+          <Text>Previous</Text>
+        </Button>
+        <Button
+          onClick={handleFinalizeSubscription}
+          height={20}
+          width={'100%'}
+          disabled={finishButtonDisabled}
+        >
+          <Text>Finish</Text>
+        </Button>
+      </Flex>
       <HiddenNotice text={`${name} won't have access to your contact info`} />
     </Screen>
   );

@@ -58,7 +58,7 @@ export const Subscribe = () => {
   useEffect(() => {
     if (isSubscribed && !isOnboarding) {
       if (isSubscribeOnly) {
-        setRoute(Routes.Settings);
+        setRoute(Routes.UserPreferences); // TODO: revert to settings
       } else {
         setRoute(Routes.NotificationsFeed);
       }
@@ -82,7 +82,7 @@ export const Subscribe = () => {
     await login();
 
     subscribeUser(); // don't wait for this to finish as it can trigger workflows
-    setRoute(Routes.ConnectChannels);
+    setRoute(Routes.UserPreferences);
   };
 
   return (

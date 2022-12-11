@@ -4,6 +4,8 @@ import { Screen } from 'components/layout/Screen';
 import Text from 'components/Text';
 import Flex from 'components/layout/Flex';
 import { useChannelContext } from 'context/ChannelContext';
+import Button from 'components/Button';
+import { Routes, useRouterContext } from 'context/RouterContext';
 
 const HeaderIconContainer = styled.div`
   height: 58px;
@@ -24,6 +26,11 @@ const HeaderIcon = styled.img`
 
 export const SubscriptionFlowEnded = () => {
   const { name, icon } = useChannelContext();
+  const { setRoute } = useRouterContext();
+
+  const handleViewSettings = () => {
+    setRoute(Routes.Settings);
+  };
 
   return (
     <Screen>
@@ -32,7 +39,7 @@ export const SubscriptionFlowEnded = () => {
         alignItems={'center'}
         direction={'column'}
         gap={2}
-        mb={8}
+        mb={4}
         mt={3}
       >
         <HeaderIconContainer>
@@ -44,6 +51,9 @@ export const SubscriptionFlowEnded = () => {
         <Text size={'lg'} align={'center'}>
           Change your preferences at any time by visiting this page again.
         </Text>
+        <Button width={'100%'} onClick={handleViewSettings}>
+          Continue to Settings
+        </Button>
       </Flex>
     </Screen>
   );

@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Routes, useRouterContext } from '../../context/RouterContext';
+import { Routes, useRouterContext } from 'context/RouterContext';
 import { Screen } from 'components/layout/Screen';
 import Button from 'components/Button';
 import Text from 'components/Text';
