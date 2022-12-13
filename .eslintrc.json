@@ -40,7 +40,7 @@
     "import/order": "error",
     "react/prop-types": "off",
     "react/react-in-jsx-scope": "off",
-    "prettier/prettier": ["error", {"singleQuote":  true, "printWidth":  100}],
+    "prettier/prettier": ["error", {"singleQuote":  true, "printWidth":  100, "endOfLine": "auto"}],
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
     "no-use-before-define": "warn",

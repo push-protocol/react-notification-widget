@@ -4,12 +4,6 @@ mutation SaveUserEmail ($input: UserEmailUpdateInput!) {
     }
 }
 
-mutation DeleteUserEmail {
-    userEmailDelete {
-        success
-    }
-}
-
 mutation ValidateUserEmail ($input: UserEmailValidateInput!) {
     userEmailValidate(input: $input) {
         success
@@ -22,8 +16,14 @@ mutation GetTelegramVerificationLink {
     }
 }
 
-mutation DeleteTelegramIntegration {
-    userTelegramDelete {
+mutation VerifyUserDiscord ($input: UserDiscordVerifyInput!) {
+    userDiscordVerify(input: $input) {
+        success
+    }
+}
+
+mutation DeleteChannel ($input: UserCommunicationChannelDeleteInput!) {
+    userCommunicationsChannelDelete (input: $input) {
         success
     }
 }

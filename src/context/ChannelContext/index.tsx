@@ -8,6 +8,7 @@ export type ChannelInfo = {
   name: string;
   channelAddress: string;
   chainId: number;
+  discordGuildUrl?: string | null;
 };
 
 const emptyChannel = {
@@ -42,6 +43,7 @@ const ChannelProvider = ({ partnerKey, children }: { partnerKey: string; childre
       icon: data.partnerInfo.logo as string,
       name: data.partnerInfo.name,
       chainId: data.partnerInfo.chainId,
+      discordGuildUrl: data.partnerInfo.discordGuildUrl,
     });
   }, [data]);
 

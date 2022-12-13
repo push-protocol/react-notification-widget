@@ -1,33 +1,39 @@
 import { useEffect } from 'react';
 import { useNotificationsContext } from 'context/NotificationsContext';
-import {
-  useDeleteTelegramIntegrationMutation,
-  useGetTelegramVerificationLinkMutation,
-} from 'screens/settings/operations.generated';
 import { UserCommunicationChannelsDocument } from 'context/NotificationsContext/operations.generated';
 import analytics from 'services/analytics';
 import { Routes, useRouterContext } from 'context/RouterContext';
 import { useAuthContext } from 'context/AuthContext';
+import { useEnvironment } from 'context/EnvironmentContext';
+import {
+  useDeleteChannelMutation,
+  useGetTelegramVerificationLinkMutation,
+} from 'components/Channels/operations.generated';
+import { MessagingApp } from 'global/types.generated';
 
 const useTelegramActions = () => {
-  const { login } = useAuthContext();
+  const { isSubscribeOnly } = useEnvironment();
+  const { login, isOnboarding, setIsOnboarding } = useAuthContext();
   const { setRoute } = useRouterContext();
   const { setUserCommsChannelsPollInterval, userCommsChannels } = useNotificationsContext();
-  const { isOnboarding, setIsOnboarding } = useAuthContext();
 
   const [getTelegramLink, { loading: telegramLoading, data: telegramUrlData }] =
     useGetTelegramVerificationLinkMutation();
 
-  const [deleteTelegramIntegration, { loading: deleteTelegramLoading }] =
-    useDeleteTelegramIntegrationMutation({
-      refetchQueries: [UserCommunicationChannelsDocument],
-    });
+  const [deleteTelegramIntegration, { loading: deleteLoading }] = useDeleteChannelMutation({
+    refetchQueries: [UserCommunicationChannelsDocument],
+    variables: {
+      input: {
+        app: MessagingApp.Telegram,
+      },
+    },
+  });
 
   const handleRemoveTelegramIntegration = async () => {
     login(async () => {
       const response = await deleteTelegramIntegration();
 
-      if (response?.data?.userTelegramDelete?.success) {
+      if (response?.data?.userCommunicationsChannelDelete?.success) {
         await getTelegramLink();
         analytics.track('telegram integration removed');
         return setRoute(Routes.Settings);
@@ -55,18 +61,20 @@ const useTelegramActions = () => {
     if (userCommsChannels?.telegram?.exists) {
       setUserCommsChannelsPollInterval(0);
 
-      setIsOnboarding(false);
+      if (isSubscribeOnly) return;
 
       if (isOnboarding) {
         // This will redirect user from onBoarding to feed if user has already has telegram integrated
         setRoute(Routes.ChannelAdded, { channel: 'Telegram' });
       }
+
+      setIsOnboarding(false);
     }
   }, [setUserCommsChannelsPollInterval, userCommsChannels]);
 
   return {
     telegramLoading,
-    deleteTelegramLoading,
+    deleteLoading,
     telegramVerificationUrl: telegramUrlData?.telegramVerificationLinkGenerate?.link,
     handleGenerateUrl,
     handleOpenTG,

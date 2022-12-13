@@ -9,7 +9,7 @@ import { RouterProvider } from 'context/RouterContext';
 import { NotificationsProvider } from 'context/NotificationsContext';
 import { ChannelProvider } from 'context/ChannelContext';
 import { ApolloProvider } from 'components/ApolloProvider';
-import { EnvironmentProvider } from 'context/EnvironmentContext';
+import { EnvironmentProvider, WidgetMode } from 'context/EnvironmentContext';
 import analytics from 'services/analytics';
 import { AuthProvider } from 'context/AuthContext';
 
@@ -22,17 +22,23 @@ export type RpcUrls = { ethereum: string };
 
 export type NotificationFeedProviderProps = PropsWithChildren<{
   partnerKey: string;
+  discordToken?: string;
   provider?: ExternalProvider;
   theme?: CustomTheme;
   disableAnalytics?: boolean;
+  mode?: WidgetMode;
+  isOpen?: boolean;
 }>;
 
 const NotificationFeedProvider = ({
   partnerKey,
+  discordToken,
   provider,
   theme,
   children,
   disableAnalytics,
+  isOpen,
+  mode,
 }: NotificationFeedProviderProps) => {
   const wagmiClient = useWagmiClient(provider);
 
@@ -43,15 +49,15 @@ const NotificationFeedProvider = ({
   }, [disableAnalytics]);
 
   return (
-    <EnvironmentProvider>
+    <EnvironmentProvider mode={mode}>
       <ThemeProvider theme={makeTheme(theme)}>
         <WagmiConfig client={wagmiClient}>
           <ApolloProvider>
             <ChannelProvider partnerKey={partnerKey}>
-              <NotificationsProvider>
+              <NotificationsProvider isOpen={isOpen}>
                 <Reset />
                 <RouterProvider>
-                  <AuthProvider>{children}</AuthProvider>
+                  <AuthProvider discordToken={discordToken}>{children}</AuthProvider>
                 </RouterProvider>
               </NotificationsProvider>
             </ChannelProvider>

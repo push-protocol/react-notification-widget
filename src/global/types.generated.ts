@@ -32,7 +32,7 @@ export type Audience = {
 
 export enum AudienceType {
   AllEpnsSubscribers = 'ALL_EPNS_SUBSCRIBERS',
-  ContractEvent = 'CONTRACT_EVENT',
+  ContractCallData = 'CONTRACT_CALL_DATA',
   IncomingWebhookData = 'INCOMING_WEBHOOK_DATA',
   Manual = 'MANUAL',
   NewSubscriber = 'NEW_SUBSCRIBER'
@@ -50,6 +50,9 @@ export type CommsChannel = {
   channelAddress: Scalars['String'];
   createdAt: Scalars['DateTime'];
   delegateWalletAddress?: Maybe<Scalars['String']>;
+  discordBotAdded: Scalars['Boolean'];
+  discordGuildId?: Maybe<Scalars['String']>;
+  discordGuildUrl?: Maybe<Scalars['String']>;
   id: Scalars['String'];
   isDelegate: Scalars['Boolean'];
   logo?: Maybe<Scalars['String']>;
@@ -232,6 +235,7 @@ export type MessageStepApp = {
 };
 
 export enum MessagingApp {
+  Discord = 'DISCORD',
   Email = 'EMAIL',
   Epns = 'EPNS',
   Telegram = 'TELEGRAM'
@@ -248,13 +252,13 @@ export type Mutation = {
   projecTokenSave: GeneralResolverResponse;
   refreshToken: RefreshTokenPayload;
   telegramVerificationLinkGenerate: UserTelegramVerificationLinkPayload;
-  userEmailDelete: GeneralResolverResponse;
+  userCommunicationsChannelDelete: GeneralResolverResponse;
+  userDiscordVerify: GeneralResolverResponse;
   userEmailUpdate: GeneralResolverResponse;
   userEmailValidate: GeneralResolverResponse;
   userLogin: UserLoginPayload;
   userNotificationRead: GeneralResolverResponse;
   userSubscribeToChannel: GeneralResolverResponse;
-  userTelegramDelete: GeneralResolverResponse;
   workflowCreate: Workflow;
   workflowDelete: BatchActionResponse;
   workflowUpdate: Workflow;
@@ -298,6 +302,16 @@ export type MutationProjecTokenSaveArgs = {
 
 export type MutationRefreshTokenArgs = {
   input: RefreshTokenInput;
+};
+
+
+export type MutationUserCommunicationsChannelDeleteArgs = {
+  input: UserCommunicationChannelDeleteInput;
+};
+
+
+export type MutationUserDiscordVerifyArgs = {
+  input: UserDiscordVerifyInput;
 };
 
 
@@ -407,7 +421,7 @@ export type Trigger = {
 };
 
 export enum TriggerType {
-  ContractEvent = 'CONTRACT_EVENT',
+  ContractCall = 'CONTRACT_CALL',
   IncomingWebhook = 'INCOMING_WEBHOOK',
   NewSubscriber = 'NEW_SUBSCRIBER'
 }
@@ -415,6 +429,8 @@ export enum TriggerType {
 export type User = {
   __typename?: 'User';
   createdAt: Scalars['DateTime'];
+  discordId?: Maybe<Scalars['String']>;
+  discordUsername?: Maybe<Scalars['String']>;
   email?: Maybe<Scalars['String']>;
   firstName?: Maybe<Scalars['String']>;
   id: Scalars['String'];
@@ -432,11 +448,20 @@ export type UserCommunicationChannel = {
   hint?: Maybe<Scalars['String']>;
 };
 
+export type UserCommunicationChannelDeleteInput = {
+  app: MessagingApp;
+};
+
 export type UserCommunicationChannelsPayload = {
   __typename?: 'UserCommunicationChannelsPayload';
+  discord: UserCommunicationChannel;
   email: UserCommunicationChannel;
   epns: UserCommunicationChannel;
   telegram: UserCommunicationChannel;
+};
+
+export type UserDiscordVerifyInput = {
+  token: Scalars['String'];
 };
 
 export type UserEmailUpdateInput = {
@@ -489,7 +514,6 @@ export type WorkflowCreateAudienceInput = {
   contractEventFields?: InputMaybe<Array<Scalars['String']>>;
   incomingWebhookDataField?: InputMaybe<Scalars['String']>;
   newSubscriber?: InputMaybe<Scalars['Boolean']>;
-  segmentId?: InputMaybe<Scalars['String']>;
 };
 
 export type WorkflowCreateInput = {

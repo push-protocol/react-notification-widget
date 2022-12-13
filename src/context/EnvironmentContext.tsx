@@ -1,16 +1,29 @@
 import React, { createContext, useContext } from 'react';
 
 export type EnvType = 'production' | 'staging' | string;
+export enum WidgetMode {
+  Default = 'Default',
+  SubscribeOnly = 'SubscribeOnly',
+}
+
 export type EnvironmentContextType = {
   gqlEndpoint: string;
   epnsEnv: string;
+  isSubscribeOnly: boolean;
 };
 
 export const EnvironmentContext = createContext<EnvironmentContextType>(
   {} as EnvironmentContextType
 );
 
-export const EnvironmentProvider = ({ children }: { env?: EnvType; children: React.ReactNode }) => {
+export const EnvironmentProvider = ({
+  children,
+  mode,
+}: {
+  env?: EnvType;
+  children: React.ReactNode;
+  mode?: WidgetMode;
+}) => {
   const gqlEndpointMap: { [key in EnvType]: string } = {
     development: 'http://localhost:4001/graphql',
     staging: 'https://staging-api.wherever.to/graphql',
@@ -30,6 +43,7 @@ export const EnvironmentProvider = ({ children }: { env?: EnvType; children: Rea
       value={{
         gqlEndpoint: gqlEndpointMap[whereverEnv],
         epnsEnv: epnsEnvMap[whereverEnv],
+        isSubscribeOnly: mode === WidgetMode.SubscribeOnly,
       }}
     >
       {children}

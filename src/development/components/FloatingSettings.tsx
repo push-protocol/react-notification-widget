@@ -2,6 +2,11 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { CustomTheme } from '../../theme';
 
+export type Coordinates = {
+  top: number | string;
+  left: number | string;
+};
+
 type FloatingSettingsProps = {
   partnerKey: string;
   setPartnerKey: (key: string) => void;
@@ -9,8 +14,8 @@ type FloatingSettingsProps = {
   setTheme: any;
   iframeUrl: string;
   setIframeUrl: (url: string) => void;
-  coordinates: { top: number; left: number | string };
-  setCoordinates: (args: { top: number; left: number | string }) => void;
+  coordinates: Coordinates;
+  setCoordinates: (args: Coordinates) => void;
 };
 
 const StyledInput = styled.input`

@@ -1,23 +1,32 @@
 import { useState } from 'react';
 import { useNotificationsContext } from 'context/NotificationsContext';
-import {
-  useDeleteUserEmailMutation,
-  useSaveUserEmailMutation,
-  useValidateUserEmailMutation,
-} from 'screens/settings/operations.generated';
 import { UserCommunicationChannelsDocument } from 'context/NotificationsContext/operations.generated';
 import analytics from 'services/analytics';
 import { Routes, useRouterContext } from 'context/RouterContext';
 import { useAuthContext } from 'context/AuthContext';
+import { useEnvironment } from 'context/EnvironmentContext';
+import {
+  useDeleteChannelMutation,
+  useSaveUserEmailMutation,
+  useValidateUserEmailMutation,
+} from 'components/Channels/operations.generated';
+import { MessagingApp } from 'global/types.generated';
+
+export enum ConnectEmailViews {
+  Edit = 'Edit',
+  Verify = 'Verify',
+  Connected = 'Connected',
+}
 
 const useEmailActions = () => {
+  const { isSubscribeOnly } = useEnvironment();
   const { login, isOnboarding, setIsOnboarding } = useAuthContext();
   const { setRoute } = useRouterContext();
-  const { activeRoute } = useRouterContext();
   const { userCommsChannels } = useNotificationsContext();
 
-  const [isEditing, setIsEditing] = useState(!userCommsChannels?.email?.exists);
-  const isVerify = activeRoute === Routes.EmailVerify;
+  const [connectEmailView, setConnectEmailView] = useState(
+    !userCommsChannels?.email?.exists ? ConnectEmailViews.Edit : ConnectEmailViews.Connected
+  );
 
   const [email, setEmail] = useState('');
 
@@ -27,8 +36,13 @@ const useEmailActions = () => {
     },
   });
 
-  const [deleteEmail, { loading: deleteLoading }] = useDeleteUserEmailMutation({
+  const [deleteEmail, { loading: deleteLoading }] = useDeleteChannelMutation({
     refetchQueries: [UserCommunicationChannelsDocument],
+    variables: {
+      input: {
+        app: MessagingApp.Email,
+      },
+    },
   });
 
   const [validateEmail, { loading: verifyLoading }] = useValidateUserEmailMutation({
@@ -39,7 +53,7 @@ const useEmailActions = () => {
     login(async () => {
       await saveEmail();
       analytics.track('email saved');
-      return setRoute(Routes.EmailVerify, { email });
+      setConnectEmailView(ConnectEmailViews.Verify);
     });
   };
 
@@ -55,14 +69,17 @@ const useEmailActions = () => {
       });
       analytics.track('email verified');
 
-      setIsEditing(false);
-      setIsOnboarding(false);
+      setConnectEmailView(ConnectEmailViews.Connected);
+
+      if (isSubscribeOnly) return;
 
       if (isOnboarding) {
         setRoute(Routes.ChannelAdded, { channel: 'Email' });
       } else {
         setRoute(Routes.Settings);
       }
+
+      setIsOnboarding(false);
     });
   };
 
@@ -70,9 +87,9 @@ const useEmailActions = () => {
     login(async () => {
       const response = await deleteEmail();
 
-      if (response?.data?.userEmailDelete?.success) {
+      if (response?.data?.userCommunicationsChannelDelete?.success) {
         analytics.track('email deleted');
-        setIsEditing(true);
+        setConnectEmailView(ConnectEmailViews.Edit);
         setEmail('');
         return setRoute(Routes.Settings);
       }
@@ -86,12 +103,10 @@ const useEmailActions = () => {
     handleSave,
     handleVerify,
     handleRemove,
-    setIsEditing,
+    connectEmailView,
+    setConnectEmailView,
     email,
     setEmail,
-    renderVerify: isVerify,
-    renderEdit: isEditing && !isVerify,
-    renderConnected: !isEditing,
     isConnected: userCommsChannels?.email?.exists,
     hint: userCommsChannels?.email?.hint || '',
   };

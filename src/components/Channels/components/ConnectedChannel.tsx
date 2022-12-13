@@ -3,27 +3,29 @@ import Flex from 'components/layout/Flex';
 import Button from 'components/Button';
 import Text from 'components/Text';
 
-type ConnectedEmailProps = {
-  hint: string;
+type ConnectedChannelProps = {
+  description: string;
   handleRemove: () => void;
-  handleEdit: () => void;
+  handleEdit?: () => void;
   isLoading: boolean;
   isDisabled: boolean;
 };
 
-const ConnectedEmail = ({
-  hint,
+const ConnectedChannel = ({
+  description,
   handleRemove,
   handleEdit,
   isLoading,
   isDisabled,
-}: ConnectedEmailProps) => (
+}: ConnectedChannelProps) => (
   <Flex direction={'column'} gap={2} width={'100%'}>
-    <Text>You are receiving alerts to {hint}</Text>
+    <Text>{description}</Text>
     <Flex gap={2}>
-      <Button width={'100%'} onClick={handleEdit}>
-        Change
-      </Button>
+      {handleEdit && (
+        <Button width={'100%'} onClick={handleEdit}>
+          Change
+        </Button>
+      )}
       <Button
         variant={'outlined'}
         width={'100%'}
@@ -37,4 +39,4 @@ const ConnectedEmail = ({
   </Flex>
 );
 
-export default ConnectedEmail;
+export default ConnectedChannel;

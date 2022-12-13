@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 import styled, { useTheme } from 'styled-components';
 import Spinner from '../../components/Spinner';
-import { useRouterContext, Routes } from '../../context/RouterContext';
 import analytics from '../../services/analytics';
-import { WHEREVER_HOMEPAGE } from '../../global/const';
 import NewTag from '../../components/NewTag';
 import PageTitle from '../../components/PageTitle';
 import { useUserSubscribedMutation } from './operations.generated';
+import { WHEREVER_HOMEPAGE } from 'global/const';
+import { Routes, useRouterContext } from 'context/RouterContext';
 import Button from 'components/Button';
 import Link from 'components/Link';
 import { useChannelContext } from 'context/ChannelContext';
@@ -17,6 +17,7 @@ import ChannelToUserIcons from 'screens/subscribe/components/ChannelToUserIcons'
 import WrongNetworkError from 'components/Errors/WrongNetworkError';
 import ConnectWalletButtons from 'screens/subscribe/components/ConnectWalletButtons';
 import { useAuthContext } from 'context/AuthContext';
+import { useEnvironment } from 'context/EnvironmentContext';
 
 const Container = styled(Flex)(({ theme }) => ({
   flexDirection: 'column',
@@ -31,6 +32,7 @@ const SubscribeDescription = styled.div`
 `;
 
 export const Subscribe = () => {
+  const { isSubscribeOnly } = useEnvironment();
   const {
     userDisconnected,
     isSubscribed,
@@ -55,9 +57,13 @@ export const Subscribe = () => {
 
   useEffect(() => {
     if (isSubscribed && !isOnboarding) {
-      setRoute(Routes.NotificationsFeed);
+      if (isSubscribeOnly) {
+        setRoute(Routes.Settings);
+      } else {
+        setRoute(Routes.NotificationsFeed);
+      }
     }
-  }, [isSubscribed, isOnboarding]);
+  }, [isSubscribed, isOnboarding, isSubscribeOnly]);
 
   if (channelLoading || authLoading) {
     return (
@@ -76,7 +82,7 @@ export const Subscribe = () => {
     await login();
 
     subscribeUser(); // don't wait for this to finish as it can trigger workflows
-    setRoute(Routes.ConnectEmail);
+    setRoute(Routes.ConnectChannels);
   };
 
   return (

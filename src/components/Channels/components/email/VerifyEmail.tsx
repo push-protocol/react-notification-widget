@@ -3,11 +3,11 @@ import Text from 'components/Text';
 import TextInput from 'components/TextInput';
 import Flex from 'components/layout/Flex';
 import Button from 'components/Button';
-import { Routes, useRouterContext } from 'context/RouterContext';
 
 type VerifyEmailProps = {
   email: string;
   handleVerify: (code: string) => void;
+  handleEdit: () => void;
   isLoading: boolean;
   isDisabled: boolean;
 };
@@ -15,19 +15,19 @@ type VerifyEmailProps = {
 const MAX_EMAIL_LENGTH = 16;
 const CODE_REGEX = '^[0-9]*$';
 
-const VerifyEmail = ({ email, handleVerify, isLoading, isDisabled }: VerifyEmailProps) => {
-  const { setRoute } = useRouterContext();
+const VerifyEmail = ({
+  email,
+  handleVerify,
+  handleEdit,
+  isLoading,
+  isDisabled,
+}: VerifyEmailProps) => {
   const [code, setCode] = useState('');
 
   const onSubmit = () => {
     if (code.length === 6) {
       handleVerify(code);
     }
-  };
-
-  // Settings, VerifyEmail and ConnectEmail routes render same page but is used for convenient UI rendering based on route
-  const handleModifyEmail = () => {
-    setRoute(Routes.Settings);
   };
 
   const onCodeChange = (value: string) => {
@@ -55,7 +55,7 @@ const VerifyEmail = ({ email, handleVerify, isLoading, isDisabled }: VerifyEmail
             Sent to {email.slice(0, MAX_EMAIL_LENGTH)}
             {email.length >= MAX_EMAIL_LENGTH ? '...' : ''}
           </Text>
-          <Button variant="text" onClick={handleModifyEmail} size={'md'}>
+          <Button variant="text" onClick={handleEdit} size={'md'}>
             Change
           </Button>
         </Flex>

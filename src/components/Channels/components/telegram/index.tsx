@@ -1,10 +1,10 @@
 import React from 'react';
-import ChannelDropdown from 'screens/settings/components/ChannelDropdown';
-import { Telegram as TelegramIcon } from 'components/icons';
-import useTelegramActions from 'screens/settings/channels/telegram/useTelegramActions';
-import ConnectedTelegram from 'screens/settings/channels/telegram/components/ConnectedTelegram';
-import IntegrateTelegram from 'screens/settings/channels/telegram/components/IntegrateTelegram';
+import ChannelDropdown from '../ChannelDropdown';
+import ConnectedChannel from '../ConnectedChannel';
+import IntegrateTelegram from './IntegrateTelegram';
+import useTelegramActions from './useTelegramActions';
 import { useAuthContext } from 'context/AuthContext';
+import { Telegram as TelegramIcon } from 'components/icons';
 
 type TelegramChannelProps = {
   open: boolean;
@@ -20,7 +20,7 @@ export const TelegramChannel = ({ open, setOpen }: TelegramChannelProps) => {
     handleOpenTG,
     handleRemoveTelegramIntegration,
     telegramLoading,
-    deleteTelegramLoading,
+    deleteLoading,
     isConnected,
     hint,
   } = useTelegramActions();
@@ -34,11 +34,13 @@ export const TelegramChannel = ({ open, setOpen }: TelegramChannelProps) => {
       setOpen={setOpen}
     >
       {isConnected ? (
-        <ConnectedTelegram
-          hint={hint}
+        <ConnectedChannel
+          description={
+            hint ? `You are receiving alerts to ${hint}` : 'You Telegram account is connected'
+          }
           handleRemove={handleRemoveTelegramIntegration}
-          isLoading={deleteTelegramLoading}
-          isDisabled={deleteTelegramLoading || isLoading}
+          isLoading={deleteLoading}
+          isDisabled={deleteLoading || isLoading}
         />
       ) : (
         <IntegrateTelegram
