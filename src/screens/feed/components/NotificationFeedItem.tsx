@@ -26,11 +26,21 @@ const NotificationTitle = styled(Text)`
   word-break: break-word;
 `;
 
-const SenderImage = styled.img`
+const SenderImageContainer = styled.div`
+  background: ${({ theme }) => theme.colors.text.primary};
+  display: flex;
+  align-items: center;
+  justify-content: center;
   height: 45px;
+  overflow: hidden;
   width: 45px;
   border-radius: 100px;
-  margin-right: 4px;
+  margin-right: 6px;
+`;
+
+const SenderImage = styled.img`
+  object-fit: contain;
+  width: 100%;
 `;
 
 const UnreadNotification = styled.div`
@@ -57,7 +67,7 @@ const ImageContainer = styled.div`
   overflow: hidden;
 `;
 
-const Image = styled.img`
+const NotificationImage = styled.img`
   width: 100%;
   object-fit: contain;
 `;
@@ -110,7 +120,14 @@ const NotificationFeedItem = ({
 
   return (
     <Container clickable={!!notification.cta} onClick={handleNotificationClick}>
-      {showSenderDetails && <SenderImage src={notification.senderLogo} alt={''} />}
+      {showSenderDetails && (
+        //div required for margins and sizes to work correctly
+        <div>
+          <SenderImageContainer>
+            <SenderImage src={notification.senderLogo} alt={''} />
+          </SenderImageContainer>
+        </div>
+      )}
       <Flex width={'100%'} direction={'column'}>
         <Flex direction={'column'} gap={0.5}>
           {showSenderDetails && (
@@ -131,12 +148,12 @@ const NotificationFeedItem = ({
           <a href={notification.image} target={'_blank'} rel="noreferrer">
             <ImageContainer>
               {youtubeId ? (
-                <Image
+                <NotificationImage
                   src={`https://img.youtube.com/vi/${youtubeId}/0.jpg`}
                   alt="notification image"
                 />
               ) : (
-                <Image src={notification.image} alt="notification image" />
+                <NotificationImage src={notification.image} alt="notification image" />
               )}
             </ImageContainer>
           </a>
