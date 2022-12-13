@@ -25,7 +25,7 @@ export const Settings = () => {
   return (
     <Screen navbarActionComponent={!isSubscribeOnly ? <NavbarActions /> : undefined} mb={1}>
       <SettingsHeader
-        title={isSubscribeOnly ? `You are subscriberd to ${name}` : 'Notification Settings'}
+        title={isSubscribeOnly ? `You are subscribed to ${name}` : 'Notification Settings'}
         icon={icon}
       />
       <WrongNetworkError mb={2} />

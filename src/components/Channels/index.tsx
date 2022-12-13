@@ -37,7 +37,7 @@ const Channels = () => {
       gap={1}
       width={'100%'}
       direction={'column'}
-      mb={2}
+      mb={4}
     >
       {(isConnected || discordGuildUrl) && (
         <DiscordChannel

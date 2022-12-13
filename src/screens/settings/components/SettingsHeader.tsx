@@ -5,6 +5,8 @@ import Flex from 'components/layout/Flex';
 
 const Header = styled(Flex)`
   pointer-events: none;
+  position: relative;
+  top: -30px;
 `;
 
 const HeaderIconContainer = styled.div<{ size?: number }>`
@@ -26,7 +28,7 @@ const HeaderImage = styled.img`
 `;
 
 const SettingsHeader = ({ title, icon }: { title: string; icon: string }) => (
-  <Header justifyContent={'center'} alignItems={'center'} direction={'column'} mb={2}>
+  <Header justifyContent={'center'} alignItems={'center'} direction={'column'}>
     <HeaderIconContainer size={58}>
       <HeaderImage src={icon} alt={'channel icon'} />
     </HeaderIconContainer>

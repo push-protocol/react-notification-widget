@@ -38,7 +38,7 @@ const NotificationFeed = (props: NotificationFeedProps): JSX.Element => {
 
   useEffect(() => {
     if (address && channelAddress) {
-      analytics.identify(address, { channelAddress, channelName: name });
+      analytics.identify({ channelAddress, channelName: name });
     }
   }, [address, channelAddress]);
 
