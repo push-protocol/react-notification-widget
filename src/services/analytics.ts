@@ -25,8 +25,8 @@ class Analytics {
     rudderInitialize();
   }
 
-  identify(userAddress: string, traits: { channelName: string; channelAddress: string }) {
-    rudder.identify(userAddress, traits);
+  identify(traits: { channelName: string; channelAddress: string }) {
+    rudder.identify(traits);
   }
 
   track(event: string, args?: Record<string, any>) {

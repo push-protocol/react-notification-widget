@@ -33,8 +33,12 @@ export const NotificationsProvider = ({ children }: { children: ReactNode }) => 
     if (!userAddress || polling || !chainId) return;
 
     const timeout = setInterval(async () => {
-      const notifs = await fetchNotifications(`eip155:${chainId}:${userAddress}`, chainId);
-      setNotifications(notifs || []);
+      try {
+        const newNotifs = await fetchNotifications(`eip155:${chainId}:${userAddress}`, chainId);
+        setNotifications(newNotifs || notifications);
+      } catch (e) {
+        return;
+      }
     }, 4000);
 
     setPolling(true);
