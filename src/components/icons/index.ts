@@ -10,6 +10,7 @@ export * from './pack/Boxes';
 export * from './pack/Globe';
 export * from './pack/Email';
 export * from './pack/Telegram';
+export * from './pack/Discord';
 export * from './pack/OpenLink';
 export * from './pack/ArrowRight';
 export * from './pack/ArrowDown';

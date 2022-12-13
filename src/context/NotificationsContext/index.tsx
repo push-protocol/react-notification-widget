@@ -8,12 +8,18 @@ import fetchNotifications from './fetchNotifications';
 
 const NotificationsContext = createContext<NotificationsContext>({} as any);
 
-export const NotificationsProvider = ({ children }: { children: ReactNode }) => {
+export const NotificationsProvider = ({
+  children,
+  isOpen,
+}: {
+  children: ReactNode;
+  isOpen?: boolean;
+}) => {
   const { isConnected: isLoggedIn, address: userAddress } = useAccount();
   const { epnsEnv } = useEnvironment();
   const { channelAddress, chainId } = useChannelContext();
 
-  const [feedOpen, setFeedOpen] = useState(false);
+  const [feedOpen, setFeedOpen] = useState(isOpen || false);
   const [isLoading, setIsLoading] = useState(false);
   const [polling, setPolling] = useState(false);
   const [notifications, setNotifications] = useState<Notification[]>([]);
@@ -55,13 +61,24 @@ export const NotificationsProvider = ({ children }: { children: ReactNode }) => 
     run();
   }, [channelAddress, chainId, epnsEnv, userAddress]);
 
+  const toggleFeedOpen = (open: boolean) => {
+    if (isOpen !== undefined) return; // ignore if controlled through prop
+    setFeedOpen(open);
+  };
+
+  useEffect(() => {
+    if (isOpen !== undefined) {
+      setFeedOpen(isOpen);
+    }
+  }, [isOpen]);
+
   return (
     <NotificationsContext.Provider
       value={{
         isLoggedIn,
         isLoading,
         feedOpen,
-        setFeedOpen,
+        setFeedOpen: toggleFeedOpen,
         userCommsChannels: data?.userCommunicationChannels,
         setUserCommsChannelsPollInterval,
         notifications,

@@ -21,6 +21,7 @@ export type AuthInfo = {
   isLoading: boolean;
   error: boolean;
   isLoggedIn: boolean;
+  discordToken?: string;
   login(callback?: () => void): void;
   isOnboarding: boolean;
   isSubscribed: boolean;
@@ -46,7 +47,13 @@ const AuthContext = createContext<AuthInfo & { loading?: boolean; handleGetUserI
   {} as AuthInfo
 );
 
-const AuthProvider = ({ children }: { children: ReactNode }) => {
+const AuthProvider = ({
+  children,
+  discordToken,
+}: {
+  children: ReactNode;
+  discordToken?: string;
+}) => {
   const { setRoute } = useRouterContext();
   const { channelAddress, chainId } = useChannelContext();
   const { isConnected, address } = useAccount();
@@ -180,6 +187,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
         isOnboarding,
         setIsOnboarding,
         userDisconnected,
+        discordToken,
       }}
     >
       {children}

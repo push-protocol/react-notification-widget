@@ -1,12 +1,12 @@
 import React from 'react';
-import Flex from 'components/layout/Flex';
-import ChannelDropdown from 'screens/settings/components/ChannelDropdown';
-import { Email as EmailIcon } from 'components/icons';
-import useEmailActions from 'screens/settings/channels/email/useEmailActions';
-import EditEmail from 'screens/settings/channels/email/components/EditEmail';
-import VerifyEmail from 'screens/settings/channels/email/components/VerifyEmail';
-import ConnectedEmail from 'screens/settings/channels/email/components/ConnectedEmail';
+import ChannelDropdown from '../ChannelDropdown';
+import ConnectedChannel from '../ConnectedChannel';
+import VerifyEmail from './VerifyEmail';
+import EditEmail from './EditEmail';
+import useEmailActions, { ConnectEmailViews } from './useEmailActions';
 import { useAuthContext } from 'context/AuthContext';
+import { Email as EmailIcon } from 'components/icons';
+import Flex from 'components/layout/Flex';
 
 type EmailChannelProps = {
   open: boolean;
@@ -22,13 +22,11 @@ export const EmailChannel = ({ open, setOpen }: EmailChannelProps) => {
     handleSave,
     handleVerify,
     handleRemove,
-    setIsEditing,
+    connectEmailView,
+    setConnectEmailView,
     saveLoading,
     verifyLoading,
     deleteLoading,
-    renderVerify,
-    renderEdit,
-    renderConnected,
     isConnected,
     hint,
   } = useEmailActions();
@@ -42,30 +40,31 @@ export const EmailChannel = ({ open, setOpen }: EmailChannelProps) => {
       isConnected={!!isConnected}
     >
       <Flex width={'100%'}>
-        {renderVerify && (
+        {connectEmailView === ConnectEmailViews.Verify && (
           <VerifyEmail
             email={email}
             handleVerify={handleVerify}
+            handleEdit={() => setConnectEmailView(ConnectEmailViews.Edit)}
             isLoading={verifyLoading}
             isDisabled={verifyLoading || isLoading}
           />
         )}
-        {renderEdit && (
+        {connectEmailView === ConnectEmailViews.Edit && (
           <EditEmail
             value={email}
             onChange={setEmail}
             handleSave={handleSave}
-            handleEdit={setIsEditing}
+            handleCancel={() => setConnectEmailView(ConnectEmailViews.Connected)}
             isLoading={saveLoading}
             isDisabled={saveLoading || isLoading}
             isConnected={isConnected}
           />
         )}
-        {renderConnected && (
-          <ConnectedEmail
-            hint={hint}
+        {connectEmailView === ConnectEmailViews.Connected && (
+          <ConnectedChannel
+            description={`You are receiving alerts to ${hint}`}
             handleRemove={handleRemove}
-            handleEdit={() => setIsEditing(true)}
+            handleEdit={() => setConnectEmailView(ConnectEmailViews.Edit)}
             isLoading={deleteLoading}
             isDisabled={deleteLoading || isLoading}
           />

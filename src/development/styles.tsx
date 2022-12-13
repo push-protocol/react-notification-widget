@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Coordinates } from './components/FloatingSettings';
 
 const Text = styled.p`
   font-family: Roboto, serif;
@@ -42,7 +43,7 @@ const TopBar = styled.div`
   align-items: center;
 `;
 
-const WidgetContainer = styled.div<{ top: number; left: number | string }>`
+const WidgetContainer = styled.div<Coordinates>`
   display: flex;
   flex-direction: column;
   gap: 24px;

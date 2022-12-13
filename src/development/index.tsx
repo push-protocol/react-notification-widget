@@ -1,13 +1,14 @@
-import React, { useState, useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { render } from 'react-dom';
+import { WidgetMode } from '../context/EnvironmentContext';
 import {
+  CustomTheme,
+  NotificationBell,
   NotificationFeed,
   NotificationFeedProvider,
-  NotificationBell,
-  CustomTheme,
 } from '../index';
 import * as S from './styles';
-import FloatingSettings from './components/FloatingSettings';
+import FloatingSettings, { Coordinates } from './components/FloatingSettings';
 import Logo from './components/Logo';
 import BackgroundLogo from './components/BackgroundLogo';
 
@@ -43,11 +44,11 @@ const FakeApp = () => {
   const [partnerKey, setPartnerKey] = useState(DEFAULT_PARTNER_KEY);
   const [iframeUrl, setIframeUrl] = useState('');
   const [theme, setTheme] = useState<CustomTheme>(defaultTheme);
-  const [coordinates, setCoordinates] = useState({ top: 100, left: '45%' });
+  const [coordinates, setCoordinates] = useState<Coordinates>({ top: 100, left: '45%' });
 
   const widget = useMemo(() => {
     return (
-      <NotificationFeedProvider theme={theme} partnerKey={partnerKey}>
+      <NotificationFeedProvider theme={theme} partnerKey={partnerKey} mode={WidgetMode.Default}>
         <NotificationFeed gapFromBell={10}>
           <S.WidgetBellWrapper>
             <NotificationBell />
@@ -62,7 +63,6 @@ const FakeApp = () => {
       <S.BackgroundLogoContainer>
         <BackgroundLogo />
       </S.BackgroundLogoContainer>
-
       <S.TopBar>
         <Logo />
         <S.Text>Widget Demo</S.Text>
