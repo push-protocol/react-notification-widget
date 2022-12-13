@@ -1801,8 +1801,10 @@ this in the docs: http://dev.apollodata.com/core/fragments.html#unique-names`):a
   ${({disablePointerEvents:t})=>t&&`
     pointer-events: none;
   `}
-`,eTt=()=>{let{isWrongNetwork:t}=gn(),{isOnboarding:e,isLoggedIn:r}=Fi(),{discordGuildUrl:n,isConnected:i}=qP(),[o,a]=(0,jg.useState)(e?Ga.Email:void 0),s=u=>{t||a(o===u?void 0:u)};return jg.default.createElement($Ct,{disablePointerEvents:t&&!r,gap:1,width:"100%",direction:"column",mb:2},(i||n)&&jg.default.createElement(mTe,{open:o===Ga.Discord,setOpen:()=>s(Ga.Discord)}),jg.default.createElement(wTe,{open:o===Ga.Email,setOpen:()=>s(Ga.Email)}),jg.default.createElement(CTe,{open:o===Ga.Telegram,setOpen:()=>s(Ga.Telegram)}))},zP=eTt;var TTe=Pe(Ke());var tTt=()=>{let{setRoute:t}=Li();return TTe.default.createElement(kn,{variant:"gray",fontSize:"sm",p:1,borderRadius:"sm",onClick:()=>{t(Pr.NotificationsFeed)}},"Back")},MTe=tTt;var k6=Pe(Ke());var rTt=rt(wt)`
+`,eTt=()=>{let{isWrongNetwork:t}=gn(),{isOnboarding:e,isLoggedIn:r}=Fi(),{discordGuildUrl:n,isConnected:i}=qP(),[o,a]=(0,jg.useState)(e?Ga.Email:void 0),s=u=>{t||a(o===u?void 0:u)};return jg.default.createElement($Ct,{disablePointerEvents:t&&!r,gap:1,width:"100%",direction:"column",mb:4},(i||n)&&jg.default.createElement(mTe,{open:o===Ga.Discord,setOpen:()=>s(Ga.Discord)}),jg.default.createElement(wTe,{open:o===Ga.Email,setOpen:()=>s(Ga.Email)}),jg.default.createElement(CTe,{open:o===Ga.Telegram,setOpen:()=>s(Ga.Telegram)}))},zP=eTt;var TTe=Pe(Ke());var tTt=()=>{let{setRoute:t}=Li();return TTe.default.createElement(kn,{variant:"gray",fontSize:"sm",p:1,borderRadius:"sm",onClick:()=>{t(Pr.NotificationsFeed)}},"Back")},MTe=tTt;var k6=Pe(Ke());var rTt=rt(wt)`
   pointer-events: none;
+  position: relative;
+  top: -30px;
 `,nTt=rt.div`
   height: ${({size:t})=>t||40}px;
   width: ${({size:t})=>t||40}px;
@@ -1817,7 +1819,7 @@ this in the docs: http://dev.apollodata.com/core/fragments.html#unique-names`):a
   width: 100%;
   border-radius: 100px;
   background: ${({theme:t})=>t.colors.primary.main};
-`,oTt=({title:t,icon:e})=>k6.default.createElement(rTt,{justifyContent:"center",alignItems:"center",direction:"column",mb:2},k6.default.createElement(nTt,{size:58},k6.default.createElement(iTt,{src:e,alt:"channel icon"})),k6.default.createElement(L0,{mb:1,align:"center"},t)),OTe=oTt;var J2=Pe(Ke());var aTt=rt(wt)`
+`,oTt=({title:t,icon:e})=>k6.default.createElement(rTt,{justifyContent:"center",alignItems:"center",direction:"column"},k6.default.createElement(nTt,{size:58},k6.default.createElement(iTt,{src:e,alt:"channel icon"})),k6.default.createElement(L0,{mb:1,align:"center"},t)),OTe=oTt;var J2=Pe(Ke());var aTt=rt(wt)`
   align-self: start;
   justify-content: center;
   width: 100%;
@@ -1828,7 +1830,7 @@ this in the docs: http://dev.apollodata.com/core/fragments.html#unique-names`):a
   display: flex;
   color: inherit;
   padding: 1px 0;
-`,uTt=({text:t})=>J2.default.createElement(aTt,null,J2.default.createElement(wt,{gap:.5,alignItems:"start"},J2.default.createElement(sTt,null,J2.default.createElement(fre,null)),J2.default.createElement(Ut,{size:"sm",color:"inherit",opacity:.8,weight:500,align:"center"},t))),VP=uTt;var kTe=()=>{let{isSubscribeOnly:t}=pa(),{name:e,icon:r}=gn(),{unsubscribe:n}=Fi(),i=()=>{n()};return Ug.default.createElement(au,{navbarActionComponent:t?void 0:Ug.default.createElement(MTe,null),mb:1},Ug.default.createElement(OTe,{title:t?`You are subscriberd to ${e}`:"Notification Settings",icon:r}),Ug.default.createElement(UP,{mb:2}),Ug.default.createElement(zP,null),!1,Ug.default.createElement(VP,{text:`${e} doesn't have access to your contact info`}))};var dc=Pe(Ke());var Xn=Pe(Ke()),tm=Pe(bK());var NTe=Pe(PTe());var fTt=t=>t?t.replace(...cTt).replace(...lTt):"",cTt=[/(\[timestamp:)([^\]]*)(\])/g,""],lTt=[/(\[(?:i|b|bi|w|d|s|t|u):)([^\]]*)(\])/g,"$2"],RTe=fTt;var dTt=t=>{if(!t)return"";try{return(t.startsWith("/")?new URL(t,window.location.origin):new URL(t)).hostname.replace("https://","").replace("www.","")}catch(e){return""}},GP=dTt;var ITe=t=>{if(!t)return!1;let e=/^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/,r=t.match(e);return r&&r[7].length==11?r[7]:!1};(0,tm.extend)(NTe.default);var hTt=rt(wt)`
+`,uTt=({text:t})=>J2.default.createElement(aTt,null,J2.default.createElement(wt,{gap:.5,alignItems:"start"},J2.default.createElement(sTt,null,J2.default.createElement(fre,null)),J2.default.createElement(Ut,{size:"sm",color:"inherit",opacity:.8,weight:500,align:"center"},t))),VP=uTt;var kTe=()=>{let{isSubscribeOnly:t}=pa(),{name:e,icon:r}=gn(),{unsubscribe:n}=Fi(),i=()=>{n()};return Ug.default.createElement(au,{navbarActionComponent:t?void 0:Ug.default.createElement(MTe,null),mb:1},Ug.default.createElement(OTe,{title:t?`You are subscribed to ${e}`:"Notification Settings",icon:r}),Ug.default.createElement(UP,{mb:2}),Ug.default.createElement(zP,null),!1,Ug.default.createElement(VP,{text:`${e} doesn't have access to your contact info`}))};var dc=Pe(Ke());var Xn=Pe(Ke()),tm=Pe(bK());var NTe=Pe(PTe());var fTt=t=>t?t.replace(...cTt).replace(...lTt):"",cTt=[/(\[timestamp:)([^\]]*)(\])/g,""],lTt=[/(\[(?:i|b|bi|w|d|s|t|u):)([^\]]*)(\])/g,"$2"],RTe=fTt;var dTt=t=>{if(!t)return"";try{return(t.startsWith("/")?new URL(t,window.location.origin):new URL(t)).hostname.replace("https://","").replace("www.","")}catch(e){return""}},GP=dTt;var ITe=t=>{if(!t)return!1;let e=/^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/,r=t.match(e);return r&&r[7].length==11?r[7]:!1};(0,tm.extend)(NTe.default);var hTt=rt(wt)`
   cursor: ${({clickable:t})=>t?"pointer":"cursor"};
   padding: 8px 0;
   border-radius: ${({theme:t})=>t.borderRadius.md};
