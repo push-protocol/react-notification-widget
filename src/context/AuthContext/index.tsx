@@ -69,8 +69,10 @@ const AuthProvider = ({
 
   // handle signer null case when reloading window after clearing storage
   const [refetchCounter, setRefetchCounter] = useState(0);
+
   useEffect(() => {
     if (signer || refetchCounter > 10) return;
+
     const timeout = setInterval(async () => {
       refetchSigner();
       setRefetchCounter((counter) => counter + 1);
