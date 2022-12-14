@@ -57,7 +57,7 @@ const AuthProvider = ({
   const { setRoute } = useRouterContext();
   const { channelAddress, chainId } = useChannelContext();
   const { isConnected, address } = useAccount();
-  const { data: signer } = useSigner();
+  const { data: signer, refetch: refetchSigner } = useSigner();
   const { login: _login } = useAuthenticate();
   const dc = useDisconnect();
   const [userDisconnected, setUserDisconnected] = useState(false);
@@ -66,6 +66,18 @@ const AuthProvider = ({
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(false);
+
+  // handle signer null case when reloading window after clearing storage
+  const [refetchCounter, setRefetchCounter] = useState(0);
+  useEffect(() => {
+    if (signer || refetchCounter > 10) return;
+    const timeout = setInterval(async () => {
+      refetchSigner();
+      setRefetchCounter((counter) => counter + 1);
+    }, 500);
+
+    return () => clearInterval(timeout);
+  }, [signer]);
 
   useEffect(() => {
     if (!isConnected || !channelAddress) {
