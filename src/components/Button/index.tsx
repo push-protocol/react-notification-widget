@@ -31,8 +31,8 @@ type ButtonProps = PropsWithChildren<
 const disabledState = (theme: DefaultTheme): any => css`
   &:disabled {
     transform: unset;
-    background: ${theme.colors.gray['300']};
-    color: ${theme.colors.gray['50']};
+    background: ${theme.colors.light['10']};
+    color: ${theme.colors.light['30']};
     cursor: default;
   }
 `;
@@ -45,12 +45,7 @@ const variantStyles = (variant = 'primary', theme: DefaultTheme): any =>
         background: ${adjustColor(theme.colors.primary.main, 0.8)};
         border-color: ${adjustColor(theme.colors.primary.main, 0.8)};
       }
-      &:disabled {
-        transform: unset;
-        background: ${adjustColor(theme.colors.primary.main, 0.5)};
-        border-color: ${adjustColor(theme.colors.primary.main, 0.5)};
-        cursor: default;
-      }
+      ${disabledState(theme)}
     `,
     gray: css`
       background: ${theme.colors.gray[500]};

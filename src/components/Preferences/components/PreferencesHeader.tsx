@@ -1,17 +1,16 @@
 import React from 'react';
 import styled from 'styled-components';
-import { adjustColor } from 'components/utils';
 import { useChannelContext } from 'context/ChannelContext';
 import Text from 'components/Text';
-import { Discord, Email, Telegram } from 'components/icons';
 import HeaderChannelItem from 'components/Preferences/components/HeaderChannelItem';
+import { userChannelMapper } from 'context/ChannelContext/usePreferences';
 
 const HeaderContainer = styled.div`
   display: flex;
   padding-bottom: 8px;
   margin-bottom: 8px;
   border-bottom: 1px solid;
-  border-color: ${({ theme }) => adjustColor(theme.colors.primary.main, 0.5)};
+  border-color: ${({ theme }) => theme.colors.light[10]};
 `;
 
 const ProfileInfo = styled.div`
@@ -33,6 +32,7 @@ const Channels = styled.div`
   display: flex;
   align-items: center;
   width: 176px;
+  justify-content: center;
 `;
 
 const UserIconContainer = styled.div`
@@ -48,7 +48,7 @@ const Image = styled.img`
 `;
 
 const PreferencesHeader = () => {
-  const { icon, name } = useChannelContext();
+  const { icon, name, userChannels } = useChannelContext();
 
   return (
     <HeaderContainer>
@@ -59,9 +59,15 @@ const PreferencesHeader = () => {
         <Text>{name} Protocol</Text>
       </ProfileInfo>
       <Channels>
-        <HeaderChannelItem icon={<Discord />} title={'Discord'} />
-        <HeaderChannelItem icon={<Email />} title={'Email'} />
-        <HeaderChannelItem icon={<Telegram />} title={'Telegram'} />
+        {userChannels.map((channel) => {
+          return (
+            <HeaderChannelItem
+              key={channel}
+              icon={userChannelMapper[channel].icon}
+              title={userChannelMapper[channel].title}
+            />
+          );
+        })}
       </Channels>
     </HeaderContainer>
   );

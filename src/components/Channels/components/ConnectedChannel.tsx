@@ -22,12 +22,12 @@ const ConnectedChannel = ({
     <Text>{description}</Text>
     <Flex gap={2}>
       {handleEdit && (
-        <Button width={'100%'} onClick={handleEdit}>
+        <Button width={'100%'} variant={'gray'} onClick={handleEdit}>
           Change
         </Button>
       )}
       <Button
-        variant={'outlined'}
+        variant={'gray'}
         width={'100%'}
         onClick={handleRemove}
         disabled={isDisabled}

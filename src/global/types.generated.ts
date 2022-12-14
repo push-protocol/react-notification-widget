@@ -99,6 +99,33 @@ export type CommsChannelSubscriberToken = {
   symbol: Scalars['String'];
 };
 
+export type CommsChannelTag = {
+  __typename?: 'CommsChannelTag';
+  commsChannelId: Scalars['String'];
+  createdAt: Scalars['DateTime'];
+  createdByAddress: Scalars['String'];
+  id: Scalars['String'];
+  name: Scalars['String'];
+  type: CommsChannelTagType;
+  updatedAt: Scalars['DateTime'];
+  userPreferences: Array<UserPreference>;
+};
+
+export type CommsChannelTagCreateInput = {
+  name: Scalars['String'];
+  type: CommsChannelTagType;
+};
+
+export enum CommsChannelTagType {
+  Preference = 'PREFERENCE'
+}
+
+export type CommsChannelTagUpdateInput = {
+  id: Scalars['String'];
+  name: Scalars['String'];
+  type: CommsChannelTagType;
+};
+
 export enum CommsChannelType {
   Epns = 'EPNS'
 }
@@ -206,6 +233,11 @@ export type ManualAudience = {
   id: Scalars['String'];
 };
 
+export enum MessageCategoryJoinType {
+  And = 'AND',
+  Or = 'OR'
+}
+
 export type MessageSendInput = {
   addresses: Array<Scalars['String']>;
   apps: Array<MessagingApp>;
@@ -243,6 +275,8 @@ export enum MessagingApp {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  commsChannelTagCreate: CommsChannelTag;
+  commsChannelTagUpdate: CommsChannelTag;
   emailUnsubscribe: GeneralResolverResponse;
   incomingWebhookCreate: IncomingWebhook;
   incomingWebhookDelete: GeneralResolverResponse;
@@ -253,15 +287,29 @@ export type Mutation = {
   refreshToken: RefreshTokenPayload;
   telegramVerificationLinkGenerate: UserTelegramVerificationLinkPayload;
   userCommunicationsChannelDelete: GeneralResolverResponse;
+  userDiscordDelete: GeneralResolverResponse;
   userDiscordVerify: GeneralResolverResponse;
+  userEmailDelete: GeneralResolverResponse;
   userEmailUpdate: GeneralResolverResponse;
   userEmailValidate: GeneralResolverResponse;
   userLogin: UserLoginPayload;
   userNotificationRead: GeneralResolverResponse;
+  userPreferencesUpdate: GeneralResolverResponse;
   userSubscribeToChannel: GeneralResolverResponse;
+  userTelegramDelete: GeneralResolverResponse;
   workflowCreate: Workflow;
   workflowDelete: BatchActionResponse;
   workflowUpdate: Workflow;
+};
+
+
+export type MutationCommsChannelTagCreateArgs = {
+  input: CommsChannelTagCreateInput;
+};
+
+
+export type MutationCommsChannelTagUpdateArgs = {
+  input: CommsChannelTagUpdateInput;
 };
 
 
@@ -330,6 +378,11 @@ export type MutationUserLoginArgs = {
 };
 
 
+export type MutationUserPreferencesUpdateArgs = {
+  input: Array<UserPreferenceUpdateInput>;
+};
+
+
 export type MutationWorkflowCreateArgs = {
   input: WorkflowCreateInput;
 };
@@ -376,6 +429,7 @@ export type ProjectTokenSaveInput = {
 export type Query = {
   __typename?: 'Query';
   commsChannel: CommsChannel;
+  commsChannelTags: Array<CommsChannelTag>;
   incomingWebhooks: Array<IncomingWebhook>;
   me: User;
   partnerInfo: CommsChannel;
@@ -487,6 +541,23 @@ export type UserLoginPayload = {
   user: User;
 };
 
+export type UserPreference = {
+  __typename?: 'UserPreference';
+  commsChannelTagId: Scalars['String'];
+  discord: Scalars['Boolean'];
+  email: Scalars['Boolean'];
+  id: Scalars['String'];
+  telegram: Scalars['Boolean'];
+  userAddress: Scalars['String'];
+};
+
+export type UserPreferenceUpdateInput = {
+  commsChannelTagId: Scalars['String'];
+  discord: Scalars['Boolean'];
+  email: Scalars['Boolean'];
+  telegram: Scalars['Boolean'];
+};
+
 export type UserTelegramVerificationLinkPayload = {
   __typename?: 'UserTelegramVerificationLinkPayload';
   link: Scalars['String'];
@@ -519,8 +590,14 @@ export type WorkflowCreateAudienceInput = {
 export type WorkflowCreateInput = {
   audience: WorkflowCreateAudienceInput;
   message: WorkflowCreateMessageInput;
+  messageCategory?: InputMaybe<WorkflowCreateMessageCategoryInput>;
   name: Scalars['String'];
   trigger: WorkflowCreateTriggerInput;
+};
+
+export type WorkflowCreateMessageCategoryInput = {
+  channelTagIds: Array<Scalars['String']>;
+  joinType?: InputMaybe<MessageCategoryJoinType>;
 };
 
 export type WorkflowCreateMessageInput = {
@@ -545,6 +622,7 @@ export type WorkflowUpdateInput = {
   audience: WorkflowCreateAudienceInput;
   id: Scalars['String'];
   message: WorkflowCreateMessageInput;
+  messageCategory?: InputMaybe<WorkflowCreateMessageCategoryInput>;
   name: Scalars['String'];
   trigger: WorkflowCreateTriggerInput;
 };

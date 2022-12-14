@@ -1,6 +1,5 @@
 import React, { useId } from 'react';
 import styled from 'styled-components';
-import { changeColorShade } from 'components/utils';
 
 const ToggleInputWrapper = styled.div`
   position: relative;
@@ -16,7 +15,8 @@ const ToggleInputLabel = styled.label`
   width: 100%;
   height: 6px;
   border-radius: 15px;
-  background: ${({ theme }) => changeColorShade(theme.colors.bg.main, 15)};
+  background: ${({ theme }) => theme.colors.light[10]};
+  transition: 0.2s;
   cursor: pointer;
   &::after {
     content: '';
@@ -36,17 +36,13 @@ const Input = styled.input`
   opacity: 0;
   z-index: -1;
   border-radius: 15px;
-  width: 32px;
-  height: 16px;
+  margin: 0;
+  width: 100%;
+  height: 100%;
   &:checked + ${ToggleInputLabel} {
+    background: ${({ theme }) => theme.colors.light[30]};
     &::after {
-      content: '';
-      display: block;
-      border-radius: 50%;
-      width: 16px;
-      height: 16px;
       margin-left: 16px;
-      transition: 0.2s;
       background: ${({ theme }) => theme.colors.primary.main};
     }
   }

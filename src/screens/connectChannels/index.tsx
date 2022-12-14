@@ -42,7 +42,7 @@ export const ConnectChannels = () => {
       <Header>
         <PageTitle mb={2}>Connect the channels you selected</PageTitle>
       </Header>
-      <Channels />
+      <Channels showDiscord={true} showEmail={true} showTelegram={true} />
       <Flex width={'100%'} justifyContent={'space-between'} gap={1} mb={2}>
         <Button onClick={handleGoBack} height={20} width={'100%'} variant={'gray'}>
           <Text>Previous</Text>

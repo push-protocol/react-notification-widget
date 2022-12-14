@@ -4,8 +4,8 @@ import Flex from 'components/layout/Flex';
 import Text from 'components/Text';
 import ToggleInput from 'components/ToggleInput';
 import PreferenceBell from 'components/Preferences/components/PreferenceBell';
-import { userChannels, UserPrefs } from 'components/Preferences/index';
 import { MessagingApp } from 'global/types.generated';
+import { UserPrefs } from 'context/ChannelContext/usePreferences';
 
 type PreferenceCategoryItemProps = {
   title: string;
@@ -13,6 +13,7 @@ type PreferenceCategoryItemProps = {
   togglePref?: (pref: string) => void;
   userPrefs: UserPrefs;
   handlePreferenceChange?: (pref: string, channel: MessagingApp) => void;
+  userChannels: MessagingApp[];
 };
 
 const PreferenceCategory = styled.div`
@@ -34,10 +35,8 @@ const PreferenceCategoryItem = ({
   togglePref,
   userPrefs,
   handlePreferenceChange,
+  userChannels,
 }: PreferenceCategoryItemProps) => {
-  console.log(enabledPrefs, 'togglePref');
-  console.log(togglePref, 'togglePref');
-
   return (
     <Flex alignItems={'center'} key={title} mb={1}>
       <PreferenceCategory>
@@ -54,7 +53,7 @@ const PreferenceCategoryItem = ({
       </PreferenceCategory>
 
       {enabledPrefs[title] ? (
-        <Flex width={176} justifyContent={'space-between'}>
+        <Flex width={176} justifyContent={'center'}>
           {userChannels.map((channel) => (
             <Flex key={`${channel}${title}`} width={60} justifyContent={'center'}>
               <PreferenceBell

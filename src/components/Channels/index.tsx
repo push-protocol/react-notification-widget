@@ -17,7 +17,15 @@ const ChannelsContainer = styled(Flex)<{ disablePointerEvents?: boolean }>`
   `}
 `;
 
-const Channels = () => {
+const Channels = ({
+  showDiscord,
+  showTelegram,
+  showEmail,
+}: {
+  showDiscord?: boolean;
+  showTelegram?: boolean;
+  showEmail?: boolean;
+}) => {
   const { isWrongNetwork } = useChannelContext();
   const { isOnboarding, isLoggedIn } = useAuthContext();
   const { discordGuildUrl, isConnected } = useDiscordActions();
@@ -39,20 +47,24 @@ const Channels = () => {
       direction={'column'}
       mb={2}
     >
-      {(isConnected || discordGuildUrl) && (
+      {showDiscord && (isConnected || discordGuildUrl) && (
         <DiscordChannel
           open={channelOpen === MessagingApp.Discord}
           setOpen={() => toggleChannelOpen(MessagingApp.Discord)}
         />
       )}
-      <EmailChannel
-        open={channelOpen === MessagingApp.Email}
-        setOpen={() => toggleChannelOpen(MessagingApp.Email)}
-      />
-      <TelegramChannel
-        open={channelOpen === MessagingApp.Telegram}
-        setOpen={() => toggleChannelOpen(MessagingApp.Telegram)}
-      />
+      {showEmail && (
+        <EmailChannel
+          open={channelOpen === MessagingApp.Email}
+          setOpen={() => toggleChannelOpen(MessagingApp.Email)}
+        />
+      )}
+      {showTelegram && (
+        <TelegramChannel
+          open={channelOpen === MessagingApp.Telegram}
+          setOpen={() => toggleChannelOpen(MessagingApp.Telegram)}
+        />
+      )}
     </ChannelsContainer>
   );
 };

@@ -8,3 +8,16 @@ query PartnerInfo ($input: PartnerInfoInput!) {
         discordGuildUrl
     }
 }
+
+query UserPreferenceCategories {
+    commsChannelTags {
+        id
+        name
+        userPreferences {
+            id
+            discord,
+            email,
+            telegram
+        }
+    }
+}

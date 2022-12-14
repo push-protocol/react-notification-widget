@@ -31,6 +31,9 @@ const BellIconContainer = styled.div<{ enabled: boolean; disabled: boolean }>`
   border-radius: 50%;
   padding: 8px;
   animation: ${({ enabled }) => (enabled ? enlargeAnimation : undefined)};
+  color: ${({ enabled, theme }) =>
+    enabled ? theme.colors.text.primary : theme.colors.light['30']};
+  background: ${({ enabled, theme }) => (enabled ? theme.colors.light['30'] : 'unset')};
   border: ${({ enabled, theme }) =>
     enabled ? `1px solid ${theme.colors.text.primary}` : '1px solid transparent'};
 `;
@@ -40,11 +43,7 @@ const PreferenceBell = (props: PropsT) => {
 
   return (
     <BellIconContainer disabled={props.disabled} enabled={props.enabled} onClick={props.onClick}>
-      {props.enabled ? (
-        <Bell color={theme.colors.text.primary} />
-      ) : (
-        <CrossedOutBell color={theme.colors.text.primary} />
-      )}
+      {props.enabled ? <Bell color={theme.colors.text.primary} /> : <CrossedOutBell />}
     </BellIconContainer>
   );
 };

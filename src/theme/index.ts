@@ -52,6 +52,20 @@ declare module 'styled-components' {
         400: string;
         500: string;
       };
+      light: {
+        10: string;
+        30: string;
+        50: string;
+        80: string;
+        100: string;
+      };
+      dark: {
+        10: string;
+        30: string;
+        50: string;
+        80: string;
+        100: string;
+      };
       bell: {
         color: string;
       };
@@ -113,6 +127,20 @@ const defaultTheme: DefaultTheme = {
     },
     border: {
       main: '#353943',
+    },
+    light: {
+      10: 'rgba(255, 255, 255, 0.1)',
+      30: 'rgba(255, 255, 255, 0.3)',
+      50: 'rgba(255, 255, 255, 0.5)',
+      80: 'rgba(255, 255, 255, 0.8)',
+      100: 'rgba(255, 255, 255, 1)',
+    },
+    dark: {
+      10: 'rgba(0, 0, 0, 0.1)',
+      30: 'rgba(0, 0, 0, 0.3)',
+      50: 'rgba(0, 0, 0, 0.5)',
+      80: 'rgba(0, 0, 0, 0.8)',
+      100: 'rgba(0, 0, 0, 1)',
     },
     gray: {
       50: '#B1BCCE',

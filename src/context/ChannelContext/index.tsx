@@ -1,20 +1,9 @@
-import React, { createContext, useContext, ReactNode, useState, useEffect } from 'react';
+import React, { createContext, ReactNode, useContext, useEffect, useState } from 'react';
 import { ApolloError } from '@apollo/client';
 import { useNetwork } from 'wagmi';
 import { usePartnerInfoQuery } from 'context/ChannelContext/operations.generated';
 import { MessagingApp } from 'global/types.generated';
-
-export type UserPrefs = Record<string, { [key in MessagingApp]: boolean }>;
-
-export const userChannels = ['DISCORD', 'TELEGRAM', 'EMAIL'] as MessagingApp[];
-
-// Temp categories
-const prefCategories = [
-  { title: 'Marketing' },
-  { title: 'Product Updates' },
-  { title: 'Announcements' },
-  { title: 'Liquidation Alerts' },
-];
+import usePreferences, { UserPrefs } from 'context/ChannelContext/usePreferences';
 
 export type ChannelInfo = {
   icon: string;
@@ -23,9 +12,10 @@ export type ChannelInfo = {
   chainId: number;
   discordGuildUrl?: string | null;
   userPrefs: UserPrefs;
-  prefCategories: { title: string }[];
+  preferenceCategories: { title: string }[];
   enabledPrefs: Record<string, boolean>;
   togglePref?: (pref: string) => void;
+  userChannels: MessagingApp[];
   handlePreferenceChange?: (pref: string, channel: MessagingApp) => void;
 };
 
@@ -34,16 +24,25 @@ const emptyChannel = {
   icon: '',
   name: '',
   chainId: 0,
-  prefCategories: [],
+  preferenceCategories: [],
   userPrefs: {},
   enabledPrefs: {},
+  userChannels: [],
 };
 
 const ChannelContext = createContext<
   ChannelInfo & { loading?: boolean; error?: ApolloError; isWrongNetwork?: boolean }
 >({} as ChannelInfo);
 
-const ChannelProvider = ({ partnerKey, children }: { partnerKey: string; children: ReactNode }) => {
+const ChannelProvider = ({
+  partnerKey,
+  discordToken,
+  children,
+}: {
+  partnerKey: string;
+  discordToken?: string;
+  children: ReactNode;
+}) => {
   const { chain: walletChain } = useNetwork();
 
   const [channel, setChannel] = useState<ChannelInfo>();
@@ -55,34 +54,17 @@ const ChannelProvider = ({ partnerKey, children }: { partnerKey: string; childre
   });
 
   const isWrongNetwork = !!channel?.chainId && channel.chainId !== walletChain?.id;
-
-  const [userPrefs, setUserPrefs] = useState<UserPrefs>({});
-  const [enabledPrefs, setEnabledPrefs] = useState<Record<string, boolean>>({});
-
-  const togglePref = (pref: string) => {
-    const newPrefSetting = !enabledPrefs[pref];
-
-    if (!newPrefSetting) {
-      setUserPrefs({ ...userPrefs, [pref]: {} } as UserPrefs);
-    }
-
-    setEnabledPrefs((oldPrefs) => ({ ...oldPrefs, [pref]: newPrefSetting }));
-  };
-
-  const handlePreferenceChange = (pref: string, channel: MessagingApp) => {
-    if (!enabledPrefs[pref]) return;
-    const isPrefEnabled = userPrefs[pref]?.[channel];
-
-    const newPrefs: UserPrefs = {
-      ...userPrefs,
-      [pref]: {
-        ...userPrefs[pref],
-        [channel]: !isPrefEnabled,
-      },
-    };
-
-    setUserPrefs(newPrefs);
-  };
+  const {
+    userPrefs,
+    preferenceCategories,
+    togglePref,
+    userChannels,
+    handlePreferenceChange,
+    enabledPrefs,
+  } = usePreferences({
+    discordToken,
+    discordGuildUrl: data?.partnerInfo.discordGuildUrl,
+  });
 
   useEffect(() => {
     if (!data) return;
@@ -96,10 +78,11 @@ const ChannelProvider = ({ partnerKey, children }: { partnerKey: string; childre
       userPrefs,
       enabledPrefs,
       handlePreferenceChange,
-      prefCategories,
+      preferenceCategories,
       togglePref,
+      userChannels,
     });
-  }, [data, enabledPrefs, userPrefs]);
+  }, [data, enabledPrefs, userPrefs, preferenceCategories]);
 
   return (
     <ChannelContext.Provider
