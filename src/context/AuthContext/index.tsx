@@ -151,12 +151,19 @@ const AuthProvider = ({
 
   const prevAddress = usePrevious(address);
   // usePrevious is needed to detect address change and remove AUTH_KEY from local storage
-  // for cases when address is present but is different from previous address
+  // for cases when user switches accounts manually
   useEffect(() => {
     if (prevAddress && prevAddress !== address) {
+      console.log('called', document.hidden);
       localStorage.removeItem(LOCALSTORAGE_AUTH_KEY);
+      localStorage.removeItem(LOCALSTORAGE_AUTH_REFRESH_KEY);
       setIsOnboarding(false);
       setIsLoggedIn(false);
+
+      // if user switched account, and is viewing current tab, re-log him in
+      if (!document.hidden) {
+        login();
+      }
     }
   }, [address]);
 
