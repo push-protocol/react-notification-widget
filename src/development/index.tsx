@@ -6,6 +6,8 @@ import {
   NotificationBell,
   NotificationFeed,
   NotificationFeedProvider,
+  NotificationBell,
+  CustomTheme,
 } from '../index';
 import * as S from './styles';
 import FloatingSettings, { Coordinates } from './components/FloatingSettings';
@@ -48,12 +50,7 @@ const FakeApp = () => {
 
   const widget = useMemo(() => {
     return (
-      <NotificationFeedProvider
-        theme={theme}
-        partnerKey={partnerKey}
-        isOpen={true}
-        mode={WidgetMode.Default}
-      >
+      <NotificationFeedProvider theme={theme} partnerKey={partnerKey} mode={WidgetMode.Default}>
         <NotificationFeed gapFromBell={10}>
           <S.WidgetBellWrapper>
             <NotificationBell />

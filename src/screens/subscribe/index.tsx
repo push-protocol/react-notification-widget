@@ -68,7 +68,7 @@ export const Subscribe = () => {
   if (channelLoading || authLoading) {
     return (
       <Screen>
-        <Flex alignItems={'center'} height={200}>
+        <Flex alignItems={'center'} height={300}>
           <Spinner size={30} />
         </Flex>
       </Screen>

@@ -39,7 +39,7 @@ export const SubscriptionFlowEnded = () => {
         alignItems={'center'}
         direction={'column'}
         gap={2}
-        mb={4}
+        mb={8}
         mt={3}
       >
         <HeaderIconContainer>

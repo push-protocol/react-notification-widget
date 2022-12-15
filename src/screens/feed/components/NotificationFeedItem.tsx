@@ -3,6 +3,7 @@ import dayjs, { extend } from 'dayjs';
 import styled from 'styled-components';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import analytics from '../../../services/analytics';
+import parseEpnsFormatting from '../helpers/parseEpnsFormatting';
 import { NotificationClickProp } from 'components/types';
 import { changeColorShade } from 'components/utils';
 import { Notification } from 'context/NotificationsContext/types';
@@ -10,30 +11,36 @@ import Flex from 'components/layout/Flex';
 import Text from 'components/Text';
 import Link from 'components/Link';
 import { Globe } from 'components/icons';
-import formatDomain from 'helpers/functions/formatDomain';
+import getDomain from 'helpers/functions/getDomain';
 import { getYoutubeId } from 'helpers/functions/getYoutubeId';
 
 extend(relativeTime);
 
 const Container = styled(Flex)<{ clickable: boolean }>`
-  cursor: ${({ clickable }) => (clickable ? 'pointer' : 'default')};
+  cursor: ${({ clickable }) => (clickable ? 'pointer' : 'cursor')};
   padding: 8px 0;
+  border-radius: ${({ theme }) => theme.borderRadius.md};
 `;
 
-const Header = styled(Flex)`
-  position: relative;
+const NotificationTitle = styled(Text)`
+  word-break: break-word;
 `;
 
-const SenderImage = styled.div`
-  height: 40px;
-  width: 40px;
-  border-radius: 100px;
-  background: ${({ theme }) => theme.colors.primary.light};
+const SenderImageContainer = styled.div`
+  background: ${({ theme }) => theme.colors.text.primary};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 45px;
   overflow: hidden;
-  img {
-    height: 100%;
-    width: 100%;
-  }
+  width: 45px;
+  border-radius: 100px;
+  margin-right: 6px;
+`;
+
+const SenderImage = styled.img`
+  object-fit: contain;
+  width: 100%;
 `;
 
 const UnreadNotification = styled.div`
@@ -60,7 +67,7 @@ const ImageContainer = styled.div`
   overflow: hidden;
 `;
 
-const Image = styled.img`
+const NotificationImage = styled.img`
   width: 100%;
   object-fit: contain;
 `;
@@ -91,7 +98,13 @@ const NotificationFeedItem = ({
     analytics.track('notification clicked', { notification });
 
     if (onNotificationClick) {
-      onNotificationClick(notification);
+      return onNotificationClick(notification);
+    }
+
+    if (notification.cta) {
+      const isCurrentDomain = getDomain(notification.cta) === getDomain(window.location.origin);
+
+      window.open(notification.cta, isCurrentDomain ? '_self' : '_blank');
     }
   };
 
@@ -106,66 +119,66 @@ const NotificationFeedItem = ({
   const youtubeId = getYoutubeId(notification?.image);
 
   return (
-    <Container
-      clickable={!!onNotificationClick}
-      onClick={handleNotificationClick}
-      direction={'column'}
-      gap={0.5}
-    >
-      <Header gap={0.5} alignItems={'center'}>
-        {showSenderDetails && (
-          <SenderImage>
-            <img src={notification.senderLogo} alt={''} />
-          </SenderImage>
-        )}
-        <Flex width={'100%'} direction={'column'}>
+    <Container clickable={!!notification.cta} onClick={handleNotificationClick}>
+      {showSenderDetails && (
+        //div required for margins and sizes to work correctly
+        <div>
+          <SenderImageContainer>
+            <SenderImage src={notification.senderLogo} alt={''} />
+          </SenderImageContainer>
+        </div>
+      )}
+      <Flex width={'100%'} direction={'column'}>
+        <Flex direction={'column'} gap={0.5}>
           {showSenderDetails && (
-            <Text size={'md'} weight={500}>
+            <Text size={'md'} color={'secondary'} weight={500}>
               {notification.appName}
             </Text>
           )}
-          <Text size={'lg'} weight={700}>
+          <NotificationTitle size={'lg'} weight={700}>
             {notification.title}
-          </Text>
+          </NotificationTitle>
         </Flex>
-        {isUnread && <UnreadNotification onClick={markAsRead} />}
-      </Header>
-      <Message mt={1} mb={1} size={'md'} weight={500}>
-        {notification.message}
-      </Message>
-      {notification.image && (
-        <a href={notification.image} target={'_blank'} rel="noreferrer">
-          <ImageContainer>
-            {youtubeId ? (
-              <Image
-                src={`https://img.youtube.com/vi/${youtubeId}/0.jpg`}
-                alt="notification image"
-              />
-            ) : (
-              <Image src={notification.image} alt="notification image" />
-            )}
-          </ImageContainer>
-        </a>
-      )}
-      <Flex justifyContent={'space-between'}>
-        <Text size={'sm'} color={'secondary'}>
-          {getRelativeTime(notification.timestamp)}
-        </Text>
-        {notification?.cta && (
-          <Flex gap={0.5} alignItems={'center'}>
-            <Link src={notification.cta}>
-              <IconContainer>
-                <Globe />
-              </IconContainer>
-            </Link>
-            <Link src={notification.cta}>
-              <Text size={'sm'} color={'secondary'}>
-                {formatDomain(notification.cta)}
-              </Text>
-            </Link>
-          </Flex>
+
+        <Message mt={1} mb={1} size={'md'} weight={500}>
+          {parseEpnsFormatting(notification.message)}
+        </Message>
+
+        {notification.image && (
+          <a href={notification.image} target={'_blank'} rel="noreferrer">
+            <ImageContainer>
+              {youtubeId ? (
+                <NotificationImage
+                  src={`https://img.youtube.com/vi/${youtubeId}/0.jpg`}
+                  alt="notification image"
+                />
+              ) : (
+                <NotificationImage src={notification.image} alt="notification image" />
+              )}
+            </ImageContainer>
+          </a>
         )}
+        <Flex justifyContent={'space-between'}>
+          <Text size={'sm'} color={'secondary'}>
+            {getRelativeTime(notification.timestamp)}
+          </Text>
+          {notification?.cta && (
+            <Flex gap={0.5} alignItems={'center'}>
+              <Link src={notification.cta}>
+                <IconContainer>
+                  <Globe />
+                </IconContainer>
+              </Link>
+              <Link src={notification.cta}>
+                <Text size={'sm'} color={'secondary'}>
+                  {getDomain(notification.cta)}
+                </Text>
+              </Link>
+            </Flex>
+          )}
+        </Flex>
       </Flex>
+      {isUnread && <UnreadNotification onClick={markAsRead} />}
     </Container>
   );
 };
