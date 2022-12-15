@@ -18,10 +18,10 @@ type PreferenceCategoryItemProps = {
 const PreferenceCategory = styled.div`
   display: flex;
   flex: 1;
-  padding-right: 8px;
   box-sizing: border-box;
   height: 36px;
   align-items: center;
+  justify-content: space-between;
   ${Text} {
     overflow: hidden;
     text-overflow: ellipsis;
@@ -42,7 +42,7 @@ const PreferenceCategoryItem = ({
           <Text>{title}</Text>
         </Flex>
 
-        <Flex width={32} alignItems={'center'}>
+        <Flex width={32} alignItems={'center'} pl={1} pr={1}>
           <ToggleInput
             checked={userPreferences[id]?.enabled || false}
             onChange={() => {

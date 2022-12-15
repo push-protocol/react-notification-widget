@@ -1958,15 +1958,15 @@ this in the docs: http://dev.apollodata.com/core/fragments.html#unique-names`):s
 `,QMt=t=>{let e=ui();return pI.default.createElement(WMt,{disabled:t.disabled,enabled:t.enabled,onClick:t.onClick},t.enabled?pI.default.createElement(jC,{color:e.colors.text.primary}):pI.default.createElement(NMe,null))},LMe=QMt;var KMt=Ge.div`
   display: flex;
   flex: 1;
-  padding-right: 8px;
   box-sizing: border-box;
   height: 36px;
   align-items: center;
+  justify-content: space-between;
   ${Mt} {
     overflow: hidden;
     text-overflow: ellipsis;
   }
-`,XMt=({id:t,title:e,userPreferences:r,handleUpdateUserPreferences:n,userChannels:i})=>gc.default.createElement(ct,{alignItems:"center",mb:1},gc.default.createElement(KMt,null,gc.default.createElement(ct,{width:98},gc.default.createElement(Mt,null,e)),gc.default.createElement(ct,{width:32,alignItems:"center"},gc.default.createElement(RMe,{checked:r[t]?.enabled||!1,onChange:()=>{n&&n(t,"enabled")}}))),r[t]?.enabled?gc.default.createElement(ct,{width:176,justifyContent:"center"},i.map(o=>gc.default.createElement(ct,{key:`${o}${t}`,width:60,justifyContent:"center"},gc.default.createElement(LMe,{disabled:!r[t]?.enabled,enabled:r[t]?.[o?.toLowerCase()]||!1,onClick:()=>n&&n(t,o)})))):gc.default.createElement(ct,{width:"100%",height:35,alignItems:"center",justifyContent:"center"},gc.default.createElement(Mt,null,"Alerts are off"))),FMe=XMt;var ZMt=Ge.div`
+`,XMt=({id:t,title:e,userPreferences:r,handleUpdateUserPreferences:n,userChannels:i})=>gc.default.createElement(ct,{alignItems:"center",mb:1},gc.default.createElement(KMt,null,gc.default.createElement(ct,{width:98},gc.default.createElement(Mt,null,e)),gc.default.createElement(ct,{width:32,alignItems:"center",pl:1,pr:1},gc.default.createElement(RMe,{checked:r[t]?.enabled||!1,onChange:()=>{n&&n(t,"enabled")}}))),r[t]?.enabled?gc.default.createElement(ct,{width:176,justifyContent:"center"},i.map(o=>gc.default.createElement(ct,{key:`${o}${t}`,width:60,justifyContent:"center"},gc.default.createElement(LMe,{disabled:!r[t]?.enabled,enabled:r[t]?.[o?.toLowerCase()]||!1,onClick:()=>n&&n(t,o)})))):gc.default.createElement(ct,{width:"100%",height:35,alignItems:"center",justifyContent:"center"},gc.default.createElement(Mt,null,"Alerts are off"))),FMe=XMt;var ZMt=Ge.div`
   width: 100%;
   margin-bottom: 16px;
   background: ${({theme:t})=>t.colors.dark["10"]};
