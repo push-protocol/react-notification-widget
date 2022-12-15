@@ -16,6 +16,13 @@ export type UserPreferenceCategoriesQueryVariables = Types.Exact<{ [key: string]
 
 export type UserPreferenceCategoriesQuery = { __typename?: 'Query', commsChannelTags: Array<{ __typename?: 'CommsChannelTag', id: string, name: string, userPreferences: Array<{ __typename?: 'UserPreference', id: string, discord: boolean, email: boolean, telegram: boolean, enabled: boolean }> }> };
 
+export type UserPreferencesUpdateMutationVariables = Types.Exact<{
+  input: Array<Types.UserPreferenceUpdateInput> | Types.UserPreferenceUpdateInput;
+}>;
+
+
+export type UserPreferencesUpdateMutation = { __typename?: 'Mutation', userPreferencesUpdate: { __typename?: 'GeneralResolverResponse', success: boolean } };
+
 
 export const PartnerInfoDocument = gql`
     query PartnerInfo($input: PartnerInfoInput!) {
@@ -99,3 +106,36 @@ export function useUserPreferenceCategoriesLazyQuery(baseOptions?: ApolloReactHo
 export type UserPreferenceCategoriesQueryHookResult = ReturnType<typeof useUserPreferenceCategoriesQuery>;
 export type UserPreferenceCategoriesLazyQueryHookResult = ReturnType<typeof useUserPreferenceCategoriesLazyQuery>;
 export type UserPreferenceCategoriesQueryResult = ApolloReactCommon.QueryResult<UserPreferenceCategoriesQuery, UserPreferenceCategoriesQueryVariables>;
+export const UserPreferencesUpdateDocument = gql`
+    mutation UserPreferencesUpdate($input: [UserPreferenceUpdateInput!]!) {
+  userPreferencesUpdate(input: $input) {
+    success
+  }
+}
+    `;
+export type UserPreferencesUpdateMutationFn = ApolloReactCommon.MutationFunction<UserPreferencesUpdateMutation, UserPreferencesUpdateMutationVariables>;
+
+/**
+ * __useUserPreferencesUpdateMutation__
+ *
+ * To run a mutation, you first call `useUserPreferencesUpdateMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUserPreferencesUpdateMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [userPreferencesUpdateMutation, { data, loading, error }] = useUserPreferencesUpdateMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useUserPreferencesUpdateMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<UserPreferencesUpdateMutation, UserPreferencesUpdateMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useMutation<UserPreferencesUpdateMutation, UserPreferencesUpdateMutationVariables>(UserPreferencesUpdateDocument, options);
+      }
+export type UserPreferencesUpdateMutationHookResult = ReturnType<typeof useUserPreferencesUpdateMutation>;
+export type UserPreferencesUpdateMutationResult = ApolloReactCommon.MutationResult<UserPreferencesUpdateMutation>;
+export type UserPreferencesUpdateMutationOptions = ApolloReactCommon.BaseMutationOptions<UserPreferencesUpdateMutation, UserPreferencesUpdateMutationVariables>;

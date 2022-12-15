@@ -22,3 +22,10 @@ query UserPreferenceCategories {
         }
     }
 }
+
+
+mutation UserPreferencesUpdate($input: [UserPreferenceUpdateInput!]!) {
+    userPreferencesUpdate(input: $input) {
+        success
+    }
+}

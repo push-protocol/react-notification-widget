@@ -1,7 +1,10 @@
 import React, { ReactNode, useEffect, useState } from 'react';
 import { MessagingApp } from 'global/types.generated';
 import { Discord, Email, Telegram } from 'components/icons';
-import { useUserPreferenceCategoriesQuery } from 'context/ChannelContext/operations.generated';
+import {
+  useUserPreferenceCategoriesQuery,
+  useUserPreferencesUpdateMutation,
+} from 'context/ChannelContext/operations.generated';
 
 export type UserPrefs = Record<string, { [key in MessagingApp]?: boolean }>;
 
@@ -31,7 +34,7 @@ export type PreferenceCategory = {
   title: string;
 };
 
-export type UserPreference = Record<string, Record<string, boolean>>;
+export type UserPreference = Record<string, Record<string, any>>;
 
 const usePreferenceActions = () => {
   const [preferenceCategories, setPreferenceCategories] = useState<PreferenceCategory[]>([]);
@@ -39,6 +42,8 @@ const usePreferenceActions = () => {
   const [userChannels, setUserChannels] = useState<MessagingApp[]>(defaultUserChannels);
 
   const { data } = useUserPreferenceCategoriesQuery();
+
+  const [updateUserPreferences] = useUserPreferencesUpdateMutation();
 
   // TODO: discuss - possibly filter out discord option if guild url is not set
   // const userChannels = defaultUserChannels.filter((channel) =>
@@ -61,6 +66,7 @@ const usePreferenceActions = () => {
         return {
           [tag.id]: {
             ...tag?.userPreferences[0],
+            commsChannelTagId: tag.id,
           },
         };
       });
@@ -68,11 +74,28 @@ const usePreferenceActions = () => {
     }
   }, [data]);
 
+  const savePreferences = (updatedPreferences: UserPreference) => {
+    updateUserPreferences({
+      variables: {
+        input: Object.values(updatedPreferences).map((item) => {
+          return {
+            commsChannelTagId: item.commsChannelTagId,
+            enabled: !!item?.enabled,
+            discord: !!item?.enabled,
+            telegram: !!item?.enabled,
+            email: !!item?.enabled,
+          };
+        }),
+      },
+    });
+  };
+
   const handleUpdateUserPreferences = (id: string, key: string) => {
     const updatedPreferences = { ...userPreferences };
     key = key?.toLowerCase(); // BE uses lower case channel names for channels
     updatedPreferences[id][key] = !updatedPreferences[id][key];
     setUserPreferences(updatedPreferences);
+    savePreferences(updatedPreferences);
   };
 
   return {
