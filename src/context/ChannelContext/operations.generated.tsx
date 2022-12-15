@@ -9,7 +9,7 @@ export type PartnerInfoQueryVariables = Types.Exact<{
 }>;
 
 
-export type PartnerInfoQuery = { __typename?: 'Query', partnerInfo: { __typename?: 'CommsChannel', id: string, channelAddress: string, logo?: string | null, name: string, chainId: number, discordGuildUrl?: string | null } };
+export type PartnerInfoQuery = { __typename?: 'Query', partnerInfo: { __typename?: 'PartnerInfo', id: string, channelAddress: string, logo?: string | null, name: string, chainId: number, discordGuildUrl?: string | null } };
 
 
 export const PartnerInfoDocument = gql`

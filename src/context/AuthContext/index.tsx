@@ -8,6 +8,7 @@ import React, {
 } from 'react';
 import * as epns from '@epnsproject/sdk-restapi';
 import { useAccount, useDisconnect, useSigner } from 'wagmi';
+import { useGetUserQuery, GetUserQuery } from './operations.generated';
 import { Routes, useRouterContext } from 'context/RouterContext';
 import analytics from 'services/analytics';
 import { LOCALSTORAGE_AUTH_KEY, LOCALSTORAGE_AUTH_REFRESH_KEY } from 'global/const';
@@ -22,6 +23,7 @@ export type AuthInfo = {
   error: boolean;
   isLoggedIn: boolean;
   discordToken?: string;
+  user?: GetUserQuery['user'];
   login(callback?: () => void): void;
   isOnboarding: boolean;
   isSubscribed: boolean;
@@ -60,16 +62,18 @@ const AuthProvider = ({
   const { data: signer, refetch: refetchSigner } = useSigner();
   const { login: _login } = useAuthenticate();
   const dc = useDisconnect();
+
   const [userDisconnected, setUserDisconnected] = useState(false);
   const [isSubscribed, setIsSubscribed] = useState(false);
   const [isOnboarding, setIsOnboarding] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(false);
-
-  // handle signer null case when reloading window after clearing storage
   const [refetchCounter, setRefetchCounter] = useState(0);
 
+  const { data: userData, loading: userLoading } = useGetUserQuery({ skip: !isLoggedIn });
+
+  // handle signer null case when reloading window after clearing storage
   useEffect(() => {
     if (signer || refetchCounter > 10) return;
 
@@ -193,6 +197,7 @@ const AuthProvider = ({
       value={{
         subscribe,
         isSubscribed,
+        user: userData?.user,
         unsubscribe,
         isLoggedIn,
         isLoading,

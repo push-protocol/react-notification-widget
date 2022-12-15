@@ -73,6 +73,17 @@ export type CommsChannelAnalyticsSubscribersArgs = {
   range: AnalyticsRangeInput;
 };
 
+export type CommsChannelSettings = {
+  __typename?: 'CommsChannelSettings';
+  commsChannelId: Scalars['String'];
+  id: Scalars['String'];
+  userAddressActivity?: Maybe<Scalars['Boolean']>;
+};
+
+export type CommsChannelSettingsUpdateInput = {
+  userAddressActivity?: InputMaybe<Scalars['Boolean']>;
+};
+
 export type CommsChannelStats = {
   __typename?: 'CommsChannelStats';
   chainId: Scalars['Int'];
@@ -243,6 +254,7 @@ export enum MessagingApp {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  commsChannelSettingsUpdate: CommsChannelSettings;
   emailUnsubscribe: GeneralResolverResponse;
   incomingWebhookCreate: IncomingWebhook;
   incomingWebhookDelete: GeneralResolverResponse;
@@ -254,14 +266,21 @@ export type Mutation = {
   telegramVerificationLinkGenerate: UserTelegramVerificationLinkPayload;
   userCommunicationsChannelDelete: GeneralResolverResponse;
   userDiscordVerify: GeneralResolverResponse;
+  userEmailDelete: GeneralResolverResponse;
   userEmailUpdate: GeneralResolverResponse;
   userEmailValidate: GeneralResolverResponse;
   userLogin: UserLoginPayload;
-  userNotificationRead: GeneralResolverResponse;
   userSubscribeToChannel: GeneralResolverResponse;
+  userTelegramDelete: GeneralResolverResponse;
+  userUpdateLastReadAt: User;
   workflowCreate: Workflow;
   workflowDelete: BatchActionResponse;
   workflowUpdate: Workflow;
+};
+
+
+export type MutationCommsChannelSettingsUpdateArgs = {
+  input: CommsChannelSettingsUpdateInput;
 };
 
 
@@ -356,6 +375,16 @@ export type NonceGenerateInput = {
   userAddress: Scalars['String'];
 };
 
+export type PartnerInfo = {
+  __typename?: 'PartnerInfo';
+  chainId: Scalars['Float'];
+  channelAddress: Scalars['String'];
+  discordGuildUrl?: Maybe<Scalars['String']>;
+  id: Scalars['String'];
+  logo?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
+};
+
 export type PartnerInfoInput = {
   partnerApiKey: Scalars['String'];
 };
@@ -376,10 +405,12 @@ export type ProjectTokenSaveInput = {
 export type Query = {
   __typename?: 'Query';
   commsChannel: CommsChannel;
+  commsChannelSettings?: Maybe<CommsChannelSettings>;
   incomingWebhooks: Array<IncomingWebhook>;
   me: User;
-  partnerInfo: CommsChannel;
+  partnerInfo: PartnerInfo;
   projectToken?: Maybe<ProjectToken>;
+  user: User;
   userCommunicationChannels: UserCommunicationChannelsPayload;
   workflows: Array<Workflow>;
 };
@@ -428,13 +459,12 @@ export enum TriggerType {
 
 export type User = {
   __typename?: 'User';
+  addressActivityChannel?: Maybe<Scalars['String']>;
   createdAt: Scalars['DateTime'];
   discordId?: Maybe<Scalars['String']>;
   discordUsername?: Maybe<Scalars['String']>;
   email?: Maybe<Scalars['String']>;
-  firstName?: Maybe<Scalars['String']>;
   id: Scalars['String'];
-  lastName?: Maybe<Scalars['String']>;
   lastReadAt: Scalars['DateTime'];
   telegramId?: Maybe<Scalars['Int']>;
   telegramUsername?: Maybe<Scalars['String']>;
