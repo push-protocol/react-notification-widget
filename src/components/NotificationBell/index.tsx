@@ -46,17 +46,15 @@ const NotificationBell = (props: NotificationBellProps & any) => {
   const { notifications } = useNotificationsContext();
   const { user } = useAuthContext();
 
-  const unreadCount = useMemo(() => {
-    if (!user || !notifications?.length) {
-      return;
-    }
+  let unreadCount = null;
 
+  if (user && notifications?.length) {
     const unread = notifications.filter((notification) =>
       dayjs(notification.timestamp).isAfter(dayjs(user.lastReadAt))
     );
 
-    return unread.length > 9 ? '9+' : unread.length;
-  }, [notifications, user]);
+    unreadCount = unread.length > 9 ? '9+' : unread.length;
+  }
 
   return (
     <Container onClick={props.onClick}>
