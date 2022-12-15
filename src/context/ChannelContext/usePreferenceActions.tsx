@@ -5,7 +5,7 @@ import { useUserPreferenceCategoriesQuery } from 'context/ChannelContext/operati
 
 export type UserPrefs = Record<string, { [key in MessagingApp]?: boolean }>;
 
-const defaultUserChannels = [
+export const defaultUserChannels = [
   MessagingApp.Discord,
   MessagingApp.Telegram,
   MessagingApp.Email,
@@ -33,21 +33,17 @@ export type PreferenceCategory = {
 
 export type UserPreference = Record<string, Record<string, boolean>>;
 
-const usePreferences = ({
-  discordGuildUrl,
-}: {
-  discordToken?: string;
-  discordGuildUrl?: string | null;
-}) => {
+const usePreferenceActions = () => {
   const [preferenceCategories, setPreferenceCategories] = useState<PreferenceCategory[]>([]);
   const [userPreferences, setUserPreferences] = useState<UserPreference>({});
+  const [userChannels, setUserChannels] = useState<MessagingApp[]>(defaultUserChannels);
 
   const { data } = useUserPreferenceCategoriesQuery();
 
   // TODO: discuss - possibly filter out discord option if guild url is not set
-  const userChannels = defaultUserChannels.filter((channel) =>
-    !discordGuildUrl ? channel !== MessagingApp.Discord : true
-  );
+  // const userChannels = defaultUserChannels.filter((channel) =>
+  //   !discordGuildUrl ? channel !== MessagingApp.Discord : true
+  // );
 
   // Fetch saved user tags and preferences
   useEffect(() => {
@@ -83,7 +79,8 @@ const usePreferences = ({
     preferenceCategories,
     userPreferences,
     handleUpdateUserPreferences,
-    userChannels: defaultUserChannels,
+    userChannels,
+    setUserChannels,
   };
 };
 
@@ -93,4 +90,4 @@ export const isPreferenceChannelSelected = (userPreferences: UserPreference, par
   );
 };
 
-export default usePreferences;
+export default usePreferenceActions;

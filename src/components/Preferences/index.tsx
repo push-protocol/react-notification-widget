@@ -11,15 +11,20 @@ const PreferencesContainer = styled.div`
   padding: ${({ theme }) => theme.spacing(1)}px;
   border-radius: ${({ theme }) => theme.borderRadius.md};
   border: 1px solid ${({ theme }) => theme.colors.light['10']};
+  box-sizing: border-box;
 `;
 
-const Preferences = () => {
+type PreferencesProps = {
+  hideChannelInfo?: boolean;
+};
+
+const Preferences = ({ hideChannelInfo }: PreferencesProps) => {
   const { preferenceCategories, userPreferences, handleUpdateUserPreferences, userChannels } =
     useChannelContext();
 
   return (
     <PreferencesContainer>
-      <PreferencesHeader />
+      <PreferencesHeader hideChannelInfo={hideChannelInfo} />
       {preferenceCategories.map(({ id, title }) => (
         <PreferenceCategoryItem
           key={id}

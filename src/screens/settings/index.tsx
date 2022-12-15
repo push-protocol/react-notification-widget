@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Screen } from 'components/layout/Screen';
 import Button from 'components/Button';
 import Text from 'components/Text';
@@ -11,10 +11,35 @@ import SettingsHeader from 'screens/settings/components/SettingsHeader';
 import HiddenNotice from 'components/HiddenNotice';
 import { useAuthContext } from 'context/AuthContext';
 import { useEnvironment } from 'context/EnvironmentContext';
+import Preferences from 'components/Preferences';
+import { useNotificationsContext } from 'context/NotificationsContext';
+import { MessagingApp } from 'global/types.generated';
+import { defaultUserChannels } from 'context/ChannelContext/usePreferenceActions';
 
 export const Settings = () => {
   const { isSubscribeOnly } = useEnvironment();
-  const { name, icon } = useChannelContext();
+  const { userCommsChannels } = useNotificationsContext();
+  const { name, icon, setUserChannels, userChannels } = useChannelContext();
+
+  // TODO: improve logic of filtering out channels
+  useEffect(() => {
+    if (!setUserChannels) return;
+    const userChannelsMap: { [key: string]: boolean } = {
+      [MessagingApp.Discord]: !!userCommsChannels?.discord?.exists,
+      [MessagingApp.Email]: !!userCommsChannels?.email?.exists,
+      [MessagingApp.Telegram]: !!userCommsChannels?.telegram?.exists,
+    };
+
+    const channelKeys: string[] = Object.keys(userChannelsMap);
+
+    setUserChannels(
+      channelKeys.filter((key: string) => {
+        return userChannelsMap[key];
+      }) as MessagingApp[]
+    );
+
+    return () => setUserChannels(defaultUserChannels);
+  }, [userCommsChannels, setUserChannels]);
 
   const { unsubscribe } = useAuthContext();
 
@@ -30,6 +55,7 @@ export const Settings = () => {
       />
       <WrongNetworkError mb={2} />
       <Channels showDiscord={true} showEmail={true} showTelegram={true} />
+      {userChannels.length > 0 && <Preferences hideChannelInfo={true} />}
       {process.env.WHEREVER_ENV === 'development' && (
         <Flex width={'100%'} justifyContent={'center'} mb={1}>
           <Button variant={'outlined'} onClick={handleUnsubscribe} height={20}>

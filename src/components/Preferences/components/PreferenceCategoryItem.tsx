@@ -5,7 +5,7 @@ import Text from 'components/Text';
 import ToggleInput from 'components/ToggleInput';
 import PreferenceBell from 'components/Preferences/components/PreferenceBell';
 import { MessagingApp } from 'global/types.generated';
-import { UserPreference } from 'context/ChannelContext/usePreferences';
+import { UserPreference } from 'context/ChannelContext/usePreferenceActions';
 
 type PreferenceCategoryItemProps = {
   id: string;

@@ -11,7 +11,7 @@ import Text from 'components/Text';
 import { Routes, useRouterContext } from 'context/RouterContext';
 import { useEnvironment } from 'context/EnvironmentContext';
 import { useNotificationsContext } from 'context/NotificationsContext';
-import { isPreferenceChannelSelected } from 'context/ChannelContext/usePreferences';
+import { isPreferenceChannelSelected } from 'context/ChannelContext/usePreferenceActions';
 import { MessagingApp } from 'global/types.generated';
 
 const Header = styled.div`

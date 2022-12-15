@@ -3,10 +3,10 @@ import { ApolloError } from '@apollo/client';
 import { useNetwork } from 'wagmi';
 import { usePartnerInfoQuery } from 'context/ChannelContext/operations.generated';
 import { MessagingApp } from 'global/types.generated';
-import usePreferences, {
+import usePreferenceActions, {
   PreferenceCategory,
   UserPreference,
-} from 'context/ChannelContext/usePreferences';
+} from 'context/ChannelContext/usePreferenceActions';
 
 export type ChannelInfo = {
   icon: string;
@@ -18,6 +18,7 @@ export type ChannelInfo = {
   userPreferences: UserPreference;
   handleUpdateUserPreferences?: (id: string, key: string) => void;
   userChannels: MessagingApp[];
+  setUserChannels?: (channels: MessagingApp[]) => void;
 };
 
 const emptyChannel = {
@@ -36,7 +37,6 @@ const ChannelContext = createContext<
 
 const ChannelProvider = ({
   partnerKey,
-  discordToken,
   children,
 }: {
   partnerKey: string;
@@ -54,11 +54,14 @@ const ChannelProvider = ({
   });
 
   const isWrongNetwork = !!channel?.chainId && channel.chainId !== walletChain?.id;
-  const { preferenceCategories, userChannels, userPreferences, handleUpdateUserPreferences } =
-    usePreferences({
-      discordToken,
-      discordGuildUrl: data?.partnerInfo.discordGuildUrl,
-    });
+
+  const {
+    preferenceCategories,
+    userChannels,
+    userPreferences,
+    handleUpdateUserPreferences,
+    setUserChannels,
+  } = usePreferenceActions();
 
   useEffect(() => {
     if (!data) return;
@@ -73,8 +76,9 @@ const ChannelProvider = ({
       userPreferences,
       handleUpdateUserPreferences,
       userChannels,
+      setUserChannels,
     });
-  }, [data, preferenceCategories]);
+  }, [data, preferenceCategories, userChannels, userPreferences]);
 
   return (
     <ChannelContext.Provider

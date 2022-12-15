@@ -53,7 +53,7 @@ const NotificationFeedProvider = ({
       <ThemeProvider theme={makeTheme(theme)}>
         <WagmiConfig client={wagmiClient}>
           <ApolloProvider>
-            <ChannelProvider partnerKey={partnerKey} discordToken={discordToken}>
+            <ChannelProvider partnerKey={partnerKey}>
               <NotificationsProvider isOpen={isOpen}>
                 <Reset />
                 <RouterProvider>

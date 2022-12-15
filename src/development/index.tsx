@@ -52,8 +52,7 @@ const FakeApp = () => {
         theme={theme}
         partnerKey={partnerKey}
         isOpen={true}
-        mode={WidgetMode.SubscribeOnly}
-        discordToken={'clbcffz110011ldjeditx9acn'}
+        mode={WidgetMode.Default}
       >
         <NotificationFeed gapFromBell={10}>
           <S.WidgetBellWrapper>

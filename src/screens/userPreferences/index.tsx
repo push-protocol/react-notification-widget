@@ -9,7 +9,7 @@ import Button from 'components/Button';
 import { Routes, useRouterContext } from 'context/RouterContext';
 import { useEnvironment } from 'context/EnvironmentContext';
 import Preferences from 'components/Preferences/index';
-import { isPreferenceChannelSelected } from 'context/ChannelContext/usePreferences';
+import { isPreferenceChannelSelected } from 'context/ChannelContext/usePreferenceActions';
 import { MessagingApp } from 'global/types.generated';
 
 const Header = styled.div`
