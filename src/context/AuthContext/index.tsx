@@ -154,7 +154,6 @@ const AuthProvider = ({
   // for cases when user switches accounts manually
   useEffect(() => {
     if (prevAddress && prevAddress !== address) {
-      console.log('called', document.hidden);
       localStorage.removeItem(LOCALSTORAGE_AUTH_KEY);
       localStorage.removeItem(LOCALSTORAGE_AUTH_REFRESH_KEY);
       setIsOnboarding(false);
