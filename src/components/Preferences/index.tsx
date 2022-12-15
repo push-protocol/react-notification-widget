@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import PreferencesHeader from 'components/Preferences/components/PreferencesHeader';
 import PreferenceCategoryItem from 'components/Preferences/components/PreferenceCategoryItem';
 import { useChannelContext } from 'context/ChannelContext';
+import { MessagingApp } from 'global/types.generated';
 
 const PreferencesContainer = styled.div`
   width: 100%;
@@ -16,15 +17,16 @@ const PreferencesContainer = styled.div`
 
 type PreferencesProps = {
   hideChannelInfo?: boolean;
+  userChannels: MessagingApp[];
 };
 
-const Preferences = ({ hideChannelInfo }: PreferencesProps) => {
-  const { preferenceCategories, userPreferences, handleUpdateUserPreferences, userChannels } =
+const Preferences = ({ hideChannelInfo, userChannels }: PreferencesProps) => {
+  const { preferenceCategories, userPreferences, handleUpdateUserPreferences } =
     useChannelContext();
 
   return (
     <PreferencesContainer>
-      <PreferencesHeader hideChannelInfo={hideChannelInfo} />
+      <PreferencesHeader hideChannelInfo={hideChannelInfo} userChannels={userChannels} />
       {preferenceCategories.map(({ id, title }) => (
         <PreferenceCategoryItem
           key={id}

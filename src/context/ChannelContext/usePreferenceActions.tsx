@@ -39,16 +39,10 @@ export type UserPreference = Record<string, Record<string, any>>;
 const usePreferenceActions = () => {
   const [preferenceCategories, setPreferenceCategories] = useState<PreferenceCategory[]>([]);
   const [userPreferences, setUserPreferences] = useState<UserPreference>({});
-  const [userChannels, setUserChannels] = useState<MessagingApp[]>(defaultUserChannels);
 
   const { data } = useUserPreferenceCategoriesQuery();
 
   const [updateUserPreferences] = useUserPreferencesUpdateMutation();
-
-  // TODO: discuss - possibly filter out discord option if guild url is not set
-  // const userChannels = defaultUserChannels.filter((channel) =>
-  //   !discordGuildUrl ? channel !== MessagingApp.Discord : true
-  // );
 
   // Fetch saved user tags and preferences
   useEffect(() => {
@@ -102,8 +96,6 @@ const usePreferenceActions = () => {
     preferenceCategories,
     userPreferences,
     handleUpdateUserPreferences,
-    userChannels,
-    setUserChannels,
   };
 };
 

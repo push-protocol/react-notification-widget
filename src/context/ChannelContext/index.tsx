@@ -17,8 +17,6 @@ export type ChannelInfo = {
   preferenceCategories: PreferenceCategory[];
   userPreferences: UserPreference;
   handleUpdateUserPreferences?: (id: string, key: string) => void;
-  userChannels: MessagingApp[];
-  setUserChannels?: (channels: MessagingApp[]) => void;
 };
 
 const emptyChannel = {
@@ -55,13 +53,8 @@ const ChannelProvider = ({
 
   const isWrongNetwork = !!channel?.chainId && channel.chainId !== walletChain?.id;
 
-  const {
-    preferenceCategories,
-    userChannels,
-    userPreferences,
-    handleUpdateUserPreferences,
-    setUserChannels,
-  } = usePreferenceActions();
+  const { preferenceCategories, userPreferences, handleUpdateUserPreferences } =
+    usePreferenceActions();
 
   useEffect(() => {
     if (!data) return;
@@ -75,10 +68,8 @@ const ChannelProvider = ({
       preferenceCategories,
       userPreferences,
       handleUpdateUserPreferences,
-      userChannels,
-      setUserChannels,
     });
-  }, [data, preferenceCategories, userChannels, userPreferences]);
+  }, [data, preferenceCategories, userPreferences]);
 
   return (
     <ChannelContext.Provider

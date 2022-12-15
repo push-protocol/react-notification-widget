@@ -26,7 +26,7 @@ const HeaderImage = styled.img`
 `;
 
 const SettingsHeader = ({ title, icon }: { title: string; icon: string }) => (
-  <Header justifyContent={'center'} alignItems={'center'} direction={'column'} mb={2}>
+  <Header justifyContent={'center'} alignItems={'center'} direction={'column'}>
     <HeaderIconContainer size={58}>
       <HeaderImage src={icon} alt={'channel icon'} />
     </HeaderIconContainer>

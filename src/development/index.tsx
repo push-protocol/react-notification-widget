@@ -6,8 +6,6 @@ import {
   NotificationBell,
   NotificationFeed,
   NotificationFeedProvider,
-  NotificationBell,
-  CustomTheme,
 } from '../index';
 import * as S from './styles';
 import FloatingSettings, { Coordinates } from './components/FloatingSettings';

@@ -4,6 +4,7 @@ import { useChannelContext } from 'context/ChannelContext';
 import Text from 'components/Text';
 import HeaderChannelItem from 'components/Preferences/components/HeaderChannelItem';
 import { userChannelMapper } from 'context/ChannelContext/usePreferenceActions';
+import { MessagingApp } from 'global/types.generated';
 
 const HeaderContainer = styled.div`
   display: flex;
@@ -47,8 +48,14 @@ const Image = styled.img`
   border-radius: 100px;
 `;
 
-const PreferencesHeader = ({ hideChannelInfo }: { hideChannelInfo?: boolean }) => {
-  const { icon, name, userChannels } = useChannelContext();
+const PreferencesHeader = ({
+  hideChannelInfo,
+  userChannels,
+}: {
+  hideChannelInfo?: boolean;
+  userChannels: MessagingApp[];
+}) => {
+  const { icon, name } = useChannelContext();
 
   return (
     <HeaderContainer>

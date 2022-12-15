@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Screen } from 'components/layout/Screen';
 import Button from 'components/Button';
 import Text from 'components/Text';
@@ -19,9 +19,16 @@ import { defaultUserChannels } from 'context/ChannelContext/usePreferenceActions
 export const Settings = () => {
   const { isSubscribeOnly } = useEnvironment();
   const { userCommsChannels } = useNotificationsContext();
-  const { name, icon, setUserChannels, userChannels } = useChannelContext();
+  const { name, icon, discordGuildUrl } = useChannelContext();
 
-  // TODO: improve logic of filtering out channels
+  const [userChannels, setUserChannels] = useState(defaultUserChannels);
+
+  useEffect(() => {
+    setUserChannels(
+      userChannels.filter((channel) => (!discordGuildUrl ? channel !== MessagingApp.Discord : true))
+    );
+  }, [discordGuildUrl]);
+
   useEffect(() => {
     if (!setUserChannels) return;
     const userChannelsMap: { [key: string]: boolean } = {
@@ -49,13 +56,17 @@ export const Settings = () => {
 
   return (
     <Screen navbarActionComponent={!isSubscribeOnly ? <NavbarActions /> : undefined} mb={1}>
-      <SettingsHeader
-        title={isSubscribeOnly ? `You are subscriberd to ${name}` : 'Notification Settings'}
-        icon={icon}
-      />
+      <Flex mt={!isSubscribeOnly ? -3 : 0} mb={2}>
+        <SettingsHeader
+          title={isSubscribeOnly ? `You are subscriberd to ${name}` : 'Notification Settings'}
+          icon={icon}
+        />
+      </Flex>
       <WrongNetworkError mb={2} />
       <Channels showDiscord={true} showEmail={true} showTelegram={true} />
-      {userChannels.length > 0 && <Preferences hideChannelInfo={true} />}
+      {userChannels.length > 0 && (
+        <Preferences hideChannelInfo={true} userChannels={userChannels} />
+      )}
       {process.env.WHEREVER_ENV === 'development' && (
         <Flex width={'100%'} justifyContent={'center'} mb={1}>
           <Button variant={'outlined'} onClick={handleUnsubscribe} height={20}>
