@@ -11,7 +11,7 @@ const NavbarActions = () => {
 
   return (
     <Button variant={'gray'} fontSize={'sm'} p={1} borderRadius={'sm'} onClick={handleGoBack}>
-      Back
+      Done
     </Button>
   );
 };

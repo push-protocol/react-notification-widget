@@ -58,7 +58,7 @@ export const Subscribe = () => {
   useEffect(() => {
     if (isSubscribed && !isOnboarding) {
       if (isSubscribeOnly) {
-        setRoute(Routes.UserPreferences); // TODO: revert to settings
+        setRoute(Routes.Settings);
       } else {
         setRoute(Routes.NotificationsFeed);
       }
