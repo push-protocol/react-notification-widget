@@ -73,6 +73,17 @@ export type CommsChannelAnalyticsSubscribersArgs = {
   range: AnalyticsRangeInput;
 };
 
+export type CommsChannelSettings = {
+  __typename?: 'CommsChannelSettings';
+  commsChannelId: Scalars['String'];
+  id: Scalars['String'];
+  userAddressActivity?: Maybe<Scalars['Boolean']>;
+};
+
+export type CommsChannelSettingsUpdateInput = {
+  userAddressActivity?: InputMaybe<Scalars['Boolean']>;
+};
+
 export type CommsChannelStats = {
   __typename?: 'CommsChannelStats';
   chainId: Scalars['Int'];
@@ -114,6 +125,10 @@ export type CommsChannelTag = {
 export type CommsChannelTagCreateInput = {
   name: Scalars['String'];
   type: CommsChannelTagType;
+};
+
+export type CommsChannelTagDeleteInput = {
+  id: Scalars['String'];
 };
 
 export enum CommsChannelTagType {
@@ -233,11 +248,6 @@ export type ManualAudience = {
   id: Scalars['String'];
 };
 
-export enum MessageCategoryJoinType {
-  And = 'AND',
-  Or = 'OR'
-}
-
 export type MessageSendInput = {
   addresses: Array<Scalars['String']>;
   apps: Array<MessagingApp>;
@@ -275,7 +285,9 @@ export enum MessagingApp {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  commsChannelSettingsUpdate: CommsChannelSettings;
   commsChannelTagCreate: CommsChannelTag;
+  commsChannelTagDelete: GeneralResolverResponse;
   commsChannelTagUpdate: CommsChannelTag;
   emailUnsubscribe: GeneralResolverResponse;
   incomingWebhookCreate: IncomingWebhook;
@@ -303,8 +315,18 @@ export type Mutation = {
 };
 
 
+export type MutationCommsChannelSettingsUpdateArgs = {
+  input: CommsChannelSettingsUpdateInput;
+};
+
+
 export type MutationCommsChannelTagCreateArgs = {
   input: CommsChannelTagCreateInput;
+};
+
+
+export type MutationCommsChannelTagDeleteArgs = {
+  input: CommsChannelTagDeleteInput;
 };
 
 
@@ -409,6 +431,16 @@ export type NonceGenerateInput = {
   userAddress: Scalars['String'];
 };
 
+export type PartnerInfo = {
+  __typename?: 'PartnerInfo';
+  chainId: Scalars['Float'];
+  channelAddress: Scalars['String'];
+  discordGuildUrl?: Maybe<Scalars['String']>;
+  id: Scalars['String'];
+  logo?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
+};
+
 export type PartnerInfoInput = {
   partnerApiKey: Scalars['String'];
 };
@@ -429,10 +461,11 @@ export type ProjectTokenSaveInput = {
 export type Query = {
   __typename?: 'Query';
   commsChannel: CommsChannel;
+  commsChannelSettings?: Maybe<CommsChannelSettings>;
   commsChannelTags: Array<CommsChannelTag>;
   incomingWebhooks: Array<IncomingWebhook>;
   me: User;
-  partnerInfo: CommsChannel;
+  partnerInfo: PartnerInfo;
   projectToken?: Maybe<ProjectToken>;
   userCommunicationChannels: UserCommunicationChannelsPayload;
   workflows: Array<Workflow>;
@@ -482,13 +515,12 @@ export enum TriggerType {
 
 export type User = {
   __typename?: 'User';
+  addressActivityChannel?: Maybe<Scalars['String']>;
   createdAt: Scalars['DateTime'];
   discordId?: Maybe<Scalars['String']>;
   discordUsername?: Maybe<Scalars['String']>;
   email?: Maybe<Scalars['String']>;
-  firstName?: Maybe<Scalars['String']>;
   id: Scalars['String'];
-  lastName?: Maybe<Scalars['String']>;
   lastReadAt: Scalars['DateTime'];
   telegramId?: Maybe<Scalars['Int']>;
   telegramUsername?: Maybe<Scalars['String']>;
@@ -546,6 +578,7 @@ export type UserPreference = {
   commsChannelTagId: Scalars['String'];
   discord: Scalars['Boolean'];
   email: Scalars['Boolean'];
+  enabled: Scalars['Boolean'];
   id: Scalars['String'];
   telegram: Scalars['Boolean'];
   userAddress: Scalars['String'];
@@ -555,6 +588,7 @@ export type UserPreferenceUpdateInput = {
   commsChannelTagId: Scalars['String'];
   discord: Scalars['Boolean'];
   email: Scalars['Boolean'];
+  enabled: Scalars['Boolean'];
   telegram: Scalars['Boolean'];
 };
 
@@ -573,6 +607,7 @@ export type Workflow = {
   id: Scalars['String'];
   isActive: Scalars['Boolean'];
   message?: Maybe<MessageStep>;
+  messageCategoryIds: Scalars['JSON'];
   name: Scalars['String'];
   org?: Maybe<Scalars['String']>;
   trigger?: Maybe<Trigger>;
@@ -590,14 +625,9 @@ export type WorkflowCreateAudienceInput = {
 export type WorkflowCreateInput = {
   audience: WorkflowCreateAudienceInput;
   message: WorkflowCreateMessageInput;
-  messageCategory?: InputMaybe<WorkflowCreateMessageCategoryInput>;
+  messageCategoryIds: Array<Scalars['String']>;
   name: Scalars['String'];
   trigger: WorkflowCreateTriggerInput;
-};
-
-export type WorkflowCreateMessageCategoryInput = {
-  channelTagIds: Array<Scalars['String']>;
-  joinType?: InputMaybe<MessageCategoryJoinType>;
 };
 
 export type WorkflowCreateMessageInput = {
@@ -622,7 +652,7 @@ export type WorkflowUpdateInput = {
   audience: WorkflowCreateAudienceInput;
   id: Scalars['String'];
   message: WorkflowCreateMessageInput;
-  messageCategory?: InputMaybe<WorkflowCreateMessageCategoryInput>;
+  messageCategoryIds: Array<Scalars['String']>;
   name: Scalars['String'];
   trigger: WorkflowCreateTriggerInput;
 };

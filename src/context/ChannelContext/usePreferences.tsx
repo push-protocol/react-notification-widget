@@ -2,7 +2,6 @@ import React, { ReactNode, useEffect, useState } from 'react';
 import { MessagingApp } from 'global/types.generated';
 import { Discord, Email, Telegram } from 'components/icons';
 import { useUserPreferenceCategoriesQuery } from 'context/ChannelContext/operations.generated';
-import { Routes, useRouterContext } from 'context/RouterContext';
 
 export type UserPrefs = Record<string, { [key in MessagingApp]?: boolean }>;
 
@@ -27,101 +26,71 @@ export const userChannelMapper: { [key: string]: { title: string; icon: ReactNod
   },
 };
 
-type PreferenceCategory = {
+export type PreferenceCategory = {
+  id: string;
   title: string;
 };
 
+export type UserPreference = Record<string, Record<string, boolean>>;
+
 const usePreferences = ({
-  discordToken,
   discordGuildUrl,
 }: {
   discordToken?: string;
   discordGuildUrl?: string | null;
 }) => {
-  const { setRoute } = useRouterContext();
-  const [userPrefs, setUserPrefs] = useState<UserPrefs>({});
-  const [enabledPrefs, setEnabledPrefs] = useState<Record<string, boolean>>({});
   const [preferenceCategories, setPreferenceCategories] = useState<PreferenceCategory[]>([]);
+  const [userPreferences, setUserPreferences] = useState<UserPreference>({});
 
-  const { data, loading } = useUserPreferenceCategoriesQuery({});
-  console.log(loading, 'loadingloading');
-  // Filter out discord option if guild url is not set
+  const { data } = useUserPreferenceCategoriesQuery();
+
+  // TODO: discuss - possibly filter out discord option if guild url is not set
   const userChannels = defaultUserChannels.filter((channel) =>
     !discordGuildUrl ? channel !== MessagingApp.Discord : true
   );
 
+  // Fetch saved user tags and preferences
   useEffect(() => {
-    console.log(data, '?.commsChannelTags.length');
-
-    if (!loading && data?.commsChannelTags && data.commsChannelTags.length < 2) {
-      console.log('such empty');
-    }
-  }, [loading, data]);
-
-  useEffect(() => {
-    if (data?.commsChannelTags && data.commsChannelTags.length > 1) {
+    if (data?.commsChannelTags && data.commsChannelTags.length > 0) {
       setPreferenceCategories(
         data?.commsChannelTags?.map((tag) => {
           return {
+            id: tag.id,
             title: tag.name,
           };
         })
       );
+
+      const preferences = data?.commsChannelTags?.map((tag) => {
+        return {
+          [tag.id]: {
+            ...tag?.userPreferences[0],
+          },
+        };
+      });
+      setUserPreferences(Object.assign({}, ...preferences));
     }
   }, [data]);
 
-  console.log(preferenceCategories, 'preferenceCategories');
-  // Preselect discord when token is passed
-  useEffect(() => {
-    if (discordToken) {
-      const newEnabledPrefs: Record<string, boolean> = {};
-      const newUserPrefs: UserPrefs = {};
-
-      for (const category of preferenceCategories) {
-        newEnabledPrefs[category.title] = true;
-        newUserPrefs[category.title] = {
-          [MessagingApp.Discord]: true,
-        };
-      }
-
-      setEnabledPrefs(newEnabledPrefs);
-      setUserPrefs(newUserPrefs);
-    }
-  }, [discordToken]);
-
-  const togglePref = (pref: string) => {
-    const newPrefSetting = !enabledPrefs[pref];
-
-    if (!newPrefSetting) {
-      setUserPrefs({ ...userPrefs, [pref]: {} } as UserPrefs);
-    }
-
-    setEnabledPrefs((oldPrefs) => ({ ...oldPrefs, [pref]: newPrefSetting }));
-  };
-
-  const handlePreferenceChange = (pref: string, channel: MessagingApp) => {
-    if (!enabledPrefs[pref]) return;
-    const isPrefEnabled = userPrefs[pref]?.[channel];
-
-    const newPrefs: UserPrefs = {
-      ...userPrefs,
-      [pref]: {
-        ...userPrefs[pref],
-        [channel]: !isPrefEnabled,
-      },
-    };
-
-    setUserPrefs(newPrefs);
+  const handleUpdateUserPreferences = (id: string, key: string) => {
+    const updatedPreferences = { ...userPreferences };
+    key = key?.toLowerCase(); // BE uses lower case channel names for channels
+    updatedPreferences[id][key] = !updatedPreferences[id][key];
+    setUserPreferences(updatedPreferences);
   };
 
   return {
-    userPrefs,
-    enabledPrefs,
-    handlePreferenceChange,
     preferenceCategories,
-    togglePref,
-    userChannels,
+    userPreferences,
+    handleUpdateUserPreferences,
+    userChannels: defaultUserChannels,
   };
+};
+
+export const isPreferenceChannelSelected = (userPreferences: UserPreference, parameter: string) => {
+  return Object.values(userPreferences).some(
+    (value) => value[parameter.toLowerCase()] && value['enabled']
+  );
 };
 
 export default usePreferences;

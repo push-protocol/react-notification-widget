@@ -5,14 +5,13 @@ import Text from 'components/Text';
 import ToggleInput from 'components/ToggleInput';
 import PreferenceBell from 'components/Preferences/components/PreferenceBell';
 import { MessagingApp } from 'global/types.generated';
-import { UserPrefs } from 'context/ChannelContext/usePreferences';
+import { UserPreference } from 'context/ChannelContext/usePreferences';
 
 type PreferenceCategoryItemProps = {
+  id: string;
   title: string;
-  enabledPrefs: Record<string, boolean>;
-  togglePref?: (pref: string) => void;
-  userPrefs: UserPrefs;
-  handlePreferenceChange?: (pref: string, channel: MessagingApp) => void;
+  userPreferences: UserPreference;
+  handleUpdateUserPreferences?: (id: string, key: string) => void;
   userChannels: MessagingApp[];
 };
 
@@ -30,15 +29,14 @@ const PreferenceCategory = styled.div`
 `;
 
 const PreferenceCategoryItem = ({
+  id,
   title,
-  enabledPrefs,
-  togglePref,
-  userPrefs,
-  handlePreferenceChange,
+  userPreferences,
+  handleUpdateUserPreferences,
   userChannels,
 }: PreferenceCategoryItemProps) => {
   return (
-    <Flex alignItems={'center'} key={title} mb={1}>
+    <Flex alignItems={'center'} mb={1}>
       <PreferenceCategory>
         <Flex width={98}>
           <Text>{title}</Text>
@@ -46,20 +44,24 @@ const PreferenceCategoryItem = ({
 
         <Flex width={32} alignItems={'center'}>
           <ToggleInput
-            checked={enabledPrefs[title] || false}
-            onChange={() => togglePref && togglePref(title)}
+            checked={userPreferences[id]?.enabled || false}
+            onChange={() => {
+              handleUpdateUserPreferences && handleUpdateUserPreferences(id, 'enabled');
+            }}
           />
         </Flex>
       </PreferenceCategory>
 
-      {enabledPrefs[title] ? (
+      {userPreferences[id]?.enabled ? (
         <Flex width={176} justifyContent={'center'}>
           {userChannels.map((channel) => (
-            <Flex key={`${channel}${title}`} width={60} justifyContent={'center'}>
+            <Flex key={`${channel}${id}`} width={60} justifyContent={'center'}>
               <PreferenceBell
-                disabled={!enabledPrefs[title]}
-                enabled={userPrefs[title]?.[channel] || false}
-                onClick={() => handlePreferenceChange && handlePreferenceChange(title, channel)}
+                disabled={!userPreferences[id]?.enabled}
+                enabled={userPreferences[id]?.[channel?.toLowerCase()] || false}
+                onClick={() =>
+                  handleUpdateUserPreferences && handleUpdateUserPreferences(id, channel)
+                }
               />
             </Flex>
           ))}

@@ -29,7 +29,7 @@ export const Settings = () => {
         icon={icon}
       />
       <WrongNetworkError mb={2} />
-      <Channels />
+      <Channels showDiscord={true} showEmail={true} showTelegram={true} />
       {process.env.WHEREVER_ENV === 'development' && (
         <Flex width={'100%'} justifyContent={'center'} mb={1}>
           <Button variant={'outlined'} onClick={handleUnsubscribe} height={20}>

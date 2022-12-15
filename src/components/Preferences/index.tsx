@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import PreferencesHeader from 'components/Preferences/components/PreferencesHeader';
 import PreferenceCategoryItem from 'components/Preferences/components/PreferenceCategoryItem';
 import { useChannelContext } from 'context/ChannelContext';
+import { useAuthContext } from 'context/AuthContext';
 
 const PreferencesContainer = styled.div`
   width: 100%;
@@ -14,26 +15,26 @@ const PreferencesContainer = styled.div`
 `;
 
 const Preferences = () => {
-  const {
-    handlePreferenceChange,
-    userPrefs,
-    preferenceCategories,
-    enabledPrefs,
-    togglePref,
-    userChannels,
-  } = useChannelContext();
+  const { login } = useAuthContext();
+
+  useEffect(() => {
+    login();
+  }, []);
+
+  const { preferenceCategories, userPreferences, handleUpdateUserPreferences, userChannels } =
+    useChannelContext();
+
   return (
     <PreferencesContainer>
       <PreferencesHeader />
-      {preferenceCategories.map(({ title }) => (
+      {preferenceCategories.map(({ id, title }) => (
         <PreferenceCategoryItem
-          key={title}
+          key={id}
+          id={id}
           title={title}
-          togglePref={togglePref}
-          userPrefs={userPrefs}
-          enabledPrefs={enabledPrefs}
+          userPreferences={userPreferences}
+          handleUpdateUserPreferences={handleUpdateUserPreferences}
           userChannels={userChannels}
-          handlePreferenceChange={handlePreferenceChange}
         />
       ))}
     </PreferencesContainer>

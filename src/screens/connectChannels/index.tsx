@@ -11,6 +11,8 @@ import Text from 'components/Text';
 import { Routes, useRouterContext } from 'context/RouterContext';
 import { useEnvironment } from 'context/EnvironmentContext';
 import { useNotificationsContext } from 'context/NotificationsContext';
+import { isPreferenceChannelSelected } from 'context/ChannelContext/usePreferences';
+import { MessagingApp } from 'global/types.generated';
 
 const Header = styled.div`
   width: 210px;
@@ -18,7 +20,7 @@ const Header = styled.div`
 `;
 
 export const ConnectChannels = () => {
-  const { name } = useChannelContext();
+  const { name, userPreferences } = useChannelContext();
   const { setRoute } = useRouterContext();
 
   const { isSubscribeOnly } = useEnvironment();
@@ -42,7 +44,11 @@ export const ConnectChannels = () => {
       <Header>
         <PageTitle mb={2}>Connect the channels you selected</PageTitle>
       </Header>
-      <Channels showDiscord={true} showEmail={true} showTelegram={true} />
+      <Channels
+        showDiscord={isPreferenceChannelSelected(userPreferences, MessagingApp.Discord)}
+        showEmail={isPreferenceChannelSelected(userPreferences, MessagingApp.Email)}
+        showTelegram={isPreferenceChannelSelected(userPreferences, MessagingApp.Telegram)}
+      />
       <Flex width={'100%'} justifyContent={'space-between'} gap={1} mb={2}>
         <Button onClick={handleGoBack} height={20} width={'100%'} variant={'gray'}>
           <Text>Previous</Text>

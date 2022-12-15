@@ -9,12 +9,12 @@ export type PartnerInfoQueryVariables = Types.Exact<{
 }>;
 
 
-export type PartnerInfoQuery = { __typename?: 'Query', partnerInfo: { __typename?: 'CommsChannel', id: string, channelAddress: string, logo?: string | null, name: string, chainId: number, discordGuildUrl?: string | null } };
+export type PartnerInfoQuery = { __typename?: 'Query', partnerInfo: { __typename?: 'PartnerInfo', id: string, channelAddress: string, logo?: string | null, name: string, chainId: number, discordGuildUrl?: string | null } };
 
 export type UserPreferenceCategoriesQueryVariables = Types.Exact<{ [key: string]: never; }>;
 
 
-export type UserPreferenceCategoriesQuery = { __typename?: 'Query', commsChannelTags: Array<{ __typename?: 'CommsChannelTag', id: string, name: string, userPreferences: Array<{ __typename?: 'UserPreference', id: string, discord: boolean, email: boolean, telegram: boolean }> }> };
+export type UserPreferenceCategoriesQuery = { __typename?: 'Query', commsChannelTags: Array<{ __typename?: 'CommsChannelTag', id: string, name: string, userPreferences: Array<{ __typename?: 'UserPreference', id: string, discord: boolean, email: boolean, telegram: boolean, enabled: boolean }> }> };
 
 
 export const PartnerInfoDocument = gql`
@@ -67,6 +67,7 @@ export const UserPreferenceCategoriesDocument = gql`
       discord
       email
       telegram
+      enabled
     }
   }
 }

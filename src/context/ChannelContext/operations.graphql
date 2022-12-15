@@ -14,10 +14,11 @@ query UserPreferenceCategories {
         id
         name
         userPreferences {
-            id
+            id,
             discord,
             email,
-            telegram
+            telegram,
+            enabled
         }
     }
 }

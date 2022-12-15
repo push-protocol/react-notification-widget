@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import Flex from 'components/layout/Flex';
 import { Screen } from 'components/layout/Screen';
@@ -8,8 +8,9 @@ import PageTitle from 'components/PageTitle';
 import Button from 'components/Button';
 import { Routes, useRouterContext } from 'context/RouterContext';
 import { useEnvironment } from 'context/EnvironmentContext';
-import { useNotificationsContext } from 'context/NotificationsContext';
 import Preferences from 'components/Preferences/index';
+import { isPreferenceChannelSelected } from 'context/ChannelContext/usePreferences';
+import { MessagingApp } from 'global/types.generated';
 
 const Header = styled.div`
   width: 250px;
@@ -17,16 +18,25 @@ const Header = styled.div`
 `;
 
 export const UserPreferences = () => {
-  const { enabledPrefs, userPrefs, preferenceCategories } = useChannelContext();
+  const { userPreferences } = useChannelContext();
   const { setRoute } = useRouterContext();
 
   const { isSubscribeOnly } = useEnvironment();
-  const { userCommsChannels } = useNotificationsContext();
 
-  const goNextDisabled = !Object.values(enabledPrefs).some((value) => value);
+  const goNextDisabled = !Object.values(userPreferences).some((value) => value['enabled']);
+
+  const channelSelection = [
+    isPreferenceChannelSelected(userPreferences, MessagingApp.Discord),
+    isPreferenceChannelSelected(userPreferences, MessagingApp.Telegram),
+    isPreferenceChannelSelected(userPreferences, MessagingApp.Email),
+  ];
 
   const handleGoNext = () => {
-    setRoute(Routes.ConnectChannels);
+    if (channelSelection.some((value) => value)) {
+      setRoute(Routes.ConnectChannels);
+    } else {
+      setRoute(isSubscribeOnly ? Routes.SubscriptionFlowEnded : Routes.Settings);
+    }
   };
 
   return (

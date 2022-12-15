@@ -3,7 +3,10 @@ import { ApolloError } from '@apollo/client';
 import { useNetwork } from 'wagmi';
 import { usePartnerInfoQuery } from 'context/ChannelContext/operations.generated';
 import { MessagingApp } from 'global/types.generated';
-import usePreferences, { UserPrefs } from 'context/ChannelContext/usePreferences';
+import usePreferences, {
+  PreferenceCategory,
+  UserPreference,
+} from 'context/ChannelContext/usePreferences';
 
 export type ChannelInfo = {
   icon: string;
@@ -11,12 +14,10 @@ export type ChannelInfo = {
   channelAddress: string;
   chainId: number;
   discordGuildUrl?: string | null;
-  userPrefs: UserPrefs;
-  preferenceCategories: { title: string }[];
-  enabledPrefs: Record<string, boolean>;
-  togglePref?: (pref: string) => void;
+  preferenceCategories: PreferenceCategory[];
+  userPreferences: UserPreference;
+  handleUpdateUserPreferences?: (id: string, key: string) => void;
   userChannels: MessagingApp[];
-  handlePreferenceChange?: (pref: string, channel: MessagingApp) => void;
 };
 
 const emptyChannel = {
@@ -25,8 +26,7 @@ const emptyChannel = {
   name: '',
   chainId: 0,
   preferenceCategories: [],
-  userPrefs: {},
-  enabledPrefs: {},
+  userPreferences: {},
   userChannels: [],
 };
 
@@ -54,17 +54,11 @@ const ChannelProvider = ({
   });
 
   const isWrongNetwork = !!channel?.chainId && channel.chainId !== walletChain?.id;
-  const {
-    userPrefs,
-    preferenceCategories,
-    togglePref,
-    userChannels,
-    handlePreferenceChange,
-    enabledPrefs,
-  } = usePreferences({
-    discordToken,
-    discordGuildUrl: data?.partnerInfo.discordGuildUrl,
-  });
+  const { preferenceCategories, userChannels, userPreferences, handleUpdateUserPreferences } =
+    usePreferences({
+      discordToken,
+      discordGuildUrl: data?.partnerInfo.discordGuildUrl,
+    });
 
   useEffect(() => {
     if (!data) return;
@@ -75,14 +69,12 @@ const ChannelProvider = ({
       name: data.partnerInfo.name,
       chainId: data.partnerInfo.chainId,
       discordGuildUrl: data.partnerInfo.discordGuildUrl,
-      userPrefs,
-      enabledPrefs,
-      handlePreferenceChange,
       preferenceCategories,
-      togglePref,
+      userPreferences,
+      handleUpdateUserPreferences,
       userChannels,
     });
-  }, [data, enabledPrefs, userPrefs, preferenceCategories]);
+  }, [data, preferenceCategories]);
 
   return (
     <ChannelContext.Provider
