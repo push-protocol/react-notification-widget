@@ -66,7 +66,7 @@ export const Settings = () => {
       </Flex>
       <WrongNetworkError mb={2} />
       <Channels showDiscord={true} showEmail={true} showTelegram={true} />
-      {userChannels.length > 0 && userPreferencesCount !== 0 && (
+      {userChannels.length > 0 && userPreferencesCount && (
         <Preferences hideChannelInfo={true} userChannels={userChannels} />
       )}
       {process.env.WHEREVER_ENV === 'development' && (
