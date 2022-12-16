@@ -40,7 +40,7 @@ const usePreferenceActions = () => {
   const [preferenceCategories, setPreferenceCategories] = useState<PreferenceCategory[]>([]);
   const [userPreferences, setUserPreferences] = useState<UserPreference>({});
 
-  const { data } = useUserPreferenceCategoriesQuery();
+  const { data, loading: userPreferencesLoading } = useUserPreferenceCategoriesQuery();
 
   const [updateUserPreferences] = useUserPreferencesUpdateMutation();
 
@@ -95,6 +95,8 @@ const usePreferenceActions = () => {
   return {
     preferenceCategories,
     userPreferences,
+    userPreferencesCount: data?.commsChannelTags?.length,
+    userPreferencesLoading,
     handleUpdateUserPreferences,
   };
 };

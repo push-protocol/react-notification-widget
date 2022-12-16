@@ -19,7 +19,7 @@ import { defaultUserChannels } from 'context/ChannelContext/usePreferenceActions
 export const Settings = () => {
   const { isSubscribeOnly } = useEnvironment();
   const { userCommsChannels } = useNotificationsContext();
-  const { name, icon, discordGuildUrl } = useChannelContext();
+  const { name, icon, discordGuildUrl, userPreferencesCount } = useChannelContext();
 
   const [userChannels, setUserChannels] = useState(defaultUserChannels);
 
@@ -58,13 +58,15 @@ export const Settings = () => {
     <Screen navbarActionComponent={!isSubscribeOnly ? <NavbarActions /> : undefined} mb={1}>
       <Flex mt={!isSubscribeOnly ? -3 : 0} mb={2}>
         <SettingsHeader
-          title={isSubscribeOnly ? `You are subscriberd to ${name}` : 'Notification Settings'}
+          title={
+            isSubscribeOnly ? `You are subscribed to updates from ${name}` : 'Notification Settings'
+          }
           icon={icon}
         />
       </Flex>
       <WrongNetworkError mb={2} />
       <Channels showDiscord={true} showEmail={true} showTelegram={true} />
-      {userChannels.length > 0 && (
+      {userChannels.length > 0 && userPreferencesCount !== 0 && (
         <Preferences hideChannelInfo={true} userChannels={userChannels} />
       )}
       {process.env.WHEREVER_ENV === 'development' && (

@@ -14,6 +14,7 @@ import {
   isPreferenceChannelSelected,
 } from 'context/ChannelContext/usePreferenceActions';
 import { MessagingApp } from 'global/types.generated';
+import Spinner from 'components/Spinner';
 
 const Header = styled.div`
   width: 250px;
@@ -21,11 +22,18 @@ const Header = styled.div`
 `;
 
 export const UserPreferences = () => {
-  const { userPreferences, discordGuildUrl } = useChannelContext();
+  const { userPreferences, discordGuildUrl, userPreferencesLoading, userPreferencesCount } =
+    useChannelContext();
   const { setRoute } = useRouterContext();
   const { isSubscribeOnly } = useEnvironment();
 
   const [userChannels, setUserChannels] = useState<MessagingApp[]>(defaultUserChannels);
+
+  useEffect(() => {
+    if (userPreferencesCount === 0) {
+      setRoute(Routes.ConnectChannels);
+    }
+  }, [userPreferencesLoading, userPreferencesCount]);
 
   useEffect(() => {
     setUserChannels(
@@ -52,14 +60,22 @@ export const UserPreferences = () => {
   return (
     <Screen mb={1}>
       <Header>
-        <PageTitle mb={2}>Choose what and where we should notify you about</PageTitle>
+        <PageTitle mb={2}>Choose where and what we should notify you about</PageTitle>
       </Header>
-      <Preferences userChannels={userChannels} />
-      <Flex mb={2} mt={2} width={'100%'}>
-        <Button width={'100%'} onClick={handleGoNext} disabled={goNextDisabled}>
-          Next
-        </Button>
-      </Flex>
+      {userPreferencesLoading ? (
+        <Flex width={'100%'} height={150}>
+          <Spinner size={24} />
+        </Flex>
+      ) : (
+        <>
+          <Preferences userChannels={userChannels} />
+          <Flex mb={2} mt={2} width={'100%'}>
+            <Button width={'100%'} onClick={handleGoNext} disabled={goNextDisabled}>
+              Next
+            </Button>
+          </Flex>
+        </>
+      )}
       <HiddenNotice text={'You can change your preferences at any time'} />
     </Screen>
   );

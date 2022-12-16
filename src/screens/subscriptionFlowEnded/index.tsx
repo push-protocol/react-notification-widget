@@ -25,7 +25,7 @@ const HeaderIcon = styled.img`
 `;
 
 export const SubscriptionFlowEnded = () => {
-  const { name, icon } = useChannelContext();
+  const { icon } = useChannelContext();
   const { setRoute } = useRouterContext();
 
   const handleViewSettings = () => {
@@ -46,7 +46,7 @@ export const SubscriptionFlowEnded = () => {
           <HeaderIcon src={icon} />
         </HeaderIconContainer>
         <Text size={'xl'} align={'center'} weight={700}>
-          Thank you for subscribing to {name}!
+          Thank you for subscribing!
         </Text>
         <Text size={'lg'} align={'center'}>
           Change your preferences at any time by visiting this page again.

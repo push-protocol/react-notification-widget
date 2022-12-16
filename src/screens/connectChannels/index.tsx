@@ -20,7 +20,7 @@ const Header = styled.div`
 `;
 
 export const ConnectChannels = () => {
-  const { name, userPreferences } = useChannelContext();
+  const { name, userPreferences, userPreferencesCount } = useChannelContext();
   const { setRoute } = useRouterContext();
 
   const { isSubscribeOnly } = useEnvironment();
@@ -39,15 +39,22 @@ export const ConnectChannels = () => {
     !userCommsChannels?.telegram?.exists &&
     !userCommsChannels?.discord?.exists;
 
+  const displayAllChannels = userPreferencesCount === 0;
   return (
     <Screen mb={1}>
       <Header>
         <PageTitle mb={2}>Connect the channels you selected</PageTitle>
       </Header>
       <Channels
-        showDiscord={isPreferenceChannelSelected(userPreferences, MessagingApp.Discord)}
-        showEmail={isPreferenceChannelSelected(userPreferences, MessagingApp.Email)}
-        showTelegram={isPreferenceChannelSelected(userPreferences, MessagingApp.Telegram)}
+        showDiscord={
+          displayAllChannels || isPreferenceChannelSelected(userPreferences, MessagingApp.Discord)
+        }
+        showEmail={
+          displayAllChannels || isPreferenceChannelSelected(userPreferences, MessagingApp.Email)
+        }
+        showTelegram={
+          displayAllChannels || isPreferenceChannelSelected(userPreferences, MessagingApp.Telegram)
+        }
       />
       <Flex width={'100%'} justifyContent={'space-between'} gap={1} mb={2}>
         <Button onClick={handleGoBack} height={20} width={'100%'} variant={'gray'}>

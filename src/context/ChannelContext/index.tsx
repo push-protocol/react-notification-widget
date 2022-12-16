@@ -2,7 +2,6 @@ import React, { createContext, ReactNode, useContext, useEffect, useState } from
 import { ApolloError } from '@apollo/client';
 import { useNetwork } from 'wagmi';
 import { usePartnerInfoQuery } from 'context/ChannelContext/operations.generated';
-import { MessagingApp } from 'global/types.generated';
 import usePreferenceActions, {
   PreferenceCategory,
   UserPreference,
@@ -17,6 +16,8 @@ export type ChannelInfo = {
   preferenceCategories: PreferenceCategory[];
   userPreferences: UserPreference;
   handleUpdateUserPreferences?: (id: string, key: string) => void;
+  userPreferencesCount?: number;
+  userPreferencesLoading?: boolean;
 };
 
 const emptyChannel = {
@@ -53,8 +54,13 @@ const ChannelProvider = ({
 
   const isWrongNetwork = !!channel?.chainId && channel.chainId !== walletChain?.id;
 
-  const { preferenceCategories, userPreferences, handleUpdateUserPreferences } =
-    usePreferenceActions();
+  const {
+    preferenceCategories,
+    userPreferences,
+    handleUpdateUserPreferences,
+    userPreferencesCount,
+    userPreferencesLoading,
+  } = usePreferenceActions();
 
   useEffect(() => {
     if (!data) return;
@@ -68,8 +74,10 @@ const ChannelProvider = ({
       preferenceCategories,
       userPreferences,
       handleUpdateUserPreferences,
+      userPreferencesCount,
+      userPreferencesLoading,
     });
-  }, [data, preferenceCategories, userPreferences]);
+  }, [data, preferenceCategories, userPreferences, userPreferencesCount, userPreferencesLoading]);
 
   return (
     <ChannelContext.Provider
