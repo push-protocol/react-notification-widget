@@ -29,6 +29,10 @@ declare module 'styled-components' {
       xl: string;
     };
     colors: {
+      notificationDot?: {
+        background?: string;
+        text?: string;
+      };
       bg: {
         main: string;
       };
@@ -80,6 +84,10 @@ declare module 'styled-components' {
 }
 
 export type CustomTheme = {
+  notificationDot?: {
+    backgroundColor: string;
+    textColor: string;
+  };
   primaryColor?: string;
   secondaryColor?: string;
   borderRadius?: 'none' | 'sm' | 'md' | 'lg';
@@ -177,6 +185,10 @@ export const makeTheme = (customTheme?: CustomTheme): DefaultTheme => {
     },
     colors: {
       ...defaultTheme.colors,
+      notificationDot: {
+        text: customTheme.notificationDot?.textColor,
+        background: customTheme.notificationDot?.backgroundColor,
+      },
       button: {
         text: customTheme.buttonTextColor || defaultTheme.colors.button.text,
       },

@@ -49,7 +49,10 @@ export const NotificationsProvider = ({
 
     setPolling(true);
 
-    return () => clearInterval(timeout);
+    return () => {
+      setPolling(false);
+      clearInterval(timeout);
+    };
   }, [userAddress, chainId]);
 
   useEffect(() => {

@@ -7,6 +7,7 @@ import { Placement } from '@popperjs/core';
 import useWindowSize from '../../helpers/hooks/useWindowSize';
 import { NotificationClickProp } from '../types';
 import analytics from '../../services/analytics';
+import { useUpdateLastReadMutation } from './operations.generated';
 import { useChannelContext } from 'context/ChannelContext';
 import { useNotificationsContext } from 'context/NotificationsContext';
 import { WidgetContainer } from 'components/layout/WidgetContainer';
@@ -42,6 +43,8 @@ const NotificationFeed = (props: NotificationFeedProps): JSX.Element => {
     }
   }, [address, channelAddress]);
 
+  const [updateLastRead] = useUpdateLastReadMutation();
+
   const currentScreenComponent = useMemo(() => {
     if (activeRoute === Routes.NotificationsFeed)
       return <Component onNotificationClick={onNotificationClick} />;
@@ -53,6 +56,7 @@ const NotificationFeed = (props: NotificationFeedProps): JSX.Element => {
     analytics.track('bell clicked', { feedOpened: !feedOpen });
 
     setFeedOpen(!feedOpen);
+    updateLastRead();
   };
 
   const [referenceRef, setReferenceRef] = useState<HTMLDivElement | null>(null);

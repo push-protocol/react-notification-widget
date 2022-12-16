@@ -1,18 +1,11 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import styled from 'styled-components';
-import { Bell, BellBadge } from 'components/icons';
-import NewTag from 'components/NewTag';
-
-const NewTagBadge = styled(NewTag)`
-  width: 23px;
-  height: 11px;
-  font-size: 9px;
-  position: absolute;
-  top: -2px;
-`;
+import dayjs from 'dayjs';
+import { useNotificationsContext } from '../../context/NotificationsContext';
+import { useAuthContext } from '../../context/AuthContext';
+import { Bell } from 'components/icons';
 
 const Container = styled.div`
-  position: relative;
   cursor: pointer;
   width: 40px;
   height: 40px;
@@ -25,6 +18,23 @@ const BellContainer = styled.div<{ size?: number }>`
   width: ${({ size }) => `${size || '24'}px`};
   height: ${({ size }) => `${size || '24'}px`};
   display: flex;
+  position: relative;
+`;
+
+const NotificationDot = styled.div`
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  border-radius: 50%;
+  height: 22px;
+  width: 22px;
+  color: ${({ theme }) => theme.colors.notificationDot?.text || theme.colors.button.text};
+  background-color: ${({ theme }) =>
+    theme.colors.notificationDot?.background || theme.colors.primary.main};
+  top: -8px;
+  right: -8px;
 `;
 
 export type NotificationBellProps = {
@@ -33,14 +43,26 @@ export type NotificationBellProps = {
 
 // any to avoid exposing props to consumers of the component (parent injects onClick)
 const NotificationBell = (props: NotificationBellProps & any) => {
-  const isNew = false;
-  const hasNotifications = false;
+  const { notifications } = useNotificationsContext();
+  const { user } = useAuthContext();
+
+  const unreadCount = useMemo(() => {
+    if (!user || !notifications?.length) {
+      return;
+    }
+
+    const unread = notifications.filter((notification) =>
+      dayjs(notification.timestamp).isAfter(dayjs(user.lastReadAt))
+    );
+
+    return unread.length > 9 ? '9+' : unread.length;
+  }, [notifications, user]);
 
   return (
     <Container onClick={props.onClick}>
-      {isNew && <NewTagBadge />}
       <BellContainer size={props.size}>
-        {hasNotifications && !isNew ? <BellBadge /> : <Bell />}
+        <Bell />
+        {!!unreadCount && <NotificationDot>{unreadCount}</NotificationDot>}
       </BellContainer>
     </Container>
   );
