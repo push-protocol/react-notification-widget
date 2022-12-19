@@ -11,33 +11,77 @@ import { setContext } from '@apollo/client/link/context';
 import { onError } from '@apollo/client/link/error';
 import { LOCALSTORAGE_AUTH_KEY, LOCALSTORAGE_AUTH_REFRESH_KEY, WIDGET_VERSION } from 'global/const';
 
+let apolloClient: ApolloClient<any>;
+
+function removeTokens() {
+  localStorage.removeItem(LOCALSTORAGE_AUTH_KEY);
+  localStorage.removeItem(LOCALSTORAGE_AUTH_REFRESH_KEY);
+}
+
+const getReqHeaders = () => {
+  const authParams = localStorage.getItem(LOCALSTORAGE_AUTH_KEY);
+
+  return {
+    'x-widget-version': WIDGET_VERSION,
+    ...(authParams && { Authorization: `Bearer ${authParams}` }),
+  };
+};
+
+const refreshToken = async () => {
+  const currentRefreshToken = localStorage.getItem(LOCALSTORAGE_AUTH_REFRESH_KEY);
+
+  if (!currentRefreshToken) {
+    return false;
+  }
+
+  const REFRESH_TOKEN = gql`
+    mutation refreshToken($input: RefreshTokenInput!) {
+      refreshToken(input: $input) {
+        token
+        refreshToken
+      }
+    }
+  `;
+
+  const response = await apolloClient.mutate({
+    mutation: REFRESH_TOKEN,
+    variables: {
+      input: {
+        refreshToken: currentRefreshToken,
+      },
+    },
+  });
+
+  const token = response.data?.refreshToken.token;
+  const newRefreshToken = response.data?.refreshToken.refreshToken;
+
+  localStorage.setItem(LOCALSTORAGE_AUTH_KEY, token);
+  localStorage.setItem(LOCALSTORAGE_AUTH_REFRESH_KEY, newRefreshToken);
+
+  return true;
+};
+
 export const getApolloClient = ({ endpoint }: { endpoint: string }) => {
+  if (apolloClient) {
+    return apolloClient;
+  }
+
   const httpMainApiLink = new HttpLink({
     uri: endpoint,
   });
 
   const createTokenLink = () =>
     setContext(async () => {
-      const authParams = localStorage.getItem(LOCALSTORAGE_AUTH_KEY);
-
       return {
-        headers: {
-          'x-widget-version': WIDGET_VERSION,
-          ...(authParams && { Authorization: `Bearer ${authParams}` }),
-        },
+        headers: getReqHeaders(),
       };
     });
-
-  function removeToken() {
-    localStorage.removeItem(LOCALSTORAGE_AUTH_KEY);
-    localStorage.removeItem(LOCALSTORAGE_AUTH_REFRESH_KEY);
-  }
 
   const ErrorHandlingLink = onError(({ graphQLErrors, operation, forward }) => {
     const error = graphQLErrors?.[0];
 
     if (error?.extensions.code == 'INVALID_TOKEN') {
-      removeToken();
+      removeTokens();
       return;
     }
 
@@ -45,10 +89,17 @@ export const getApolloClient = ({ endpoint }: { endpoint: string }) => {
       if (operation.operationName == 'refreshToken') return;
 
       const observable = new Observable<FetchResult<Record<string, any>>>((observer) => {
-        // used an annonymous function for using an async function
+        // anonymous function used to allow async
         (async () => {
           try {
-            await refreshToken();
+            const fetchedNewToken = await refreshToken();
+
+            if (!fetchedNewToken) {
+              return;
+            }
+
+            // reset auth header after refresh
+            operation.setContext(() => ({ headers: getReqHeaders() }));
 
             // Retry the failed request
             const subscriber = {
@@ -68,32 +119,6 @@ export const getApolloClient = ({ endpoint }: { endpoint: string }) => {
     }
   });
 
-  const refreshToken = async () => {
-    const REFRESH_TOKEN = gql`
-      mutation refreshToken($input: RefreshTokenInput!) {
-        refreshToken(input: $input) {
-          token
-          refreshToken
-        }
-      }
-    `;
-
-    const response = await apolloClient.mutate({
-      mutation: REFRESH_TOKEN,
-      variables: {
-        input: {
-          refreshToken: localStorage.getItem(LOCALSTORAGE_AUTH_REFRESH_KEY),
-        },
-      },
-    });
-
-    const token = response.data?.refreshToken.token;
-    const refreshToken = response.data?.refreshToken.refreshToken;
-
-    localStorage.setItem(LOCALSTORAGE_AUTH_KEY, token);
-    localStorage.setItem(LOCALSTORAGE_AUTH_REFRESH_KEY, refreshToken);
-  };
-
   const createApolloClient = () => {
     const cache = new InMemoryCache();
 
@@ -105,6 +130,6 @@ export const getApolloClient = ({ endpoint }: { endpoint: string }) => {
     });
   };
 
-  const apolloClient = createApolloClient();
+  apolloClient = createApolloClient();
   return apolloClient;
 };

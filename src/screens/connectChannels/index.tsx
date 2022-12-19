@@ -12,9 +12,12 @@ import { Routes, useRouterContext } from 'context/RouterContext';
 import { useEnvironment } from 'context/EnvironmentContext';
 import { useNotificationsContext } from 'context/NotificationsContext';
 
-const Header = styled.div`
-  width: 210px;
+const Header = styled(Flex)`
+  width: 250px;
   text-align: center;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 24px;
 `;
 
 export const ConnectChannels = () => {
@@ -29,6 +32,7 @@ export const ConnectChannels = () => {
   };
 
   const shouldRenderFinishButton =
+    !isSubscribeOnly ||
     !!userCommsChannels?.email?.exists ||
     !!userCommsChannels?.telegram?.exists ||
     !!userCommsChannels?.discord?.exists;
@@ -36,7 +40,10 @@ export const ConnectChannels = () => {
   return (
     <Screen mb={1}>
       <Header>
-        <PageTitle mb={2}>Connect the channels you selected</PageTitle>
+        <PageTitle>Stay informed on the go</PageTitle>
+        <Text color={'secondary'} size={'sm'}>
+          Get notifications when new messages are received in your wallet
+        </Text>
       </Header>
       <Channels />
       {shouldRenderFinishButton && (

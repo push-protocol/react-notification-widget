@@ -7,6 +7,8 @@ import { Placement } from '@popperjs/core';
 import useWindowSize from '../../helpers/hooks/useWindowSize';
 import { NotificationClickProp } from '../types';
 import analytics from '../../services/analytics';
+import { useAuthContext } from '../../context/AuthContext';
+import useUnreadCount from '../../hooks/useUnreadCount';
 import { useUpdateLastReadMutation } from './operations.generated';
 import { useChannelContext } from 'context/ChannelContext';
 import { useNotificationsContext } from 'context/NotificationsContext';
@@ -25,12 +27,14 @@ const BellRef = forwardRef<HTMLDivElement, { children: ReactElement }>(({ childr
 export type NotificationFeedProps = NotificationClickProp & {
   gapFromBell?: number;
   placement?: Placement;
-  children: ReactElement;
+  children: ((args: { unreadCount?: number; onClick: () => void }) => ReactElement) | ReactElement;
 };
 
 const NotificationFeed = (props: NotificationFeedProps): JSX.Element => {
   const { children, onNotificationClick } = props;
   const { feedOpen, setFeedOpen } = useNotificationsContext();
+  const unreadCount = useUnreadCount();
+  const { isLoggedIn } = useAuthContext();
   const { address } = useAccount();
   const { channelAddress, name } = useChannelContext();
   const { Component, activeRoute, routeProps } = useRouterContext();
@@ -56,7 +60,10 @@ const NotificationFeed = (props: NotificationFeedProps): JSX.Element => {
     analytics.track('bell clicked', { feedOpened: !feedOpen });
 
     setFeedOpen(!feedOpen);
-    updateLastRead();
+
+    if (isLoggedIn) {
+      updateLastRead();
+    }
   };
 
   const [referenceRef, setReferenceRef] = useState<HTMLDivElement | null>(null);
@@ -75,10 +82,15 @@ const NotificationFeed = (props: NotificationFeedProps): JSX.Element => {
     ],
   });
 
+  const bell =
+    typeof children === 'function'
+      ? children({ onClick: handleBellClick, unreadCount })
+      : cloneElement(children, { onClick: handleBellClick });
+
   if (size.width && size.width <= theme.breakpoints.mobile) {
     return (
       <>
-        {cloneElement(children, { onClick: handleBellClick })}
+        {bell}
         <MobileContainer isOpen={feedOpen}>
           <WidgetContainer>{currentScreenComponent}</WidgetContainer>
         </MobileContainer>
@@ -89,9 +101,7 @@ const NotificationFeed = (props: NotificationFeedProps): JSX.Element => {
   return (
     <ClickAwayListener onClickAway={() => setFeedOpen(false)}>
       <div>
-        <BellRef ref={setReferenceRef}>
-          {cloneElement(children, { onClick: handleBellClick })}
-        </BellRef>
+        <BellRef ref={setReferenceRef}>{bell}</BellRef>
         {feedOpen && (
           <div ref={setPopperRef} style={styles.popper} {...attributes.popper}>
             <WidgetContainer>{currentScreenComponent}</WidgetContainer>

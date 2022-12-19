@@ -77,11 +77,11 @@ export const Subscribe = () => {
 
   const handleSubscribe = async () => {
     analytics.track('channel subscribe', { channelAddress });
-    setIsOnboarding(true);
     await subscribe();
-    await login();
-
+    setIsOnboarding(true);
     subscribeUser(); // don't wait for this to finish as it can trigger workflows
+
+    await login();
     setRoute(Routes.ConnectChannels);
   };
 
