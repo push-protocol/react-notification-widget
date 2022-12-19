@@ -79,9 +79,9 @@ export const Subscribe = () => {
     analytics.track('channel subscribe', { channelAddress });
     await subscribe();
     setIsOnboarding(true);
-    subscribeUser(); // don't wait for this to finish as it can trigger workflows
-
     await login();
+
+    subscribeUser(); // don't wait for this to finish as it can trigger workflows. Login first!
     setRoute(Routes.ConnectChannels);
   };
 
