@@ -80,8 +80,8 @@ export const Subscribe = () => {
 
   const handleSubscribe = async () => {
     analytics.track('channel subscribe', { channelAddress });
-    setIsOnboarding(true);
     await subscribe();
+    setIsOnboarding(true);
     await login();
 
     subscribeUser(); // don't wait for this to finish as it can trigger workflows

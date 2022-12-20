@@ -21,12 +21,12 @@ export type AuthInfo = {
   unsubscribe(): void;
   isLoading: boolean;
   error: boolean;
-  isLoggedIn: boolean;
+  isLoggedIn?: boolean;
   discordToken?: string;
   user?: GetUserQuery['user'];
   login(callback?: () => void): void;
   isOnboarding: boolean;
-  isSubscribed: boolean;
+  isSubscribed?: boolean;
   userDisconnected: boolean;
   setIsOnboarding(isFirst: boolean): void;
 };
@@ -63,15 +63,14 @@ const AuthProvider = ({
   const { login: _login } = useAuthenticate();
   const dc = useDisconnect();
 
-  const [userDisconnected, setUserDisconnected] = useState(false);
-  const [isSubscribed, setIsSubscribed] = useState(false);
+  const [isSubscribed, setIsSubscribed] = useState<boolean>();
   const [isOnboarding, setIsOnboarding] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(false);
   const [refetchCounter, setRefetchCounter] = useState(0);
 
-  const { data: userData, loading: userLoading } = useGetUserQuery({ skip: !isLoggedIn });
+  const { data: userData } = useGetUserQuery({ skip: !isLoggedIn });
 
   // handle signer null case when reloading window after clearing storage
   useEffect(() => {
@@ -121,17 +120,20 @@ const AuthProvider = ({
       callback && callback();
     } catch (e) {
       setError(true);
-      localStorage.removeItem(LOCALSTORAGE_AUTH_KEY);
-      localStorage.removeItem(LOCALSTORAGE_AUTH_REFRESH_KEY);
+      _resetLoginState();
     } finally {
       setIsLoading(false);
     }
   };
 
+  const _resetLoginState = () => {
+    localStorage.removeItem(LOCALSTORAGE_AUTH_KEY);
+    localStorage.removeItem(LOCALSTORAGE_AUTH_REFRESH_KEY);
+    setIsLoggedIn(false);
+  };
+
   const logout = useCallback(() => {
-    // TODO: revert back
-    // localStorage.removeItem(LOCALSTORAGE_AUTH_KEY);
-    // localStorage.removeItem(LOCALSTORAGE_AUTH_REFRESH_KEY);
+    _resetLoginState();
     setIsSubscribed(false);
     setError(false);
     setIsLoading(false);
@@ -141,12 +143,8 @@ const AuthProvider = ({
   useEffect(() => {
     if (!isConnected) {
       logout();
-      setUserDisconnected(true);
-      return;
     } else if (!isSubscribed) {
       setRoute(Routes.Subscribe);
-      setUserDisconnected(false);
-      return;
     }
   }, [isConnected, isSubscribed, isOnboarding]);
 
@@ -155,10 +153,8 @@ const AuthProvider = ({
   // for cases when user switches accounts manually
   useEffect(() => {
     if (prevAddress && prevAddress !== address) {
-      localStorage.removeItem(LOCALSTORAGE_AUTH_KEY);
-      localStorage.removeItem(LOCALSTORAGE_AUTH_REFRESH_KEY);
+      _resetLoginState();
       setIsOnboarding(false);
-      setIsLoggedIn(false);
 
       // if user switched account, and is viewing current tab, re-log him in
       if (!document.hidden) {
@@ -192,7 +188,7 @@ const AuthProvider = ({
     if (response.status == 'success') {
       setIsSubscribed(action === 'sub');
     } else {
-      throw 'error';
+      throw 'error subscribing to channel';
     }
   };
 
@@ -212,7 +208,7 @@ const AuthProvider = ({
         login,
         isOnboarding,
         setIsOnboarding,
-        userDisconnected,
+        userDisconnected: !isConnected,
         discordToken,
       }}
     >

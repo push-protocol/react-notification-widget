@@ -1,8 +1,6 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import dayjs from 'dayjs';
-import { useUserContext } from '../../context/UserContext';
-import { useAuthContext } from '../../context/AuthContext';
+import useUnreadCount from '../../hooks/useUnreadCount';
 import { Bell } from 'components/icons';
 
 const Container = styled.div`
@@ -41,28 +39,15 @@ export type NotificationBellProps = {
   size?: number;
 };
 
-// any to avoid exposing props to consumers of the component (parent injects onClick)
+// any to avoid exposing props to consumers of the component (parent injects onClick and unreadCount)
 const NotificationBell = (props: NotificationBellProps & any) => {
-  const { notifications } = useUserContext();
-  const { user } = useAuthContext();
-
-  const unreadCount = useMemo(() => {
-    if (!user || !notifications?.length) {
-      return;
-    }
-
-    const unread = notifications.filter((notification) =>
-      dayjs(notification.timestamp).isAfter(dayjs(user.lastReadAt))
-    );
-
-    return unread.length > 9 ? '9+' : unread.length;
-  }, [notifications, user]);
+  const unreadCount = useUnreadCount();
 
   return (
     <Container onClick={props.onClick}>
       <BellContainer size={props.size}>
         <Bell />
-        {!!unreadCount && <NotificationDot>{unreadCount}</NotificationDot>}
+        {!!unreadCount && <NotificationDot>{unreadCount > 9 ? '9+' : unreadCount}</NotificationDot>}
       </BellContainer>
     </Container>
   );

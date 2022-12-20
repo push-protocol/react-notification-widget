@@ -14,10 +14,14 @@ import { MessagingApp } from 'global/types.generated';
 import { isPreferenceChannelSelected } from 'context/UserContext/useChannelPreferences';
 import { DefaultUserChannels } from 'context/UserContext/const';
 import useDiscordActions from 'components/Channels/components/discord/useDiscordActions';
+import Text from 'components/Text';
 
-const Header = styled.div`
-  width: 210px;
+const Header = styled(Flex)`
+  width: 250px;
   text-align: center;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 24px;
 `;
 
 export const ConnectChannels = () => {
@@ -50,6 +54,7 @@ export const ConnectChannels = () => {
   }, [discordGuildUrl, isConnected, userPreferences]);
 
   const finishButtonEnabled =
+    !isSubscribeOnly ||
     !!userCommsChannels?.email?.exists ||
     !!userCommsChannels?.telegram?.exists ||
     !!userCommsChannels?.discord?.exists;
@@ -57,7 +62,10 @@ export const ConnectChannels = () => {
   return (
     <Screen mb={1}>
       <Header>
-        <PageTitle mb={2}>Connect the channels you selected</PageTitle>
+        <PageTitle>Stay informed on the go</PageTitle>
+        <Text color={'secondary'} size={'sm'}>
+          Get notifications when new messages are received in your wallet
+        </Text>
       </Header>
       <Channels channels={filteredConnectedChannels} />
       <Flex width={'100%'} justifyContent={'space-between'} gap={1} mb={2}>
