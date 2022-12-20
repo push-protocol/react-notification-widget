@@ -5,13 +5,13 @@ import Text from 'components/Text';
 import ToggleInput from 'components/ToggleInput';
 import PreferenceBell from 'components/Preferences/components/PreferenceBell';
 import { MessagingApp } from 'global/types.generated';
-import { UserPreference } from 'context/ChannelContext/usePreferenceActions';
+import { UserPreference } from 'context/UserContext/useChannelPreferences';
 
 type PreferenceCategoryItemProps = {
-  id: string;
+  category: string;
   title: string;
   userPreferences: UserPreference;
-  handleUpdateUserPreferences?: (id: string, key: string) => void;
+  handleUpdateUserPreferences: (id: string, key: string) => void;
   userChannels: MessagingApp[];
 };
 
@@ -29,7 +29,7 @@ const PreferenceCategory = styled.div`
 `;
 
 const PreferenceCategoryItem = ({
-  id,
+  category,
   title,
   userPreferences,
   handleUpdateUserPreferences,
@@ -38,29 +38,29 @@ const PreferenceCategoryItem = ({
   return (
     <Flex alignItems={'center'} mb={1}>
       <PreferenceCategory>
-        <Flex width={98}>
+        <Flex width={100}>
           <Text>{title}</Text>
         </Flex>
 
         <Flex width={32} alignItems={'center'} pl={1} pr={1}>
           <ToggleInput
-            checked={userPreferences[id]?.enabled || false}
+            checked={!!userPreferences[category]?.enabled}
             onChange={() => {
-              handleUpdateUserPreferences && handleUpdateUserPreferences(id, 'enabled');
+              handleUpdateUserPreferences && handleUpdateUserPreferences(category, 'enabled');
             }}
           />
         </Flex>
       </PreferenceCategory>
 
-      {userPreferences[id]?.enabled ? (
-        <Flex width={176} justifyContent={'center'}>
+      {userPreferences[category]?.enabled ? (
+        <Flex width={180} justifyContent={'center'}>
           {userChannels.map((channel) => (
-            <Flex key={`${channel}${id}`} width={60} justifyContent={'center'}>
+            <Flex key={`${channel}${category}`} width={60} justifyContent={'center'}>
               <PreferenceBell
-                disabled={!userPreferences[id]?.enabled}
-                enabled={userPreferences[id]?.[channel?.toLowerCase()] || false}
+                disabled={!userPreferences[category]?.enabled}
+                enabled={userPreferences[category]?.[channel?.toLowerCase()] || false}
                 onClick={() =>
-                  handleUpdateUserPreferences && handleUpdateUserPreferences(id, channel)
+                  handleUpdateUserPreferences && handleUpdateUserPreferences(category, channel)
                 }
               />
             </Flex>

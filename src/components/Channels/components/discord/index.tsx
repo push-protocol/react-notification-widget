@@ -14,8 +14,7 @@ type DiscordChannelProps = {
 export const DiscordChannel = ({ open, setOpen }: DiscordChannelProps) => {
   const { isLoading } = useAuthContext();
 
-  const { deleteLoading, handleRemove, handleOpenDiscord, discordGuildUrl, isConnected, hint } =
-    useDiscordActions();
+  const { deleteLoading, handleRemove, handleOpenDiscord, isConnected, hint } = useDiscordActions();
 
   return (
     <ChannelDropdown

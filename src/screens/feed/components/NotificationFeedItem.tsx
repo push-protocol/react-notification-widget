@@ -6,7 +6,7 @@ import analytics from '../../../services/analytics';
 import parseEpnsFormatting from '../helpers/parseEpnsFormatting';
 import { NotificationClickProp } from 'components/types';
 import { changeColorShade } from 'components/utils';
-import { Notification } from 'context/NotificationsContext/types';
+import { Notification } from 'context/UserContext/types';
 import Flex from 'components/layout/Flex';
 import Text from 'components/Text';
 import Link from 'components/Link';

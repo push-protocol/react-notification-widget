@@ -129,8 +129,9 @@ const AuthProvider = ({
   };
 
   const logout = useCallback(() => {
-    localStorage.removeItem(LOCALSTORAGE_AUTH_KEY);
-    localStorage.removeItem(LOCALSTORAGE_AUTH_REFRESH_KEY);
+    // TODO: revert back
+    // localStorage.removeItem(LOCALSTORAGE_AUTH_KEY);
+    // localStorage.removeItem(LOCALSTORAGE_AUTH_REFRESH_KEY);
     setIsSubscribed(false);
     setError(false);
     setIsLoading(false);

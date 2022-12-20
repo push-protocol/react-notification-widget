@@ -4,9 +4,9 @@ import { ThemeProvider } from 'styled-components';
 import { providers } from 'ethers';
 import { CustomTheme, makeTheme } from '../../theme';
 import useWagmiClient from './useWagmiClient';
+import { UserProvider } from 'context/UserContext';
 import { Reset } from 'theme/ResetCss';
 import { RouterProvider } from 'context/RouterContext';
-import { NotificationsProvider } from 'context/NotificationsContext';
 import { ChannelProvider } from 'context/ChannelContext';
 import { ApolloProvider } from 'components/ApolloProvider';
 import { EnvironmentProvider, WidgetMode } from 'context/EnvironmentContext';
@@ -53,14 +53,16 @@ const NotificationFeedProvider = ({
       <ThemeProvider theme={makeTheme(theme)}>
         <WagmiConfig client={wagmiClient}>
           <ApolloProvider>
-            <ChannelProvider partnerKey={partnerKey}>
-              <NotificationsProvider isOpen={isOpen}>
-                <Reset />
-                <RouterProvider>
-                  <AuthProvider discordToken={discordToken}>{children}</AuthProvider>
-                </RouterProvider>
-              </NotificationsProvider>
-            </ChannelProvider>
+            <RouterProvider>
+              <ChannelProvider partnerKey={partnerKey}>
+                <AuthProvider discordToken={discordToken}>
+                  <UserProvider isOpen={isOpen}>
+                    <Reset />
+                    {children}
+                  </UserProvider>
+                </AuthProvider>
+              </ChannelProvider>
+            </RouterProvider>
           </ApolloProvider>
         </WagmiConfig>
       </ThemeProvider>

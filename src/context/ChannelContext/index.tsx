@@ -2,10 +2,6 @@ import React, { createContext, ReactNode, useContext, useEffect, useState } from
 import { ApolloError } from '@apollo/client';
 import { useNetwork } from 'wagmi';
 import { usePartnerInfoQuery } from 'context/ChannelContext/operations.generated';
-import usePreferenceActions, {
-  PreferenceCategory,
-  UserPreference,
-} from 'context/ChannelContext/usePreferenceActions';
 
 export type ChannelInfo = {
   icon: string;
@@ -13,11 +9,6 @@ export type ChannelInfo = {
   channelAddress: string;
   chainId: number;
   discordGuildUrl?: string | null;
-  preferenceCategories: PreferenceCategory[];
-  userPreferences: UserPreference;
-  handleUpdateUserPreferences?: (id: string, key: string) => void;
-  userPreferencesCount?: number;
-  userPreferencesLoading?: boolean;
 };
 
 const emptyChannel = {
@@ -54,14 +45,6 @@ const ChannelProvider = ({
 
   const isWrongNetwork = !!channel?.chainId && channel.chainId !== walletChain?.id;
 
-  const {
-    preferenceCategories,
-    userPreferences,
-    handleUpdateUserPreferences,
-    userPreferencesCount,
-    userPreferencesLoading,
-  } = usePreferenceActions();
-
   useEffect(() => {
     if (!data) return;
 
@@ -71,13 +54,8 @@ const ChannelProvider = ({
       name: data.partnerInfo.name,
       chainId: data.partnerInfo.chainId,
       discordGuildUrl: data.partnerInfo.discordGuildUrl,
-      preferenceCategories,
-      userPreferences,
-      handleUpdateUserPreferences,
-      userPreferencesCount,
-      userPreferencesLoading,
     });
-  }, [data, preferenceCategories, userPreferences, userPreferencesCount, userPreferencesLoading]);
+  }, [data]);
 
   return (
     <ChannelContext.Provider

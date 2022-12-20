@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { ReactNode, useState } from 'react';
 import styled from 'styled-components';
 import useDiscordActions from './components/discord/useDiscordActions';
 import { DiscordChannel } from './components/discord';
@@ -17,26 +17,42 @@ const ChannelsContainer = styled(Flex)<{ disablePointerEvents?: boolean }>`
   `}
 `;
 
-const Channels = ({
-  showDiscord,
-  showTelegram,
-  showEmail,
-}: {
-  showDiscord?: boolean;
-  showTelegram?: boolean;
-  showEmail?: boolean;
-}) => {
-  const { isWrongNetwork } = useChannelContext();
+const Channels = ({ channels }: { channels: MessagingApp[] }) => {
+  const { isWrongNetwork, discordGuildUrl } = useChannelContext();
   const { isOnboarding, isLoggedIn } = useAuthContext();
-  const { discordGuildUrl, isConnected } = useDiscordActions();
+  const { isConnected } = useDiscordActions();
 
   const [channelOpen, setChannelOpen] = useState<MessagingApp | undefined>(
-    isOnboarding ? MessagingApp.Email : undefined
+    isOnboarding ? channels?.[0] : undefined
   );
 
   const toggleChannelOpen = (channel: MessagingApp) => {
     if (isWrongNetwork) return;
     channelOpen === channel ? setChannelOpen(undefined) : setChannelOpen(channel);
+  };
+
+  const channelComponents: { [key in MessagingApp]?: ReactNode } = {
+    [MessagingApp.Discord]: (
+      <DiscordChannel
+        key={MessagingApp.Discord}
+        open={channelOpen === MessagingApp.Discord}
+        setOpen={() => toggleChannelOpen(MessagingApp.Discord)}
+      />
+    ),
+    [MessagingApp.Email]: (
+      <EmailChannel
+        key={MessagingApp.Email}
+        open={channelOpen === MessagingApp.Email}
+        setOpen={() => toggleChannelOpen(MessagingApp.Email)}
+      />
+    ),
+    [MessagingApp.Telegram]: (
+      <TelegramChannel
+        key={MessagingApp.Telegram}
+        open={channelOpen === MessagingApp.Telegram}
+        setOpen={() => toggleChannelOpen(MessagingApp.Telegram)}
+      />
+    ),
   };
 
   return (
@@ -47,22 +63,11 @@ const Channels = ({
       direction={'column'}
       mb={2}
     >
-      {showDiscord && (isConnected || discordGuildUrl) && (
+      {channels.map((channel) => channelComponents[channel])}
+      {(isConnected || discordGuildUrl) && (
         <DiscordChannel
           open={channelOpen === MessagingApp.Discord}
           setOpen={() => toggleChannelOpen(MessagingApp.Discord)}
-        />
-      )}
-      {showEmail && (
-        <EmailChannel
-          open={channelOpen === MessagingApp.Email}
-          setOpen={() => toggleChannelOpen(MessagingApp.Email)}
-        />
-      )}
-      {showTelegram && (
-        <TelegramChannel
-          open={channelOpen === MessagingApp.Telegram}
-          setOpen={() => toggleChannelOpen(MessagingApp.Telegram)}
         />
       )}
     </ChannelsContainer>

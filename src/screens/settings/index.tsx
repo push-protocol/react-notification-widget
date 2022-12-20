@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useMemo } from 'react';
 import { Screen } from 'components/layout/Screen';
 import Button from 'components/Button';
 import Text from 'components/Text';
@@ -12,43 +12,36 @@ import HiddenNotice from 'components/HiddenNotice';
 import { useAuthContext } from 'context/AuthContext';
 import { useEnvironment } from 'context/EnvironmentContext';
 import Preferences from 'components/Preferences';
-import { useNotificationsContext } from 'context/NotificationsContext';
+import { useUserContext } from 'context/UserContext';
 import { MessagingApp } from 'global/types.generated';
-import { defaultUserChannels } from 'context/ChannelContext/usePreferenceActions';
+import { DefaultUserChannels } from 'context/UserContext/const';
+import useDiscordActions from 'components/Channels/components/discord/useDiscordActions';
 
 export const Settings = () => {
   const { isSubscribeOnly } = useEnvironment();
-  const { userCommsChannels } = useNotificationsContext();
-  const { name, icon, discordGuildUrl, userPreferencesCount } = useChannelContext();
-
-  const [userChannels, setUserChannels] = useState(defaultUserChannels);
-
-  useEffect(() => {
-    setUserChannels(
-      userChannels.filter((channel) => (!discordGuildUrl ? channel !== MessagingApp.Discord : true))
-    );
-  }, [discordGuildUrl]);
-
-  useEffect(() => {
-    if (!setUserChannels) return;
-    const userChannelsMap: { [key: string]: boolean } = {
-      [MessagingApp.Discord]: !!userCommsChannels?.discord?.exists,
-      [MessagingApp.Email]: !!userCommsChannels?.email?.exists,
-      [MessagingApp.Telegram]: !!userCommsChannels?.telegram?.exists,
-    };
-
-    const channelKeys: string[] = Object.keys(userChannelsMap);
-
-    setUserChannels(
-      channelKeys.filter((key: string) => {
-        return userChannelsMap[key];
-      }) as MessagingApp[]
-    );
-
-    return () => setUserChannels(defaultUserChannels);
-  }, [userCommsChannels, setUserChannels]);
-
+  const { userCommsChannels } = useUserContext();
+  const { name, icon, discordGuildUrl } = useChannelContext();
+  const { userPreferencesCount } = useUserContext();
   const { unsubscribe } = useAuthContext();
+  const { isConnected } = useDiscordActions();
+
+  const filteredUserPreferences = useMemo(() => {
+    return (
+      DefaultUserChannels.filter(
+        (app) => userCommsChannels?.[app.toLowerCase() as 'telegram' | 'discord' | 'email'].exists
+      )?.filter((app) => (!discordGuildUrl ? app !== MessagingApp.Discord : true)) || []
+    );
+  }, [discordGuildUrl, userCommsChannels]);
+
+  const filteredConnectedChannels = useMemo(() => {
+    return DefaultUserChannels.filter((channel) => {
+      if (channel === MessagingApp.Discord) {
+        return isConnected || discordGuildUrl;
+      } else {
+        return true;
+      }
+    });
+  }, [discordGuildUrl, isConnected]);
 
   const handleUnsubscribe = () => {
     unsubscribe();
@@ -65,9 +58,9 @@ export const Settings = () => {
         />
       </Flex>
       <WrongNetworkError mb={2} />
-      <Channels showDiscord={true} showEmail={true} showTelegram={true} />
-      {userChannels.length > 0 && userPreferencesCount && (
-        <Preferences hideChannelInfo={true} userChannels={userChannels} />
+      <Channels channels={filteredConnectedChannels} />
+      {!!filteredUserPreferences.length && !!userPreferencesCount && (
+        <Preferences hideChannelInfo userChannels={filteredUserPreferences} />
       )}
       {process.env.WHEREVER_ENV === 'development' && (
         <Flex width={'100%'} justifyContent={'center'} mb={1}>

@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
-import { useNotificationsContext } from 'context/NotificationsContext';
-import { UserCommunicationChannelsDocument } from 'context/NotificationsContext/operations.generated';
+import { useUserContext } from 'context/UserContext';
+import { UserCommunicationChannelsDocument } from 'context/UserContext/operations.generated';
 import analytics from 'services/analytics';
 import { Routes, useRouterContext } from 'context/RouterContext';
 import { useAuthContext } from 'context/AuthContext';
@@ -15,7 +15,7 @@ const useTelegramActions = () => {
   const { isSubscribeOnly } = useEnvironment();
   const { login, isOnboarding, setIsOnboarding } = useAuthContext();
   const { setRoute } = useRouterContext();
-  const { setUserCommsChannelsPollInterval, userCommsChannels } = useNotificationsContext();
+  const { setUserCommsChannelsPollInterval, userCommsChannels } = useUserContext();
 
   const [getTelegramLink, { loading: telegramLoading, data: telegramUrlData }] =
     useGetTelegramVerificationLinkMutation();

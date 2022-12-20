@@ -1,33 +1,10 @@
-import React, { ReactNode, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useAccount } from 'wagmi';
 import { MessagingApp } from 'global/types.generated';
-import { Discord, Email, Telegram } from 'components/icons';
 import {
-  useUserPreferenceCategoriesQuery,
+  useUserPreferenceCategoriesLazyQuery,
   useUserPreferencesUpdateMutation,
 } from 'context/ChannelContext/operations.generated';
-
-export type UserPrefs = Record<string, { [key in MessagingApp]?: boolean }>;
-
-export const defaultUserChannels = [
-  MessagingApp.Discord,
-  MessagingApp.Telegram,
-  MessagingApp.Email,
-] as MessagingApp[];
-
-export const userChannelMapper: { [key: string]: { title: string; icon: ReactNode } } = {
-  [MessagingApp.Discord]: {
-    title: 'Discord',
-    icon: <Discord />,
-  },
-  [MessagingApp.Telegram]: {
-    title: 'Telegram',
-    icon: <Telegram />,
-  },
-  [MessagingApp.Email]: {
-    title: 'Email',
-    icon: <Email />,
-  },
-};
 
 export type PreferenceCategory = {
   id: string;
@@ -36,11 +13,21 @@ export type PreferenceCategory = {
 
 export type UserPreference = Record<string, Record<string, any>>;
 
-const usePreferenceActions = () => {
+const useChannelPreferences = () => {
   const [preferenceCategories, setPreferenceCategories] = useState<PreferenceCategory[]>([]);
   const [userPreferences, setUserPreferences] = useState<UserPreference>({});
+  const { isConnected: isLoggedIn } = useAccount();
 
-  const { data, loading: userPreferencesLoading } = useUserPreferenceCategoriesQuery();
+  const [
+    fetchUserPreferences,
+    { data, loading: userPreferencesLoading, refetch: refetchUserPreferences },
+  ] = useUserPreferenceCategoriesLazyQuery();
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      fetchUserPreferences();
+    }
+  }, [isLoggedIn]);
 
   const [updateUserPreferences] = useUserPreferencesUpdateMutation();
 
@@ -75,19 +62,19 @@ const usePreferenceActions = () => {
           return {
             commsChannelTagId: item.commsChannelTagId,
             enabled: !!item?.enabled,
-            discord: !!item?.enabled,
-            telegram: !!item?.enabled,
-            email: !!item?.enabled,
+            discord: !!item?.discord,
+            telegram: !!item?.telegram,
+            email: !!item?.email,
           };
         }),
       },
     });
   };
 
-  const handleUpdateUserPreferences = (id: string, key: string) => {
+  const handleUpdateUserPreferences = (id: string, appOrEnabled: string) => {
     const updatedPreferences = { ...userPreferences };
-    key = key?.toLowerCase(); // BE uses lower case channel names for channels
-    updatedPreferences[id][key] = !updatedPreferences[id][key];
+    updatedPreferences[id][appOrEnabled.toLowerCase()] =
+      !updatedPreferences[id][appOrEnabled.toLowerCase()];
     setUserPreferences(updatedPreferences);
     savePreferences(updatedPreferences);
   };
@@ -95,16 +82,20 @@ const usePreferenceActions = () => {
   return {
     preferenceCategories,
     userPreferences,
-    userPreferencesCount: data?.commsChannelTags?.length,
+    userPreferencesCount: Object.keys(userPreferences).length,
     userPreferencesLoading,
     handleUpdateUserPreferences,
+    refetchUserPreferences,
   };
 };
 
-export const isPreferenceChannelSelected = (userPreferences: UserPreference, parameter: string) => {
+export const isPreferenceChannelSelected = (
+  userPreferences: UserPreference,
+  channel: MessagingApp
+) => {
   return Object.values(userPreferences).some(
-    (value) => value[parameter.toLowerCase()] && value['enabled']
+    (pref) => pref[channel.toLowerCase()] && pref['enabled']
   );
 };
 
-export default usePreferenceActions;
+export default useChannelPreferences;

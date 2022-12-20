@@ -1,4 +1,5 @@
 import { UserCommunicationChannelsQuery } from './operations.generated';
+import { PreferenceCategory, UserPreference } from 'context/UserContext/useChannelPreferences';
 
 export type Notification = {
   title: string;
@@ -12,7 +13,7 @@ export type Notification = {
   cta?: string;
 };
 
-export type NotificationsContext = {
+export type UserContext = {
   notifications: Notification[];
   userCommsChannels?: UserCommunicationChannelsQuery['userCommunicationChannels'];
   setUserCommsChannelsPollInterval: (interval: number) => void;
@@ -21,6 +22,11 @@ export type NotificationsContext = {
   userAddress?: string;
   feedOpen: boolean;
   setFeedOpen: (isOpen: boolean) => void;
+  preferenceCategories: PreferenceCategory[];
+  userPreferences: UserPreference;
+  handleUpdateUserPreferences: (id: string, key: string) => void;
+  userPreferencesCount?: number;
+  userPreferencesLoading?: boolean;
 };
 
 export type EpnsNotificationRawResp = {

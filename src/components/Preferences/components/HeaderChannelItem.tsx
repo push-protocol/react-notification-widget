@@ -3,12 +3,8 @@ import styled from 'styled-components';
 import Text from 'components/Text';
 import Flex from 'components/layout/Flex';
 
-const ChannelItem = styled.div`
+const ChannelItem = styled(Flex)`
   height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
 `;
 
 const IconContainer = styled(Flex)`
@@ -19,7 +15,7 @@ const IconContainer = styled(Flex)`
 
 const HeaderChannelItem = ({ icon, title }: { icon: ReactNode; title: string }) => {
   return (
-    <ChannelItem>
+    <ChannelItem direction={'column'} alignItems={'center'} justifyContent={'space-between'}>
       <IconContainer>{icon}</IconContainer>
       <Text>{title}</Text>
     </ChannelItem>

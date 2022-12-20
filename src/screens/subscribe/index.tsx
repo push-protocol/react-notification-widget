@@ -18,6 +18,7 @@ import WrongNetworkError from 'components/Errors/WrongNetworkError';
 import ConnectWalletButtons from 'screens/subscribe/components/ConnectWalletButtons';
 import { useAuthContext } from 'context/AuthContext';
 import { useEnvironment } from 'context/EnvironmentContext';
+import { useUserContext } from 'context/UserContext';
 
 const Container = styled(Flex)(({ theme }) => ({
   flexDirection: 'column',
@@ -53,6 +54,8 @@ export const Subscribe = () => {
     error,
   } = useChannelContext();
 
+  const { userPreferencesCount, userPreferencesLoading } = useUserContext();
+
   const theme = useTheme();
 
   useEffect(() => {
@@ -65,7 +68,7 @@ export const Subscribe = () => {
     }
   }, [isSubscribed, isOnboarding, isSubscribeOnly]);
 
-  if (channelLoading || authLoading) {
+  if (channelLoading || authLoading || userPreferencesLoading) {
     return (
       <Screen>
         <Flex alignItems={'center'} height={300}>
@@ -82,7 +85,7 @@ export const Subscribe = () => {
     await login();
 
     subscribeUser(); // don't wait for this to finish as it can trigger workflows
-    setRoute(Routes.UserPreferences);
+    setRoute(userPreferencesCount ? Routes.SetupPreferences : Routes.ConnectChannels);
   };
 
   return (

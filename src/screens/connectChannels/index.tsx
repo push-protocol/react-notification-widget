@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import styled from 'styled-components';
 import Flex from 'components/layout/Flex';
 import { Screen } from 'components/layout/Screen';
@@ -7,12 +7,13 @@ import { useChannelContext } from 'context/ChannelContext';
 import HiddenNotice from 'components/HiddenNotice';
 import PageTitle from 'components/PageTitle';
 import Button from 'components/Button';
-import Text from 'components/Text';
 import { Routes, useRouterContext } from 'context/RouterContext';
 import { useEnvironment } from 'context/EnvironmentContext';
-import { useNotificationsContext } from 'context/NotificationsContext';
-import { isPreferenceChannelSelected } from 'context/ChannelContext/usePreferenceActions';
+import { useUserContext } from 'context/UserContext';
 import { MessagingApp } from 'global/types.generated';
+import { isPreferenceChannelSelected } from 'context/UserContext/useChannelPreferences';
+import { DefaultUserChannels } from 'context/UserContext/const';
+import useDiscordActions from 'components/Channels/components/discord/useDiscordActions';
 
 const Header = styled.div`
   width: 210px;
@@ -20,53 +21,58 @@ const Header = styled.div`
 `;
 
 export const ConnectChannels = () => {
-  const { name, userPreferences, userPreferencesCount } = useChannelContext();
+  const { name, discordGuildUrl } = useChannelContext();
+  const { userPreferences, userPreferencesCount } = useUserContext();
   const { setRoute } = useRouterContext();
+  const { isConnected } = useDiscordActions();
 
   const { isSubscribeOnly } = useEnvironment();
-  const { userCommsChannels } = useNotificationsContext();
+  const { userCommsChannels } = useUserContext();
 
   const handleGoBack = () => {
-    setRoute(Routes.UserPreferences);
+    setRoute(Routes.SetupPreferences);
   };
 
   const handleFinalizeSubscription = () => {
     setRoute(isSubscribeOnly ? Routes.SubscriptionFlowEnded : Routes.NotificationsFeed);
   };
 
-  const finishButtonDisabled =
-    !userCommsChannels?.email?.exists &&
-    !userCommsChannels?.telegram?.exists &&
-    !userCommsChannels?.discord?.exists;
+  const filteredConnectedChannels = useMemo(() => {
+    return DefaultUserChannels.filter((channel) => {
+      if (channel === MessagingApp.Discord) {
+        return (
+          isPreferenceChannelSelected(userPreferences, channel) && (isConnected || discordGuildUrl)
+        );
+      } else {
+        return isPreferenceChannelSelected(userPreferences, channel);
+      }
+    });
+  }, [discordGuildUrl, isConnected, userPreferences]);
 
-  const displayAllChannels = userPreferencesCount === 0;
+  const finishButtonEnabled =
+    !!userCommsChannels?.email?.exists ||
+    !!userCommsChannels?.telegram?.exists ||
+    !!userCommsChannels?.discord?.exists;
+
   return (
     <Screen mb={1}>
       <Header>
         <PageTitle mb={2}>Connect the channels you selected</PageTitle>
       </Header>
-      <Channels
-        showDiscord={
-          displayAllChannels || isPreferenceChannelSelected(userPreferences, MessagingApp.Discord)
-        }
-        showEmail={
-          displayAllChannels || isPreferenceChannelSelected(userPreferences, MessagingApp.Email)
-        }
-        showTelegram={
-          displayAllChannels || isPreferenceChannelSelected(userPreferences, MessagingApp.Telegram)
-        }
-      />
+      <Channels channels={filteredConnectedChannels} />
       <Flex width={'100%'} justifyContent={'space-between'} gap={1} mb={2}>
-        <Button onClick={handleGoBack} height={20} width={'100%'} variant={'gray'}>
-          <Text>Previous</Text>
-        </Button>
+        {!!userPreferencesCount && (
+          <Button onClick={handleGoBack} height={20} width={'100%'} variant={'gray'}>
+            Previous
+          </Button>
+        )}
         <Button
           onClick={handleFinalizeSubscription}
           height={20}
           width={'100%'}
-          disabled={finishButtonDisabled}
+          disabled={!finishButtonEnabled}
         >
-          <Text>Finish</Text>
+          Finish
         </Button>
       </Flex>
       <HiddenNotice text={`${name} won't have access to your contact info`} />

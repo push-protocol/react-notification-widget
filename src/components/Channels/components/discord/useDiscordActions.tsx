@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
-import { useNotificationsContext } from 'context/NotificationsContext';
-import { UserCommunicationChannelsDocument } from 'context/NotificationsContext/operations.generated';
+import { useUserContext } from 'context/UserContext';
+import { UserCommunicationChannelsDocument } from 'context/UserContext/operations.generated';
 import { Routes, useRouterContext } from 'context/RouterContext';
 import { useAuthContext } from 'context/AuthContext';
 import { useEnvironment } from 'context/EnvironmentContext';
@@ -17,7 +17,7 @@ const useDiscordActions = () => {
   const { discordGuildUrl } = useChannelContext();
   const { login, isOnboarding, setIsOnboarding, discordToken } = useAuthContext();
   const { setRoute } = useRouterContext();
-  const { userCommsChannels } = useNotificationsContext();
+  const { userCommsChannels } = useUserContext();
 
   const [deleteDiscord, { loading: deleteLoading }] = useDeleteChannelMutation({
     refetchQueries: [UserCommunicationChannelsDocument],
@@ -82,7 +82,6 @@ const useDiscordActions = () => {
     handleVerify,
     verifyLoading,
     handleOpenDiscord,
-    discordGuildUrl,
     isConnected: userCommsChannels?.discord?.exists,
     hint: userCommsChannels?.discord?.hint || '',
   };

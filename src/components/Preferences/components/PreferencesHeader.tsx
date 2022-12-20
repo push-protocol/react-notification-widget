@@ -3,8 +3,8 @@ import styled from 'styled-components';
 import { useChannelContext } from 'context/ChannelContext';
 import Text from 'components/Text';
 import HeaderChannelItem from 'components/Preferences/components/HeaderChannelItem';
-import { userChannelMapper } from 'context/ChannelContext/usePreferenceActions';
 import { MessagingApp } from 'global/types.generated';
+import { MessagingAppInfo } from 'context/UserContext/const';
 
 const HeaderContainer = styled.div`
   display: flex;
@@ -36,7 +36,7 @@ const Channels = styled.div`
   justify-content: center;
 `;
 
-const UserIconContainer = styled.div`
+const ChannelIconContainer = styled.div`
   height: 24px;
   width: 24px;
   flex-shrink: 0;
@@ -62,10 +62,10 @@ const PreferencesHeader = ({
       <ProfileInfo>
         {!hideChannelInfo && (
           <>
-            <UserIconContainer>
+            <ChannelIconContainer>
               <Image src={icon} alt={'channel icon'} />
-            </UserIconContainer>
-            <Text>{name} Protocol</Text>
+            </ChannelIconContainer>
+            <Text>{name}</Text>
           </>
         )}
       </ProfileInfo>
@@ -74,8 +74,8 @@ const PreferencesHeader = ({
           return (
             <HeaderChannelItem
               key={channel}
-              icon={userChannelMapper[channel].icon}
-              title={userChannelMapper[channel].title}
+              icon={MessagingAppInfo[channel].icon}
+              title={MessagingAppInfo[channel].title}
             />
           );
         })}

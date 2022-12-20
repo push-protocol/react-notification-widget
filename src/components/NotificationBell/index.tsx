@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
 import dayjs from 'dayjs';
-import { useNotificationsContext } from '../../context/NotificationsContext';
+import { useUserContext } from '../../context/UserContext';
 import { useAuthContext } from '../../context/AuthContext';
 import { Bell } from 'components/icons';
 
@@ -43,7 +43,7 @@ export type NotificationBellProps = {
 
 // any to avoid exposing props to consumers of the component (parent injects onClick)
 const NotificationBell = (props: NotificationBellProps & any) => {
-  const { notifications } = useNotificationsContext();
+  const { notifications } = useUserContext();
   const { user } = useAuthContext();
 
   const unreadCount = useMemo(() => {
