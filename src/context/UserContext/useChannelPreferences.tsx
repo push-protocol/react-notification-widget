@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { useAccount } from 'wagmi';
 import { MessagingApp } from 'global/types.generated';
 import {
   useUserPreferenceCategoriesLazyQuery,
   useUserPreferencesUpdateMutation,
 } from 'context/ChannelContext/operations.generated';
+import { useAuthContext } from 'context/AuthContext';
 
 export type PreferenceCategory = {
   id: string;
@@ -16,7 +16,7 @@ export type UserPreference = Record<string, Record<string, any>>;
 const useChannelPreferences = () => {
   const [preferenceCategories, setPreferenceCategories] = useState<PreferenceCategory[]>([]);
   const [userPreferences, setUserPreferences] = useState<UserPreference>({});
-  const { isConnected: isLoggedIn } = useAccount();
+  const { isLoggedIn } = useAuthContext();
 
   const [
     fetchUserPreferences,
@@ -86,6 +86,7 @@ const useChannelPreferences = () => {
     userPreferencesLoading,
     handleUpdateUserPreferences,
     refetchUserPreferences,
+    fetchUserPreferences,
   };
 };
 

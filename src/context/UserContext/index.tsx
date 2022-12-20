@@ -80,6 +80,7 @@ export const UserProvider = ({ children, isOpen }: { children: ReactNode; isOpen
     handleUpdateUserPreferences,
     userPreferencesCount,
     userPreferencesLoading,
+    fetchUserPreferences,
   } = useChannelPreferences();
 
   return (
@@ -98,6 +99,7 @@ export const UserProvider = ({ children, isOpen }: { children: ReactNode; isOpen
         handleUpdateUserPreferences,
         userPreferencesCount,
         userPreferencesLoading,
+        fetchUserPreferences,
       }}
     >
       {children}

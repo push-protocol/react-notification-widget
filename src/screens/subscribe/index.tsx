@@ -39,6 +39,7 @@ export const Subscribe = () => {
     isSubscribed,
     setIsOnboarding,
     isOnboarding,
+    isLoggedIn,
     subscribe,
     isLoading: authLoading,
     login,
@@ -54,12 +55,11 @@ export const Subscribe = () => {
     error,
   } = useChannelContext();
 
-  const { userPreferencesCount, userPreferencesLoading } = useUserContext();
-
+  const { userPreferencesLoading, fetchUserPreferences } = useUserContext();
   const theme = useTheme();
 
   useEffect(() => {
-    if (isSubscribed && !isOnboarding) {
+    if (isSubscribed && !isOnboarding && isLoggedIn) {
       if (isSubscribeOnly) {
         setRoute(Routes.Settings);
       } else {
@@ -85,7 +85,11 @@ export const Subscribe = () => {
     await login();
 
     subscribeUser(); // don't wait for this to finish as it can trigger workflows
-    setRoute(userPreferencesCount ? Routes.SetupPreferences : Routes.ConnectChannels);
+
+    const preferences = await fetchUserPreferences(); // needed for correct flow when initially authToken is not set up
+    const preferencesCount = preferences?.data?.commsChannelTags?.length;
+
+    setRoute(preferencesCount ? Routes.SetupPreferences : Routes.ConnectChannels);
   };
 
   return (

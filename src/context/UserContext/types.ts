@@ -27,6 +27,7 @@ export type UserContext = {
   handleUpdateUserPreferences: (id: string, key: string) => void;
   userPreferencesCount?: number;
   userPreferencesLoading?: boolean;
+  fetchUserPreferences: () => Promise<any>;
 };
 
 export type EpnsNotificationRawResp = {
