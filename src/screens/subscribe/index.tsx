@@ -88,7 +88,7 @@ export const Subscribe = () => {
     const preferences = await fetchUserPreferences(); // needed for correct flow when initially authToken is not set up
     const preferencesCount = preferences?.data?.commsChannelTags?.length;
 
-    setRoute(preferencesCount ? Routes.SetupPreferences : Routes.ConnectChannels);
+    setRoute(preferencesCount ? Routes.SetupPreferences : Routes.SetupChannels);
   };
 
   return (

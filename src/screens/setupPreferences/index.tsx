@@ -44,7 +44,7 @@ export const SetupPreferences = () => {
 
   const handleGoNext = () => {
     if (appsToConnect.length) {
-      setRoute(Routes.ConnectChannels, { appsToConnect });
+      setRoute(Routes.SetupChannels, { appsToConnect });
     } else {
       setRoute(isSubscribeOnlyMode ? Routes.SubscriptionFlowEnded : Routes.NotificationsFeed);
     }

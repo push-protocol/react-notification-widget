@@ -20,7 +20,7 @@ const Header = styled(Flex)`
   margin-bottom: 24px;
 `;
 
-export const ConnectChannels = (props: { appsToConnect: MessagingApp[] }) => {
+export const SetupChannels = (props: { appsToConnect: MessagingApp[] }) => {
   const { name } = useChannelContext();
   const { setRoute } = useRouterContext();
 
