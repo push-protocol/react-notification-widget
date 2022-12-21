@@ -33,7 +33,7 @@ const SubscribeDescription = styled.div`
 `;
 
 export const Subscribe = () => {
-  const { isSubscribeOnly } = useEnvironment();
+  const { isSubscribeOnlyMode } = useEnvironment();
   const {
     userDisconnected,
     isSubscribed,
@@ -59,13 +59,13 @@ export const Subscribe = () => {
 
   useEffect(() => {
     if (isSubscribed && !isOnboarding) {
-      if (isSubscribeOnly) {
+      if (isSubscribeOnlyMode) {
         setRoute(Routes.Settings);
       } else {
         setRoute(Routes.NotificationsFeed);
       }
     }
-  }, [isSubscribed, isOnboarding, isSubscribeOnly]);
+  }, [isSubscribed, isOnboarding, isSubscribeOnlyMode]);
 
   if (channelLoading || authLoading || userPreferencesLoading) {
     return (
