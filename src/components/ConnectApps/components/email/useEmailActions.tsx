@@ -9,7 +9,7 @@ import {
   useDeleteChannelMutation,
   useSaveUserEmailMutation,
   useValidateUserEmailMutation,
-} from 'components/Channels/operations.generated';
+} from 'components/ConnectApps/operations.generated';
 import { MessagingApp } from 'global/types.generated';
 
 export enum ConnectEmailViews {
@@ -19,7 +19,7 @@ export enum ConnectEmailViews {
 }
 
 const useEmailActions = () => {
-  const { isSubscribeOnly } = useEnvironment();
+  const { isSubscribeOnlyMode } = useEnvironment();
   const { login, isOnboarding, setIsOnboarding } = useAuthContext();
   const { setRoute } = useRouterContext();
   const { userCommsChannels } = useUserContext();
@@ -71,13 +71,7 @@ const useEmailActions = () => {
 
       setConnectEmailView(ConnectEmailViews.Connected);
 
-      if (isSubscribeOnly) return;
-
-      if (isOnboarding) {
-        setRoute(Routes.ChannelAdded, { channel: 'Email' });
-      } else {
-        setRoute(Routes.Settings);
-      }
+      if (isSubscribeOnlyMode) return;
 
       setIsOnboarding(false);
     });

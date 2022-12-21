@@ -1,9 +1,8 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { Screen } from 'components/layout/Screen';
 import Button from 'components/Button';
-import Text from 'components/Text';
 import Flex from 'components/layout/Flex';
-import Channels from 'components/Channels';
+import ConnectApps from 'components/ConnectApps';
 import { useChannelContext } from 'context/ChannelContext';
 import WrongNetworkError from 'components/Errors/WrongNetworkError';
 import NavbarActions from 'screens/settings/components/NavbarActions';
@@ -14,62 +13,53 @@ import { useEnvironment } from 'context/EnvironmentContext';
 import Preferences from 'components/Preferences';
 import { useUserContext } from 'context/UserContext';
 import { MessagingApp } from 'global/types.generated';
-import { DefaultUserChannels } from 'context/UserContext/const';
-import useDiscordActions from 'components/Channels/components/discord/useDiscordActions';
+import { Web2Channels } from 'context/UserContext/const';
 
 export const Settings = () => {
-  const { isSubscribeOnly } = useEnvironment();
+  const { isSubscribeOnlyMode } = useEnvironment();
   const { userCommsChannels } = useUserContext();
   const { name, icon, discordGuildUrl } = useChannelContext();
-  const { userPreferencesCount } = useUserContext();
+  const { preferences } = useUserContext();
   const { unsubscribe } = useAuthContext();
-  const { isConnected } = useDiscordActions();
 
-  const filteredUserPreferences = useMemo(() => {
-    return (
-      DefaultUserChannels.filter(
-        (app) => userCommsChannels?.[app.toLowerCase() as 'telegram' | 'discord' | 'email'].exists
-      )?.filter((app) => (!discordGuildUrl ? app !== MessagingApp.Discord : true)) || []
-    );
-  }, [discordGuildUrl, userCommsChannels]);
-
-  const filteredConnectedChannels = useMemo(() => {
-    return DefaultUserChannels.filter((channel) => {
-      if (channel === MessagingApp.Discord) {
-        return isConnected || discordGuildUrl;
-      } else {
-        return true;
-      }
-    });
-  }, [discordGuildUrl, isConnected]);
+  const appConfig = [MessagingApp.Telegram, MessagingApp.Email, MessagingApp.Discord]
+    .map((app) => ({
+      app,
+      enabled: userCommsChannels?.[app.toLowerCase() as Lowercase<typeof Web2Channels[0]>]
+        ?.exists as boolean,
+      available: app === MessagingApp.Discord ? !!discordGuildUrl : true,
+    }))
+    .filter((app) => app.available);
 
   const handleUnsubscribe = () => {
     unsubscribe();
   };
 
   return (
-    <Screen navbarActionComponent={!isSubscribeOnly ? <NavbarActions /> : undefined} mb={1}>
-      <Flex mt={!isSubscribeOnly ? -3 : 0} mb={2}>
+    <Screen navbarActionComponent={!isSubscribeOnlyMode ? <NavbarActions /> : undefined} mb={1}>
+      <Flex mt={!isSubscribeOnlyMode ? -5 : 0} mb={2}>
         <SettingsHeader
           title={
-            isSubscribeOnly ? `You are subscribed to updates from ${name}` : 'Notification Settings'
+            isSubscribeOnlyMode
+              ? `You are subscribed to updates from ${name}`
+              : 'Notification Settings'
           }
           icon={icon}
         />
       </Flex>
       <WrongNetworkError mb={2} />
-      <Channels channels={filteredConnectedChannels} />
-      {!!filteredUserPreferences.length && !!userPreferencesCount && (
-        <Preferences hideChannelInfo userChannels={filteredUserPreferences} />
-      )}
+      <ConnectApps apps={appConfig.map((config) => config.app)} />
+
+      {!!preferences.length && <Preferences hideChannelInfo messagingApps={appConfig} />}
+
       {process.env.WHEREVER_ENV === 'development' && (
         <Flex width={'100%'} justifyContent={'center'} mb={1}>
           <Button variant={'outlined'} onClick={handleUnsubscribe} height={20}>
-            <Text size={'sm'}>Unsubscribe</Text>
+            Unsubscribe
           </Button>
         </Flex>
       )}
-      <HiddenNotice text={`${name} doesn't have access to your contact info`} />
+      <HiddenNotice text={`${name} doesn't have access to your info`} />
     </Screen>
   );
 };

@@ -1,18 +1,20 @@
 import React from 'react';
 import styled from 'styled-components';
+import { PREFERENCES_WIDTH } from '../consts';
+import { MessagingAppConfig } from '../index';
+import { Web2ChannelLower } from '../../../context/UserContext/const';
 import Flex from 'components/layout/Flex';
 import Text from 'components/Text';
 import ToggleInput from 'components/ToggleInput';
 import PreferenceBell from 'components/Preferences/components/PreferenceBell';
-import { MessagingApp } from 'global/types.generated';
-import { UserPreference } from 'context/UserContext/useChannelPreferences';
+import { CommsChannelTag } from 'context/UserContext/useChannelPreferences';
 
-type PreferenceCategoryItemProps = {
-  category: string;
+type PropsT = {
+  categoryId: string;
   title: string;
-  userPreferences: UserPreference;
-  handleUpdateUserPreferences: (id: string, key: string) => void;
-  userChannels: MessagingApp[];
+  preferences: CommsChannelTag[];
+  onPreferenceUpdate: (id: string, key: Web2ChannelLower | 'enabled') => void;
+  messagingAppConfig: MessagingAppConfig[];
 };
 
 const PreferenceCategory = styled.div`
@@ -21,7 +23,6 @@ const PreferenceCategory = styled.div`
   box-sizing: border-box;
   height: 36px;
   align-items: center;
-  justify-content: space-between;
   ${Text} {
     overflow: hidden;
     text-overflow: ellipsis;
@@ -29,46 +30,48 @@ const PreferenceCategory = styled.div`
 `;
 
 const PreferenceCategoryItem = ({
-  category,
+  categoryId,
   title,
-  userPreferences,
-  handleUpdateUserPreferences,
-  userChannels,
-}: PreferenceCategoryItemProps) => {
+  preferences,
+  onPreferenceUpdate,
+  messagingAppConfig,
+}: PropsT) => {
+  const pref = preferences.find((pref) => pref.id === categoryId);
+
   return (
     <Flex alignItems={'center'} mb={1}>
       <PreferenceCategory>
-        <Flex width={100}>
-          <Text>{title}</Text>
+        <Flex width={105}>
+          <Text size={'sm'}>{title}</Text>
         </Flex>
 
         <Flex width={32} alignItems={'center'} pl={1} pr={1}>
           <ToggleInput
-            checked={!!userPreferences[category]?.enabled}
+            checked={!!pref?.userPreference?.enabled}
             onChange={() => {
-              handleUpdateUserPreferences && handleUpdateUserPreferences(category, 'enabled');
+              onPreferenceUpdate(categoryId, 'enabled');
             }}
           />
         </Flex>
       </PreferenceCategory>
 
-      {userPreferences[category]?.enabled ? (
-        <Flex width={180} justifyContent={'center'}>
-          {userChannels.map((channel) => (
-            <Flex key={`${channel}${category}`} width={60} justifyContent={'center'}>
+      {pref?.userPreference?.enabled && (
+        <Flex width={PREFERENCES_WIDTH} gap={1} justifyContent={'end'}>
+          {messagingAppConfig.map(({ app, enabled }) => (
+            <Flex
+              key={`${app}${categoryId}`}
+              width={PREFERENCES_WIDTH / 3}
+              justifyContent={'center'}
+            >
               <PreferenceBell
-                disabled={!userPreferences[category]?.enabled}
-                enabled={userPreferences[category]?.[channel?.toLowerCase()] || false}
+                disabled={!enabled}
+                selected={pref?.userPreference[app.toLowerCase() as Web2ChannelLower] || false}
                 onClick={() =>
-                  handleUpdateUserPreferences && handleUpdateUserPreferences(category, channel)
+                  onPreferenceUpdate(categoryId, app.toLowerCase() as Web2ChannelLower)
                 }
               />
             </Flex>
           ))}
-        </Flex>
-      ) : (
-        <Flex width={'100%'} height={35} alignItems={'center'} justifyContent={'center'}>
-          <Text>Alerts are off</Text>
         </Flex>
       )}
     </Flex>

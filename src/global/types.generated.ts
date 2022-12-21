@@ -51,6 +51,7 @@ export type CommsChannel = {
   createdAt: Scalars['DateTime'];
   delegateWalletAddress?: Maybe<Scalars['String']>;
   discordBotAdded: Scalars['Boolean'];
+  discordChannelId?: Maybe<Scalars['String']>;
   discordGuildId?: Maybe<Scalars['String']>;
   discordGuildUrl?: Maybe<Scalars['String']>;
   id: Scalars['String'];
@@ -115,14 +116,17 @@ export type CommsChannelTag = {
   commsChannelId: Scalars['String'];
   createdAt: Scalars['DateTime'];
   createdByAddress: Scalars['String'];
+  description?: Maybe<Scalars['String']>;
   id: Scalars['String'];
   name: Scalars['String'];
+  optIns: CommsChannelTagOptInsPayload;
   type: CommsChannelTagType;
   updatedAt: Scalars['DateTime'];
-  userPreferences: Array<UserPreference>;
+  userPreference: UserPreference;
 };
 
 export type CommsChannelTagCreateInput = {
+  description?: InputMaybe<Scalars['String']>;
   name: Scalars['String'];
   type: CommsChannelTagType;
 };
@@ -131,11 +135,17 @@ export type CommsChannelTagDeleteInput = {
   id: Scalars['String'];
 };
 
+export type CommsChannelTagOptInsPayload = {
+  __typename?: 'CommsChannelTagOptInsPayload';
+  count: Scalars['Float'];
+};
+
 export enum CommsChannelTagType {
   Preference = 'PREFERENCE'
 }
 
 export type CommsChannelTagUpdateInput = {
+  description?: InputMaybe<Scalars['String']>;
   id: Scalars['String'];
   name: Scalars['String'];
   type: CommsChannelTagType;
@@ -254,6 +264,7 @@ export type MessageSendInput = {
   body: Scalars['String'];
   clickUrl?: InputMaybe<Scalars['String']>;
   imgUrl?: InputMaybe<Scalars['String']>;
+  messageCategoryIds: Array<Scalars['String']>;
   subject: Scalars['String'];
 };
 
@@ -299,16 +310,15 @@ export type Mutation = {
   refreshToken: RefreshTokenPayload;
   telegramVerificationLinkGenerate: UserTelegramVerificationLinkPayload;
   userCommunicationsChannelDelete: GeneralResolverResponse;
-  userDiscordDelete: GeneralResolverResponse;
   userDiscordVerify: GeneralResolverResponse;
   userEmailDelete: GeneralResolverResponse;
   userEmailUpdate: GeneralResolverResponse;
   userEmailValidate: GeneralResolverResponse;
   userLogin: UserLoginPayload;
-  userNotificationRead: GeneralResolverResponse;
-  userPreferencesUpdate: GeneralResolverResponse;
+  userPreferencesUpdate: UserPreference;
   userSubscribeToChannel: GeneralResolverResponse;
   userTelegramDelete: GeneralResolverResponse;
+  userUpdateLastReadAt: User;
   workflowCreate: Workflow;
   workflowDelete: BatchActionResponse;
   workflowUpdate: Workflow;
@@ -401,7 +411,7 @@ export type MutationUserLoginArgs = {
 
 
 export type MutationUserPreferencesUpdateArgs = {
-  input: Array<UserPreferenceUpdateInput>;
+  input: UserPreferenceUpdateInput;
 };
 
 
@@ -467,6 +477,7 @@ export type Query = {
   me: User;
   partnerInfo: PartnerInfo;
   projectToken?: Maybe<ProjectToken>;
+  user: User;
   userCommunicationChannels: UserCommunicationChannelsPayload;
   workflows: Array<Workflow>;
 };

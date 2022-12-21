@@ -6,6 +6,7 @@ import {
   NotificationBell,
   NotificationFeed,
   NotificationFeedProvider,
+  ThemeMode,
 } from '../index';
 import * as S from './styles';
 import FloatingSettings, { Coordinates } from './components/FloatingSettings';
@@ -23,6 +24,7 @@ const hatsTheme = {
 };
 
 const lightTheme = {
+  mode: ThemeMode.Light,
   primaryColor: '#3761F9',
   buttonTextColor: '#ffffff',
   backgroundColor: '#EDF2F7',

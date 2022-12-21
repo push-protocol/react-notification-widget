@@ -1,9 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
+import { PREFERENCES_WIDTH } from '../consts';
+import { MessagingAppConfig } from '../index';
 import { useChannelContext } from 'context/ChannelContext';
 import Text from 'components/Text';
 import HeaderChannelItem from 'components/Preferences/components/HeaderChannelItem';
-import { MessagingApp } from 'global/types.generated';
 import { MessagingAppInfo } from 'context/UserContext/const';
 
 const HeaderContainer = styled.div`
@@ -14,7 +15,7 @@ const HeaderContainer = styled.div`
   border-color: ${({ theme }) => theme.colors.light[10]};
 `;
 
-const ProfileInfo = styled.div`
+const ChannelInfo = styled.div`
   display: flex;
   align-items: center;
   gap: 6px;
@@ -29,11 +30,11 @@ const ProfileInfo = styled.div`
 
 const Channels = styled.div`
   height: 34px;
-  gap: 15px;
   display: flex;
   align-items: center;
-  width: 176px;
-  justify-content: center;
+  width: ${PREFERENCES_WIDTH}px;
+  justify-content: flex-end;
+  gap: 8px;
 `;
 
 const ChannelIconContainer = styled.div`
@@ -50,16 +51,16 @@ const Image = styled.img`
 
 const PreferencesHeader = ({
   hideChannelInfo,
-  userChannels,
+  messagingAppConfig,
 }: {
   hideChannelInfo?: boolean;
-  userChannels: MessagingApp[];
+  messagingAppConfig: MessagingAppConfig[];
 }) => {
   const { icon, name } = useChannelContext();
 
   return (
     <HeaderContainer>
-      <ProfileInfo>
+      <ChannelInfo>
         {!hideChannelInfo && (
           <>
             <ChannelIconContainer>
@@ -68,14 +69,15 @@ const PreferencesHeader = ({
             <Text>{name}</Text>
           </>
         )}
-      </ProfileInfo>
+      </ChannelInfo>
       <Channels>
-        {userChannels.map((channel) => {
+        {messagingAppConfig.map(({ app, enabled }) => {
           return (
             <HeaderChannelItem
-              key={channel}
-              icon={MessagingAppInfo[channel].icon}
-              title={MessagingAppInfo[channel].title}
+              key={app}
+              disabled={!enabled}
+              icon={MessagingAppInfo[app].icon}
+              title={MessagingAppInfo[app].title}
             />
           );
         })}

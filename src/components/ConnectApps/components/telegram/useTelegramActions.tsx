@@ -8,11 +8,11 @@ import { useEnvironment } from 'context/EnvironmentContext';
 import {
   useDeleteChannelMutation,
   useGetTelegramVerificationLinkMutation,
-} from 'components/Channels/operations.generated';
+} from 'components/ConnectApps/operations.generated';
 import { MessagingApp } from 'global/types.generated';
 
 const useTelegramActions = () => {
-  const { isSubscribeOnly } = useEnvironment();
+  const { isSubscribeOnlyMode } = useEnvironment();
   const { login, isOnboarding, setIsOnboarding } = useAuthContext();
   const { setRoute } = useRouterContext();
   const { setUserCommsChannelsPollInterval, userCommsChannels } = useUserContext();
@@ -61,12 +61,7 @@ const useTelegramActions = () => {
     if (userCommsChannels?.telegram?.exists) {
       setUserCommsChannelsPollInterval(0);
 
-      if (isSubscribeOnly) return;
-
-      if (isOnboarding) {
-        // This will redirect user from onBoarding to feed if user has already has telegram integrated
-        setRoute(Routes.ChannelAdded, { channel: 'Telegram' });
-      }
+      if (isSubscribeOnlyMode) return;
 
       setIsOnboarding(false);
     }

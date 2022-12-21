@@ -1,9 +1,10 @@
 import React from 'react';
 import dayjs, { extend } from 'dayjs';
-import styled from 'styled-components';
+import styled, { DefaultTheme } from 'styled-components';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import analytics from '../../../services/analytics';
 import parseEpnsFormatting from '../helpers/parseEpnsFormatting';
+import { mode } from '../../../theme';
 import { NotificationClickProp } from 'components/types';
 import { changeColorShade } from 'components/utils';
 import { Notification } from 'context/UserContext/types';
@@ -16,10 +17,15 @@ import { getYoutubeId } from 'helpers/functions/getYoutubeId';
 
 extend(relativeTime);
 
-const Container = styled(Flex)<{ clickable: boolean }>`
+const Container = styled(Flex)<{ clickable: boolean; theme: DefaultTheme }>`
   cursor: ${({ clickable }) => (clickable ? 'pointer' : 'cursor')};
-  padding: 8px 0;
+  padding: 12px;
   border-radius: ${({ theme }) => theme.borderRadius.md};
+  transition: all 0.2s ease-in-out;
+  &:hover {
+    background: ${({ theme, clickable }) =>
+      clickable ? mode(theme.colors.light[10], theme.colors.dark[10]) : undefined};
+  }
 `;
 
 const NotificationTitle = styled(Text)`
@@ -32,8 +38,8 @@ const SenderImageContainer = styled.div`
   align-items: center;
   justify-content: center;
   height: 45px;
-  overflow: hidden;
   width: 45px;
+  overflow: hidden;
   border-radius: 100px;
   margin-right: 6px;
 `;
@@ -89,10 +95,6 @@ const NotificationFeedItem = ({
   onNotificationClick,
 }: NotificationFeedItemProps) => {
   const isUnread = dayjs(notification.timestamp).isAfter(dayjs()); //TODO: update with correct logic
-
-  const markAsRead = () => {
-    //TODO: handle mark as read without redirection
-  };
 
   const handleNotificationClick = () => {
     analytics.track('notification clicked', { notification });
@@ -178,7 +180,7 @@ const NotificationFeedItem = ({
           )}
         </Flex>
       </Flex>
-      {isUnread && <UnreadNotification onClick={markAsRead} />}
+      {isUnread && <UnreadNotification />}
     </Container>
   );
 };

@@ -14,14 +14,14 @@ export type PartnerInfoQuery = { __typename?: 'Query', partnerInfo: { __typename
 export type UserPreferenceCategoriesQueryVariables = Types.Exact<{ [key: string]: never; }>;
 
 
-export type UserPreferenceCategoriesQuery = { __typename?: 'Query', commsChannelTags: Array<{ __typename?: 'CommsChannelTag', id: string, name: string, userPreferences: Array<{ __typename?: 'UserPreference', id: string, discord: boolean, email: boolean, telegram: boolean, enabled: boolean }> }> };
+export type UserPreferenceCategoriesQuery = { __typename?: 'Query', commsChannelTags: Array<{ __typename?: 'CommsChannelTag', id: string, name: string, userPreference: { __typename?: 'UserPreference', id: string, discord: boolean, email: boolean, telegram: boolean, enabled: boolean } }> };
 
 export type UserPreferencesUpdateMutationVariables = Types.Exact<{
-  input: Array<Types.UserPreferenceUpdateInput> | Types.UserPreferenceUpdateInput;
+  input: Types.UserPreferenceUpdateInput;
 }>;
 
 
-export type UserPreferencesUpdateMutation = { __typename?: 'Mutation', userPreferencesUpdate: { __typename?: 'GeneralResolverResponse', success: boolean } };
+export type UserPreferencesUpdateMutation = { __typename?: 'Mutation', userPreferencesUpdate: { __typename?: 'UserPreference', id: string, commsChannelTagId: string, email: boolean, telegram: boolean, discord: boolean, enabled: boolean } };
 
 
 export const PartnerInfoDocument = gql`
@@ -69,7 +69,7 @@ export const UserPreferenceCategoriesDocument = gql`
   commsChannelTags {
     id
     name
-    userPreferences {
+    userPreference {
       id
       discord
       email
@@ -107,9 +107,14 @@ export type UserPreferenceCategoriesQueryHookResult = ReturnType<typeof useUserP
 export type UserPreferenceCategoriesLazyQueryHookResult = ReturnType<typeof useUserPreferenceCategoriesLazyQuery>;
 export type UserPreferenceCategoriesQueryResult = ApolloReactCommon.QueryResult<UserPreferenceCategoriesQuery, UserPreferenceCategoriesQueryVariables>;
 export const UserPreferencesUpdateDocument = gql`
-    mutation UserPreferencesUpdate($input: [UserPreferenceUpdateInput!]!) {
+    mutation UserPreferencesUpdate($input: UserPreferenceUpdateInput!) {
   userPreferencesUpdate(input: $input) {
-    success
+    id
+    commsChannelTagId
+    email
+    telegram
+    discord
+    enabled
   }
 }
     `;

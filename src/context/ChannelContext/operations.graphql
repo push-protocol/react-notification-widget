@@ -13,7 +13,7 @@ query UserPreferenceCategories {
     commsChannelTags {
         id
         name
-        userPreferences {
+        userPreference {
             id,
             discord,
             email,
@@ -24,8 +24,13 @@ query UserPreferenceCategories {
 }
 
 
-mutation UserPreferencesUpdate($input: [UserPreferenceUpdateInput!]!) {
+mutation UserPreferencesUpdate($input: UserPreferenceUpdateInput!) {
     userPreferencesUpdate(input: $input) {
-        success
+        id
+        commsChannelTagId
+        email
+        telegram
+        discord
+        enabled
     }
 }

@@ -16,7 +16,7 @@ const emptyChannel = {
   icon: '',
   name: '',
   chainId: 0,
-  preferenceCategories: [],
+  preferences: [],
   userPreferences: {},
   userChannels: [],
 };

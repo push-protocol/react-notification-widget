@@ -1,4 +1,5 @@
 import { DefaultTheme } from 'styled-components';
+import { LOCALSTORAGE_THEME_MODE_KEY } from '../global/const';
 import { changeColorShade, adjustColor } from 'components/utils';
 
 type MainColor = {
@@ -83,11 +84,17 @@ declare module 'styled-components' {
   }
 }
 
+export enum ThemeMode {
+  Light = 'light',
+  Dark = 'dark',
+}
+
 export type CustomTheme = {
   notificationDot?: {
     backgroundColor: string;
     textColor: string;
   };
+  mode?: ThemeMode;
   primaryColor?: string;
   secondaryColor?: string;
   borderRadius?: 'none' | 'sm' | 'md' | 'lg';
@@ -171,7 +178,11 @@ const defaultTheme: DefaultTheme = {
 };
 
 export const makeTheme = (customTheme?: CustomTheme): DefaultTheme => {
-  if (!customTheme) return defaultTheme;
+  localStorage.setItem(LOCALSTORAGE_THEME_MODE_KEY, customTheme?.mode || defaultTheme.mode);
+
+  if (!customTheme) {
+    return defaultTheme;
+  }
 
   return {
     ...defaultTheme,
@@ -240,6 +251,12 @@ const getBorderRadius = (customBr: CustomTheme['borderRadius']) => {
   };
 
   return brMaps[customBr];
+};
+
+export const mode = (dark: any, light: any) => {
+  const mode = localStorage.getItem(LOCALSTORAGE_THEME_MODE_KEY);
+
+  return mode === 'dark' ? dark : light;
 };
 
 export default defaultTheme;

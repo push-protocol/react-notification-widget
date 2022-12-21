@@ -1,6 +1,6 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import styled from 'styled-components';
-import { isPreferenceChannelSelected } from 'context/UserContext/useChannelPreferences';
+import { isPreferenceChannelSelected } from '../../context/UserContext/useChannelPreferences';
 import Flex from 'components/layout/Flex';
 import { Screen } from 'components/layout/Screen';
 import { useChannelContext } from 'context/ChannelContext';
@@ -13,47 +13,47 @@ import Preferences from 'components/Preferences/index';
 import { MessagingApp } from 'global/types.generated';
 import Spinner from 'components/Spinner';
 import { useUserContext } from 'context/UserContext';
-import { DefaultUserChannels } from 'context/UserContext/const';
+import { Web2Channels } from 'context/UserContext/const';
 
 const Header = styled.div`
-  width: 250px;
   text-align: center;
+  margin-bottom: 8px;
 `;
 
 export const SetupPreferences = () => {
   const { discordGuildUrl } = useChannelContext();
-  const { userPreferences, userPreferencesLoading } = useUserContext();
+  const { preferences, userPreferencesLoading } = useUserContext();
   const { setRoute } = useRouterContext();
-  const { isSubscribeOnly } = useEnvironment();
+  const { isSubscribeOnlyMode } = useEnvironment();
 
-  const [userConnectedChannels] = useState<MessagingApp[]>(DefaultUserChannels);
+  const appConfig = Web2Channels.filter((channel) =>
+    channel === MessagingApp.Discord ? !!discordGuildUrl : true
+  ).map((app) => ({ app, enabled: true }));
 
-  const filteredUserPreferences = useMemo(() => {
-    return userConnectedChannels.filter((channel) =>
-      !discordGuildUrl ? channel !== MessagingApp.Discord : true
-    );
-  }, [discordGuildUrl, userConnectedChannels]);
+  const goNextDisabled = preferences.every((pref) => !pref.userPreference?.enabled);
 
-  const goNextDisabled = Object.values(userPreferences).every((pref) => !pref['enabled']);
+  const appsToConnect = useMemo(() => {
+    return Web2Channels.filter((channel) => {
+      if (channel === MessagingApp.Discord) {
+        return isPreferenceChannelSelected(preferences, channel) && discordGuildUrl;
+      }
 
-  const channelSelection = [
-    isPreferenceChannelSelected(userPreferences, MessagingApp.Discord),
-    isPreferenceChannelSelected(userPreferences, MessagingApp.Telegram),
-    isPreferenceChannelSelected(userPreferences, MessagingApp.Email),
-  ];
+      return isPreferenceChannelSelected(preferences, channel);
+    });
+  }, [discordGuildUrl, preferences]);
 
   const handleGoNext = () => {
-    if (channelSelection.some((channelEnabled) => channelEnabled)) {
-      setRoute(Routes.ConnectChannels);
+    if (appsToConnect.length) {
+      setRoute(Routes.ConnectChannels, { appsToConnect });
     } else {
-      setRoute(isSubscribeOnly ? Routes.SubscriptionFlowEnded : Routes.Settings);
+      setRoute(isSubscribeOnlyMode ? Routes.SubscriptionFlowEnded : Routes.NotificationsFeed);
     }
   };
 
   return (
     <Screen mb={1}>
       <Header>
-        <PageTitle mb={2}>Choose where and what we should notify you about</PageTitle>
+        <PageTitle mb={2}>Where and what should we notify you about?</PageTitle>
       </Header>
       {userPreferencesLoading ? (
         <Flex width={'100%'} height={150}>
@@ -61,9 +61,9 @@ export const SetupPreferences = () => {
         </Flex>
       ) : (
         <>
-          <Preferences userChannels={filteredUserPreferences} />
+          <Preferences messagingApps={appConfig} />
           <Flex mb={2} mt={2} width={'100%'}>
-            <Button width={'100%'} onClick={handleGoNext} disabled={goNextDisabled}>
+            <Button size={'lg'} width={'100%'} onClick={handleGoNext} disabled={goNextDisabled}>
               Next
             </Button>
           </Flex>

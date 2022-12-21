@@ -1,7 +1,7 @@
 import React from 'react';
 import { IconProps } from 'components/icons/types';
 
-export const CrossedOutBell = ({ className }: IconProps) => (
+const CrossedOutBell = ({ className }: IconProps) => (
   <svg
     width="100%"
     height="100%"

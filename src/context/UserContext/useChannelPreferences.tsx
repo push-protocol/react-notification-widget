@@ -1,101 +1,104 @@
 import React, { useEffect, useState } from 'react';
+import { Web2Channels, Web2ChannelLower } from './const';
 import { MessagingApp } from 'global/types.generated';
 import {
-  useUserPreferenceCategoriesLazyQuery,
   useUserPreferencesUpdateMutation,
+  useUserPreferenceCategoriesQuery,
+  UserPreferenceCategoriesQuery,
 } from 'context/ChannelContext/operations.generated';
 import { useAuthContext } from 'context/AuthContext';
 
 export type PreferenceCategory = {
   id: string;
-  title: string;
+  name: string;
 };
 
-export type UserPreference = Record<string, Record<string, any>>;
+export type CommsChannelTag = UserPreferenceCategoriesQuery['commsChannelTags'][0];
+
+export type UserPreferences = Record<string, CommsChannelTag['userPreference']>;
 
 const useChannelPreferences = () => {
-  const [preferenceCategories, setPreferenceCategories] = useState<PreferenceCategory[]>([]);
-  const [userPreferences, setUserPreferences] = useState<UserPreference>({});
+  const [userPreferences, setUserPreferences] = useState<UserPreferences>({});
   const { isLoggedIn } = useAuthContext();
 
-  const [
-    fetchUserPreferences,
-    { data, loading: userPreferencesLoading, refetch: refetchUserPreferences },
-  ] = useUserPreferenceCategoriesLazyQuery();
-
-  useEffect(() => {
-    if (isLoggedIn) {
-      fetchUserPreferences();
-    }
-  }, [isLoggedIn]);
+  const {
+    data,
+    loading: userPreferencesLoading,
+    refetch: refetchUserPreferences,
+  } = useUserPreferenceCategoriesQuery({ skip: !isLoggedIn });
 
   const [updateUserPreferences] = useUserPreferencesUpdateMutation();
 
-  // Fetch saved user tags and preferences
-  useEffect(() => {
-    if (data?.commsChannelTags && data.commsChannelTags.length > 0) {
-      setPreferenceCategories(
-        data?.commsChannelTags?.map((tag) => {
-          return {
-            id: tag.id,
-            title: tag.name,
-          };
-        })
-      );
+  const savePreference = (pref: Partial<CommsChannelTag['userPreference']>, prefId: string) => {
+    const enabled = !!pref?.enabled;
 
-      const preferences = data?.commsChannelTags?.map((tag) => {
-        return {
-          [tag.id]: {
-            ...tag?.userPreferences[0],
-            commsChannelTagId: tag.id,
-          },
-        };
-      });
-      setUserPreferences(Object.assign({}, ...preferences));
-    }
-  }, [data]);
+    const update = {
+      commsChannelTagId: prefId,
+      enabled,
+      discord: enabled && !!pref?.discord,
+      telegram: enabled && !!pref?.telegram,
+      email: enabled && !!pref?.email,
+    };
 
-  const savePreferences = (updatedPreferences: UserPreference) => {
     updateUserPreferences({
+      optimisticResponse: {
+        userPreferencesUpdate: {
+          __typename: 'UserPreference',
+          id: pref.id || 'temp-id',
+          ...update,
+        },
+      },
+      update(cache, mutationResult) {
+        cache.modify({
+          fields: {
+            commsChannelTags: (previous: CommsChannelTag[]) => {
+              const updatedPref = mutationResult.data?.userPreferencesUpdate;
+              const channelTag = previous.find((tag) => tag.id === updatedPref?.commsChannelTagId);
+
+              if (channelTag && mutationResult.data) {
+                channelTag.userPreference = mutationResult.data.userPreferencesUpdate;
+              }
+
+              return [
+                ...previous.filter((tag) => tag.id !== updatedPref?.commsChannelTagId),
+                channelTag,
+              ];
+            },
+          },
+        });
+      },
       variables: {
-        input: Object.values(updatedPreferences).map((item) => {
-          return {
-            commsChannelTagId: item.commsChannelTagId,
-            enabled: !!item?.enabled,
-            discord: !!item?.discord,
-            telegram: !!item?.telegram,
-            email: !!item?.email,
-          };
-        }),
+        input: update,
       },
     });
   };
 
-  const handleUpdateUserPreferences = (id: string, appOrEnabled: string) => {
-    const updatedPreferences = { ...userPreferences };
-    updatedPreferences[id][appOrEnabled.toLowerCase()] =
-      !updatedPreferences[id][appOrEnabled.toLowerCase()];
-    setUserPreferences(updatedPreferences);
-    savePreferences(updatedPreferences);
+  const handleUpdateUserPreferences = (
+    prefId: string,
+    appOrEnabled: Web2ChannelLower | 'enabled'
+  ) => {
+    const pref = data?.commsChannelTags.find((tag) => tag.id === prefId)?.userPreference;
+    const updatedPref = { ...pref, [appOrEnabled]: !pref?.[appOrEnabled] };
+    savePreference(updatedPref, prefId);
   };
 
   return {
-    preferenceCategories,
-    userPreferences,
-    userPreferencesCount: Object.keys(userPreferences).length,
+    preferences: data?.commsChannelTags || [],
+    userPreferencesCount: data?.commsChannelTags.map((tag) => tag.userPreference).length,
     userPreferencesLoading,
     handleUpdateUserPreferences,
-    refetchUserPreferences,
-    fetchUserPreferences,
+    fetchUserPreferences: refetchUserPreferences,
   };
 };
 
 export const isPreferenceChannelSelected = (
-  userPreferences: UserPreference,
+  userPreferences: CommsChannelTag[],
   channel: MessagingApp
 ) => {
-  return Object.values(userPreferences).some(
-    (pref) => pref[channel.toLowerCase()] && pref['enabled']
+  return userPreferences.some(
+    (pref) =>
+      pref.userPreference?.[channel.toLowerCase() as Web2ChannelLower] &&
+      pref.userPreference?.enabled
   );
 };
 

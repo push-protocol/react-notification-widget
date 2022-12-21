@@ -1,5 +1,10 @@
 import { UserCommunicationChannelsQuery } from './operations.generated';
-import { PreferenceCategory, UserPreference } from 'context/UserContext/useChannelPreferences';
+import { Web2ChannelLower } from './const';
+import {
+  PreferenceCategory,
+  UserPreferences,
+  CommsChannelTag,
+} from 'context/UserContext/useChannelPreferences';
 
 export type Notification = {
   title: string;
@@ -22,9 +27,8 @@ export type UserContext = {
   userAddress?: string;
   feedOpen: boolean;
   setFeedOpen: (isOpen: boolean) => void;
-  preferenceCategories: PreferenceCategory[];
-  userPreferences: UserPreference;
-  handleUpdateUserPreferences: (id: string, key: string) => void;
+  preferences: CommsChannelTag[];
+  handleUpdateUserPreferences: (id: string, appOrEnabled: Web2ChannelLower | 'enabled') => void;
   userPreferencesCount?: number;
   userPreferencesLoading?: boolean;
   fetchUserPreferences: () => Promise<any>;

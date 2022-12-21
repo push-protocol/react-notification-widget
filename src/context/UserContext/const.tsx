@@ -17,6 +17,7 @@ const MessagingAppInfo: { [key: string]: { title: string; icon: ReactNode } } = 
   },
 };
 
-const DefaultUserChannels = Object.keys(MessagingAppInfo) as MessagingApp[];
+const Web2Channels = Object.keys(MessagingAppInfo) as Exclude<MessagingApp, MessagingApp.Epns>[];
+export type Web2ChannelLower = Lowercase<typeof Web2Channels[0]>;
 
-export { MessagingAppInfo, DefaultUserChannels };
+export { MessagingAppInfo, Web2Channels };

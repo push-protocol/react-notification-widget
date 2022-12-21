@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { mode } from '../../theme';
 import PreferencesHeader from 'components/Preferences/components/PreferencesHeader';
 import PreferenceCategoryItem from 'components/Preferences/components/PreferenceCategoryItem';
 import { MessagingApp } from 'global/types.generated';
@@ -8,32 +9,34 @@ import { useUserContext } from 'context/UserContext';
 const PreferencesContainer = styled.div`
   width: 100%;
   margin-bottom: 16px;
-  background: ${({ theme }) => theme.colors.dark['10']};
+  background: ${({ theme }) => mode(theme.colors.dark[10], undefined)};
   padding: ${({ theme }) => theme.spacing(1)}px;
   border-radius: ${({ theme }) => theme.borderRadius.md};
-  border: 1px solid ${({ theme }) => theme.colors.light['10']};
+  border: 1px solid ${({ theme }) => mode(theme.colors.light['10'], theme.colors.dark[10])};
   box-sizing: border-box;
 `;
 
-type PreferencesProps = {
+export type MessagingAppConfig = { enabled: boolean; app: MessagingApp };
+
+type PropsT = {
   hideChannelInfo?: boolean;
-  userChannels: MessagingApp[];
+  messagingApps: MessagingAppConfig[];
 };
 
-const Preferences = ({ hideChannelInfo, userChannels }: PreferencesProps) => {
-  const { preferenceCategories, userPreferences, handleUpdateUserPreferences } = useUserContext();
+const Preferences = ({ hideChannelInfo, messagingApps }: PropsT) => {
+  const { preferences, handleUpdateUserPreferences } = useUserContext();
 
   return (
     <PreferencesContainer>
-      <PreferencesHeader hideChannelInfo={hideChannelInfo} userChannels={userChannels} />
-      {preferenceCategories.map(({ id, title }) => (
+      <PreferencesHeader hideChannelInfo={hideChannelInfo} messagingAppConfig={messagingApps} />
+      {preferences.map(({ id, name }) => (
         <PreferenceCategoryItem
           key={id}
-          category={id}
-          title={title}
-          userPreferences={userPreferences}
-          handleUpdateUserPreferences={handleUpdateUserPreferences}
-          userChannels={userChannels}
+          categoryId={id}
+          title={name}
+          preferences={preferences}
+          onPreferenceUpdate={handleUpdateUserPreferences}
+          messagingAppConfig={messagingApps}
         />
       ))}
     </PreferencesContainer>

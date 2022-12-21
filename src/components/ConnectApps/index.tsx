@@ -1,6 +1,6 @@
 import React, { ReactNode, useState } from 'react';
 import styled from 'styled-components';
-import useDiscordActions from './components/discord/useDiscordActions';
+import { useUserContext } from '../../context/UserContext';
 import { DiscordChannel } from './components/discord';
 import { EmailChannel } from './components/email';
 import { TelegramChannel } from './components/telegram';
@@ -17,13 +17,12 @@ const ChannelsContainer = styled(Flex)<{ disablePointerEvents?: boolean }>`
   `}
 `;
 
-const Channels = ({ channels }: { channels: MessagingApp[] }) => {
-  const { isWrongNetwork, discordGuildUrl } = useChannelContext();
+const ConnectApps = ({ apps }: { apps: MessagingApp[] }) => {
+  const { isWrongNetwork } = useChannelContext();
   const { isOnboarding, isLoggedIn } = useAuthContext();
-  const { isConnected } = useDiscordActions();
 
   const [channelOpen, setChannelOpen] = useState<MessagingApp | undefined>(
-    isOnboarding ? channels?.[0] : undefined
+    isOnboarding ? apps?.[0] : undefined
   );
 
   const toggleChannelOpen = (channel: MessagingApp) => {
@@ -63,15 +62,9 @@ const Channels = ({ channels }: { channels: MessagingApp[] }) => {
       direction={'column'}
       mb={2}
     >
-      {channels.map((channel) => channelComponents[channel])}
-      {(isConnected || discordGuildUrl) && (
-        <DiscordChannel
-          open={channelOpen === MessagingApp.Discord}
-          setOpen={() => toggleChannelOpen(MessagingApp.Discord)}
-        />
-      )}
+      {apps.map((channel) => channelComponents[channel])}
     </ChannelsContainer>
   );
 };
 
-export default Channels;
+export default ConnectApps;

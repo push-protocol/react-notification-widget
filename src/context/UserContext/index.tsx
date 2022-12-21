@@ -20,6 +20,14 @@ export const UserProvider = ({ children, isOpen }: { children: ReactNode; isOpen
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [userCommsChannelsPollInterval, setUserCommsChannelsPollInterval] = useState(0);
 
+  const {
+    preferences,
+    handleUpdateUserPreferences,
+    userPreferencesCount,
+    userPreferencesLoading,
+    fetchUserPreferences,
+  } = useChannelPreferences();
+
   const [getCommsChannels, { data }] = useUserCommunicationChannelsLazyQuery({
     pollInterval: userCommsChannelsPollInterval,
   });
@@ -74,15 +82,6 @@ export const UserProvider = ({ children, isOpen }: { children: ReactNode; isOpen
     }
   }, [isOpen]);
 
-  const {
-    preferenceCategories,
-    userPreferences,
-    handleUpdateUserPreferences,
-    userPreferencesCount,
-    userPreferencesLoading,
-    fetchUserPreferences,
-  } = useChannelPreferences();
-
   return (
     <UserContext.Provider
       value={{
@@ -94,8 +93,7 @@ export const UserProvider = ({ children, isOpen }: { children: ReactNode; isOpen
         setUserCommsChannelsPollInterval,
         notifications,
         userAddress,
-        preferenceCategories,
-        userPreferences,
+        preferences,
         handleUpdateUserPreferences,
         userPreferencesCount,
         userPreferencesLoading,

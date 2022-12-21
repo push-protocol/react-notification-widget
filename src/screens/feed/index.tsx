@@ -24,7 +24,6 @@ const NotificationFeed = styled(Flex)`
   overflow-y: auto;
   overflow-x: hidden;
   width: calc(100% + 18px);
-  padding: 0 6px;
   box-sizing: border-box;
   &::-webkit-scrollbar {
     display: none;
