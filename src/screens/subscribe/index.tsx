@@ -39,7 +39,6 @@ export const Subscribe = () => {
     isSubscribed,
     setIsOnboarding,
     isOnboarding,
-    isLoggedIn,
     subscribe,
     isLoading: authLoading,
     login,
@@ -59,7 +58,7 @@ export const Subscribe = () => {
   const theme = useTheme();
 
   useEffect(() => {
-    if (isSubscribed && !isOnboarding && isLoggedIn) {
+    if (isSubscribed && !isOnboarding) {
       if (isSubscribeOnly) {
         setRoute(Routes.Settings);
       } else {
