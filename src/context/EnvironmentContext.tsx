@@ -9,7 +9,7 @@ export enum WidgetMode {
 export type EnvironmentContextType = {
   gqlEndpoint: string;
   epnsEnv: string;
-  isSubscribeOnly: boolean;
+  isSubscribeOnlyMode: boolean;
 };
 
 export const EnvironmentContext = createContext<EnvironmentContextType>(
@@ -43,7 +43,7 @@ export const EnvironmentProvider = ({
       value={{
         gqlEndpoint: gqlEndpointMap[whereverEnv],
         epnsEnv: epnsEnvMap[whereverEnv],
-        isSubscribeOnly: mode === WidgetMode.SubscribeOnly,
+        isSubscribeOnlyMode: mode === WidgetMode.SubscribeOnly,
       }}
     >
       {children}

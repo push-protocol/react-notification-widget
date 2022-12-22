@@ -41,7 +41,14 @@ const PoweredBy = styled(Flex)`
 
 const ChildrenContainer = styled.div(({ theme }) => ({
   height: `calc(100% - ${POWERED_BY_HEIGHT} - 8px)`,
-  padding: `18px 18px 0 18px`,
+  maxHeight: 600,
+  overflowY: 'auto',
+  '-ms-overflow-style': 'none',
+  'scrollbar-width': 'none',
+  '&::-webkit-scrollbar': {
+    display: 'none',
+  },
+  padding: `24px 12px 0 12px`,
   [`@media (max-width: ${theme.breakpoints.mobile}px)`]: {
     paddingBottom: 0,
   },

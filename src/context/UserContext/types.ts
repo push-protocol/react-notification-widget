@@ -1,4 +1,10 @@
 import { UserCommunicationChannelsQuery } from './operations.generated';
+import { Web2ChannelLower } from './const';
+import {
+  PreferenceCategory,
+  UserPreferences,
+  CommsChannelTag,
+} from 'context/UserContext/useChannelPreferences';
 
 export type Notification = {
   title: string;
@@ -12,7 +18,7 @@ export type Notification = {
   cta?: string;
 };
 
-export type NotificationsContext = {
+export type UserContext = {
   notifications: Notification[];
   userCommsChannels?: UserCommunicationChannelsQuery['userCommunicationChannels'];
   setUserCommsChannelsPollInterval: (interval: number) => void;
@@ -21,6 +27,11 @@ export type NotificationsContext = {
   userAddress?: string;
   feedOpen: boolean;
   setFeedOpen: (isOpen: boolean) => void;
+  preferences: CommsChannelTag[];
+  handleUpdateUserPreferences: (id: string, appOrEnabled: Web2ChannelLower | 'enabled') => void;
+  userPreferencesCount?: number;
+  userPreferencesLoading?: boolean;
+  fetchUserPreferences: () => Promise<any>;
 };
 
 export type EpnsNotificationRawResp = {

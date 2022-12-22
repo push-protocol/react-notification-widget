@@ -5,8 +5,6 @@ import Flex from 'components/layout/Flex';
 
 const Header = styled(Flex)`
   pointer-events: none;
-  position: relative;
-  top: -30px;
 `;
 
 const HeaderIconContainer = styled.div<{ size?: number }>`

@@ -18,6 +18,7 @@ import WrongNetworkError from 'components/Errors/WrongNetworkError';
 import ConnectWalletButtons from 'screens/subscribe/components/ConnectWalletButtons';
 import { useAuthContext } from 'context/AuthContext';
 import { useEnvironment } from 'context/EnvironmentContext';
+import { useUserContext } from 'context/UserContext';
 
 const Container = styled(Flex)(({ theme }) => ({
   flexDirection: 'column',
@@ -32,7 +33,7 @@ const SubscribeDescription = styled.div`
 `;
 
 export const Subscribe = () => {
-  const { isSubscribeOnly } = useEnvironment();
+  const { isSubscribeOnlyMode } = useEnvironment();
   const {
     userDisconnected,
     isSubscribed,
@@ -53,19 +54,20 @@ export const Subscribe = () => {
     error,
   } = useChannelContext();
 
+  const { userPreferencesLoading, fetchUserPreferences } = useUserContext();
   const theme = useTheme();
 
   useEffect(() => {
     if (isSubscribed && !isOnboarding) {
-      if (isSubscribeOnly) {
+      if (isSubscribeOnlyMode) {
         setRoute(Routes.Settings);
       } else {
         setRoute(Routes.NotificationsFeed);
       }
     }
-  }, [isSubscribed, isOnboarding, isSubscribeOnly]);
+  }, [isSubscribed, isOnboarding, isSubscribeOnlyMode]);
 
-  if (channelLoading || authLoading) {
+  if (channelLoading || authLoading || userPreferencesLoading) {
     return (
       <Screen>
         <Flex alignItems={'center'} height={300}>
@@ -81,8 +83,12 @@ export const Subscribe = () => {
     setIsOnboarding(true);
     await login();
 
-    subscribeUser(); // don't wait for this to finish as it can trigger workflows. Login first!
-    setRoute(Routes.ConnectChannels);
+    subscribeUser(); // don't wait for this to finish as it can trigger workflows
+
+    const preferences = await fetchUserPreferences(); // needed for correct flow when initially authToken is not set up
+    const preferencesCount = preferences?.data?.commsChannelTags?.length;
+
+    setRoute(preferencesCount ? Routes.SetupPreferences : Routes.SetupChannels);
   };
 
   return (

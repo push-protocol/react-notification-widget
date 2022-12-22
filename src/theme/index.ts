@@ -1,4 +1,5 @@
 import { DefaultTheme } from 'styled-components';
+import { LOCALSTORAGE_THEME_MODE_KEY } from '../global/const';
 import { changeColorShade, adjustColor } from 'components/utils';
 
 type MainColor = {
@@ -56,6 +57,20 @@ declare module 'styled-components' {
         400: string;
         500: string;
       };
+      light: {
+        10: string;
+        30: string;
+        50: string;
+        80: string;
+        100: string;
+      };
+      dark: {
+        10: string;
+        30: string;
+        50: string;
+        80: string;
+        100: string;
+      };
       bell: {
         color: string;
       };
@@ -69,11 +84,17 @@ declare module 'styled-components' {
   }
 }
 
+export enum ThemeMode {
+  Light = 'light',
+  Dark = 'dark',
+}
+
 export type CustomTheme = {
   notificationDot?: {
     backgroundColor: string;
     textColor: string;
   };
+  mode?: ThemeMode;
   primaryColor?: string;
   secondaryColor?: string;
   borderRadius?: 'none' | 'sm' | 'md' | 'lg';
@@ -122,6 +143,20 @@ const defaultTheme: DefaultTheme = {
     border: {
       main: '#353943',
     },
+    light: {
+      10: 'rgba(255, 255, 255, 0.1)',
+      30: 'rgba(255, 255, 255, 0.3)',
+      50: 'rgba(255, 255, 255, 0.5)',
+      80: 'rgba(255, 255, 255, 0.8)',
+      100: 'rgba(255, 255, 255, 1)',
+    },
+    dark: {
+      10: 'rgba(0, 0, 0, 0.1)',
+      30: 'rgba(0, 0, 0, 0.3)',
+      50: 'rgba(0, 0, 0, 0.5)',
+      80: 'rgba(0, 0, 0, 0.8)',
+      100: 'rgba(0, 0, 0, 1)',
+    },
     gray: {
       50: '#B1BCCE',
       100: '#646F82',
@@ -143,7 +178,11 @@ const defaultTheme: DefaultTheme = {
 };
 
 export const makeTheme = (customTheme?: CustomTheme): DefaultTheme => {
-  if (!customTheme) return defaultTheme;
+  localStorage.setItem(LOCALSTORAGE_THEME_MODE_KEY, customTheme?.mode || defaultTheme.mode);
+
+  if (!customTheme) {
+    return defaultTheme;
+  }
 
   return {
     ...defaultTheme,
@@ -212,6 +251,12 @@ const getBorderRadius = (customBr: CustomTheme['borderRadius']) => {
   };
 
   return brMaps[customBr];
+};
+
+export const mode = (dark: any, light: any) => {
+  const mode = localStorage.getItem(LOCALSTORAGE_THEME_MODE_KEY);
+
+  return mode === 'dark' ? dark : light;
 };
 
 export default defaultTheme;

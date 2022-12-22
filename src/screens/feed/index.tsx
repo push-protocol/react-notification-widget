@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { NotificationClickProp } from '../../components/types';
-import { useNotificationsContext } from '../../context/NotificationsContext';
+import { useUserContext } from '../../context/UserContext';
 import Spinner from '../../components/Spinner';
 import { useChannelContext } from '../../context/ChannelContext';
 import NotificationFeedItem from './components/NotificationFeedItem';
@@ -24,7 +24,6 @@ const NotificationFeed = styled(Flex)`
   overflow-y: auto;
   overflow-x: hidden;
   width: calc(100% + 18px);
-  padding: 0 6px;
   box-sizing: border-box;
   &::-webkit-scrollbar {
     display: none;
@@ -43,7 +42,7 @@ const SettingsIcon = styled.div`
 `;
 
 export const Feed = ({ onNotificationClick }: NotificationClickProp) => {
-  const { notifications: allNotifications, isLoading } = useNotificationsContext();
+  const { notifications: allNotifications, isLoading } = useUserContext();
   const { channelAddress } = useChannelContext();
   const { setRoute } = useRouterContext();
   const [activeTab, setActiveTab] = useState(NavigationTabs.App);

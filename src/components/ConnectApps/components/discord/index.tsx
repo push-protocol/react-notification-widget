@@ -1,6 +1,7 @@
 import React from 'react';
 import ChannelDropdown from '../ChannelDropdown';
 import ConnectedChannel from '../ConnectedChannel';
+import { useUserContext } from '../../../../context/UserContext';
 import IntegrateDiscord from './IntegrateDiscord';
 import useDiscordActions from './useDiscordActions';
 import { Discord as DiscordIcon } from 'components/icons';
@@ -13,9 +14,11 @@ type DiscordChannelProps = {
 
 export const DiscordChannel = ({ open, setOpen }: DiscordChannelProps) => {
   const { isLoading } = useAuthContext();
+  const { userCommsChannels } = useUserContext();
 
-  const { deleteLoading, handleRemove, handleOpenDiscord, discordGuildUrl, isConnected, hint } =
-    useDiscordActions();
+  const { deleteLoading, handleRemove, handleOpenDiscord, hint } = useDiscordActions();
+
+  const isConnected = userCommsChannels?.discord.exists;
 
   return (
     <ChannelDropdown

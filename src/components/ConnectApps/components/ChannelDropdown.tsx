@@ -6,9 +6,12 @@ import { ArrowRight } from 'components/icons';
 
 const Container = styled(Flex)<{ open?: boolean }>`
   border-radius: ${({ theme }) => theme.borderRadius.md};
-  backdrop-filter: ${({ open }) => (open ? 'contrast(0.8)' : 'unset')};
+  background: ${({ theme, open }) => (open ? theme.colors.dark['10'] : 'unset')};
+  border: ${({ theme, open }) =>
+    open ? `1px solid ${theme.colors.light['10']}` : '1px solid transparent'};
+  transition: all 0.2s ease-in-out;
   :hover {
-    backdrop-filter: contrast(0.8);
+    background: ${({ theme }) => theme.colors.dark['10']};
   }
 `;
 
@@ -82,7 +85,7 @@ const ChannelDropdown = ({
             <ArrowRight />
           </DropdownIcon>
           <IconContainer>{icon}</IconContainer>
-          <Text size={'md'} weight={600}>
+          <Text size={'lg'} weight={600}>
             {title}
           </Text>
         </HeaderInfo>

@@ -3,6 +3,7 @@ import React, { ButtonHTMLAttributes, PropsWithChildren } from 'react';
 import { Margins, Paddings } from '../types';
 import { genSpaces, renderStringNumValue, adjustColor, conditionalRenderProp } from '../utils';
 import Spinner from '../Spinner';
+import { mode } from '../../theme';
 import Flex from 'components/layout/Flex';
 
 const fontSizes = {
@@ -18,7 +19,6 @@ type ButtonProps = PropsWithChildren<
   {
     variant?: ButtonVariant;
     size?: ButtonSize;
-    fontSize?: keyof typeof fontSizes;
     textColor?: string;
     height?: string | number;
     width?: string | number;
@@ -31,8 +31,8 @@ type ButtonProps = PropsWithChildren<
 const disabledState = (theme: DefaultTheme): any => css`
   &:disabled {
     transform: unset;
-    background: ${theme.colors.gray['300']};
-    color: ${theme.colors.gray['50']};
+    background: ${mode(theme.colors.light[10], theme.colors.dark[10])};
+    color: ${mode(theme.colors.light[30], theme.colors.dark[30])};
     cursor: default;
   }
 `;
@@ -45,19 +45,14 @@ const variantStyles = (variant = 'primary', theme: DefaultTheme): any =>
         background: ${adjustColor(theme.colors.primary.main, 0.8)};
         border-color: ${adjustColor(theme.colors.primary.main, 0.8)};
       }
-      &:disabled {
-        transform: unset;
-        background: ${adjustColor(theme.colors.primary.main, 0.5)};
-        border-color: ${adjustColor(theme.colors.primary.main, 0.5)};
-        cursor: default;
-      }
+      ${disabledState(theme)}
     `,
     gray: css`
-      background: ${theme.colors.gray[500]};
-      color: rgba(255, 255, 255, 0.9);
+      background: ${mode(theme.colors.gray[500], theme.colors.dark[10])};
+      color: ${mode(theme.colors.light[80], theme.colors.dark[80])};
 
       &:hover {
-        background: ${theme.colors.gray[300]};
+        background: ${mode(theme.colors.gray[300], theme.colors.dark[30])};
         border-color: ${theme.colors.gray[300]};
       }
       ${disabledState(theme)}
@@ -96,14 +91,17 @@ const buttonSizeStyles = (size = 'sm', theme: DefaultTheme): any =>
     sm: css`
       font-size: ${fontSizes['sm']};
       border-radius: ${theme.borderRadius['xs']};
+      min-height: 34px;
     `,
     md: css`
       font-size: ${fontSizes['md']};
       border-radius: ${theme.borderRadius['xs']};
+      min-height: 36px;
     `,
     lg: css`
       font-size: ${fontSizes['lg']};
       border-radius: ${theme.borderRadius['sm']};
+      min-height: 40px;
     `,
   }[size]);
 
@@ -111,10 +109,9 @@ const ButtonWrapper = styled.button<ButtonProps>`
   ${({
     theme,
     variant = 'primary',
-    size = 'sm',
+    size = 'md',
     width,
     height,
-    fontSize = 'md',
     textColor,
     borderRadius = 'md',
     ...rest
@@ -129,11 +126,9 @@ const ButtonWrapper = styled.button<ButtonProps>`
     font-weight: 600;
     display: flex;
     align-self: flex-start;
-    min-height: 32px;
     align-items: center;
     gap: 8px;
     justify-content: center;
-    font-size: ${fontSizes[fontSize]};
     padding: ${theme.spacing(1)}px ${theme.spacing(3)}px;
     color: ${textColor || theme.colors.button.text};
     ${conditionalRenderProp('width', renderStringNumValue(width))};

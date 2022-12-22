@@ -2,19 +2,14 @@ import React, { createContext, ReactNode, useContext, useEffect, useState } from
 import { useAccount } from 'wagmi';
 import { useEnvironment } from '../EnvironmentContext';
 import { useChannelContext } from '../ChannelContext';
-import { NotificationsContext, Notification } from './types';
+import { UserContext, Notification } from './types';
 import { useUserCommunicationChannelsLazyQuery } from './operations.generated';
 import fetchNotifications from './fetchNotifications';
+import useChannelPreferences from 'context/UserContext/useChannelPreferences';
 
-const NotificationsContext = createContext<NotificationsContext>({} as any);
+const UserContext = createContext<UserContext>({} as any);
 
-export const NotificationsProvider = ({
-  children,
-  isOpen,
-}: {
-  children: ReactNode;
-  isOpen?: boolean;
-}) => {
+export const UserProvider = ({ children, isOpen }: { children: ReactNode; isOpen?: boolean }) => {
   const { isConnected: isLoggedIn, address: userAddress } = useAccount();
   const { epnsEnv } = useEnvironment();
   const { channelAddress, chainId } = useChannelContext();
@@ -24,6 +19,14 @@ export const NotificationsProvider = ({
   const [polling, setPolling] = useState(false);
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [userCommsChannelsPollInterval, setUserCommsChannelsPollInterval] = useState(0);
+
+  const {
+    preferences,
+    handleUpdateUserPreferences,
+    userPreferencesCount,
+    userPreferencesLoading,
+    fetchUserPreferences,
+  } = useChannelPreferences();
 
   const [getCommsChannels, { data }] = useUserCommunicationChannelsLazyQuery({
     pollInterval: userCommsChannelsPollInterval,
@@ -80,7 +83,7 @@ export const NotificationsProvider = ({
   }, [isOpen]);
 
   return (
-    <NotificationsContext.Provider
+    <UserContext.Provider
       value={{
         isLoggedIn,
         isLoading,
@@ -90,13 +93,18 @@ export const NotificationsProvider = ({
         setUserCommsChannelsPollInterval,
         notifications,
         userAddress,
+        preferences,
+        handleUpdateUserPreferences,
+        userPreferencesCount,
+        userPreferencesLoading,
+        fetchUserPreferences,
       }}
     >
       {children}
-    </NotificationsContext.Provider>
+    </UserContext.Provider>
   );
 };
 
-export function useNotificationsContext() {
-  return useContext(NotificationsContext);
+export function useUserContext() {
+  return useContext(UserContext);
 }

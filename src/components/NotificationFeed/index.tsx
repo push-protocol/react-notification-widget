@@ -9,9 +9,10 @@ import { NotificationClickProp } from '../types';
 import analytics from '../../services/analytics';
 import { useAuthContext } from '../../context/AuthContext';
 import useUnreadCount from '../../hooks/useUnreadCount';
+import { WIDGET_VERSION } from '../../global/const';
 import { useUpdateLastReadMutation } from './operations.generated';
 import { useChannelContext } from 'context/ChannelContext';
-import { useNotificationsContext } from 'context/NotificationsContext';
+import { useUserContext } from 'context/UserContext';
 import { WidgetContainer } from 'components/layout/WidgetContainer';
 import { useRouterContext, Routes } from 'context/RouterContext';
 
@@ -32,7 +33,7 @@ export type NotificationFeedProps = NotificationClickProp & {
 
 const NotificationFeed = (props: NotificationFeedProps): JSX.Element => {
   const { children, onNotificationClick } = props;
-  const { feedOpen, setFeedOpen } = useNotificationsContext();
+  const { feedOpen, setFeedOpen } = useUserContext();
   const unreadCount = useUnreadCount();
   const { isLoggedIn } = useAuthContext();
   const { address } = useAccount();
@@ -43,7 +44,7 @@ const NotificationFeed = (props: NotificationFeedProps): JSX.Element => {
 
   useEffect(() => {
     if (address && channelAddress) {
-      analytics.identify({ channelAddress, channelName: name });
+      analytics.identify({ channelAddress, channelName: name, widgetVersion: WIDGET_VERSION });
     }
   }, [address, channelAddress]);
 

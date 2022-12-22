@@ -1,9 +1,8 @@
 import React from 'react';
 import { Screen } from 'components/layout/Screen';
 import Button from 'components/Button';
-import Text from 'components/Text';
 import Flex from 'components/layout/Flex';
-import Channels from 'components/Channels';
+import ConnectApps from 'components/ConnectApps';
 import { useChannelContext } from 'context/ChannelContext';
 import WrongNetworkError from 'components/Errors/WrongNetworkError';
 import NavbarActions from 'screens/settings/components/NavbarActions';
@@ -11,33 +10,56 @@ import SettingsHeader from 'screens/settings/components/SettingsHeader';
 import HiddenNotice from 'components/HiddenNotice';
 import { useAuthContext } from 'context/AuthContext';
 import { useEnvironment } from 'context/EnvironmentContext';
+import Preferences from 'components/Preferences';
+import { useUserContext } from 'context/UserContext';
+import { MessagingApp } from 'global/types.generated';
+import { Web2Channels } from 'context/UserContext/const';
 
 export const Settings = () => {
-  const { isSubscribeOnly } = useEnvironment();
-  const { name, icon } = useChannelContext();
-
+  const { isSubscribeOnlyMode } = useEnvironment();
+  const { userCommsChannels } = useUserContext();
+  const { name, icon, discordGuildUrl } = useChannelContext();
+  const { preferences } = useUserContext();
   const { unsubscribe } = useAuthContext();
+
+  const appConfig = [MessagingApp.Telegram, MessagingApp.Email, MessagingApp.Discord]
+    .map((app) => ({
+      app,
+      enabled: userCommsChannels?.[app.toLowerCase() as Lowercase<typeof Web2Channels[0]>]
+        ?.exists as boolean,
+      available: app === MessagingApp.Discord ? !!discordGuildUrl : true,
+    }))
+    .filter((app) => app.available);
 
   const handleUnsubscribe = () => {
     unsubscribe();
   };
 
   return (
-    <Screen navbarActionComponent={!isSubscribeOnly ? <NavbarActions /> : undefined} mb={1}>
-      <SettingsHeader
-        title={isSubscribeOnly ? `You are subscribed to ${name}` : 'Notification Settings'}
-        icon={icon}
-      />
+    <Screen navbarActionComponent={!isSubscribeOnlyMode ? <NavbarActions /> : undefined} mb={1}>
+      <Flex mt={!isSubscribeOnlyMode ? -5 : 0} mb={2}>
+        <SettingsHeader
+          title={
+            isSubscribeOnlyMode
+              ? `You are subscribed to updates from ${name}`
+              : 'Notification Settings'
+          }
+          icon={icon}
+        />
+      </Flex>
       <WrongNetworkError mb={2} />
-      <Channels />
+      <ConnectApps apps={appConfig.map((config) => config.app)} />
+
+      {!!preferences.length && <Preferences hideChannelInfo messagingApps={appConfig} />}
+
       {process.env.WHEREVER_ENV === 'development' && (
         <Flex width={'100%'} justifyContent={'center'} mb={1}>
           <Button variant={'outlined'} onClick={handleUnsubscribe} height={20}>
-            <Text size={'sm'}>Unsubscribe</Text>
+            Unsubscribe
           </Button>
         </Flex>
       )}
-      <HiddenNotice text={`${name} doesn't have access to your contact info`} />
+      <HiddenNotice text={`${name} doesn't have access to your info`} />
     </Screen>
   );
 };

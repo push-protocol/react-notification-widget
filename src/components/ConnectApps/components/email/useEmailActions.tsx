@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { useNotificationsContext } from 'context/NotificationsContext';
-import { UserCommunicationChannelsDocument } from 'context/NotificationsContext/operations.generated';
+import { useUserContext } from 'context/UserContext';
+import { UserCommunicationChannelsDocument } from 'context/UserContext/operations.generated';
 import analytics from 'services/analytics';
 import { Routes, useRouterContext } from 'context/RouterContext';
 import { useAuthContext } from 'context/AuthContext';
@@ -9,7 +9,7 @@ import {
   useDeleteChannelMutation,
   useSaveUserEmailMutation,
   useValidateUserEmailMutation,
-} from 'components/Channels/operations.generated';
+} from 'components/ConnectApps/operations.generated';
 import { MessagingApp } from 'global/types.generated';
 
 export enum ConnectEmailViews {
@@ -19,10 +19,10 @@ export enum ConnectEmailViews {
 }
 
 const useEmailActions = () => {
-  const { isSubscribeOnly } = useEnvironment();
+  const { isSubscribeOnlyMode } = useEnvironment();
   const { login, isOnboarding, setIsOnboarding } = useAuthContext();
   const { setRoute } = useRouterContext();
-  const { userCommsChannels } = useNotificationsContext();
+  const { userCommsChannels } = useUserContext();
 
   const [connectEmailView, setConnectEmailView] = useState(
     !userCommsChannels?.email?.exists ? ConnectEmailViews.Edit : ConnectEmailViews.Connected
@@ -71,13 +71,7 @@ const useEmailActions = () => {
 
       setConnectEmailView(ConnectEmailViews.Connected);
 
-      if (isSubscribeOnly) return;
-
-      if (isOnboarding) {
-        setRoute(Routes.ChannelAdded, { channel: 'Email' });
-      } else {
-        setRoute(Routes.Settings);
-      }
+      if (isSubscribeOnlyMode) return;
 
       setIsOnboarding(false);
     });

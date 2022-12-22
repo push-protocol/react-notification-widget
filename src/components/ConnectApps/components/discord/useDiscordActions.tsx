@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
-import { useNotificationsContext } from 'context/NotificationsContext';
-import { UserCommunicationChannelsDocument } from 'context/NotificationsContext/operations.generated';
+import { useUserContext } from 'context/UserContext';
+import { UserCommunicationChannelsDocument } from 'context/UserContext/operations.generated';
 import { Routes, useRouterContext } from 'context/RouterContext';
 import { useAuthContext } from 'context/AuthContext';
 import { useEnvironment } from 'context/EnvironmentContext';
@@ -9,15 +9,15 @@ import { useChannelContext } from 'context/ChannelContext';
 import {
   useDeleteChannelMutation,
   useVerifyUserDiscordMutation,
-} from 'components/Channels/operations.generated';
+} from 'components/ConnectApps/operations.generated';
 import { MessagingApp } from 'global/types.generated';
 
 const useDiscordActions = () => {
-  const { isSubscribeOnly } = useEnvironment();
+  const { isSubscribeOnlyMode } = useEnvironment();
   const { discordGuildUrl } = useChannelContext();
   const { login, isOnboarding, setIsOnboarding, discordToken } = useAuthContext();
   const { setRoute } = useRouterContext();
-  const { userCommsChannels } = useNotificationsContext();
+  const { userCommsChannels } = useUserContext();
 
   const [deleteDiscord, { loading: deleteLoading }] = useDeleteChannelMutation({
     refetchQueries: [UserCommunicationChannelsDocument],
@@ -43,11 +43,7 @@ const useDiscordActions = () => {
       });
       analytics.track('discord verified');
 
-      if (isSubscribeOnly) return;
-
-      if (isOnboarding) {
-        setRoute(Routes.ChannelAdded, { channel: 'Discord' });
-      }
+      if (isSubscribeOnlyMode) return;
 
       setIsOnboarding(false);
     });
@@ -82,8 +78,6 @@ const useDiscordActions = () => {
     handleVerify,
     verifyLoading,
     handleOpenDiscord,
-    discordGuildUrl,
-    isConnected: userCommsChannels?.discord?.exists,
     hint: userCommsChannels?.discord?.hint || '',
   };
 };
