@@ -51,18 +51,18 @@ const useChannelPreferences = () => {
       update(cache, mutationResult) {
         cache.modify({
           fields: {
-            commsChannelTags: (previous: any, { readField }) => {
+            commsChannelTags: (previous: CommsChannelTag[], { readField }) => {
               const updatedPref = mutationResult.data?.userPreferencesUpdate;
 
               const channelTag = previous.find(
-                (tagRef: any) => updatedPref?.commsChannelTagId === readField('id', tagRef)
+                (tagRef) => updatedPref?.commsChannelTagId === readField('id', tagRef)
               );
 
               if (channelTag && mutationResult.data) {
                 channelTag.userPreference = mutationResult.data.userPreferencesUpdate;
               }
 
-              return previous.map((tagRef: any) => {
+              return previous.map((tagRef) => {
                 return updatedPref?.commsChannelTagId !== readField('id', tagRef)
                   ? tagRef
                   : channelTag;
