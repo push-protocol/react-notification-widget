@@ -1,11 +1,9 @@
 import { useMemo } from 'react';
 import dayjs from 'dayjs';
 import { useUserContext } from 'context/UserContext';
-import { useAuthContext } from 'context/AuthContext';
 
 const useUnreadCount = () => {
-  const { notifications } = useUserContext();
-  const { user } = useAuthContext();
+  const { notifications, user } = useUserContext();
 
   return useMemo(() => {
     if (!user || !notifications?.length) {

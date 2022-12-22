@@ -122,7 +122,6 @@ export type CommsChannelTag = {
   optIns: CommsChannelTagOptInsPayload;
   type: CommsChannelTagType;
   updatedAt: Scalars['DateTime'];
-  userPreference: UserPreference;
 };
 
 export type CommsChannelTagCreateInput = {
@@ -315,7 +314,7 @@ export type Mutation = {
   userEmailUpdate: GeneralResolverResponse;
   userEmailValidate: GeneralResolverResponse;
   userLogin: UserLoginPayload;
-  userPreferencesUpdate: UserPreference;
+  userPreferencesUpdate?: Maybe<UserPreference>;
   userSubscribeToChannel: GeneralResolverResponse;
   userTelegramDelete: GeneralResolverResponse;
   userUpdateLastReadAt: User;
@@ -448,6 +447,7 @@ export type PartnerInfo = {
   discordGuildUrl?: Maybe<Scalars['String']>;
   id: Scalars['String'];
   logo?: Maybe<Scalars['String']>;
+  messageCategories: Array<CommsChannelTag>;
   name: Scalars['String'];
 };
 
@@ -472,7 +472,6 @@ export type Query = {
   __typename?: 'Query';
   commsChannel: CommsChannel;
   commsChannelSettings?: Maybe<CommsChannelSettings>;
-  commsChannelTags: Array<CommsChannelTag>;
   incomingWebhooks: Array<IncomingWebhook>;
   me: User;
   partnerInfo: PartnerInfo;
@@ -533,6 +532,7 @@ export type User = {
   email?: Maybe<Scalars['String']>;
   id: Scalars['String'];
   lastReadAt: Scalars['DateTime'];
+  preferences: Array<UserPreference>;
   telegramId?: Maybe<Scalars['Int']>;
   telegramUsername?: Maybe<Scalars['String']>;
   updatedAt: Scalars['DateTime'];

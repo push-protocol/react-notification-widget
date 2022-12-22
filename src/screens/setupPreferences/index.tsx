@@ -1,6 +1,5 @@
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
-import { isPreferenceChannelSelected } from '../../context/UserContext/useChannelPreferences';
 import Flex from 'components/layout/Flex';
 import { Screen } from 'components/layout/Screen';
 import { useChannelContext } from 'context/ChannelContext';
@@ -11,9 +10,8 @@ import { Routes, useRouterContext } from 'context/RouterContext';
 import { useEnvironment } from 'context/EnvironmentContext';
 import Preferences from 'components/Preferences/index';
 import { MessagingApp } from 'global/types.generated';
-import Spinner from 'components/Spinner';
 import { useUserContext } from 'context/UserContext';
-import { Web2Channels } from 'context/UserContext/const';
+import { Web2Channels, Web2ChannelLower } from 'context/UserContext/const';
 
 const Header = styled.div`
   text-align: center;
@@ -22,7 +20,7 @@ const Header = styled.div`
 
 export const SetupPreferences = () => {
   const { discordGuildUrl } = useChannelContext();
-  const { preferences, userPreferencesLoading } = useUserContext();
+  const { user } = useUserContext();
   const { setRoute } = useRouterContext();
   const { isSubscribeOnlyMode } = useEnvironment();
 
@@ -30,17 +28,17 @@ export const SetupPreferences = () => {
     channel === MessagingApp.Discord ? !!discordGuildUrl : true
   ).map((app) => ({ app, enabled: true }));
 
-  const goNextDisabled = preferences.every((pref) => !pref.userPreference?.enabled);
+  const goNextDisabled = user?.preferences.every((pref) => !pref?.enabled);
 
   const appsToConnect = useMemo(() => {
     return Web2Channels.filter((channel) => {
-      if (channel === MessagingApp.Discord) {
-        return isPreferenceChannelSelected(preferences, channel) && discordGuildUrl;
-      }
+      const selectedByUser = user?.preferences.some(
+        (pref) => pref[channel.toLowerCase() as Web2ChannelLower]
+      );
 
-      return isPreferenceChannelSelected(preferences, channel);
+      return channel === MessagingApp.Discord ? selectedByUser && discordGuildUrl : selectedByUser;
     });
-  }, [discordGuildUrl, preferences]);
+  }, [discordGuildUrl, user]);
 
   const handleGoNext = () => {
     if (appsToConnect.length) {
@@ -55,20 +53,13 @@ export const SetupPreferences = () => {
       <Header>
         <PageTitle mb={2}>Where and what should we notify you about?</PageTitle>
       </Header>
-      {userPreferencesLoading ? (
-        <Flex width={'100%'} height={150}>
-          <Spinner size={24} />
-        </Flex>
-      ) : (
-        <>
-          <Preferences messagingApps={appConfig} />
-          <Flex mb={2} mt={2} width={'100%'}>
-            <Button size={'lg'} width={'100%'} onClick={handleGoNext} disabled={goNextDisabled}>
-              Next
-            </Button>
-          </Flex>
-        </>
-      )}
+
+      <Preferences messagingApps={appConfig} />
+      <Flex mb={2} mt={2} width={'100%'}>
+        <Button size={'lg'} width={'100%'} onClick={handleGoNext} disabled={goNextDisabled}>
+          Next
+        </Button>
+      </Flex>
       <HiddenNotice text={'You can change your preferences later at any time'} />
     </Screen>
   );

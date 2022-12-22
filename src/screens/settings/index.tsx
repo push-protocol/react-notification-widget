@@ -18,8 +18,7 @@ import { Web2Channels } from 'context/UserContext/const';
 export const Settings = () => {
   const { isSubscribeOnlyMode } = useEnvironment();
   const { userCommsChannels } = useUserContext();
-  const { name, icon, discordGuildUrl } = useChannelContext();
-  const { preferences } = useUserContext();
+  const { name, icon, discordGuildUrl, messageCategories } = useChannelContext();
   const { unsubscribe } = useAuthContext();
 
   const appConfig = [MessagingApp.Telegram, MessagingApp.Email, MessagingApp.Discord]
@@ -50,7 +49,7 @@ export const Settings = () => {
       <WrongNetworkError mb={2} />
       <ConnectApps apps={appConfig.map((config) => config.app)} />
 
-      {!!preferences.length && <Preferences hideChannelInfo messagingApps={appConfig} />}
+      {!!messageCategories.length && <Preferences hideChannelInfo messagingApps={appConfig} />}
 
       {process.env.WHEREVER_ENV === 'development' && (
         <Flex width={'100%'} justifyContent={'center'} mb={1}>

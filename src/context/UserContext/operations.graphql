@@ -14,3 +14,19 @@ query UserCommunicationChannels ($address: String!) {
         }
     }
 }
+
+query GetUser {
+    user {
+        id
+        lastReadAt
+        preferences {
+            id
+            commsChannelTagId
+            email
+            telegram
+            discord
+            enabled
+        }
+    }
+}
+

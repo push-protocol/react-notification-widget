@@ -23,7 +23,6 @@ export type AuthInfo = {
   error: boolean;
   isLoggedIn?: boolean;
   discordToken?: string;
-  user?: GetUserQuery['user'];
   login(callback?: () => void): void;
   isOnboarding: boolean;
   isSubscribed?: boolean;
@@ -69,8 +68,6 @@ const AuthProvider = ({
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(false);
   const [refetchCounter, setRefetchCounter] = useState(0);
-
-  const { data: userData } = useGetUserQuery({ skip: !isLoggedIn });
 
   // handle signer null case when reloading window after clearing storage
   useEffect(() => {
@@ -200,7 +197,6 @@ const AuthProvider = ({
       value={{
         subscribe,
         isSubscribed,
-        user: userData?.user,
         unsubscribe,
         isLoggedIn,
         isLoading,

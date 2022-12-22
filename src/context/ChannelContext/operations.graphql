@@ -6,31 +6,9 @@ query PartnerInfo ($input: PartnerInfoInput!) {
         name
         chainId
         discordGuildUrl
-    }
-}
-
-query UserPreferenceCategories {
-    commsChannelTags {
-        id
-        name
-        userPreference {
-            id,
-            discord,
-            email,
-            telegram,
-            enabled
+        messageCategories {
+            id
+            name
         }
-    }
-}
-
-
-mutation UserPreferencesUpdate($input: UserPreferenceUpdateInput!) {
-    userPreferencesUpdate(input: $input) {
-        id
-        commsChannelTagId
-        email
-        telegram
-        discord
-        enabled
     }
 }

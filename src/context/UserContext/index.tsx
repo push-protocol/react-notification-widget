@@ -3,9 +3,8 @@ import { useAccount } from 'wagmi';
 import { useEnvironment } from '../EnvironmentContext';
 import { useChannelContext } from '../ChannelContext';
 import { UserContext, Notification } from './types';
-import { useUserCommunicationChannelsLazyQuery } from './operations.generated';
+import { useUserCommunicationChannelsLazyQuery, useGetUserQuery } from './operations.generated';
 import fetchNotifications from './fetchNotifications';
-import useChannelPreferences from 'context/UserContext/useChannelPreferences';
 
 const UserContext = createContext<UserContext>({} as any);
 
@@ -14,19 +13,13 @@ export const UserProvider = ({ children, isOpen }: { children: ReactNode; isOpen
   const { epnsEnv } = useEnvironment();
   const { channelAddress, chainId } = useChannelContext();
 
+  const { data: userData } = useGetUserQuery({ skip: !isLoggedIn });
+
   const [feedOpen, setFeedOpen] = useState(isOpen || false);
   const [isLoading, setIsLoading] = useState(false);
   const [polling, setPolling] = useState(false);
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [userCommsChannelsPollInterval, setUserCommsChannelsPollInterval] = useState(0);
-
-  const {
-    preferences,
-    handleUpdateUserPreferences,
-    userPreferencesCount,
-    userPreferencesLoading,
-    fetchUserPreferences,
-  } = useChannelPreferences();
 
   const [getCommsChannels, { data }] = useUserCommunicationChannelsLazyQuery({
     pollInterval: userCommsChannelsPollInterval,
@@ -88,16 +81,12 @@ export const UserProvider = ({ children, isOpen }: { children: ReactNode; isOpen
         isLoggedIn,
         isLoading,
         feedOpen,
+        user: userData?.user,
         setFeedOpen: toggleFeedOpen,
         userCommsChannels: data?.userCommunicationChannels,
         setUserCommsChannelsPollInterval,
         notifications,
         userAddress,
-        preferences,
-        handleUpdateUserPreferences,
-        userPreferencesCount,
-        userPreferencesLoading,
-        fetchUserPreferences,
       }}
     >
       {children}

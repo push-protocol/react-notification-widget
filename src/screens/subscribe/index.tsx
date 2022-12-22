@@ -50,11 +50,12 @@ export const Subscribe = () => {
     loading: channelLoading,
     channelAddress,
     name: channelName,
+    messageCategories,
     isWrongNetwork,
     error,
   } = useChannelContext();
 
-  const { userPreferencesLoading, fetchUserPreferences } = useUserContext();
+  const { isLoading: userLoading } = useUserContext();
   const theme = useTheme();
 
   useEffect(() => {
@@ -67,7 +68,7 @@ export const Subscribe = () => {
     }
   }, [isSubscribed, isOnboarding, isSubscribeOnlyMode]);
 
-  if (channelLoading || authLoading || userPreferencesLoading) {
+  if (channelLoading || authLoading || userLoading) {
     return (
       <Screen>
         <Flex alignItems={'center'} height={300}>
@@ -85,10 +86,7 @@ export const Subscribe = () => {
 
     subscribeUser(); // don't wait for this to finish as it can trigger workflows
 
-    const preferences = await fetchUserPreferences(); // needed for correct flow when initially authToken is not set up
-    const preferencesCount = preferences?.data?.commsChannelTags?.length;
-
-    setRoute(preferencesCount ? Routes.SetupPreferences : Routes.SetupChannels);
+    setRoute(messageCategories.length ? Routes.SetupPreferences : Routes.SetupChannels);
   };
 
   return (
