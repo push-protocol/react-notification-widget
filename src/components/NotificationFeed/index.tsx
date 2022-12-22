@@ -12,7 +12,6 @@ import useUnreadCount from '../../hooks/useUnreadCount';
 import { WIDGET_VERSION } from '../../global/const';
 import { useUpdateLastReadMutation } from './operations.generated';
 import { useChannelContext } from 'context/ChannelContext';
-import { useUserContext } from 'context/UserContext';
 import { WidgetContainer } from 'components/layout/WidgetContainer';
 import { useRouterContext, Routes } from 'context/RouterContext';
 
@@ -27,20 +26,31 @@ const BellRef = forwardRef<HTMLDivElement, { children: ReactElement }>(({ childr
 
 export type NotificationFeedProps = NotificationClickProp & {
   gapFromBell?: number;
+  isOpen?: boolean;
   placement?: Placement;
   children: ((args: { unreadCount?: number; onClick: () => void }) => ReactElement) | ReactElement;
 };
 
 const NotificationFeed = (props: NotificationFeedProps): JSX.Element => {
-  const { children, onNotificationClick } = props;
-  const { feedOpen, setFeedOpen } = useUserContext();
+  const { children, onNotificationClick, isOpen } = props;
   const unreadCount = useUnreadCount();
   const { isLoggedIn } = useAuthContext();
   const { address } = useAccount();
   const { channelAddress, name } = useChannelContext();
-  const { Component, activeRoute, routeProps } = useRouterContext();
+  const { Component, activeRoute, routeProps, feedOpen, setFeedOpen } = useRouterContext();
   const theme = useTheme();
   const size = useWindowSize();
+
+  const toggleFeedOpen = (open: boolean) => {
+    if (isOpen !== undefined) return; // ignore if controlled through prop
+    setFeedOpen(open);
+  };
+
+  useEffect(() => {
+    if (isOpen !== undefined) {
+      setFeedOpen(isOpen);
+    }
+  }, [isOpen]);
 
   useEffect(() => {
     if (address && channelAddress) {
@@ -60,7 +70,7 @@ const NotificationFeed = (props: NotificationFeedProps): JSX.Element => {
   const handleBellClick = () => {
     analytics.track('bell clicked', { feedOpened: !feedOpen });
 
-    setFeedOpen(!feedOpen);
+    toggleFeedOpen(!feedOpen);
 
     if (isLoggedIn) {
       updateLastRead();
@@ -100,7 +110,7 @@ const NotificationFeed = (props: NotificationFeedProps): JSX.Element => {
   }
 
   return (
-    <ClickAwayListener onClickAway={() => setFeedOpen(false)}>
+    <ClickAwayListener onClickAway={() => toggleFeedOpen(false)}>
       <div>
         <BellRef ref={setReferenceRef}>{bell}</BellRef>
         {feedOpen && (

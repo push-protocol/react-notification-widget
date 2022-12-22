@@ -23,6 +23,8 @@ enum Routes {
 type RouteProps = Record<string, any>;
 
 type RouterContext = {
+  feedOpen: boolean;
+  setFeedOpen: (open: boolean) => void;
   activeRoute: Routes;
   setRoute(route: Routes, props?: RouteProps): void;
   Component: ElementType;
@@ -37,6 +39,8 @@ const RouterContext = createContext<RouterContext>({
 const RouterProvider = ({ children }: { children: ReactNode }) => {
   const [active, setActive] = useState(Routes.Subscribe);
   const [routeProps, setRouteProps] = useState<RouteProps>({});
+
+  const [feedOpen, setFeedOpen] = useState(false);
 
   const setRouteWithParams = (route: Routes, props?: RouteProps) => {
     analytics.track(`${route} page loaded`);
@@ -61,6 +65,8 @@ const RouterProvider = ({ children }: { children: ReactNode }) => {
         activeRoute: active,
         routeProps,
         setRoute: setRouteWithParams,
+        feedOpen,
+        setFeedOpen,
         Component: RouteScreens[active],
         props: routeProps,
       }}

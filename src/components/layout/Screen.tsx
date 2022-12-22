@@ -4,7 +4,7 @@ import Text from '../Text';
 import Button from '../Button';
 import PageTitle from '../PageTitle';
 import Flex from './Flex';
-import { useUserContext } from 'context/UserContext';
+import { useRouterContext } from 'context/RouterContext';
 
 const MobileCloseButton = styled(Button)(({ theme }) => ({
   [`@media (min-width: ${theme.breakpoints.mobile}px)`]: {
@@ -29,7 +29,7 @@ type ScreenPropsT = PropsWithChildren<{
 }>;
 
 export const Screen = ({ title, navbarActionComponent, mb = 0, children }: ScreenPropsT) => {
-  const { setFeedOpen } = useUserContext();
+  const { setFeedOpen } = useRouterContext();
 
   return (
     <Flex direction={'column'} alignItems={'center'} width={'100%'} height={'100%'} mb={mb}>

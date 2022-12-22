@@ -9,12 +9,11 @@ import useChannelPreferences from 'context/UserContext/useChannelPreferences';
 
 const UserContext = createContext<UserContext>({} as any);
 
-export const UserProvider = ({ children, isOpen }: { children: ReactNode; isOpen?: boolean }) => {
+export const UserProvider = ({ children }: { children: ReactNode }) => {
   const { isConnected: isLoggedIn, address: userAddress } = useAccount();
   const { epnsEnv } = useEnvironment();
   const { channelAddress, chainId } = useChannelContext();
 
-  const [feedOpen, setFeedOpen] = useState(isOpen || false);
   const [isLoading, setIsLoading] = useState(false);
   const [polling, setPolling] = useState(false);
   const [notifications, setNotifications] = useState<Notification[]>([]);
@@ -71,24 +70,11 @@ export const UserProvider = ({ children, isOpen }: { children: ReactNode; isOpen
     run();
   }, [channelAddress, chainId, epnsEnv, userAddress]);
 
-  const toggleFeedOpen = (open: boolean) => {
-    if (isOpen !== undefined) return; // ignore if controlled through prop
-    setFeedOpen(open);
-  };
-
-  useEffect(() => {
-    if (isOpen !== undefined) {
-      setFeedOpen(isOpen);
-    }
-  }, [isOpen]);
-
   return (
     <UserContext.Provider
       value={{
         isLoggedIn,
         isLoading,
-        feedOpen,
-        setFeedOpen: toggleFeedOpen,
         userCommsChannels: data?.userCommunicationChannels,
         setUserCommsChannelsPollInterval,
         notifications,

@@ -27,7 +27,6 @@ export type NotificationFeedProviderProps = PropsWithChildren<{
   theme?: CustomTheme;
   disableAnalytics?: boolean;
   mode?: WidgetMode;
-  isOpen?: boolean;
 }>;
 
 const NotificationFeedProvider = ({
@@ -37,7 +36,6 @@ const NotificationFeedProvider = ({
   theme,
   children,
   disableAnalytics,
-  isOpen,
   mode,
 }: NotificationFeedProviderProps) => {
   const wagmiClient = useWagmiClient(provider);
@@ -56,7 +54,7 @@ const NotificationFeedProvider = ({
             <RouterProvider>
               <ChannelProvider partnerKey={partnerKey}>
                 <AuthProvider discordToken={discordToken}>
-                  <UserProvider isOpen={isOpen}>
+                  <UserProvider>
                     <Reset />
                     {children}
                   </UserProvider>

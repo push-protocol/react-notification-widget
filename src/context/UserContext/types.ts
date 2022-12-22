@@ -25,8 +25,6 @@ export type UserContext = {
   isLoggedIn: boolean;
   isLoading: boolean;
   userAddress?: string;
-  feedOpen: boolean;
-  setFeedOpen: (isOpen: boolean) => void;
   preferences: CommsChannelTag[];
   handleUpdateUserPreferences: (id: string, appOrEnabled: Web2ChannelLower | 'enabled') => void;
   userPreferencesCount?: number;
