@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { Web2Channels, Web2ChannelLower } from './const';
+import React from 'react';
+import { gql } from '@apollo/client';
+import { Web2ChannelLower } from './const';
 import { MessagingApp } from 'global/types.generated';
 import {
   useUserPreferencesUpdateMutation,
@@ -18,7 +19,6 @@ export type CommsChannelTag = UserPreferenceCategoriesQuery['commsChannelTags'][
 export type UserPreferences = Record<string, CommsChannelTag['userPreference']>;
 
 const useChannelPreferences = () => {
-  const [userPreferences, setUserPreferences] = useState<UserPreferences>({});
   const { isLoggedIn } = useAuthContext();
 
   const {
@@ -44,25 +44,29 @@ const useChannelPreferences = () => {
       optimisticResponse: {
         userPreferencesUpdate: {
           __typename: 'UserPreference',
-          id: pref.id || 'temp-id',
+          id: prefId || 'temp-id',
           ...update,
         },
       },
       update(cache, mutationResult) {
         cache.modify({
           fields: {
-            commsChannelTags: (previous: CommsChannelTag[]) => {
+            commsChannelTags: (previous: any, { readField }) => {
               const updatedPref = mutationResult.data?.userPreferencesUpdate;
-              const channelTag = previous.find((tag) => tag.id === updatedPref?.commsChannelTagId);
+
+              const channelTag = previous.find(
+                (tagRef: any) => updatedPref?.commsChannelTagId === readField('id', tagRef)
+              );
 
               if (channelTag && mutationResult.data) {
                 channelTag.userPreference = mutationResult.data.userPreferencesUpdate;
               }
 
-              return [
-                ...previous.filter((tag) => tag.id !== updatedPref?.commsChannelTagId),
-                channelTag,
-              ];
+              return previous.map((tagRef: any) => {
+                return updatedPref?.commsChannelTagId !== readField('id', tagRef)
+                  ? tagRef
+                  : channelTag;
+              });
             },
           },
         });
