@@ -25,7 +25,7 @@ class Analytics {
     rudderInitialize();
   }
 
-  identify(traits: { channelName: string; channelAddress: string }) {
+  identify(traits: { channelName: string; channelAddress: string; widgetVersion: string }) {
     rudder.identify(traits);
   }
 
