@@ -2,14 +2,13 @@ import React from 'react';
 import styled from 'styled-components';
 import { PREFERENCES_WIDTH } from '../consts';
 import { MessagingAppConfig } from '../index';
-import { UserPreference } from '../../../global/types.generated';
 import useUpdatePreference from '../useUpdatePreference';
 import { Web2ChannelLower } from 'context/UserContext/const';
 import { GetUserQuery } from 'context/UserContext/operations.generated';
 import { PartnerInfoQuery } from 'context/ChannelContext/operations.generated';
 import Flex from 'components/layout/Flex';
 import Text from 'components/Text';
-import ToggleInput from 'components/ToggleInput';
+import Switch from 'components/Switch';
 import PreferenceBell from 'components/Preferences/components/PreferenceBell';
 
 type PropsT = {
@@ -41,7 +40,7 @@ const PreferenceCategoryItem = ({ userPref, category, messagingAppConfig }: Prop
         </Flex>
 
         <Flex width={32} alignItems={'center'} pl={1} pr={1}>
-          <ToggleInput
+          <Switch
             checked={!!userPref?.enabled}
             onChange={() => {
               updatePreference(category.id, 'enabled', userPref);
