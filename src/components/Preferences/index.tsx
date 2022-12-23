@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { mode } from '../../theme';
-import { useChannelContext } from '../../context/ChannelContext';
+import { useChannelContext } from 'context/ChannelContext';
+import { mode } from 'theme';
 import PreferencesHeader from 'components/Preferences/components/PreferencesHeader';
 import PreferenceCategoryItem from 'components/Preferences/components/PreferenceCategoryItem';
 import { MessagingApp } from 'global/types.generated';
