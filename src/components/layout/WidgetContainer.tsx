@@ -11,10 +11,11 @@ const POWERED_BY_HEIGHT = '42px';
 const LayoutContainer = styled.div(({ theme }) => ({
   [`@media (max-width: ${theme.breakpoints.mobile}px)`]: {
     position: 'fixed',
+    overflowY: 'hidden',
     top: 0,
     left: 0,
     width: '100vw',
-    height: '100vh',
+    height: '100%',
     borderRadius: 0,
     zIndex: 999,
   },
@@ -50,6 +51,8 @@ const ChildrenContainer = styled.div(({ theme }) => ({
   },
   padding: `24px 12px 0 12px`,
   [`@media (max-width: ${theme.breakpoints.mobile}px)`]: {
+    paddingTop: 16,
+    maxHeight: 'unset',
     paddingBottom: 0,
   },
 }));

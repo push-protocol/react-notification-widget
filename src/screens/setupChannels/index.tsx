@@ -36,7 +36,6 @@ export const SetupChannels = (props: { appsToConnect: MessagingApp[] }) => {
   };
 
   const finishButtonEnabled =
-    !isSubscribeOnlyMode ||
     !!userCommsChannels?.email?.exists ||
     !!userCommsChannels?.telegram?.exists ||
     !!userCommsChannels?.discord?.exists;
