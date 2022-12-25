@@ -5,7 +5,7 @@ import analytics from '../../services/analytics';
 import NewTag from '../../components/NewTag';
 import PageTitle from '../../components/PageTitle';
 import { useUserSubscribedMutation } from './operations.generated';
-import { WHEREVER_HOMEPAGE } from 'global/const';
+import { WHEREVER_FAQ } from 'global/const';
 import { Routes, useRouterContext } from 'context/RouterContext';
 import Button from 'components/Button';
 import Link from 'components/Link';
@@ -50,11 +50,12 @@ export const Subscribe = () => {
     loading: channelLoading,
     channelAddress,
     name: channelName,
+    messageCategories,
     isWrongNetwork,
     error,
   } = useChannelContext();
 
-  const { userPreferencesLoading, fetchUserPreferences } = useUserContext();
+  const { isLoading: userLoading } = useUserContext();
   const theme = useTheme();
 
   useEffect(() => {
@@ -67,7 +68,7 @@ export const Subscribe = () => {
     }
   }, [isSubscribed, isOnboarding, isSubscribeOnlyMode]);
 
-  if (channelLoading || authLoading || userPreferencesLoading) {
+  if (channelLoading || authLoading || userLoading) {
     return (
       <Screen>
         <Flex alignItems={'center'} height={300}>
@@ -85,10 +86,7 @@ export const Subscribe = () => {
 
     subscribeUser(); // don't wait for this to finish as it can trigger workflows
 
-    const preferences = await fetchUserPreferences(); // needed for correct flow when initially authToken is not set up
-    const preferencesCount = preferences?.data?.commsChannelTags?.length;
-
-    setRoute(preferencesCount ? Routes.SetupPreferences : Routes.SetupChannels);
+    setRoute(messageCategories.length ? Routes.SetupPreferences : Routes.SetupChannels);
   };
 
   return (
@@ -103,7 +101,7 @@ export const Subscribe = () => {
           <SubscribeDescription>
             <Text size={'md'}>
               {`${channelName} is using the Ethereum Push Notifications protocol to securely message its users. No spam, opt-out at any time.`}{' '}
-              <Link display={'inline-block'} src={WHEREVER_HOMEPAGE}>
+              <Link display={'inline-block'} src={WHEREVER_FAQ}>
                 Learn more.
               </Link>
             </Text>

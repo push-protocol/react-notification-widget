@@ -7,7 +7,7 @@ const defaultOptions = {} as const;
 export type GetUserQueryVariables = Types.Exact<{ [key: string]: never; }>;
 
 
-export type GetUserQuery = { __typename?: 'Query', user: { __typename?: 'User', id: string, lastReadAt: any } };
+export type GetUserQuery = { __typename?: 'Query', user: { __typename?: 'User', id: string, lastReadAt: any, preferences?: Array<{ __typename?: 'UserPreference', id: string, commsChannelTagId: string, email: boolean, telegram: boolean, discord: boolean, enabled: boolean }> | null } };
 
 
 export const GetUserDocument = gql`
@@ -15,6 +15,14 @@ export const GetUserDocument = gql`
   user {
     id
     lastReadAt
+    preferences {
+      id
+      commsChannelTagId
+      email
+      telegram
+      discord
+      enabled
+    }
   }
 }
     `;

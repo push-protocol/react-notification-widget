@@ -1,13 +1,14 @@
 import React, { createContext, ReactNode, useContext, useEffect, useState } from 'react';
 import { ApolloError } from '@apollo/client';
 import { useNetwork } from 'wagmi';
-import { usePartnerInfoQuery } from 'context/ChannelContext/operations.generated';
+import { usePartnerInfoQuery, PartnerInfoQuery } from 'context/ChannelContext/operations.generated';
 
 export type ChannelInfo = {
   icon: string;
   name: string;
   channelAddress: string;
   chainId: number;
+  messageCategories: PartnerInfoQuery['partnerInfo']['messageCategories'];
   discordGuildUrl?: string | null;
 };
 
@@ -16,6 +17,7 @@ const emptyChannel = {
   icon: '',
   name: '',
   chainId: 0,
+  messageCategories: [],
   preferences: [],
   userPreferences: {},
   userChannels: [],
@@ -50,6 +52,7 @@ const ChannelProvider = ({
 
     setChannel({
       channelAddress: data.partnerInfo.channelAddress,
+      messageCategories: data.partnerInfo.messageCategories,
       icon: data.partnerInfo.logo as string,
       name: data.partnerInfo.name,
       chainId: data.partnerInfo.chainId,

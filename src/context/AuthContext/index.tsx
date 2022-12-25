@@ -23,8 +23,7 @@ export type AuthInfo = {
   error: boolean;
   isLoggedIn?: boolean;
   discordToken?: string;
-  user?: GetUserQuery['user'];
-  login(callback?: () => void): void;
+  login(callback?: () => void): Promise<void>;
   isOnboarding: boolean;
   isSubscribed?: boolean;
   userDisconnected: boolean;
@@ -69,8 +68,6 @@ const AuthProvider = ({
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(false);
   const [refetchCounter, setRefetchCounter] = useState(0);
-
-  const { data: userData } = useGetUserQuery({ skip: !isLoggedIn });
 
   // handle signer null case when reloading window after clearing storage
   useEffect(() => {
@@ -146,7 +143,7 @@ const AuthProvider = ({
     } else if (!isSubscribed) {
       setRoute(Routes.Subscribe);
     }
-  }, [isConnected, isSubscribed, isOnboarding]);
+  }, [isConnected, isSubscribed]);
 
   const prevAddress = usePrevious(address);
   // usePrevious is needed to detect address change and remove AUTH_KEY from local storage
@@ -200,7 +197,6 @@ const AuthProvider = ({
       value={{
         subscribe,
         isSubscribed,
-        user: userData?.user,
         unsubscribe,
         isLoggedIn,
         isLoading,

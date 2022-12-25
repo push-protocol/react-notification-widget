@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { mode } from '../../theme';
+import { useChannelContext } from 'context/ChannelContext';
+import { mode } from 'theme';
 import PreferencesHeader from 'components/Preferences/components/PreferencesHeader';
 import PreferenceCategoryItem from 'components/Preferences/components/PreferenceCategoryItem';
 import { MessagingApp } from 'global/types.generated';
@@ -12,7 +13,7 @@ const PreferencesContainer = styled.div`
   background: ${({ theme }) => mode(theme.colors.dark[10], undefined)};
   padding: ${({ theme }) => theme.spacing(1)}px;
   border-radius: ${({ theme }) => theme.borderRadius.md};
-  border: 1px solid ${({ theme }) => mode(theme.colors.light['10'], theme.colors.dark[10])};
+  border: 1px solid ${({ theme }) => mode(theme.colors.light[10], theme.colors.dark[10])};
   box-sizing: border-box;
 `;
 
@@ -24,18 +25,19 @@ type PropsT = {
 };
 
 const Preferences = ({ hideChannelInfo, messagingApps }: PropsT) => {
-  const { preferences, handleUpdateUserPreferences } = useUserContext();
+  const { user } = useUserContext();
+  const { messageCategories } = useChannelContext();
 
   return (
     <PreferencesContainer>
       <PreferencesHeader hideChannelInfo={hideChannelInfo} messagingAppConfig={messagingApps} />
-      {preferences.map(({ id, name }) => (
+      {messageCategories.map((category) => (
         <PreferenceCategoryItem
-          key={id}
-          categoryId={id}
-          title={name}
-          preferences={preferences}
-          onPreferenceUpdate={handleUpdateUserPreferences}
+          key={category.id}
+          category={category}
+          userPref={user?.preferences?.find(
+            (userPref) => userPref.commsChannelTagId === category.id
+          )}
           messagingAppConfig={messagingApps}
         />
       ))}
