@@ -39,7 +39,10 @@ const useUpdatePreference = () => {
           return;
         }
 
-        const currentUser = cache.readQuery<GetUserQuery>({ query: GetUserDocument });
+        const currentUser = cache.readQuery<GetUserQuery>({
+          query: GetUserDocument,
+        }) as GetUserQuery;
+
         if (!currentUser) return;
 
         // if a new preference was created (and not updated), update the user object to contain it.
