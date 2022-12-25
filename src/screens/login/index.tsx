@@ -26,7 +26,6 @@ export const Login = () => {
 
   return (
     <Screen>
-      <Flex justifyContent={'space-between'} direction={'column'} alignItems={'center'}></Flex>
       <Flex direction={'column'}>
         <Text size={'2xl'} mb={2} align={'center'} weight={700}>
           Hi, {formatAddress(userAddress)} 👋
