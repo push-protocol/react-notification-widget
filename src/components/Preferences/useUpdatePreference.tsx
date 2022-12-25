@@ -1,7 +1,7 @@
 import React from 'react';
-import { Web2ChannelLower } from '../../context/UserContext/const';
-import { GetUserDocument, GetUserQuery } from '../../context/UserContext/operations.generated';
 import { useUserPreferencesUpdateMutation } from './operations.generated';
+import { GetUserDocument, GetUserQuery } from 'context/UserContext/operations.generated';
+import { Web2ChannelLower } from 'context/UserContext/const';
 import { UserPreference } from 'global/types.generated';
 
 const useUpdatePreference = () => {
@@ -39,7 +39,12 @@ const useUpdatePreference = () => {
           return;
         }
 
-        const currentUser = cache.readQuery({ query: GetUserDocument }) as GetUserQuery;
+        const currentUser = cache.readQuery<GetUserQuery>({
+          query: GetUserDocument,
+        }) as GetUserQuery;
+
+        if (!currentUser) return;
+
         // if a new preference was created (and not updated), update the user object to contain it.
         cache.writeQuery({
           query: GetUserDocument,
@@ -47,7 +52,7 @@ const useUpdatePreference = () => {
             user: {
               ...currentUser.user,
               preferences: [
-                ...(currentUser?.user?.preferences || []),
+                ...(currentUser.user?.preferences || []),
                 { ...data?.userPreferencesUpdate },
               ],
             },

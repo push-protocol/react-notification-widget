@@ -22,7 +22,7 @@ export type AuthInfo = {
   error: boolean;
   isLoggedIn?: boolean;
   discordToken?: string;
-  login(callback?: () => void): void;
+  login(callback?: () => void): Promise<void>;
   isOnboarding: boolean;
   isSubscribed?: boolean;
   userDisconnected: boolean;
@@ -142,7 +142,7 @@ const AuthProvider = ({
     } else if (!isSubscribed) {
       setRoute(Routes.Subscribe);
     }
-  }, [isConnected, isSubscribed, isOnboarding]);
+  }, [isConnected, isSubscribed]);
 
   const prevAddress = usePrevious(address);
   // usePrevious is needed to detect address change and remove AUTH_KEY from local storage
