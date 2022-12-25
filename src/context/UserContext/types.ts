@@ -18,7 +18,6 @@ export type UserContext = {
   user?: GetUserQuery['user'];
   userCommsChannels?: UserCommunicationChannelsQuery['userCommunicationChannels'];
   setUserCommsChannelsPollInterval: (interval: number) => void;
-  isLoggedIn: boolean;
   isLoading: boolean;
   userAddress?: string;
   feedOpen: boolean;

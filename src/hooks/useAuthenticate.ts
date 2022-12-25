@@ -1,6 +1,6 @@
 import { useAccount, useSigner } from 'wagmi';
 import { SiweMessage } from 'siwe';
-import { useNonceGenerateMutation, useUserLoginMutation } from 'screens/auth/operations.generated';
+import { useNonceGenerateMutation, useUserLoginMutation } from 'screens/login/operations.generated';
 import { useChannelContext } from 'context/ChannelContext';
 
 type SignatureMessage = {
