@@ -1,5 +1,6 @@
 import React from 'react';
 import { useTheme } from 'styled-components';
+import { mode } from '../../theme';
 import { Screen } from 'components/layout/Screen';
 import Flex from 'components/layout/Flex';
 import Button from 'components/Button';
@@ -44,7 +45,12 @@ export const Login = () => {
       >
         Sign In
       </Button>
-      <Text align={'center'} mb={5} size={'sm'} color={theme.colors.light[50]}>
+      <Text
+        align={'center'}
+        mb={5}
+        size={'sm'}
+        color={mode(theme.colors.light[50], theme.colors.dark[50])}
+      >
         You will need to sign a message to prove ownership of your wallet.
       </Text>
     </Screen>
