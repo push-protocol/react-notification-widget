@@ -7,6 +7,7 @@ export const LOCALSTORAGE_AUTH_REFRESH_KEY = 'whereverAuthRefreshToken';
 export const LOCALSTORAGE_THEME_MODE_KEY = 'whereverThemeMode';
 
 export const WHEREVER_HOMEPAGE = 'https://wherever.to';
+export const WHEREVER_FAQ = 'https://wherever.to/faq';
 
 export const WIDGET_VERSION = pkg.version;
 
