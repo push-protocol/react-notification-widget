@@ -15,7 +15,7 @@ import { MessagingApp } from 'global/types.generated';
 const useDiscordActions = () => {
   const { isSubscribeOnlyMode } = useEnvironment();
   const { discordGuildUrl } = useChannelContext();
-  const { login, isOnboarding, setIsOnboarding, discordToken } = useAuthContext();
+  const { login, setIsOnboarding, discordToken } = useAuthContext();
   const { setRoute } = useRouterContext();
   const { userCommsChannels } = useUserContext();
 

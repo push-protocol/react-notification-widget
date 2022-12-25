@@ -8,6 +8,7 @@ import {
   SubscriptionFlowEnded,
   SetupChannels,
   SetupPreferences,
+  Auth,
 } from 'screens';
 
 enum Routes {
@@ -18,6 +19,7 @@ enum Routes {
   SetupPreferences = 'SetupPreferences',
   NotificationsFeed = 'NotificationsFeed',
   SubscriptionFlowEnded = 'SubscriptionFlowEnded',
+  Auth = 'Auth',
 }
 
 type RouteProps = Record<string, any>;
@@ -26,6 +28,7 @@ type RouterContext = {
   activeRoute: Routes;
   setRoute(route: Routes, props?: RouteProps): void;
   Component: ElementType;
+  requiresAuth: boolean;
   routeProps: RouteProps;
   props?: RouteProps;
 };
@@ -33,6 +36,41 @@ type RouterContext = {
 const RouterContext = createContext<RouterContext>({
   activeRoute: Routes.Subscribe,
 } as RouterContext);
+
+const RouteScreens = {
+  [Routes.Subscribe]: {
+    component: Subscribe,
+    requiresAuth: false,
+  },
+  [Routes.Settings]: {
+    component: Settings,
+    requiresAuth: true,
+  },
+  [Routes.NotificationsFeed]: {
+    component: Feed,
+    requiresAuth: true,
+  },
+  [Routes.ChannelAdded]: {
+    component: ChannelAdded,
+    requiresAuth: false,
+  },
+  [Routes.SetupChannels]: {
+    component: SetupChannels,
+    requiresAuth: false,
+  },
+  [Routes.SubscriptionFlowEnded]: {
+    component: SubscriptionFlowEnded,
+    requiresAuth: false,
+  },
+  [Routes.SetupPreferences]: {
+    component: SetupPreferences,
+    requiresAuth: false,
+  },
+  [Routes.Auth]: {
+    component: Auth,
+    requiresAuth: false,
+  },
+};
 
 const RouterProvider = ({ children }: { children: ReactNode }) => {
   const [active, setActive] = useState(Routes.Subscribe);
@@ -45,23 +83,14 @@ const RouterProvider = ({ children }: { children: ReactNode }) => {
     props ? setRouteProps(props) : setRouteProps({});
   };
 
-  const RouteScreens = {
-    [Routes.Subscribe]: Subscribe,
-    [Routes.Settings]: Settings,
-    [Routes.NotificationsFeed]: Feed,
-    [Routes.ChannelAdded]: ChannelAdded,
-    [Routes.SetupChannels]: SetupChannels,
-    [Routes.SubscriptionFlowEnded]: SubscriptionFlowEnded,
-    [Routes.SetupPreferences]: SetupPreferences,
-  };
-
   return (
     <RouterContext.Provider
       value={{
         activeRoute: active,
         routeProps,
         setRoute: setRouteWithParams,
-        Component: RouteScreens[active],
+        Component: RouteScreens[active].component,
+        requiresAuth: RouteScreens[active].requiresAuth,
         props: routeProps,
       }}
     >

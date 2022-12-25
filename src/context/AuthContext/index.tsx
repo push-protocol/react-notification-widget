@@ -1,14 +1,13 @@
 import React, {
   createContext,
-  useContext,
   ReactNode,
-  useState,
-  useEffect,
   useCallback,
+  useContext,
+  useEffect,
+  useState,
 } from 'react';
 import * as epns from '@epnsproject/sdk-restapi';
 import { useAccount, useDisconnect, useSigner } from 'wagmi';
-import { useGetUserQuery, GetUserQuery } from './operations.generated';
 import { Routes, useRouterContext } from 'context/RouterContext';
 import analytics from 'services/analytics';
 import { LOCALSTORAGE_AUTH_KEY, LOCALSTORAGE_AUTH_REFRESH_KEY } from 'global/const';
@@ -55,7 +54,7 @@ const AuthProvider = ({
   children: ReactNode;
   discordToken?: string;
 }) => {
-  const { setRoute } = useRouterContext();
+  const { setRoute, requiresAuth } = useRouterContext();
   const { channelAddress, chainId } = useChannelContext();
   const { isConnected, address } = useAccount();
   const { data: signer, refetch: refetchSigner } = useSigner();
@@ -152,11 +151,6 @@ const AuthProvider = ({
     if (prevAddress && prevAddress !== address) {
       _resetLoginState();
       setIsOnboarding(false);
-
-      // if user switched account, and is viewing current tab, re-log him in
-      if (!document.hidden) {
-        login();
-      }
     }
   }, [address]);
 
@@ -165,6 +159,12 @@ const AuthProvider = ({
       setIsLoggedIn(true);
     }
   }, []);
+
+  useEffect(() => {
+    if (requiresAuth && !isLoggedIn) {
+      setRoute(Routes.Auth);
+    }
+  }, [requiresAuth, isLoggedIn]);
 
   const toggleSubscription = async (action: 'sub' | 'unsub') => {
     setIsLoading(true);
