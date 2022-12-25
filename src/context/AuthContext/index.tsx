@@ -1,14 +1,13 @@
 import React, {
   createContext,
-  useContext,
   ReactNode,
-  useState,
-  useEffect,
   useCallback,
+  useContext,
+  useEffect,
+  useState,
 } from 'react';
 import * as epns from '@epnsproject/sdk-restapi';
 import { useAccount, useDisconnect, useSigner } from 'wagmi';
-import { useGetUserQuery, GetUserQuery } from './operations.generated';
 import { Routes, useRouterContext } from 'context/RouterContext';
 import analytics from 'services/analytics';
 import { LOCALSTORAGE_AUTH_KEY, LOCALSTORAGE_AUTH_REFRESH_KEY } from 'global/const';
@@ -22,6 +21,7 @@ export type AuthInfo = {
   isLoading: boolean;
   error: boolean;
   isLoggedIn?: boolean;
+  loggedInAddress?: string;
   discordToken?: string;
   login(callback?: () => void): Promise<void>;
   isOnboarding: boolean;
@@ -65,6 +65,7 @@ const AuthProvider = ({
   const [isSubscribed, setIsSubscribed] = useState<boolean>();
   const [isOnboarding, setIsOnboarding] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>();
+  const [loggedInAddress, setLoggedInAddress] = useState<string>();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(false);
   const [refetchCounter, setRefetchCounter] = useState(0);
@@ -113,6 +114,7 @@ const AuthProvider = ({
       const result = await _login(channelAddress);
       localStorage.setItem(LOCALSTORAGE_AUTH_KEY, result.token);
       localStorage.setItem(LOCALSTORAGE_AUTH_REFRESH_KEY, result.refreshToken);
+      setLoggedInAddress(address);
       setIsLoggedIn(true);
       callback && callback();
     } catch (e) {
@@ -127,6 +129,7 @@ const AuthProvider = ({
     localStorage.removeItem(LOCALSTORAGE_AUTH_KEY);
     localStorage.removeItem(LOCALSTORAGE_AUTH_REFRESH_KEY);
     setIsLoggedIn(false);
+    setLoggedInAddress('');
   };
 
   const logout = useCallback(() => {
@@ -152,17 +155,13 @@ const AuthProvider = ({
     if (prevAddress && prevAddress !== address) {
       _resetLoginState();
       setIsOnboarding(false);
-
-      // if user switched account, and is viewing current tab, re-log him in
-      if (!document.hidden) {
-        login();
-      }
     }
   }, [address]);
 
   useEffect(() => {
     if (localStorage.getItem(LOCALSTORAGE_AUTH_KEY)) {
       setIsLoggedIn(true);
+      setLoggedInAddress(address);
     }
   }, []);
 
@@ -199,6 +198,7 @@ const AuthProvider = ({
         isSubscribed,
         unsubscribe,
         isLoggedIn,
+        loggedInAddress,
         isLoading,
         error,
         login,

@@ -14,7 +14,7 @@ import { useUpdateLastReadMutation } from './operations.generated';
 import { useChannelContext } from 'context/ChannelContext';
 import { useUserContext } from 'context/UserContext';
 import { WidgetContainer } from 'components/layout/WidgetContainer';
-import { useRouterContext, Routes } from 'context/RouterContext';
+import { Routes, useRouterContext } from 'context/RouterContext';
 
 const MobileContainer = styled.div<{ isOpen: boolean }>`
   display: ${({ isOpen }) => (isOpen ? 'block' : 'none')};
@@ -38,7 +38,7 @@ const NotificationFeed = (props: NotificationFeedProps): JSX.Element => {
   const { isLoggedIn } = useAuthContext();
   const { address } = useAccount();
   const { channelAddress, name } = useChannelContext();
-  const { Component, activeRoute, routeProps } = useRouterContext();
+  const { activeRoute, routeProps, setRoute } = useRouterContext();
   const theme = useTheme();
   const size = useWindowSize();
 
@@ -50,12 +50,19 @@ const NotificationFeed = (props: NotificationFeedProps): JSX.Element => {
 
   const [updateLastRead] = useUpdateLastReadMutation();
 
-  const currentScreenComponent = useMemo(() => {
-    if (activeRoute === Routes.NotificationsFeed)
-      return <Component onNotificationClick={onNotificationClick} />;
+  useEffect(() => {
+    if (!isLoggedIn && activeRoute.requiresAuth) {
+      setRoute(Routes.Login);
+      return;
+    }
+  }, [activeRoute, isLoggedIn]);
 
-    return <Component {...routeProps} />;
-  }, [activeRoute, Component, onNotificationClick]);
+  const currentScreenComponent = useMemo(() => {
+    if (activeRoute.name === Routes.NotificationsFeed)
+      return <activeRoute.Component onNotificationClick={onNotificationClick} />;
+
+    return <activeRoute.Component {...routeProps} />;
+  }, [activeRoute, onNotificationClick]);
 
   const handleBellClick = () => {
     analytics.track('bell clicked', { feedOpened: !feedOpen });

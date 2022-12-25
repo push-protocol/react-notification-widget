@@ -2,18 +2,18 @@ import React, { createContext, ReactNode, useContext, useEffect, useState } from
 import { useAccount } from 'wagmi';
 import { useEnvironment } from '../EnvironmentContext';
 import { useChannelContext } from '../ChannelContext';
+import { useAuthContext } from '../AuthContext';
 import { UserContext, Notification } from './types';
-import { useUserCommunicationChannelsLazyQuery, useGetUserQuery } from './operations.generated';
 import fetchNotifications from './fetchNotifications';
+import { useUserCommunicationChannelsLazyQuery, useGetUserLazyQuery } from './operations.generated';
 
 const UserContext = createContext<UserContext>({} as any);
 
 export const UserProvider = ({ children, isOpen }: { children: ReactNode; isOpen?: boolean }) => {
-  const { isConnected: isLoggedIn, address: userAddress } = useAccount();
+  const { isLoggedIn, loggedInAddress } = useAuthContext(); // requires the actual account that was used to sign the auth msg, not the connected wallet
+  const { address: userAddress } = useAccount();
   const { epnsEnv } = useEnvironment();
   const { channelAddress, chainId } = useChannelContext();
-
-  const { data: userData } = useGetUserQuery({ skip: !isLoggedIn });
 
   const [feedOpen, setFeedOpen] = useState(isOpen || false);
   const [isLoading, setIsLoading] = useState(false);
@@ -21,15 +21,27 @@ export const UserProvider = ({ children, isOpen }: { children: ReactNode; isOpen
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [userCommsChannelsPollInterval, setUserCommsChannelsPollInterval] = useState(0);
 
-  const [getCommsChannels, { data }] = useUserCommunicationChannelsLazyQuery({
-    pollInterval: userCommsChannelsPollInterval,
+  const [fetchUser, { data: userData }] = useGetUserLazyQuery({
+    fetchPolicy: 'network-only',
+    nextFetchPolicy: 'cache-and-network', // important for account switches and cache updates
   });
 
   useEffect(() => {
-    if (!userAddress) return;
+    if (!isLoggedIn) return;
 
-    getCommsChannels({ variables: { address: userAddress } });
-  }, [getCommsChannels, userAddress]);
+    fetchUser();
+  }, [loggedInAddress, isLoggedIn]);
+
+  const [fetchCommsChannels, { data }] = useUserCommunicationChannelsLazyQuery({
+    pollInterval: userCommsChannelsPollInterval,
+    nextFetchPolicy: 'network-only',
+  });
+
+  useEffect(() => {
+    if (!loggedInAddress) return;
+
+    fetchCommsChannels({ variables: { address: loggedInAddress } });
+  }, [fetchCommsChannels, loggedInAddress]);
 
   useEffect(() => {
     if (!userAddress || polling || !chainId) return;
@@ -78,7 +90,6 @@ export const UserProvider = ({ children, isOpen }: { children: ReactNode; isOpen
   return (
     <UserContext.Provider
       value={{
-        isLoggedIn,
         isLoading,
         feedOpen,
         user: userData?.user,
