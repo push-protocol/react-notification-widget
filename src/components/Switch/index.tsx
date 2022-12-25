@@ -1,67 +1,72 @@
-import React from 'react';
+import React, { useId } from 'react';
 import styled from 'styled-components';
-import { adjustColor } from '../utils';
+import { mode } from '../../theme';
 
-const Container = styled.label`
+const SwitchInputWrapper = styled.div`
   position: relative;
-  display: inline-block;
-  width: 50px;
-  height: 25px;
-  & input:focus + span {
-    box-shadow: ${({ theme }) => `0 0 1px ${theme.colors.primary.main}`};
-  }
-  & input:checked + span:before {
-    -webkit-transform: translateX(22px);
-    -ms-transform: translateX(22px);
-    transform: translateX(22px);
-  }
-  & input:checked + span {
-    background-color: ${({ theme }) => theme.colors.primary.main};
-  }
-  & input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-  }
-`;
-
-const Slider = styled.span`
-  position: absolute;
+  height: 16px;
+  width: 28px;
   cursor: pointer;
-  border-radius: 34px;
-  top: 0;
+`;
+
+const SwitchInputLabel = styled.label`
+  position: absolute;
+  top: 5px;
   left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: ${({ theme }) => adjustColor(theme.colors.primary.main, 0.3)};
-  -webkit-transition: 0.4s;
-  transition: 0.4s;
-  &:before {
-    border-radius: 50%;
-    position: absolute;
+  width: 100%;
+  height: 6px;
+  border-radius: 15px;
+  background: ${({ theme }) => mode(theme.colors.light[10], theme.colors.dark[10])};
+  transition: 0.2s;
+  cursor: pointer;
+  &::after {
     content: '';
-    height: 17px;
-    width: 17px;
-    left: 6px;
-    bottom: 4px;
-    background-color: ${({ theme }) => theme.colors.button.text};
-    -webkit-transition: 0.4s;
-    transition: 0.4s;
+    display: block;
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+    margin-top: -5px;
+    margin-left: -2px;
+    background: ${({ theme }) => theme.colors.text.primary};
+    box-shadow: 1px 3px 3px 1px rgba(0, 0, 0, 0.2);
+    transition: 0.2s;
   }
 `;
 
-type PropsT = { checked?: boolean; onChange: (newVal: boolean) => void };
+const Input = styled.input`
+  opacity: 0;
+  z-index: -1;
+  border-radius: 15px;
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  &:checked + ${SwitchInputLabel} {
+    background: ${({ theme }) => mode(theme.colors.light[30], theme.colors.dark[30])};
+    &::after {
+      margin-left: 16px;
+      background: ${({ theme }) => theme.colors.primary.main};
+    }
+  }
+`;
 
-const Switch = (props: PropsT) => {
+type CheckboxProps = {
+  checked: boolean;
+  onChange: (checked: boolean) => void;
+};
+
+const Switch = ({ checked, onChange }: CheckboxProps) => {
+  const uniqueId = useId();
+
   return (
-    <Container>
-      <input
-        onChange={(e) => props.onChange(e.target.checked)}
-        checked={props.checked}
+    <SwitchInputWrapper>
+      <Input
+        id={uniqueId}
         type="checkbox"
+        checked={checked}
+        onChange={(event) => onChange(event.target.checked)}
       />
-      <Slider />
-    </Container>
+      <SwitchInputLabel htmlFor={uniqueId} />
+    </SwitchInputWrapper>
   );
 };
 

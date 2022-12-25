@@ -1897,7 +1897,7 @@ time, mark, audio, video {
     enabled
   }
 }
-    `;function $Te(t){let e={...ZTt,...t};return as($Tt,e)}var eMt=()=>{let[t]=$Te();return(r,n,i)=>{let o={...i,[n]:!i?.[n]},a=!!o?.enabled,s={commsChannelTagId:r,enabled:a,discord:a&&!!o?.discord,telegram:a&&!!o?.telegram,email:a&&!!o?.email};t({optimisticResponse:{userPreferencesUpdate:{__typename:"UserPreference",id:o.id||"temp-id",...s}},variables:{input:s},update(u,{data:c}){if(o.id)return;let l=u.readQuery({query:d7});u.writeQuery({query:d7,data:{user:{...l.user,preferences:[...l?.user?.preferences||[],{...c?.userPreferencesUpdate}]}}})}})}},eMe=eMt;var $2=Te(Ge());var tMt=Je.div`
+    `;function $Te(t){let e={...ZTt,...t};return as($Tt,e)}var eMt=()=>{let[t]=$Te();return(r,n,i)=>{let o={...i,[n]:!i?.[n]},a=!!o?.enabled,s={commsChannelTagId:r,enabled:a,discord:a&&!!o?.discord,telegram:a&&!!o?.telegram,email:a&&!!o?.email};t({optimisticResponse:{userPreferencesUpdate:{__typename:"UserPreference",id:o.id||"temp-id",...s}},variables:{input:s},update(u,{data:c}){if(o.id)return;let l=u.readQuery({query:d7});!l||u.writeQuery({query:d7,data:{user:{...l.user,preferences:[...l.user?.preferences||[],{...c?.userPreferencesUpdate}]}}})}})}},eMe=eMt;var $2=Te(Ge());var tMt=Je.div`
   position: relative;
   height: 16px;
   width: 28px;
