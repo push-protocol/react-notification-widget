@@ -10,7 +10,7 @@ import { useUserContext } from 'context/UserContext';
 import formatAddress from 'helpers/functions/formatAddress';
 import { useEnvironment } from 'context/EnvironmentContext';
 
-export const Auth = () => {
+export const Login = () => {
   const { isLoading, login } = useAuthContext();
   const { isSubscribeOnlyMode } = useEnvironment();
   const { setRoute } = useRouterContext();
@@ -25,11 +25,13 @@ export const Auth = () => {
 
   return (
     <Screen>
-      <Flex justifyContent={'center'} direction={'column'} alignItems={'center'}></Flex>
-      <Flex width={260}>
-        <Text size={'xl'} mb={5} align={'center'} weight={700}>
-          Hi, {formatAddress(userAddress)} 👋 <br /> Sign in with your wallet to access your
-          notifications
+      <Flex justifyContent={'space-between'} direction={'column'} alignItems={'center'}></Flex>
+      <Flex direction={'column'}>
+        <Text size={'2xl'} mb={2} align={'center'} weight={700}>
+          Hi, {formatAddress(userAddress)} 👋
+        </Text>
+        <Text size={'xl'} mb={8} align={'center'}>
+          Sign in with your wallet to access your notifications
         </Text>
       </Flex>
       <Button

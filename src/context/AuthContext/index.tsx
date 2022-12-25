@@ -21,6 +21,7 @@ export type AuthInfo = {
   isLoading: boolean;
   error: boolean;
   isLoggedIn?: boolean;
+  loggedInAddress?: string;
   discordToken?: string;
   login(callback?: () => void): Promise<void>;
   isOnboarding: boolean;
@@ -54,7 +55,7 @@ const AuthProvider = ({
   children: ReactNode;
   discordToken?: string;
 }) => {
-  const { setRoute, requiresAuth } = useRouterContext();
+  const { setRoute } = useRouterContext();
   const { channelAddress, chainId } = useChannelContext();
   const { isConnected, address } = useAccount();
   const { data: signer, refetch: refetchSigner } = useSigner();
@@ -64,6 +65,7 @@ const AuthProvider = ({
   const [isSubscribed, setIsSubscribed] = useState<boolean>();
   const [isOnboarding, setIsOnboarding] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>();
+  const [loggedInAddress, setLoggedInAddress] = useState<string>();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(false);
   const [refetchCounter, setRefetchCounter] = useState(0);
@@ -112,6 +114,7 @@ const AuthProvider = ({
       const result = await _login(channelAddress);
       localStorage.setItem(LOCALSTORAGE_AUTH_KEY, result.token);
       localStorage.setItem(LOCALSTORAGE_AUTH_REFRESH_KEY, result.refreshToken);
+      setLoggedInAddress(address);
       setIsLoggedIn(true);
       callback && callback();
     } catch (e) {
@@ -126,6 +129,7 @@ const AuthProvider = ({
     localStorage.removeItem(LOCALSTORAGE_AUTH_KEY);
     localStorage.removeItem(LOCALSTORAGE_AUTH_REFRESH_KEY);
     setIsLoggedIn(false);
+    setLoggedInAddress('');
   };
 
   const logout = useCallback(() => {
@@ -157,14 +161,9 @@ const AuthProvider = ({
   useEffect(() => {
     if (localStorage.getItem(LOCALSTORAGE_AUTH_KEY)) {
       setIsLoggedIn(true);
+      setLoggedInAddress(address);
     }
   }, []);
-
-  useEffect(() => {
-    if (requiresAuth && !isLoggedIn) {
-      setRoute(Routes.Auth);
-    }
-  }, [requiresAuth, isLoggedIn]);
 
   const toggleSubscription = async (action: 'sub' | 'unsub') => {
     setIsLoading(true);
@@ -199,6 +198,7 @@ const AuthProvider = ({
         isSubscribed,
         unsubscribe,
         isLoggedIn,
+        loggedInAddress,
         isLoading,
         error,
         login,
