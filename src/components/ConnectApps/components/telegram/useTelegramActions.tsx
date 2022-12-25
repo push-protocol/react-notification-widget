@@ -13,7 +13,7 @@ import { MessagingApp } from 'global/types.generated';
 
 const useTelegramActions = () => {
   const { isSubscribeOnlyMode } = useEnvironment();
-  const { login, isOnboarding, setIsOnboarding } = useAuthContext();
+  const { login, setIsOnboarding } = useAuthContext();
   const { setRoute } = useRouterContext();
   const { setUserCommsChannelsPollInterval, userCommsChannels } = useUserContext();
 
@@ -43,12 +43,13 @@ const useTelegramActions = () => {
 
   const handleGenerateUrl = async () => {
     login(async () => {
-      analytics.track('telegram url generated');
       await getTelegramLink();
+      analytics.track('telegram url generated');
     });
   };
 
   const handleOpenTG = async () => {
+    analytics.track('open telegram clicked');
     setUserCommsChannelsPollInterval(5000);
     window.open(
       telegramUrlData?.telegramVerificationLinkGenerate?.link,

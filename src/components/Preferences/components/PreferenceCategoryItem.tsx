@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { PREFERENCES_WIDTH } from '../consts';
 import { MessagingAppConfig } from '../index';
 import useUpdatePreference from '../useUpdatePreference';
+import analytics from '../../../services/analytics';
 import { Web2ChannelLower } from 'context/UserContext/const';
 import { GetUserQuery } from 'context/UserContext/operations.generated';
 import { PartnerInfoQuery } from 'context/ChannelContext/operations.generated';
@@ -32,6 +33,22 @@ const PreferenceCategory = styled.div`
 const PreferenceCategoryItem = ({ userPref, category, messagingAppConfig }: PropsT) => {
   const updatePreference = useUpdatePreference();
 
+  const handlePrefClick = (pref: Web2ChannelLower | 'enabled') => {
+    updatePreference(category.id, pref, userPref);
+
+    const analyticsData = { category: category.name, categoryId: category.id };
+    pref === 'enabled'
+      ? analytics.track('preference toggled', {
+          ...analyticsData,
+          newState: userPref?.enabled ? 'disabled' : 'enabled',
+        })
+      : analytics.track('preference destination updated', {
+          ...analyticsData,
+          app: pref,
+          enabled: !userPref?.[pref],
+        });
+  };
+
   return (
     <Flex alignItems={'center'} mb={1}>
       <PreferenceCategory>
@@ -40,12 +57,7 @@ const PreferenceCategoryItem = ({ userPref, category, messagingAppConfig }: Prop
         </Flex>
 
         <Flex width={32} alignItems={'center'} pl={1} pr={1}>
-          <Switch
-            checked={!!userPref?.enabled}
-            onChange={() => {
-              updatePreference(category.id, 'enabled', userPref);
-            }}
-          />
+          <Switch checked={!!userPref?.enabled} onChange={() => handlePrefClick('enabled')} />
         </Flex>
       </PreferenceCategory>
 
@@ -60,9 +72,7 @@ const PreferenceCategoryItem = ({ userPref, category, messagingAppConfig }: Prop
               <PreferenceBell
                 disabled={!enabled}
                 selected={userPref?.[app.toLowerCase() as Web2ChannelLower] || false}
-                onClick={() =>
-                  updatePreference(category.id, app.toLowerCase() as Web2ChannelLower, userPref)
-                }
+                onClick={() => handlePrefClick(app.toLowerCase() as Web2ChannelLower)}
               />
             </Flex>
           ))}

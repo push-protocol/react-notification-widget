@@ -1,10 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
+import Notice from 'components/Notice';
 import ConnectApps from 'components/ConnectApps';
 import Flex from 'components/layout/Flex';
 import { Screen } from 'components/layout/Screen';
 import { useChannelContext } from 'context/ChannelContext';
-import HiddenNotice from 'components/HiddenNotice';
 import PageTitle from 'components/PageTitle';
 import Button from 'components/Button';
 import { Routes, useRouterContext } from 'context/RouterContext';
@@ -63,7 +63,7 @@ export const SetupChannels = (props: { appsToConnect: MessagingApp[] }) => {
           Finish
         </Button>
       </Flex>
-      <HiddenNotice text={`${name} won't have access to your info`} />
+      <Notice text={`${name} won't have access to your info`} />
     </Screen>
   );
 };

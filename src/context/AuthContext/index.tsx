@@ -106,16 +106,19 @@ const AuthProvider = ({
       return;
     }
 
+    analytics.track('backend login started');
     setIsLoading(true);
-    analytics.track('login');
     setError(false);
 
     try {
       const result = await _login(channelAddress);
+      analytics.track('backend login successful');
+
       localStorage.setItem(LOCALSTORAGE_AUTH_KEY, result.token);
       localStorage.setItem(LOCALSTORAGE_AUTH_REFRESH_KEY, result.refreshToken);
       setLoggedInAddress(address);
       setIsLoggedIn(true);
+
       callback && callback();
     } catch (e) {
       setError(true);

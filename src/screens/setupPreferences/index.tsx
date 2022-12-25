@@ -1,9 +1,9 @@
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
+import Notice from 'components/Notice';
 import Flex from 'components/layout/Flex';
 import { Screen } from 'components/layout/Screen';
 import { useChannelContext } from 'context/ChannelContext';
-import HiddenNotice from 'components/HiddenNotice';
 import PageTitle from 'components/PageTitle';
 import Button from 'components/Button';
 import { Routes, useRouterContext } from 'context/RouterContext';
@@ -55,12 +55,14 @@ export const SetupPreferences = () => {
       </Header>
 
       <Preferences messagingApps={appConfig} />
-      <Flex mb={2} mt={2} width={'100%'}>
+
+      <Flex direction={'column'} gap={2} mb={2} mt={2} width={'100%'}>
+        <Notice text={'Messages from enabled categories will be available in-app by default'} />
+
         <Button size={'lg'} width={'100%'} onClick={handleGoNext} disabled={goNextDisabled}>
           Next
         </Button>
       </Flex>
-      <HiddenNotice text={'You can change your preferences later at any time'} />
     </Screen>
   );
 };

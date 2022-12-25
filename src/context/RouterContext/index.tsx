@@ -23,7 +23,6 @@ const RouterProvider = ({ children }: { children: ReactNode }) => {
   const [routeProps, setRouteProps] = useState<RouteProps>({});
 
   const setRouteWithParams = (route: Routes, props?: RouteProps) => {
-    analytics.track(`${route} page loaded`);
     setActive(route);
 
     props ? setRouteProps(props) : setRouteProps({});

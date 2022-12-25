@@ -11,7 +11,7 @@ const NoticeContainer = styled(Flex)`
   color: ${({ theme }) => mode(theme.colors.gray[50], theme.colors.gray[300])};
 `;
 
-const HiddenNotice = ({ text }: { text: string }) => (
+const Notice = ({ text }: { text: string }) => (
   <NoticeContainer>
     <Flex gap={0.5} alignItems={'start'}>
       <Text size={'sm'} color={'inherit'} opacity={0.8} weight={500} align={'center'}>
@@ -21,4 +21,4 @@ const HiddenNotice = ({ text }: { text: string }) => (
   </NoticeContainer>
 );
 
-export default HiddenNotice;
+export default Notice;

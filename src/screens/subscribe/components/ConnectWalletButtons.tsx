@@ -10,7 +10,7 @@ const ConnectWalletButtons = () => {
   const [selectedWallet, setSelectedWallet] = useState('');
 
   const connectWallet = (connector: Connector) => {
-    analytics.track('wallet connect', { wallet: connector.id });
+    analytics.track('wallet connect clicked', { wallet: connector.id });
     connect({ connector });
   };
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import Notice from 'components/Notice';
 import { Screen } from 'components/layout/Screen';
 import Button from 'components/Button';
 import Flex from 'components/layout/Flex';
@@ -7,7 +8,6 @@ import { useChannelContext } from 'context/ChannelContext';
 import WrongNetworkError from 'components/Errors/WrongNetworkError';
 import NavbarActions from 'screens/settings/components/NavbarActions';
 import SettingsHeader from 'screens/settings/components/SettingsHeader';
-import HiddenNotice from 'components/HiddenNotice';
 import { useAuthContext } from 'context/AuthContext';
 import { useEnvironment } from 'context/EnvironmentContext';
 import Preferences from 'components/Preferences';
@@ -58,7 +58,7 @@ export const Settings = () => {
           </Button>
         </Flex>
       )}
-      <HiddenNotice text={`${name} doesn't have access to your info`} />
+      <Notice text={`${name} doesn't have access to your info`} />
     </Screen>
   );
 };

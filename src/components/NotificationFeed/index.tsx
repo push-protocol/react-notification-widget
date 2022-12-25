@@ -58,6 +58,8 @@ const NotificationFeed = (props: NotificationFeedProps): JSX.Element => {
   }, [activeRoute, isLoggedIn]);
 
   const currentScreenComponent = useMemo(() => {
+    analytics.track(`${activeRoute.name} page loaded`);
+
     if (activeRoute.name === Routes.NotificationsFeed)
       return <activeRoute.Component onNotificationClick={onNotificationClick} />;
 
