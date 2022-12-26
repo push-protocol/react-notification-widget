@@ -62,14 +62,14 @@ const FakeApp = () => {
   }, [partnerKey, theme]);
 
   return (
-    <div style={{ display: 'flex', height: '100vh', width: '100vw', background: 'black' }}>
-      <S.BackgroundLogoContainer>
-        <BackgroundLogo />
-      </S.BackgroundLogoContainer>
-      <S.TopBar>
-        <Logo />
-        <S.Text>Widget Demo</S.Text>
-      </S.TopBar>
+    <div style={{ display: 'flex', height: '100vh', width: '100vw', background: 'white' }}>
+      {/*<S.BackgroundLogoContainer>*/}
+      {/*  <BackgroundLogo />*/}
+      {/*</S.BackgroundLogoContainer>*/}
+      {/*<S.TopBar>*/}
+      {/*  <Logo />*/}
+      {/*  <S.Text>Widget Demo</S.Text>*/}
+      {/*</S.TopBar>*/}
       {/****************WIDGET****************/}
       <S.WidgetContainer top={coordinates.top} right={coordinates.right}>
         {widget}
@@ -84,18 +84,18 @@ const FakeApp = () => {
           sandbox={'allow-scripts allow-same-origin'}
         />
       </S.IframeContainer>
-      <FloatingSettings
-        {...{
-          partnerKey,
-          setPartnerKey,
-          iframeUrl,
-          setIframeUrl,
-          theme,
-          setTheme,
-          coordinates,
-          setCoordinates,
-        }}
-      />
+      {/*<FloatingSettings*/}
+      {/*  {...{*/}
+      {/*    partnerKey,*/}
+      {/*    setPartnerKey,*/}
+      {/*    iframeUrl,*/}
+      {/*    setIframeUrl,*/}
+      {/*    theme,*/}
+      {/*    setTheme,*/}
+      {/*    coordinates,*/}
+      {/*    setCoordinates,*/}
+      {/*  }}*/}
+      {/*/>*/}
     </div>
   );
 };
