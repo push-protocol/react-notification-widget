@@ -44,7 +44,7 @@ const DEFAULT_PARTNER_KEY =
     : 'cefa1b69-bfb9-4e70-bebc-9ee10316f882';
 
 const FakeApp = () => {
-  const [partnerKey, setPartnerKey] = useState('4840fc9c-6c93-49cb-8f85-1c2e9d476b0a');
+  const [partnerKey, setPartnerKey] = useState('83041132-10a7-4f35-b83a-2294a7936532');
   const [iframeUrl, setIframeUrl] = useState('https://app.atlendis.io/dashboard');
   const [theme, setTheme] = useState<CustomTheme>(defaultTheme);
   const [coordinates, setCoordinates] = useState<Coordinates>({ top: 15, right: 360 });
