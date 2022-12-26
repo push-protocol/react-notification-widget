@@ -1924,10 +1924,26 @@ this in the docs: http://dev.apollodata.com/core/fragments.html#unique-names`):s
   border: 1px solid ${({theme:t})=>mi(t.colors.light[10],t.colors.dark[10])};
   box-sizing: border-box;
 `,Frt=({hideChannelInfo:t,messagingApps:e})=>{let{user:r}=xn(),{messageCategories:n}=Yr();return w9.default.createElement(Lrt,null,w9.default.createElement(Fge,{hideChannelInfo:t,messagingAppConfig:e}),n.map(i=>w9.default.createElement(zge,{key:i.id,category:i,userPref:r?.preferences?.find(o=>o.commsChannelTagId===i.id),messagingAppConfig:e})))},_9=Frt;var Vge=()=>{let{isSubscribeOnlyMode:t}=ki(),{userCommsChannels:e}=xn(),{name:r,icon:n,discordGuildUrl:i,messageCategories:o}=Yr(),{unsubscribe:s}=wn(),a=[Qr.Telegram,Qr.Email,Qr.Discord].map(u=>({app:u,enabled:e?.[u.toLowerCase()]?.exists,available:u===Qr.Discord?!!i:!0})).filter(u=>u.available),c=()=>{s()};return ah.default.createElement(Yo,{navbarActionComponent:t?void 0:ah.default.createElement(Rge,null),mb:1},ah.default.createElement(ot,{mt:t?0:-5,mb:2},ah.default.createElement(Nge,{title:t?`You are subscribed to updates from ${r}`:"Notification Settings",icon:n})),ah.default.createElement(d9,{mb:2}),ah.default.createElement(g9,{apps:a.map(u=>u.app)}),!!o.length&&ah.default.createElement(_9,{hideChannelInfo:!0,messagingApps:a}),!1,ah.default.createElement(mx,{text:`${r} doesn't have access to your info`}))};var tc=Ee(qe());var Yn=Ee(qe()),A0=Ee(zC());var Kge=Ee(Gge());var jrt=t=>t?t.replace(...Brt).replace(...Drt):"",Brt=[/(\[timestamp:)([^\]]*)(\])/g,""],Drt=[/(\[(?:i|b|bi|w|d|s|t|u):)([^\]]*)(\])/g,"$2"],Jge=jrt;var Urt=t=>{if(!t)return"";try{return(t.startsWith("/")?new URL(t,window.location.origin):new URL(t)).hostname.replace("https://","").replace("www.","")}catch(e){return""}},S9=Urt;var gH=Ee(qe());var La;(function(t){t[t.YOUTUBE=0]="YOUTUBE",t[t.VIMEO=1]="VIMEO"})(La||(La={}));var ev={[0]:{baseUrl:"https://www.youtube.com/embed/",getIdRegex:/^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/},[1]:{baseUrl:"https://player.vimeo.com/video/",getIdRegex:/^.*(vimeo\.com\/)((channels\/[A-z]+\/)|(groups\/[A-z]+\/videos\/))?([0-9]+)/}};var qrt=Je.div`
+  position: relative;
+  padding-bottom: 56.25%;
+  height: 0;
+  overflow: hidden;
+  max-width: 100%;
+  margin-bottom: ${({theme:t})=>t.spacing(1)}px;
   iframe {
     border-radius: ${({theme:t})=>t.borderRadius.md};
   }
-`,Wge=t=>t?t.match(ev[La.YOUTUBE].getIdRegex)||t.match(ev[La.VIMEO].getIdRegex):!1,Hrt=t=>{let e=t.match(ev[La.YOUTUBE].getIdRegex);return e&&e[7].length==11?e[7]:""},zrt=t=>{let e=ev[La.VIMEO].getIdRegex.exec(t);return e&&e[5]||""},Vrt=t=>{let e=t.match(ev[La.YOUTUBE].getIdRegex)?La.YOUTUBE:La.VIMEO,r={[La.YOUTUBE]:Hrt(t),[La.VIMEO]:zrt(t)};return`${ev[e].baseUrl}${r[e]}`},Grt=({url:t})=>gH.default.createElement(qrt,null,gH.default.createElement("iframe",{height:"180px",src:Vrt(t),frameBorder:"0",allow:"autoplay; fullscreen; picture-in-picture",allowFullScreen:!0,title:"Embedded video"})),Qge=Grt;(0,A0.extend)(Kge.default);var Jrt=Je(ot)`
+
+  iframe,
+  object,
+  embed {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+`,Wge=t=>t?t.match(ev[La.YOUTUBE].getIdRegex)||t.match(ev[La.VIMEO].getIdRegex):!1,Hrt=t=>{let e=t.match(ev[La.YOUTUBE].getIdRegex);return e&&e[7].length==11?e[7]:""},zrt=t=>{let e=ev[La.VIMEO].getIdRegex.exec(t);return e&&e[5]||""},Vrt=t=>{let e=t.match(ev[La.YOUTUBE].getIdRegex)?La.YOUTUBE:La.VIMEO,r={[La.YOUTUBE]:Hrt(t),[La.VIMEO]:zrt(t)};return`${ev[e].baseUrl}${r[e]}`},Grt=({url:t})=>gH.default.createElement(qrt,null,gH.default.createElement("iframe",{height:"180px",src:Vrt(t),frameBorder:"0",allow:"fullscreen; picture-in-picture",allowFullScreen:!0,title:"Embedded video"})),Qge=Grt;(0,A0.extend)(Kge.default);var Jrt=Je(ot)`
   cursor: ${({clickable:t})=>t?"pointer":"cursor"};
   padding: 12px;
   border-radius: ${({theme:t})=>t.borderRadius.md};

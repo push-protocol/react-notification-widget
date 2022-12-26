@@ -3,8 +3,24 @@ import styled from 'styled-components';
 import { VideoSources, videoSourcesInfo } from 'components/VideoPlayer/consts';
 
 const Container = styled.div`
+  position: relative;
+  padding-bottom: 56.25%;
+  height: 0;
+  overflow: hidden;
+  max-width: 100%;
+  margin-bottom: ${({ theme }) => theme.spacing(1)}px;
   iframe {
     border-radius: ${({ theme }) => theme.borderRadius.md};
+  }
+
+  iframe,
+  object,
+  embed {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
   }
 `;
 
@@ -46,7 +62,7 @@ const VideoPlayer = ({ url }: { url: string }) => (
       height="180px"
       src={buildUrl(url)}
       frameBorder="0"
-      allow="autoplay; fullscreen; picture-in-picture"
+      allow="fullscreen; picture-in-picture"
       allowFullScreen
       title="Embedded video"
     />
