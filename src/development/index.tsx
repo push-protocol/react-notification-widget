@@ -34,7 +34,8 @@ const lightTheme = {
 
 const defaultTheme = {
   fontFamily: '"Inter var", sans-serif',
-  bellColor: '#968c8c',
+  backgroundColor: '#1b1c27',
+  bellColor: '#FFFFFF',
 };
 
 const DEFAULT_PARTNER_KEY =
@@ -43,10 +44,10 @@ const DEFAULT_PARTNER_KEY =
     : 'cefa1b69-bfb9-4e70-bebc-9ee10316f882';
 
 const FakeApp = () => {
-  const [partnerKey, setPartnerKey] = useState(DEFAULT_PARTNER_KEY);
-  const [iframeUrl, setIframeUrl] = useState('');
+  const [partnerKey, setPartnerKey] = useState('4840fc9c-6c93-49cb-8f85-1c2e9d476b0a');
+  const [iframeUrl, setIframeUrl] = useState('https://app.atlendis.io/dashboard');
   const [theme, setTheme] = useState<CustomTheme>(defaultTheme);
-  const [coordinates, setCoordinates] = useState<Coordinates>({ top: 100, left: '45%' });
+  const [coordinates, setCoordinates] = useState<Coordinates>({ top: 15, right: 360 });
 
   const widget = useMemo(() => {
     return (
@@ -70,7 +71,7 @@ const FakeApp = () => {
         <S.Text>Widget Demo</S.Text>
       </S.TopBar>
       {/****************WIDGET****************/}
-      <S.WidgetContainer top={coordinates.top} left={coordinates.left}>
+      <S.WidgetContainer top={coordinates.top} right={coordinates.right}>
         {widget}
       </S.WidgetContainer>
       {/********************************/}

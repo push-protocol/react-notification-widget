@@ -4,7 +4,7 @@ import { CustomTheme } from '../../theme';
 
 export type Coordinates = {
   top: number | string;
-  left: number | string;
+  right: number | string;
 };
 
 type FloatingSettingsProps = {
@@ -103,7 +103,7 @@ const FloatingSettings = (props: FloatingSettingsProps) => {
           <div key={item.title}>
             <p>{item.title}</p>
             <StyledInput
-              value={coordinates[item.key as 'top' | 'left']}
+              value={coordinates[item.key as 'top' | 'right']}
               type={'number'}
               onChange={(e) =>
                 setCoordinates({ ...coordinates, [item.key]: Number(e.target.value) })
