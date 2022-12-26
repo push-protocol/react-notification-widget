@@ -12,17 +12,14 @@ const useUpdatePreference = () => {
     appOrEnabled: Web2ChannelLower | 'enabled',
     pref?: Partial<UserPreference>
   ) => {
-    // pref defaults to enabled if not defined
-    const defaultEnabled = !pref || !!pref?.enabled;
-    const updatedPref = { ...pref, enabled: defaultEnabled, [appOrEnabled]: !pref?.[appOrEnabled] };
-
-    const enabled = updatedPref.enabled;
+    const updatedPref = { ...pref, [appOrEnabled]: !pref?.[appOrEnabled] };
+    const enabled = !!updatedPref.enabled;
 
     const update = {
       commsChannelTagId: categoryId,
       enabled,
       discord: enabled && !!updatedPref?.discord,
-      telegram: enabled && !!updatedPref?.telegram,
+      telegram: enabled && (!pref || !!updatedPref?.telegram),
       email: enabled && !!updatedPref?.email,
     };
 

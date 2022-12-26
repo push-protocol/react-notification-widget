@@ -50,7 +50,7 @@ const PreferenceCategoryItem = ({ userPref, category, messagingAppConfig }: Prop
   };
 
   // pref defaults to enabled if not defined
-  const prefEnabled = !userPref || userPref?.enabled;
+  const prefEnabled = !!userPref?.enabled;
 
   return (
     <Flex alignItems={'center'} mb={1}>

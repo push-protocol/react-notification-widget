@@ -40,11 +40,11 @@ const defaultTheme = {
 
 const DEFAULT_PARTNER_KEY =
   process.env.WHEREVER_ENV === 'production'
-    ? '259bdea9-7329-4654-bb4a-45f452a208ce'
+    ? '5e6a9f39-2c86-411c-90e1-b22642b930b6' // aave
     : 'cefa1b69-bfb9-4e70-bebc-9ee10316f882';
 
 const FakeApp = () => {
-  const [partnerKey, setPartnerKey] = useState('5e6a9f39-2c86-411c-90e1-b22642b930b6'); //prod key
+  const [partnerKey, setPartnerKey] = useState(DEFAULT_PARTNER_KEY);
   const [iframeUrl, setIframeUrl] = useState('https://app.aave.com/');
   const [theme, setTheme] = useState<CustomTheme>(defaultTheme);
   const [coordinates, setCoordinates] = useState<Coordinates>({ top: 5, right: 250 });
