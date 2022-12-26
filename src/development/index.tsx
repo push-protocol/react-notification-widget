@@ -45,16 +45,16 @@ const DEFAULT_PARTNER_KEY =
 
 const FakeApp = () => {
   const [partnerKey, setPartnerKey] = useState('83041132-10a7-4f35-b83a-2294a7936532');
-  const [iframeUrl, setIframeUrl] = useState('https://app.atlendis.io/dashboard');
+  const [iframeUrl, setIframeUrl] = useState('https://app.aave.com/');
   const [theme, setTheme] = useState<CustomTheme>(defaultTheme);
-  const [coordinates, setCoordinates] = useState<Coordinates>({ top: 15, right: 360 });
+  const [coordinates, setCoordinates] = useState<Coordinates>({ top: 5, right: 250 });
 
   const widget = useMemo(() => {
     return (
       <NotificationFeedProvider theme={theme} partnerKey={partnerKey} mode={WidgetMode.Default}>
         <NotificationFeed gapFromBell={10}>
           <S.WidgetBellWrapper>
-            <NotificationBell />
+            <NotificationBell size={18} />
           </S.WidgetBellWrapper>
         </NotificationFeed>
       </NotificationFeedProvider>

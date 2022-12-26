@@ -1,31 +1,19 @@
 import React, { ReactNode, useState } from 'react';
-import styled from 'styled-components';
 import { DiscordChannel } from './components/discord';
 import { EmailChannel } from './components/email';
 import { TelegramChannel } from './components/telegram';
 import { MessagingApp } from 'global/types.generated';
 import { useAuthContext } from 'context/AuthContext';
-import { useChannelContext } from 'context/ChannelContext';
 import Flex from 'components/layout/Flex';
 
-const ChannelsContainer = styled(Flex)<{ disablePointerEvents?: boolean }>`
-  ${({ disablePointerEvents }) =>
-    disablePointerEvents &&
-    `
-    pointer-events: none;
-  `}
-`;
-
 const ConnectApps = ({ apps }: { apps: MessagingApp[] }) => {
-  const { isWrongNetwork } = useChannelContext();
-  const { isOnboarding, isLoggedIn } = useAuthContext();
+  const { isOnboarding } = useAuthContext();
 
   const [channelOpen, setChannelOpen] = useState<MessagingApp | undefined>(
     isOnboarding ? apps?.[0] : undefined
   );
 
   const toggleChannelOpen = (channel: MessagingApp) => {
-    if (isWrongNetwork) return;
     channelOpen === channel ? setChannelOpen(undefined) : setChannelOpen(channel);
   };
 
@@ -54,15 +42,9 @@ const ConnectApps = ({ apps }: { apps: MessagingApp[] }) => {
   };
 
   return (
-    <ChannelsContainer
-      disablePointerEvents={isWrongNetwork && !isLoggedIn}
-      gap={1}
-      width={'100%'}
-      direction={'column'}
-      mb={2}
-    >
+    <Flex gap={1} width={'100%'} direction={'column'} mb={2}>
       {apps.map((channel) => channelComponents[channel])}
-    </ChannelsContainer>
+    </Flex>
   );
 };
 

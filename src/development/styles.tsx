@@ -18,10 +18,10 @@ const IframeContainer = styled.div`
 `;
 
 const WidgetBellWrapper = styled.div`
-  height: 45px;
-  width: 45px;
+  height: 40px;
+  width: 40px;
   border-radius: 50px;
-  background: #38393d;
+  background: #383d50;
   display: flex;
   align-items: center;
   justify-content: center;
