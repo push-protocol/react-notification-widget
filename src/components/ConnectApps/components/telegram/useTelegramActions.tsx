@@ -15,7 +15,8 @@ const useTelegramActions = () => {
   const { isSubscribeOnlyMode } = useEnvironment();
   const { login, setIsOnboarding } = useAuthContext();
   const { setRoute } = useRouterContext();
-  const { setUserCommsChannelsPollInterval, userCommsChannels } = useUserContext();
+  const { setUserCommsChannelsPollInterval, userCommsChannels, userCommsChannelsPollInterval } =
+    useUserContext();
 
   const [getTelegramLink, { loading: telegramLoading, data: telegramUrlData }] =
     useGetTelegramVerificationLinkMutation();
@@ -34,8 +35,8 @@ const useTelegramActions = () => {
       const response = await deleteTelegramIntegration();
 
       if (response?.data?.userCommunicationsChannelDelete?.success) {
-        await getTelegramLink();
         analytics.track('telegram integration removed');
+        await getTelegramLink();
         return setRoute(Routes.Settings);
       }
     });
@@ -59,14 +60,12 @@ const useTelegramActions = () => {
   };
 
   useEffect(() => {
-    if (userCommsChannels?.telegram?.exists) {
+    if (userCommsChannelsPollInterval && userCommsChannels?.telegram?.exists) {
+      analytics.track('telegram connected successfully');
+
       setUserCommsChannelsPollInterval(0);
-
-      if (isSubscribeOnlyMode) return;
-
-      setIsOnboarding(false);
     }
-  }, [setUserCommsChannelsPollInterval, userCommsChannels]);
+  }, [setUserCommsChannelsPollInterval, userCommsChannels, userCommsChannelsPollInterval]);
 
   return {
     telegramLoading,

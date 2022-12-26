@@ -1,5 +1,4 @@
 import { UserCommunicationChannelsQuery, GetUserQuery } from './operations.generated';
-import { Web2ChannelLower } from './const';
 
 export type Notification = {
   title: string;
@@ -18,6 +17,7 @@ export type UserContext = {
   user?: GetUserQuery['user'];
   userCommsChannels?: UserCommunicationChannelsQuery['userCommunicationChannels'];
   setUserCommsChannelsPollInterval: (interval: number) => void;
+  userCommsChannelsPollInterval: number;
   isLoading: boolean;
   userAddress?: string;
   feedOpen: boolean;
