@@ -96,6 +96,7 @@ export const UserProvider = ({ children, isOpen }: { children: ReactNode; isOpen
         setFeedOpen: toggleFeedOpen,
         userCommsChannels: data?.userCommunicationChannels,
         setUserCommsChannelsPollInterval,
+        userCommsChannelsPollInterval,
         notifications,
         userAddress,
       }}

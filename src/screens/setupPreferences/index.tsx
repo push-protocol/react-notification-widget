@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
+import analytics from '../../services/analytics';
 import Notice from 'components/Notice';
 import Flex from 'components/layout/Flex';
 import { Screen } from 'components/layout/Screen';
@@ -19,7 +20,7 @@ const Header = styled.div`
 `;
 
 export const SetupPreferences = () => {
-  const { discordGuildUrl } = useChannelContext();
+  const { discordGuildUrl, messageCategories } = useChannelContext();
   const { user } = useUserContext();
   const { setRoute } = useRouterContext();
   const { isSubscribeOnlyMode } = useEnvironment();
@@ -41,6 +42,17 @@ export const SetupPreferences = () => {
   }, [discordGuildUrl, user]);
 
   const handleGoNext = () => {
+    const selectedCategories = user?.preferences.filter((pref) => pref.enabled) || [];
+    analytics.track('preferences set up', {
+      numCategories: messageCategories.length,
+      categoriesSelected: selectedCategories.length,
+      discordOn: selectedCategories.filter((pref) => pref.discord).length,
+      telegramOn: selectedCategories.filter((pref) => pref.telegram).length,
+      emailOn: selectedCategories.filter((pref) => pref.email).length,
+      categories: messageCategories,
+      userPreferences: user?.preferences,
+    });
+
     if (appsToConnect.length) {
       setRoute(Routes.SetupChannels, { appsToConnect });
     } else {

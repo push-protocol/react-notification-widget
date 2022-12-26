@@ -1,5 +1,4 @@
 import React, { ReactNode, useState } from 'react';
-import styled from 'styled-components';
 import { DiscordChannel } from './components/discord';
 import { EmailChannel } from './components/email';
 import { TelegramChannel } from './components/telegram';
