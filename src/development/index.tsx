@@ -44,7 +44,7 @@ const DEFAULT_PARTNER_KEY =
     : 'cefa1b69-bfb9-4e70-bebc-9ee10316f882';
 
 const FakeApp = () => {
-  const [partnerKey, setPartnerKey] = useState('83041132-10a7-4f35-b83a-2294a7936532');
+  const [partnerKey, setPartnerKey] = useState('5e6a9f39-2c86-411c-90e1-b22642b930b6');
   const [iframeUrl, setIframeUrl] = useState('https://app.aave.com/');
   const [theme, setTheme] = useState<CustomTheme>(defaultTheme);
   const [coordinates, setCoordinates] = useState<Coordinates>({ top: 5, right: 250 });
