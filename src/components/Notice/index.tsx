@@ -13,11 +13,9 @@ const NoticeContainer = styled(Flex)`
 
 const Notice = ({ text }: { text: string }) => (
   <NoticeContainer>
-    <Flex gap={0.5} alignItems={'start'}>
-      <Text size={'sm'} color={'inherit'} opacity={0.8} weight={500} align={'center'}>
-        {text}
-      </Text>
-    </Flex>
+    <Text size={'sm'} color={'inherit'} opacity={0.8} weight={500} align={'center'}>
+      {text}
+    </Text>
   </NoticeContainer>
 );
 
