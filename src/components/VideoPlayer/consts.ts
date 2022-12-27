@@ -7,10 +7,11 @@ export const videoSourcesInfo = {
   [VideoSources.YOUTUBE]: {
     baseUrl: 'https://www.youtube.com/embed/',
     idRegex:
-      /^.*(?:(?:youtu.be\/)|(?:v\/)|(?:\/u\/\w\/)|(?:embed\/)|(?:watch\?))\??v?=?([^#&?]*).*/,
+      /^(?:(?:https?:)?\/\/)?(?:(?:www|m)\.)?(?:(?:youtube(?:-nocookie)?\.com|youtu.be))(?:\/(?:[\w-]+\?v=|embed\/|v\/)?)([\w-]+)(?:\S+)?$/,
   },
   [VideoSources.VIMEO]: {
     baseUrl: 'https://player.vimeo.com/video/',
-    idRegex: /^.*(?:vimeo\.com\/)(?:(?:channels\/[A-z]+\/)|(?:groups\/[A-z]+\/videos\/))?([0-9]+)/,
+    idRegex:
+      /(?:http|https)?:?\/?\/?(?:www\.)?(?:player\.)?vimeo\.com\/(?:channels\/(?:\w+\/)?|groups\/(?:[^\/]*)\/videos\/|video\/|)(\d+)(?:|\/\?)/,
   },
 };
