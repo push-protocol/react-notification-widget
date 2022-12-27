@@ -52,7 +52,7 @@ const NotificationFeed = (props: NotificationFeedProps): JSX.Element => {
 
   useEffect(() => {
     if (!isLoggedIn && activeRoute.requiresAuth) {
-      setRoute(Routes.Login);
+      setRoute(Routes.VerifyAccount);
       return;
     }
   }, [activeRoute, isLoggedIn]);
