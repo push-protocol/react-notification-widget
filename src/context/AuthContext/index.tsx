@@ -171,6 +171,7 @@ const AuthProvider = ({
 
   useEffect(() => {
     if (authStorage.getAuthKey()) {
+      // TODO: update logic
       setIsLoggedIn(true);
       setLoggedInAddress(address);
       setRoute(isSubscribeOnlyMode ? Routes.Settings : Routes.NotificationsFeed);
