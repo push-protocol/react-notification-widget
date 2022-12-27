@@ -7,7 +7,7 @@ import { UserPreference } from 'global/types.generated';
 
 const useUpdatePreference = () => {
   const [updateUserPreferences] = useUserPreferencesUpdateMutation();
-  const { isOnboarding } = useAuthContext();
+  const { isOnboarding, discordToken } = useAuthContext();
 
   const updatePreference = (
     categoryId: string,
@@ -17,12 +17,15 @@ const useUpdatePreference = () => {
     const updatedPref = { ...pref, [appOrEnabled]: !pref?.[appOrEnabled] };
     const enabled = !!updatedPref.enabled;
 
+    // during onboarding, enable TG / discord by default when switching on for first time
+    const enableTg = (!pref && !discordToken && isOnboarding) || !!updatedPref?.telegram;
+    const enableDiscord = (!pref && discordToken && isOnboarding) || !!updatedPref?.discord;
+
     const update = {
       commsChannelTagId: categoryId,
       enabled,
-      discord: enabled && !!updatedPref?.discord,
-      // during onboarding, enable TG by default when switching on for first time
-      telegram: enabled && ((!pref && isOnboarding) || !!updatedPref?.telegram),
+      discord: enabled && enableDiscord,
+      telegram: enabled && enableTg,
       email: enabled && !!updatedPref?.email,
     };
 

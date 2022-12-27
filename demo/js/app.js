@@ -1838,7 +1838,7 @@ this in the docs: http://dev.apollodata.com/core/fragments.html#unique-names`):s
     enabled
   }
 }
-    `;function xge(t){let e={...Dtt,...t};return aa(jtt,e)}var Utt=()=>{let[t]=xge(),{isOnboarding:e}=fn();return(n,i,o)=>{let s={...o,[i]:!o?.[i]},a=!!s.enabled,u={commsChannelTagId:n,enabled:a,discord:a&&!!s?.discord,telegram:a&&(!o&&e||!!s?.telegram),email:a&&!!s?.email};t({optimisticResponse:{userPreferencesUpdate:{__typename:"UserPreference",id:s.id||"temp-id",...u}},variables:{input:u},update(c,{data:l}){if(s.id)return;let f=c.readQuery({query:iO});!f||c.writeQuery({query:iO,data:{user:{...f.user,preferences:[...f.user?.preferences||[],{...l?.userPreferencesUpdate}]}}})}})}},wge=Utt;var mx=Te(Ge());var qtt=We.div`
+    `;function xge(t){let e={...Dtt,...t};return aa(jtt,e)}var Utt=()=>{let[t]=xge(),{isOnboarding:e,discordToken:r}=fn();return(i,o,s)=>{let a={...s,[o]:!s?.[o]},u=!!a.enabled,c=!s&&!r&&e||!!a?.telegram,l=!s&&r&&e||!!a?.discord,f={commsChannelTagId:i,enabled:u,discord:u&&l,telegram:u&&c,email:u&&!!a?.email};t({optimisticResponse:{userPreferencesUpdate:{__typename:"UserPreference",id:a.id||"temp-id",...f}},variables:{input:f},update(m,{data:_}){if(a.id)return;let S=m.readQuery({query:iO});!S||m.writeQuery({query:iO,data:{user:{...S.user,preferences:[...S.user?.preferences||[],{..._?.userPreferencesUpdate}]}}})}})}},wge=Utt;var mx=Te(Ge());var qtt=We.div`
   position: relative;
   height: 16px;
   width: 28px;
