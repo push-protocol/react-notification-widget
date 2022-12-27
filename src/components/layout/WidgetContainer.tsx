@@ -1,5 +1,6 @@
 import React, { ReactNode } from 'react';
 import styled from 'styled-components';
+import { useEnvironment } from '../../context/EnvironmentContext';
 import Flex from './Flex';
 import Text from 'components/Text';
 import Link from 'components/Link';
@@ -32,8 +33,9 @@ const LayoutContainer = styled.div(({ theme }) => ({
   },
 }));
 
-const PoweredBy = styled(Flex)`
+const PoweredBy = styled(Flex)<{ hidden: boolean }>`
   height: ${POWERED_BY_HEIGHT};
+  display: ${({ hidden }) => (hidden ? 'none' : undefined)};
   font-family: 'Inter var', sans-serif;
   box-sizing: border-box;
   border-top: 1px solid ${({ theme }) => changeColorShade(theme.w.colors.bg.main, 20)};
@@ -62,11 +64,13 @@ interface LayoutProps {
 }
 
 export const WidgetContainer = ({ children }: LayoutProps) => {
+  const { isSubscribeOnlyMode } = useEnvironment();
+
   return (
     <LayoutContainer>
       <ChildrenContainer>{children}</ChildrenContainer>
 
-      <PoweredBy alignItems={'center'} justifyContent={'center'}>
+      <PoweredBy hidden={isSubscribeOnlyMode} alignItems={'center'} justifyContent={'center'}>
         <Text size={'sm'} color={'secondary'} opacity={0.8} weight={500}>
           Powered by&nbsp;
         </Text>

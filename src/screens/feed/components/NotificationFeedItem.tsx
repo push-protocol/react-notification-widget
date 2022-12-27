@@ -147,18 +147,16 @@ const NotificationFeedItem = ({
         </Message>
 
         {notification.image && (
-          <a href={notification.image} target={'_blank'} rel="noreferrer">
-            <ImageContainer>
-              {youtubeId ? (
-                <NotificationImage
-                  src={`https://img.youtube.com/vi/${youtubeId}/0.jpg`}
-                  alt="notification image"
-                />
-              ) : (
-                <NotificationImage src={notification.image} alt="notification image" />
-              )}
-            </ImageContainer>
-          </a>
+          <ImageContainer>
+            {youtubeId ? (
+              <NotificationImage
+                src={`https://img.youtube.com/vi/${youtubeId}/0.jpg`}
+                alt="notification image"
+              />
+            ) : (
+              <NotificationImage src={notification.image} alt="notification image" />
+            )}
+          </ImageContainer>
         )}
         <Flex justifyContent={'space-between'}>
           <Text size={'sm'} color={'secondary'}>

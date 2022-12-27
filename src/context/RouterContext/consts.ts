@@ -9,6 +9,7 @@ import {
   SetupPreferences,
   Login,
 } from '../../screens';
+import { ConnectWallet } from '../../screens/connectWallet';
 
 enum Routes {
   Subscribe = 'Subscribe',
@@ -19,6 +20,7 @@ enum Routes {
   NotificationsFeed = 'NotificationsFeed',
   SubscriptionFlowEnded = 'SubscriptionFlowEnded',
   Login = 'Login',
+  ConnectWallet = 'ConnectWallet',
 }
 
 type Route = {
@@ -67,6 +69,11 @@ const RouteConfig: Record<Routes, Route> = {
     Component: Login,
     requiresAuth: false,
     name: Routes.Login,
+  },
+  [Routes.ConnectWallet]: {
+    Component: ConnectWallet,
+    requiresAuth: false,
+    name: Routes.ConnectWallet,
   },
 };
 
