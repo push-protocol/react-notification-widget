@@ -6,10 +6,11 @@ export enum VideoSources {
 export const videoSourcesInfo = {
   [VideoSources.YOUTUBE]: {
     baseUrl: 'https://www.youtube.com/embed/',
-    getIdRegex: /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/,
+    idRegex:
+      /^.*(?:(?:youtu.be\/)|(?:v\/)|(?:\/u\/\w\/)|(?:embed\/)|(?:watch\?))\??v?=?([^#&?]*).*/,
   },
   [VideoSources.VIMEO]: {
     baseUrl: 'https://player.vimeo.com/video/',
-    getIdRegex: /^.*(vimeo\.com\/)((channels\/[A-z]+\/)|(groups\/[A-z]+\/videos\/))?([0-9]+)/,
+    idRegex: /^.*(?:vimeo\.com\/)(?:(?:channels\/[A-z]+\/)|(?:groups\/[A-z]+\/videos\/))?([0-9]+)/,
   },
 };

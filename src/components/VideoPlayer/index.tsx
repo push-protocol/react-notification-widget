@@ -28,43 +28,32 @@ export const isVideoUrl = (url?: string) => {
   if (!url) return false;
 
   return (
-    url.match(videoSourcesInfo[VideoSources.YOUTUBE].getIdRegex) ||
-    url.match(videoSourcesInfo[VideoSources.VIMEO].getIdRegex)
+    url.match(videoSourcesInfo[VideoSources.YOUTUBE].idRegex) ||
+    url.match(videoSourcesInfo[VideoSources.VIMEO].idRegex)
   );
 };
 
-export const getYoutubeId = (url: string) => {
-  const match = url.match(videoSourcesInfo[VideoSources.YOUTUBE].getIdRegex);
-  return match && match[7].length == 11 ? match[7] : '';
-};
-
-export const getVimeoId = (url: string) => {
-  const parseUrl = videoSourcesInfo[VideoSources.VIMEO].getIdRegex.exec(url);
-  return (parseUrl && parseUrl[5]) || '';
+const getVideoId = (url: string, source: VideoSources) => {
+  const match = url.match(videoSourcesInfo[source].idRegex);
+  return match?.[1] || '';
 };
 
 const buildUrl = (url: string) => {
-  const source: VideoSources = url.match(videoSourcesInfo[VideoSources.YOUTUBE].getIdRegex)
+  const source: VideoSources = url.match(videoSourcesInfo[VideoSources.YOUTUBE].idRegex)
     ? VideoSources.YOUTUBE
     : VideoSources.VIMEO;
 
-  const videoUrl = {
-    [VideoSources.YOUTUBE]: getYoutubeId(url),
-    [VideoSources.VIMEO]: getVimeoId(url),
-  };
-
-  return `${videoSourcesInfo[source].baseUrl}${videoUrl[source]}`;
+  return `${videoSourcesInfo[source].baseUrl}${getVideoId(url, source)}`;
 };
 
 const VideoPlayer = ({ url }: { url: string }) => (
   <Container>
     <iframe
-      height="180px"
+      height={'180px'}
       src={buildUrl(url)}
-      frameBorder="0"
-      allow="fullscreen; picture-in-picture"
-      allowFullScreen
-      title="Embedded video"
+      frameBorder={'0'}
+      allow={'fullscreen; picture-in-picture'}
+      title={'Embedded video'}
     />
   </Container>
 );
