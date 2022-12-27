@@ -33,8 +33,8 @@ export const SetupChannels = (props: { appsToConnect: MessagingApp[] }) => {
     setRoute(Routes.SetupPreferences);
   };
 
-  const onFinish = async () => {
-    await analytics.track('channels set up', {
+  const onFinish = () => {
+    analytics.track('channels set up', {
       email: userCommsChannels?.email?.exists,
       discord: userCommsChannels?.discord?.exists,
       telegram: userCommsChannels?.telegram?.exists,

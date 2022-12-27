@@ -30,7 +30,7 @@ class Analytics {
   }
 
   track(event: string, args?: Record<string, any>) {
-    return rudder.track(event, args || {}, { originalTimestamp: new Date().toISOString() });
+    rudder.track(event, args || {}, { originalTimestamp: new Date().toISOString() });
   }
 
   page(page: string) {
