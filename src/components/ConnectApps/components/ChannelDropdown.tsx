@@ -5,13 +5,13 @@ import Text from 'components/Text';
 import { ArrowRight } from 'components/icons';
 
 const Container = styled(Flex)<{ open?: boolean }>`
-  border-radius: ${({ theme }) => theme.borderRadius.md};
-  background: ${({ theme, open }) => (open ? theme.colors.dark['10'] : 'unset')};
+  border-radius: ${({ theme }) => theme.w.borderRadius.md};
+  background: ${({ theme, open }) => (open ? theme.w.colors.dark['10'] : 'unset')};
   border: ${({ theme, open }) =>
-    open ? `1px solid ${theme.colors.light['10']}` : '1px solid transparent'};
+    open ? `1px solid ${theme.w.colors.light['10']}` : '1px solid transparent'};
   transition: all 0.2s ease-in-out;
   :hover {
-    background: ${({ theme }) => theme.colors.dark['10']};
+    background: ${({ theme }) => theme.w.colors.dark['10']};
   }
 `;
 
@@ -35,7 +35,7 @@ const DropdownIcon = styled(Flex)<{ open?: boolean }>`
   display: flex;
   justify-content: center;
   align-items: center;
-  color: ${({ theme }) => theme.colors.text.primary};
+  color: ${({ theme }) => theme.w.colors.text.primary};
   transform: ${({ open }) => (open ? `rotate(90deg)` : `rotate(0deg)`)};
   transition: all 0.2s ease-in-out;
 `;
@@ -43,7 +43,7 @@ const DropdownIcon = styled(Flex)<{ open?: boolean }>`
 const IconContainer = styled(Flex)`
   height: 16px;
   width: 16px;
-  color: ${({ theme }) => theme.colors.text.primary};
+  color: ${({ theme }) => theme.w.colors.text.primary};
 `;
 
 const openDropdown = keyframes`
@@ -90,7 +90,7 @@ const ChannelDropdown = ({
           </Text>
         </HeaderInfo>
         {isConnected && (
-          <Text size={'sm'} color={theme.colors.success.main} weight={600}>
+          <Text size={'sm'} color={theme.w.colors.success.main} weight={600}>
             • CONNECTED
           </Text>
         )}

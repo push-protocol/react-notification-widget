@@ -6,7 +6,7 @@ export const Bell = ({ className, color }: IconProps & { color?: string; size?: 
   const theme = useTheme();
   const {
     colors: { bell },
-  } = theme;
+  } = theme.w;
 
   return (
     <svg viewBox="0 0 24 24" className={className} xmlns="http://www.w3.org/2000/svg">

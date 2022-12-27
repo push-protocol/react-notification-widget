@@ -28,9 +28,9 @@ const NotificationDot = styled.div`
   border-radius: 50%;
   height: 22px;
   width: 22px;
-  color: ${({ theme }) => theme.colors.notificationDot?.text || theme.colors.button.text};
+  color: ${({ theme }) => theme.w.colors.notificationDot?.text || theme.w.colors.button.text};
   background-color: ${({ theme }) =>
-    theme.colors.notificationDot?.background || theme.colors.primary.main};
+    theme.w.colors.notificationDot?.background || theme.w.colors.primary.main};
   top: -8px;
   right: -8px;
 `;

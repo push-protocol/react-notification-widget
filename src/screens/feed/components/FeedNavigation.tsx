@@ -9,8 +9,8 @@ import { useChannelContext } from 'context/ChannelContext';
 const NavigationItem = styled.div<{ isActive?: boolean }>`
   height: 36px;
   border-radius: 40px;
-  padding: ${({ theme }) => theme.spacing(2)}px;
-  gap: ${({ theme }) => theme.spacing(1)}px;
+  padding: ${({ theme }) => theme.w.spacing(2)}px;
+  gap: ${({ theme }) => theme.w.spacing(1)}px;
   box-sizing: border-box;
   display: flex;
   align-items: center;
@@ -74,7 +74,7 @@ const FeedNavigation = ({ activeTab, setActiveTab }: FeedNavigationProps) => {
         }}
       >
         <AllFeedIconContainer>
-          <Boxes color={theme.colors.text.primary} />
+          <Boxes color={theme.w.colors.text.primary} />
         </AllFeedIconContainer>
         <Text>All</Text>
       </NavigationItem>

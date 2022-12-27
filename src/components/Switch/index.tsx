@@ -16,7 +16,7 @@ const SwitchInputLabel = styled.label`
   width: 100%;
   height: 6px;
   border-radius: 15px;
-  background: ${({ theme }) => mode(theme.colors.light[10], theme.colors.dark[10])};
+  background: ${({ theme }) => mode(theme.w.colors.light[10], theme.w.colors.dark[10])};
   transition: 0.2s;
   cursor: pointer;
   &::after {
@@ -27,7 +27,7 @@ const SwitchInputLabel = styled.label`
     height: 16px;
     margin-top: -5px;
     margin-left: -2px;
-    background: ${({ theme }) => theme.colors.text.primary};
+    background: ${({ theme }) => theme.w.colors.text.primary};
     box-shadow: 1px 3px 3px 1px rgba(0, 0, 0, 0.2);
     transition: 0.2s;
   }
@@ -41,10 +41,10 @@ const Input = styled.input`
   width: 100%;
   height: 100%;
   &:checked + ${SwitchInputLabel} {
-    background: ${({ theme }) => mode(theme.colors.light[30], theme.colors.dark[30])};
+    background: ${({ theme }) => mode(theme.w.colors.light[30], theme.w.colors.dark[30])};
     &::after {
       margin-left: 16px;
-      background: ${({ theme }) => theme.colors.primary.main};
+      background: ${({ theme }) => theme.w.colors.primary.main};
     }
   }
 `;

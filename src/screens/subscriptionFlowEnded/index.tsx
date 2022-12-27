@@ -14,8 +14,8 @@ const HeaderIconContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background: ${({ theme }) => theme.colors.primary.main};
-  margin-bottom: ${({ theme }) => theme.spacing(1.5)}px;
+  background: ${({ theme }) => theme.w.colors.primary.main};
+  margin-bottom: ${({ theme }) => theme.w.spacing(1.5)}px;
 `;
 
 const HeaderIcon = styled.img`

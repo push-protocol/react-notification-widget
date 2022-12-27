@@ -48,7 +48,7 @@ export const Login = () => {
         align={'center'}
         mb={5}
         size={'sm'}
-        color={mode(theme.colors.light[50], theme.colors.dark[50])}
+        color={mode(theme.w.colors.light[50], theme.w.colors.dark[50])}
       >
         You will need to sign a message to prove ownership of your wallet.
       </Text>

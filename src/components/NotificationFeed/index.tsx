@@ -97,7 +97,7 @@ const NotificationFeed = (props: NotificationFeedProps): JSX.Element => {
       ? children({ onClick: handleBellClick, unreadCount })
       : cloneElement(children, { onClick: handleBellClick });
 
-  if (size.width && size.width <= theme.breakpoints.mobile) {
+  if (size.width && size.width <= theme.w.breakpoints.mobile) {
     return (
       <>
         {bell}

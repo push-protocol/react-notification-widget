@@ -34,12 +34,12 @@ const BellIconContainer = styled.div<{ selected: boolean; disabled: boolean }>`
   animation: ${({ selected, disabled }) => (selected && !disabled ? enlargeAnimation : undefined)};
   color: ${({ selected, disabled, theme }) =>
     selected && !disabled
-      ? mode(theme.colors.light[80], theme.colors.dark[80])
-      : mode(theme.colors.light[30], theme.colors.dark[30])};
+      ? mode(theme.w.colors.light[80], theme.w.colors.dark[80])
+      : mode(theme.w.colors.light[30], theme.w.colors.dark[30])};
   background: ${({ selected, disabled, theme }) =>
-    selected && !disabled ? mode(theme.colors.light[30], theme.colors.dark[30]) : undefined};
+    selected && !disabled ? mode(theme.w.colors.light[30], theme.w.colors.dark[30]) : undefined};
   border: ${({ selected, disabled, theme }) =>
-    selected && !disabled ? `1px solid ${theme.colors.text.primary}` : '1px solid transparent'};
+    selected && !disabled ? `1px solid ${theme.w.colors.text.primary}` : '1px solid transparent'};
 `;
 
 const PreferenceBell = (props: PropsT) => {
@@ -56,7 +56,7 @@ const PreferenceBell = (props: PropsT) => {
   return (
     <BellIconContainer disabled={props.disabled} selected={props.selected} onClick={handleClick}>
       {props.selected && !props.disabled ? (
-        <Bell color={theme.colors.text.primary} />
+        <Bell color={theme.w.colors.text.primary} />
       ) : (
         <CrossedOutBell />
       )}

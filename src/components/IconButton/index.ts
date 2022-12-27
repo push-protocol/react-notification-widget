@@ -4,8 +4,8 @@ const IconButton = styled.div(({ theme }) => ({
   borderRadius: '50%',
   cursor: 'pointer',
   padding: 4,
-  stroke: theme.colors.text.primary,
-  fill: theme.colors.text.primary,
+  stroke: theme.w.colors.text.primary,
+  fill: theme.w.colors.text.primary,
 }));
 
 export default IconButton;

@@ -20,11 +20,11 @@ extend(relativeTime);
 const Container = styled(Flex)<{ clickable: boolean; theme: DefaultTheme }>`
   cursor: ${({ clickable }) => (clickable ? 'pointer' : 'cursor')};
   padding: 12px;
-  border-radius: ${({ theme }) => theme.borderRadius.md};
+  border-radius: ${({ theme }) => theme.w.borderRadius.md};
   transition: all 0.2s ease-in-out;
   &:hover {
     background: ${({ theme, clickable }) =>
-      clickable ? mode(theme.colors.light[10], theme.colors.dark[10]) : undefined};
+      clickable ? mode(theme.w.colors.light[10], theme.w.colors.dark[10]) : undefined};
   }
 `;
 
@@ -33,7 +33,7 @@ const NotificationTitle = styled(Text)`
 `;
 
 const SenderImageContainer = styled.div`
-  background: ${({ theme }) => theme.colors.text.primary};
+  background: ${({ theme }) => theme.w.colors.text.primary};
   display: flex;
   align-items: center;
   justify-content: center;
@@ -55,10 +55,10 @@ const UnreadNotification = styled.div`
   border-radius: 100px;
   position: absolute;
   left: -10px;
-  background: ${({ theme }) => theme.colors.primary.light};
+  background: ${({ theme }) => theme.w.colors.primary.light};
   cursor: pointer;
   &:active {
-    background: ${({ theme }) => changeColorShade(theme.colors.primary.light, -20)};
+    background: ${({ theme }) => changeColorShade(theme.w.colors.primary.light, -20)};
   }
 `;
 
@@ -69,7 +69,7 @@ const Message = styled(Text)`
 
 const ImageContainer = styled.div`
   width: 100%;
-  border-radius: ${({ theme }) => theme.borderRadius.md};
+  border-radius: ${({ theme }) => theme.w.borderRadius.md};
   overflow: hidden;
 `;
 

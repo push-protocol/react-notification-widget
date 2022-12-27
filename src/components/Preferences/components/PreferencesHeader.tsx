@@ -12,7 +12,7 @@ const HeaderContainer = styled.div`
   padding-bottom: 8px;
   margin-bottom: 8px;
   border-bottom: 1px solid;
-  border-color: ${({ theme }) => theme.colors.light[10]};
+  border-color: ${({ theme }) => theme.w.colors.light[10]};
 `;
 
 const ChannelInfo = styled.div`
