@@ -44,8 +44,7 @@
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
     "no-use-before-define": "warn",
-    "@typescript-eslint/no-var-requires": "off",
-    "no-useless-escape": "off" // Required for regex warnings
+    "@typescript-eslint/no-var-requires": "off"
   },
   "settings": {
     "import/resolver": {

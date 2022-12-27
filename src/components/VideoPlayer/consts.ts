@@ -12,6 +12,6 @@ export const videoSourcesInfo = {
   [VideoSources.VIMEO]: {
     baseUrl: 'https://player.vimeo.com/video/',
     idRegex:
-      /(?:http|https)?:?\/?\/?(?:www\.)?(?:player\.)?vimeo\.com\/(?:channels\/(?:\w+\/)?|groups\/(?:[^\/]*)\/videos\/|video\/|)(\d+)(?:|\/\?)/,
+      /(?:http|https)?:?\/?\/?(?:www\.)?(?:player\.)?vimeo\.com\/(?:channels\/(?:\w+\/)?|groups\/(?:[^/]*)\/videos\/|video\/|)(\d+)(?:|\/\?)/,
   },
 };
