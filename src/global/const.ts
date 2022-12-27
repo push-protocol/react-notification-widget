@@ -2,6 +2,8 @@
 // if this import is removed, the "types" in package.json should be changed
 import pkg from '../../package.json';
 
+export const LOCALSTORAGE_WALLET_TOKENS = 'whereverWalletTokens';
+export const LOCALSTORAGE_CURRENT_WALLET_ADDRESS = 'whereverCurrentWalletAddress';
 export const LOCALSTORAGE_AUTH_KEY = 'whereverAuthToken';
 export const LOCALSTORAGE_AUTH_REFRESH_KEY = 'whereverAuthRefreshToken';
 export const LOCALSTORAGE_THEME_MODE_KEY = 'whereverThemeMode';

@@ -10,10 +10,11 @@ import * as epns from '@epnsproject/sdk-restapi';
 import { useAccount, useDisconnect, useSigner } from 'wagmi';
 import { Routes, useRouterContext } from 'context/RouterContext';
 import analytics from 'services/analytics';
-import { LOCALSTORAGE_AUTH_KEY, LOCALSTORAGE_AUTH_REFRESH_KEY } from 'global/const';
 import { useAuthenticate } from 'hooks/useAuthenticate';
 import { useChannelContext } from 'context/ChannelContext';
 import { usePrevious } from 'hooks/usePrevious';
+import authStorage from 'services/authStorage';
+import { useEnvironment } from 'context/EnvironmentContext';
 
 export type AuthInfo = {
   subscribe(): void;
@@ -55,6 +56,7 @@ const AuthProvider = ({
   children: ReactNode;
   discordToken?: string;
 }) => {
+  const { isSubscribeOnlyMode } = useEnvironment();
   const { setRoute } = useRouterContext();
   const { channelAddress, chainId } = useChannelContext();
   const { isConnected, address } = useAccount();
@@ -114,8 +116,10 @@ const AuthProvider = ({
       const result = await _login(channelAddress);
       analytics.track('backend login successful');
 
-      localStorage.setItem(LOCALSTORAGE_AUTH_KEY, result.token);
-      localStorage.setItem(LOCALSTORAGE_AUTH_REFRESH_KEY, result.refreshToken);
+      if (address) {
+        authStorage.setToken(address, result.token, result.refreshToken);
+      }
+
       setLoggedInAddress(address);
       setIsLoggedIn(true);
 
@@ -129,10 +133,14 @@ const AuthProvider = ({
   };
 
   const _resetLoginState = () => {
-    localStorage.removeItem(LOCALSTORAGE_AUTH_KEY);
-    localStorage.removeItem(LOCALSTORAGE_AUTH_REFRESH_KEY);
-    setIsLoggedIn(false);
-    setLoggedInAddress('');
+    if (address && authStorage.refreshTokensOnWalletChange(address)) {
+      setIsLoggedIn(true);
+      setLoggedInAddress(address);
+    } else {
+      setIsLoggedIn(false);
+      setRoute(Routes.Subscribe);
+      setLoggedInAddress('');
+    }
   };
 
   const logout = useCallback(() => {
@@ -162,11 +170,12 @@ const AuthProvider = ({
   }, [address]);
 
   useEffect(() => {
-    if (localStorage.getItem(LOCALSTORAGE_AUTH_KEY)) {
+    if (authStorage.getAuthKey()) {
       setIsLoggedIn(true);
       setLoggedInAddress(address);
+      setRoute(isSubscribeOnlyMode ? Routes.Settings : Routes.NotificationsFeed);
     }
-  }, []);
+  }, [address]);
 
   const toggleSubscription = async (action: 'sub' | 'unsub') => {
     setIsLoading(true);
