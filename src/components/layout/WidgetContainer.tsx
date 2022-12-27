@@ -9,7 +9,7 @@ import { changeColorShade } from 'components/utils';
 const POWERED_BY_HEIGHT = '42px';
 
 const LayoutContainer = styled.div(({ theme }) => ({
-  [`@media (max-width: ${theme.breakpoints.mobile}px)`]: {
+  [`@media (max-width: ${theme.w.breakpoints.mobile}px)`]: {
     position: 'fixed',
     overflowY: 'hidden',
     top: 0,
@@ -23,10 +23,10 @@ const LayoutContainer = styled.div(({ theme }) => ({
   boxSizing: 'border-box',
   minHeight: '280px',
   overflowY: 'auto',
-  borderRadius: theme.borderRadius.md,
+  borderRadius: theme.w.borderRadius.md,
   boxShadow: '0 20px 36px rgba(0, 0, 0, 0.25)',
-  backgroundColor: theme.colors.bg.main,
-  color: theme.colors.text.primary,
+  backgroundColor: theme.w.colors.bg.main,
+  color: theme.w.colors.text.primary,
   '&::-webkit-scrollbar': {
     display: 'none',
   },
@@ -36,7 +36,7 @@ const PoweredBy = styled(Flex)`
   height: ${POWERED_BY_HEIGHT};
   font-family: 'Inter var', sans-serif;
   box-sizing: border-box;
-  border-top: 1px solid ${({ theme }) => changeColorShade(theme.colors.bg.main, 20)};
+  border-top: 1px solid ${({ theme }) => changeColorShade(theme.w.colors.bg.main, 20)};
   backdrop-filter: brightness(0.85);
 `;
 
@@ -50,7 +50,7 @@ const ChildrenContainer = styled.div(({ theme }) => ({
     display: 'none',
   },
   padding: `24px 12px 0 12px`,
-  [`@media (max-width: ${theme.breakpoints.mobile}px)`]: {
+  [`@media (max-width: ${theme.w.breakpoints.mobile}px)`]: {
     paddingTop: 16,
     maxHeight: 'unset',
     paddingBottom: 0,

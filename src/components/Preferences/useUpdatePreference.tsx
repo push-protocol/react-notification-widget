@@ -12,8 +12,11 @@ const useUpdatePreference = () => {
     appOrEnabled: Web2ChannelLower | 'enabled',
     pref?: Partial<UserPreference>
   ) => {
-    const updatedPref = { ...pref, [appOrEnabled]: !pref?.[appOrEnabled] };
-    const enabled = !!updatedPref?.enabled;
+    // pref defaults to enabled if not defined
+    const defaultEnabled = !pref || !!pref?.enabled;
+    const updatedPref = { ...pref, enabled: defaultEnabled, [appOrEnabled]: !pref?.[appOrEnabled] };
+
+    const enabled = updatedPref.enabled;
 
     const update = {
       commsChannelTagId: categoryId,
@@ -45,7 +48,7 @@ const useUpdatePreference = () => {
 
         if (!currentUser) return;
 
-        // if a new preference was created (and not updated), update the user object to contain it.
+        // if a new preference was created (and not updated), update the cache user object to contain it.
         cache.writeQuery({
           query: GetUserDocument,
           data: {

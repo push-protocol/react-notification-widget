@@ -30,14 +30,14 @@ const Text = styled.p<TextProps>`
   ${({ theme, size, color, flexBasis, weight, opacity, align, fontFamily, display, ...rest }) => `
     ${conditionalRenderProp(
       'color',
-      color ? theme.colors.text[color as ColorKeys] || color : theme.colors.text.primary
+      color ? theme.w.colors.text[color as ColorKeys] || color : theme.w.colors.text.primary
     )};
     ${conditionalRenderProp(
       'font-size',
       renderStringNumValue(size ? textSizes[size] : textSizes.md)
     )};
     ${conditionalRenderProp('font-weight', weight)};
-    ${conditionalRenderProp('font-family', fontFamily || theme.fontFamily || 'inherit')};
+    ${conditionalRenderProp('font-family', fontFamily || theme.w.fontFamily || 'inherit')};
     ${conditionalRenderProp('text-align', align)};
     ${conditionalRenderProp('opacity', opacity)};
     ${conditionalRenderProp('flex-basis', flexBasis)};

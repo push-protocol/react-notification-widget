@@ -49,6 +49,9 @@ const PreferenceCategoryItem = ({ userPref, category, messagingAppConfig }: Prop
         });
   };
 
+  // pref defaults to enabled if not defined
+  const prefEnabled = !userPref || userPref?.enabled;
+
   return (
     <Flex alignItems={'center'} mb={1}>
       <PreferenceCategory>
@@ -57,11 +60,11 @@ const PreferenceCategoryItem = ({ userPref, category, messagingAppConfig }: Prop
         </Flex>
 
         <Flex width={32} alignItems={'center'} pl={1} pr={1}>
-          <Switch checked={!!userPref?.enabled} onChange={() => handlePrefClick('enabled')} />
+          <Switch checked={prefEnabled} onChange={() => handlePrefClick('enabled')} />
         </Flex>
       </PreferenceCategory>
 
-      {userPref?.enabled && (
+      {prefEnabled && (
         <Flex width={PREFERENCES_WIDTH} gap={1} justifyContent={'end'}>
           {messagingAppConfig.map(({ app, enabled }) => (
             <Flex

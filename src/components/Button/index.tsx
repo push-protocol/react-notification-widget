@@ -23,7 +23,7 @@ type ButtonProps = PropsWithChildren<
     height?: string | number;
     width?: string | number;
     isLoading?: boolean;
-    borderRadius?: keyof DefaultTheme['borderRadius'];
+    borderRadius?: keyof DefaultTheme['w']['borderRadius'];
   } & Margins &
     Paddings
 >;
@@ -31,8 +31,8 @@ type ButtonProps = PropsWithChildren<
 const disabledState = (theme: DefaultTheme): any => css`
   &:disabled {
     transform: unset;
-    background: ${mode(theme.colors.light[10], theme.colors.dark[10])};
-    color: ${mode(theme.colors.light[30], theme.colors.dark[30])};
+    background: ${mode(theme.w.colors.light[10], theme.w.colors.dark[10])};
+    color: ${mode(theme.w.colors.light[30], theme.w.colors.dark[30])};
     cursor: default;
   }
 `;
@@ -40,45 +40,45 @@ const disabledState = (theme: DefaultTheme): any => css`
 const variantStyles = (variant = 'primary', theme: DefaultTheme): any =>
   ({
     primary: css`
-      background: ${theme.colors.primary.main};
+      background: ${theme.w.colors.primary.main};
       &:hover {
-        background: ${adjustColor(theme.colors.primary.main, 0.8)};
-        border-color: ${adjustColor(theme.colors.primary.main, 0.8)};
+        background: ${adjustColor(theme.w.colors.primary.main, 0.8)};
+        border-color: ${adjustColor(theme.w.colors.primary.main, 0.8)};
       }
       ${disabledState(theme)}
     `,
     gray: css`
-      background: ${mode(theme.colors.gray[500], theme.colors.dark[10])};
-      color: ${mode(theme.colors.light[80], theme.colors.dark[80])};
+      background: ${mode(theme.w.colors.gray[500], theme.w.colors.dark[10])};
+      color: ${mode(theme.w.colors.light[80], theme.w.colors.dark[80])};
 
       &:hover {
-        background: ${mode(theme.colors.gray[300], theme.colors.dark[30])};
-        border-color: ${theme.colors.gray[300]};
+        background: ${mode(theme.w.colors.gray[300], theme.w.colors.dark[30])};
+        border-color: ${theme.w.colors.gray[300]};
       }
       ${disabledState(theme)}
     `,
     outlined: css`
       background-color: transparent;
-      border: 2px solid ${theme.colors.primary.main};
-      color: ${theme.colors.primary.main};
+      border: 2px solid ${theme.w.colors.primary.main};
+      color: ${theme.w.colors.primary.main};
       &:disabled {
         transform: unset;
-        border-color: ${adjustColor(theme.colors.primary.main, 0.5)};
-        color: ${adjustColor(theme.colors.primary.main, 0.5)};
+        border-color: ${adjustColor(theme.w.colors.primary.main, 0.5)};
+        color: ${adjustColor(theme.w.colors.primary.main, 0.5)};
         cursor: default;
       }
     `,
     danger: css`
-      background: ${theme.colors.error.main};
+      background: ${theme.w.colors.error.main};
       &:hover {
-        background: ${adjustColor(theme.colors.error.main, 0.8)};
-        border-color: ${adjustColor(theme.colors.error.main, 0.8)};
+        background: ${adjustColor(theme.w.colors.error.main, 0.8)};
+        border-color: ${adjustColor(theme.w.colors.error.main, 0.8)};
       }
       ${disabledState(theme)}
     `,
     text: css`
       background-color: transparent;
-      color: ${theme.colors.primary.main};
+      color: ${theme.w.colors.primary.main};
       padding: 0;
       height: unset;
       width: fit-content;
@@ -90,17 +90,17 @@ const buttonSizeStyles = (size = 'sm', theme: DefaultTheme): any =>
   ({
     sm: css`
       font-size: ${fontSizes['sm']};
-      border-radius: ${theme.borderRadius['xs']};
+      border-radius: ${theme.w.borderRadius['xs']};
       min-height: 34px;
     `,
     md: css`
       font-size: ${fontSizes['md']};
-      border-radius: ${theme.borderRadius['xs']};
+      border-radius: ${theme.w.borderRadius['xs']};
       min-height: 36px;
     `,
     lg: css`
       font-size: ${fontSizes['lg']};
-      border-radius: ${theme.borderRadius['sm']};
+      border-radius: ${theme.w.borderRadius['sm']};
       min-height: 40px;
     `,
   }[size]);
@@ -120,7 +120,7 @@ const ButtonWrapper = styled.button<ButtonProps>`
       transform: translateY(1px);
     };
     transition: .1s background ease, .1s transform ease;
-    border-radius: ${theme.borderRadius[borderRadius]};
+    border-radius: ${theme.w.borderRadius[borderRadius]};
     cursor: pointer;
     border: none;
     font-weight: 600;
@@ -129,8 +129,8 @@ const ButtonWrapper = styled.button<ButtonProps>`
     align-items: center;
     gap: 8px;
     justify-content: center;
-    padding: ${theme.spacing(1)}px ${theme.spacing(3)}px;
-    color: ${textColor || theme.colors.button.text};
+    padding: ${theme.w.spacing(1)}px ${theme.w.spacing(3)}px;
+    color: ${textColor || theme.w.colors.button.text};
     ${conditionalRenderProp('width', renderStringNumValue(width))};
     ${conditionalRenderProp('height', renderStringNumValue(height))};
     ${genSpaces(theme, rest)}

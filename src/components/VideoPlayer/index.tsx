@@ -8,9 +8,9 @@ const Container = styled.div`
   height: 0;
   overflow: hidden;
   max-width: 100%;
-  margin-bottom: ${({ theme }) => theme.spacing(1)}px;
+  margin-bottom: ${({ theme }) => theme.w.spacing(1)}px;
   iframe {
-    border-radius: ${({ theme }) => theme.borderRadius.md};
+    border-radius: ${({ theme }) => theme.w.borderRadius.md};
   }
 
   iframe,

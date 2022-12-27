@@ -12,7 +12,7 @@ const calcXPosition = (pos?: TooltipPosition) => (pos === 'top-right' ? '-10%' :
 const Container = styled.div<{ position?: TooltipPosition }>(({ position, theme }) => ({
   position: 'relative',
   '& .tooltip-label': {
-    color: theme.colors.text.primary,
+    color: theme.w.colors.text.primary,
     position: 'absolute',
     padding: '.5em',
     marginBottom: '1em',
@@ -21,7 +21,7 @@ const Container = styled.div<{ position?: TooltipPosition }>(({ position, theme 
     transform: 'translateX(-50%)',
     minWidth: '8em',
     borderRadius: '2px',
-    backgroundColor: adjustColor(theme.colors.bg.main, 0.8),
+    backgroundColor: adjustColor(theme.w.colors.bg.main, 0.8),
     boxShadow: '0 3px 16px rgba(black, 0.15)',
     '&:after': {
       content: '""',
@@ -29,7 +29,7 @@ const Container = styled.div<{ position?: TooltipPosition }>(({ position, theme 
       width: '0',
       height: '0',
       border: '.4em solid transparent',
-      borderTopColor: adjustColor(theme.colors.bg.main, 0.8),
+      borderTopColor: adjustColor(theme.w.colors.bg.main, 0.8),
       left: '10%',
       zIndex: '-1',
       transform: `translateX(${calcXPosition(position)})`,

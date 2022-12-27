@@ -20,7 +20,7 @@ const Flex = styled.div<PropsT>`
     ${conditionalRenderProp('height', renderStringNumValue(height))};
     ${conditionalRenderProp('width', renderStringNumValue(width))};
     ${conditionalRenderProp('flex-direction', direction)};
-    ${conditionalRenderProp('gap', renderStringNumValue(gap, theme.spacing))};
+    ${conditionalRenderProp('gap', renderStringNumValue(gap, theme.w.spacing))};
     ${conditionalRenderProp('align-items', alignItems)};
     ${conditionalRenderProp('justify-content', justifyContent)};
     ${genSpaces(theme, rest)}
