@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import Text, { TextProps } from 'components/Text';
 
 const Wrapper = styled(Text)`
-  text-transform: ${({ theme }) => (theme.uppercasePageTitles ? 'uppercase' : undefined)};
+  text-transform: ${({ theme }) => (theme.w.uppercasePageTitles ? 'uppercase' : undefined)};
   font-weight: 700;
 `;
 

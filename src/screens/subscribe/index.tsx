@@ -22,7 +22,7 @@ import { useUserContext } from 'context/UserContext';
 
 const Container = styled(Flex)(({ theme }) => ({
   flexDirection: 'column',
-  [`@media (max-width: ${theme.breakpoints.mobile}px)`]: {
+  [`@media (max-width: ${theme.w.breakpoints.mobile}px)`]: {
     gap: 24,
   },
 }));
@@ -124,7 +124,7 @@ export const Subscribe = () => {
               </Button>
             )}
             {(error || !channelAddress) && (
-              <Text color={theme.colors.error.main} align="center">
+              <Text color={theme.w.colors.error.main} align="center">
                 Invalid partner key
               </Text>
             )}

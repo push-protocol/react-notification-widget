@@ -10,10 +10,10 @@ import { useUserContext } from 'context/UserContext';
 const PreferencesContainer = styled.div`
   width: 100%;
   margin-bottom: 16px;
-  background: ${({ theme }) => mode(theme.colors.dark[10], undefined)};
-  padding: ${({ theme }) => theme.spacing(1)}px;
-  border-radius: ${({ theme }) => theme.borderRadius.md};
-  border: 1px solid ${({ theme }) => mode(theme.colors.light[10], theme.colors.dark[10])};
+  background: ${({ theme }) => mode(theme.w.colors.dark[10], undefined)};
+  padding: ${({ theme }) => theme.w.spacing(1)}px;
+  border-radius: ${({ theme }) => theme.w.borderRadius.md};
+  border: 1px solid ${({ theme }) => mode(theme.w.colors.light[10], theme.w.colors.dark[10])};
   box-sizing: border-box;
 `;
 

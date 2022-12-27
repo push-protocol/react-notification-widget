@@ -51,16 +51,16 @@ const genSpaces = (
   { p, pb, pl, pt, pr, m, mt, mb, ml, mr }: Margins & Paddings
 ) => {
   const value = css`
-    ${conditionalRenderProp('margin', renderStringNumValue(m, theme.spacing))};
-    ${conditionalRenderProp('margin-left', renderStringNumValue(ml, theme.spacing))};
-    ${conditionalRenderProp('margin-right', renderStringNumValue(mr, theme.spacing))};
-    ${conditionalRenderProp('margin-top', renderStringNumValue(mt, theme.spacing))};
-    ${conditionalRenderProp('margin-bottom', renderStringNumValue(mb, theme.spacing))};
-    ${conditionalRenderProp('padding', renderStringNumValue(p, theme.spacing))};
-    ${conditionalRenderProp('padding-top', renderStringNumValue(pt, theme.spacing))};
-    ${conditionalRenderProp('padding-bottom', renderStringNumValue(pb, theme.spacing))};
-    ${conditionalRenderProp('padding-right', renderStringNumValue(pr, theme.spacing))};
-    ${conditionalRenderProp('padding-left', renderStringNumValue(pl, theme.spacing))};
+    ${conditionalRenderProp('margin', renderStringNumValue(m, theme.w.spacing))};
+    ${conditionalRenderProp('margin-left', renderStringNumValue(ml, theme.w.spacing))};
+    ${conditionalRenderProp('margin-right', renderStringNumValue(mr, theme.w.spacing))};
+    ${conditionalRenderProp('margin-top', renderStringNumValue(mt, theme.w.spacing))};
+    ${conditionalRenderProp('margin-bottom', renderStringNumValue(mb, theme.w.spacing))};
+    ${conditionalRenderProp('padding', renderStringNumValue(p, theme.w.spacing))};
+    ${conditionalRenderProp('padding-top', renderStringNumValue(pt, theme.w.spacing))};
+    ${conditionalRenderProp('padding-bottom', renderStringNumValue(pb, theme.w.spacing))};
+    ${conditionalRenderProp('padding-right', renderStringNumValue(pr, theme.w.spacing))};
+    ${conditionalRenderProp('padding-left', renderStringNumValue(pl, theme.w.spacing))};
   `;
 
   return value.join('');

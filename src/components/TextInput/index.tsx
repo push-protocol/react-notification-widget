@@ -5,21 +5,21 @@ import Text from '../Text';
 import { adjustColor, changeColorShade } from '../utils';
 
 const Input = styled.input<{ width?: string | number }>(({ theme, width }) => ({
-  border: `2px solid ${theme.colors.primary.light}`,
+  border: `2px solid ${theme.w.colors.primary.light}`,
   transition: 'border-color 0.5s ease ',
   fontSize: '16px',
   borderRadius: 6,
   width: width || '100%',
-  padding: `${theme.spacing(1.5)}px ${theme.spacing(2)}px`,
-  backgroundColor: adjustColor(theme.colors.bg.main, 0.8),
-  color: theme.colors.text.primary,
+  padding: `${theme.w.spacing(1.5)}px ${theme.w.spacing(2)}px`,
+  backgroundColor: adjustColor(theme.w.colors.bg.main, 0.8),
+  color: theme.w.colors.text.primary,
   textIndent: 'unset',
   '&:disabled': {
-    borderColor: adjustColor(theme.colors.primary.light, 0.5),
+    borderColor: adjustColor(theme.w.colors.primary.light, 0.5),
   },
   '&:focus': {
     outline: 'none',
-    border: `2px solid ${changeColorShade(theme.colors.primary.light, 20)}`,
+    border: `2px solid ${changeColorShade(theme.w.colors.primary.light, 20)}`,
   },
 }));
 

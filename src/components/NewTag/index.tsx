@@ -4,7 +4,7 @@ import Text from 'components/Text';
 
 const Container = styled.div`
   border-radius: 3px;
-  background: ${({ theme }) => theme.colors.primary.light};
+  background: ${({ theme }) => theme.w.colors.primary.light};
   display: flex;
   align-items: center;
   justify-content: center;
@@ -22,7 +22,7 @@ const NewTag = ({ className }: NewTagProps) => {
 
   return (
     <Container className={className}>
-      <Text color={theme.colors.button.text}>NEW</Text>
+      <Text color={theme.w.colors.button.text}>NEW</Text>
     </Container>
   );
 };
