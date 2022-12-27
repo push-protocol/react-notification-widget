@@ -41,9 +41,9 @@ export const SetupPreferences = () => {
     });
   }, [discordGuildUrl, user]);
 
-  const handleGoNext = () => {
+  const handleGoNext = async () => {
     const selectedCategories = user?.preferences.filter((pref) => pref.enabled) || [];
-    analytics.track('preferences set up', {
+    await analytics.track('preferences set up', {
       numCategories: messageCategories.length,
       categoriesSelected: selectedCategories.length,
       discordOn: selectedCategories.filter((pref) => pref.discord).length,
