@@ -31,19 +31,31 @@ const BellIconContainer = styled.div<{ selected: boolean; disabled: boolean }>`
   width: 16px;
   border-radius: 50%;
   padding: 8px;
+  transition: all 0.2s ease-in-out;
   animation: ${({ selected, disabled }) => (selected && !disabled ? enlargeAnimation : undefined)};
-  color: ${({ selected, disabled, theme }) =>
+  color: ${({ selected, disabled, theme: { w } }) =>
     selected && !disabled
-      ? mode(theme.w.colors.light[80], theme.w.colors.dark[80])
-      : mode(theme.w.colors.light[30], theme.w.colors.dark[30])};
-  background: ${({ selected, disabled, theme }) =>
-    selected && !disabled ? mode(theme.w.colors.light[30], theme.w.colors.dark[30]) : undefined};
-  border: ${({ selected, disabled, theme }) =>
-    selected && !disabled ? `1px solid ${theme.w.colors.text.primary}` : '1px solid transparent'};
+      ? mode(w.colors.light[80], w.colors.dark[80])
+      : mode(w.colors.light[30], w.colors.dark[30])};
+  background: ${({ selected, disabled, theme: { w } }) =>
+    selected && !disabled ? mode(w.colors.light[30], w.colors.dark[30]) : undefined};
+  border: ${({ selected, disabled, theme: { w } }) =>
+    selected && !disabled
+      ? `1px solid ${mode(w.colors.light[80], w.colors.dark[80])}`
+      : `1px solid ${mode(w.colors.light[30], w.colors.dark[30])}`};
+  &:hover {
+    transform: ${({ disabled }) => !disabled && 'scale(1.1)'};
+    ${({ selected, disabled, theme: { w } }) =>
+      !selected &&
+      !disabled && {
+        borderColor: mode(w.colors.light[70], w.colors.dark[70]),
+        color: mode(w.colors.light[70], w.colors.dark[70]),
+      }}
+  }
 `;
 
 const PreferenceBell = (props: PropsT) => {
-  const theme = useTheme();
+  const { w } = useTheme();
 
   const handleClick = () => {
     if (props.disabled) {
@@ -56,7 +68,7 @@ const PreferenceBell = (props: PropsT) => {
   return (
     <BellIconContainer disabled={props.disabled} selected={props.selected} onClick={handleClick}>
       {props.selected && !props.disabled ? (
-        <Bell color={theme.w.colors.text.primary} />
+        <Bell color={w.colors.text.primary} />
       ) : (
         <CrossedOutBell />
       )}
