@@ -144,17 +144,14 @@ const NotificationFeedItem = ({
           {parseEpnsFormatting(notification.message)}
         </Message>
 
-        {notification.image && (
-          <a href={notification.image} target={'_blank'} rel="noreferrer">
-            {isVideoUrl(notification.image) ? (
-              <VideoPlayer url={notification.image} />
-            ) : (
-              <ImageContainer>
-                <NotificationImage src={notification.image} alt="notification image" />
-              </ImageContainer>
-            )}
-          </a>
-        )}
+        {notification.image &&
+          (isVideoUrl(notification.image) ? (
+            <VideoPlayer url={notification.image} />
+          ) : (
+            <ImageContainer>
+              <NotificationImage src={notification.image} alt="notification image" />
+            </ImageContainer>
+          ))}
         <Flex justifyContent={'space-between'}>
           <Text size={'sm'} color={'secondary'}>
             {getRelativeTime(notification.timestamp)}
