@@ -26,7 +26,7 @@ export const SetupPreferences = () => {
   const { isSubscribeOnlyMode } = useEnvironment();
 
   const appConfig = Web2Channels.filter((channel) =>
-    channel === MessagingApp.Discord ? !!discordGuildUrl : true
+    channel === MessagingApp.Discord ? discordGuildUrl && isSubscribeOnlyMode : true
   ).map((app) => ({ app, enabled: true }));
 
   const goNextDisabled = user?.preferences.every((pref) => !pref?.enabled);
@@ -37,7 +37,9 @@ export const SetupPreferences = () => {
         (pref) => pref[channel.toLowerCase() as Web2ChannelLower]
       );
 
-      return channel === MessagingApp.Discord ? selectedByUser && discordGuildUrl : selectedByUser;
+      return channel === MessagingApp.Discord
+        ? selectedByUser && discordGuildUrl && isSubscribeOnlyMode
+        : selectedByUser;
     });
   }, [discordGuildUrl, user]);
 

@@ -26,7 +26,7 @@ export const Settings = () => {
       app,
       enabled: userCommsChannels?.[app.toLowerCase() as Lowercase<typeof Web2Channels[0]>]
         ?.exists as boolean,
-      available: app === MessagingApp.Discord ? !!discordGuildUrl : true,
+      available: app === MessagingApp.Discord ? !!discordGuildUrl && isSubscribeOnlyMode : true,
     }))
     .filter((app) => app.available);
 

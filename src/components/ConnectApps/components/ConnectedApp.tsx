@@ -11,7 +11,7 @@ type ConnectedChannelProps = {
   isDisabled: boolean;
 };
 
-const ConnectedChannel = ({
+const ConnectedApp = ({
   description,
   handleRemove,
   handleEdit,
@@ -39,4 +39,4 @@ const ConnectedChannel = ({
   </Flex>
 );
 
-export default ConnectedChannel;
+export default ConnectedApp;

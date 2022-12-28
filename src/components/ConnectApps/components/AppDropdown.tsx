@@ -68,14 +68,7 @@ type SettingsItemProps = {
   isConnected?: boolean;
 };
 
-const ChannelDropdown = ({
-  children,
-  icon,
-  title,
-  open,
-  setOpen,
-  isConnected,
-}: SettingsItemProps) => {
+const AppDropdown = ({ children, icon, title, open, setOpen, isConnected }: SettingsItemProps) => {
   const theme = useTheme();
   return (
     <Container gap={1} direction={'column'} open={open}>
@@ -100,4 +93,4 @@ const ChannelDropdown = ({
   );
 };
 
-export default ChannelDropdown;
+export default AppDropdown;
