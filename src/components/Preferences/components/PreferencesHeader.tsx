@@ -51,10 +51,10 @@ const Image = styled.img`
 
 const PreferencesHeader = ({
   hideChannelInfo,
-  messagingAppConfig,
+  appConfig,
 }: {
   hideChannelInfo?: boolean;
-  messagingAppConfig: MessagingAppConfig[];
+  appConfig: MessagingAppConfig[];
 }) => {
   const { icon, name } = useChannelContext();
 
@@ -71,7 +71,7 @@ const PreferencesHeader = ({
         )}
       </ChannelInfo>
       <Channels>
-        {messagingAppConfig.map(({ app, enabled }) => {
+        {appConfig.map(({ app, enabled }) => {
           return (
             <HeaderChannelItem
               key={app}

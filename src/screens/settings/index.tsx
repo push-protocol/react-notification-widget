@@ -42,7 +42,9 @@ export const Settings = () => {
       <WrongNetworkError mb={2} />
       <ConnectApps apps={appConfig.map((config) => config.app)} />
 
-      {!!messageCategories.length && <Preferences hideChannelInfo messagingApps={appConfig} />}
+      {!!messageCategories.length && (
+        <Preferences hideChannelInfo hideDescriptions appConfig={appConfig} />
+      )}
 
       {process.env.WHEREVER_ENV === 'development' && (
         <Flex width={'100%'} justifyContent={'center'} mb={1}>

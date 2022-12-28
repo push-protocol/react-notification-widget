@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import analytics from '../../services/analytics';
-import { useAuthContext } from '../../context/AuthContext';
+import analytics from '../../../services/analytics';
+import { useAuthContext } from '../../../context/AuthContext';
 import Notice from 'components/Notice';
 import ConnectApps from 'components/ConnectApps';
 import Flex from 'components/layout/Flex';
