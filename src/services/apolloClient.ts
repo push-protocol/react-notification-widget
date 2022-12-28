@@ -51,7 +51,7 @@ const refreshToken = async () => {
   const token = response.data?.refreshToken.token;
   const newRefreshToken = response.data?.refreshToken.refreshToken;
 
-  authStorage.updateTokens(token, newRefreshToken);
+  authStorage.updateAllTokens(token, newRefreshToken);
 
   return true;
 };

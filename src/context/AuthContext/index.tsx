@@ -117,7 +117,7 @@ const AuthProvider = ({
       analytics.track('backend login successful');
 
       if (address) {
-        authStorage.setToken(address, result.token, result.refreshToken);
+        authStorage.updateAllTokens(result.token, result.refreshToken, address);
       }
 
       setLoggedInAddress(address);
@@ -171,9 +171,10 @@ const AuthProvider = ({
 
   // Set correct auth key on load
   useEffect(() => {
-    const tokensList = authStorage.getTokens();
+    const tokensList = authStorage.getUserTokens();
 
     if (address && tokensList[address]) {
+      authStorage.setCurrentAccount(address);
       authStorage.setAuthKey(tokensList[address].authKey);
       authStorage.setAuthRefreshKey(tokensList[address].authRefreshKey);
       setRoute(isSubscribeOnlyMode ? Routes.Settings : Routes.NotificationsFeed);
