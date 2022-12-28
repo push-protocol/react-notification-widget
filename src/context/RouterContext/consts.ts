@@ -7,8 +7,9 @@ import {
   SetupChannels,
   SubscriptionFlowEnded,
   SetupPreferences,
-  Login,
+  VerifyAccount,
 } from '../../screens';
+import { ConnectWallet } from '../../screens/connectWallet';
 
 enum Routes {
   Subscribe = 'Subscribe',
@@ -18,7 +19,8 @@ enum Routes {
   SetupPreferences = 'SetupPreferences',
   NotificationsFeed = 'NotificationsFeed',
   SubscriptionFlowEnded = 'SubscriptionFlowEnded',
-  Login = 'Login',
+  VerifyAccount = 'VerifyAccount',
+  ConnectWallet = 'ConnectWallet',
 }
 
 type Route = {
@@ -63,10 +65,15 @@ const RouteConfig: Record<Routes, Route> = {
     requiresAuth: false,
     name: Routes.SubscriptionFlowEnded,
   },
-  [Routes.Login]: {
-    Component: Login,
+  [Routes.VerifyAccount]: {
+    Component: VerifyAccount,
     requiresAuth: false,
-    name: Routes.Login,
+    name: Routes.VerifyAccount,
+  },
+  [Routes.ConnectWallet]: {
+    Component: ConnectWallet,
+    requiresAuth: false,
+    name: Routes.ConnectWallet,
   },
 };
 

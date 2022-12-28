@@ -27,7 +27,7 @@ const EditEmail = ({
 }: EditEmailProps) => (
   <Flex justifyContent={'center'} alignItems={'center'} direction={'column'} width={'100%'} gap={1}>
     <TextInput
-      placeholder={'email@example.com'}
+      placeholder={'Enter your email...'}
       value={value}
       onValueChange={(value) => onChange(value)}
     />

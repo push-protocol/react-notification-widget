@@ -15,7 +15,6 @@ import Flex from 'components/layout/Flex';
 import Text from 'components/Text';
 import ChannelToUserIcons from 'screens/subscribe/components/ChannelToUserIcons';
 import WrongNetworkError from 'components/Errors/WrongNetworkError';
-import ConnectWalletButtons from 'screens/subscribe/components/ConnectWalletButtons';
 import { useAuthContext } from 'context/AuthContext';
 import { useEnvironment } from 'context/EnvironmentContext';
 import { useUserContext } from 'context/UserContext';
@@ -99,7 +98,7 @@ export const Subscribe = () => {
           <PageTitle align={'center'}>Wallet-to-wallet notifications</PageTitle>
         </Flex>
         <Flex alignItems={'center'} direction={'column'} mb={3} mt={2}>
-          <ChannelToUserIcons hideAddress={userDisconnected} />
+          <ChannelToUserIcons />
           <SubscribeDescription>
             <Text size={'md'}>
               {`${channelName} is using the Ethereum Push Notifications protocol to securely message its users. No spam, opt-out at any time.`}{' '}
@@ -109,20 +108,24 @@ export const Subscribe = () => {
             </Text>
           </SubscribeDescription>
         </Flex>
+
         <Flex direction={'column'} width={'100%'} gap={1}>
-          <Flex width={'100%'} mb={2} alignItems={'center'} direction={'column'} gap={1}>
-            {userDisconnected ? (
-              <ConnectWalletButtons />
-            ) : (
-              <Button
-                width={'100%'}
-                onClick={handleSubscribe}
-                disabled={channelLoading || isWrongNetwork || !channelAddress}
-                size={'lg'}
-              >
-                Subscribe
-              </Button>
-            )}
+          <Flex
+            width={'100%'}
+            mb={2}
+            alignItems={'center'}
+            justifyContent={'center'}
+            direction={'column'}
+            gap={1}
+          >
+            <Button
+              width={'100%'}
+              onClick={handleSubscribe}
+              disabled={channelLoading || isWrongNetwork || !channelAddress}
+              size={'lg'}
+            >
+              Subscribe
+            </Button>
             {(error || !channelAddress) && (
               <Text color={theme.w.colors.error.main} align="center">
                 Invalid partner key

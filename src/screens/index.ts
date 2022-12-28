@@ -5,4 +5,4 @@ export * from './channelAdded';
 export * from './subscriptionFlowEnded';
 export * from './setupChannels';
 export * from './setupPreferences';
-export * from './login';
+export * from './verifyAccount';
