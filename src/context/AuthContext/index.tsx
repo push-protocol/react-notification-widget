@@ -138,8 +138,8 @@ const AuthProvider = ({
       setLoggedInAddress(address);
     } else {
       setIsLoggedIn(false);
-      setRoute(Routes.Subscribe);
       setLoggedInAddress('');
+      setRoute(Routes.Subscribe);
     }
   };
 
@@ -169,12 +169,16 @@ const AuthProvider = ({
     }
   }, [address]);
 
+  // Set correct auth key on load
   useEffect(() => {
-    if (authStorage.getAuthKey()) {
-      // TODO: update logic
+    const tokensList = authStorage.getTokens();
+
+    if (address && tokensList[address]) {
+      authStorage.setAuthKey(tokensList[address].authKey);
+      authStorage.setAuthRefreshKey(tokensList[address].authRefreshKey);
+      setRoute(isSubscribeOnlyMode ? Routes.Settings : Routes.NotificationsFeed);
       setIsLoggedIn(true);
       setLoggedInAddress(address);
-      setRoute(isSubscribeOnlyMode ? Routes.Settings : Routes.NotificationsFeed);
     }
   }, [address]);
 

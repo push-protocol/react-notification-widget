@@ -37,7 +37,6 @@ class AuthStorage {
     const updatedTokens = this.getTokens();
 
     if (updatedTokens[walletAddress]) {
-      this.removeAuthKeys();
       this.setCurrentWalletAddress(walletAddress);
       this.setAuthKey(updatedTokens[walletAddress].authKey);
       this.setAuthRefreshKey(updatedTokens[walletAddress].authRefreshKey);
@@ -50,7 +49,7 @@ class AuthStorage {
   setToken(walletAddress: string, authKey: string, authRefreshKey: string): void {
     const updatedTokens = this.getTokens();
 
-    if (this.refreshTokensOnWalletChange(walletAddress)) return;
+    if (this.refreshTokensOnWalletChange(walletAddress)) return; // overwrite
 
     updatedTokens[walletAddress] = {
       authKey,
