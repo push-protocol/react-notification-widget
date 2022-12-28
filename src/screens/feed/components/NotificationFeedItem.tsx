@@ -4,7 +4,7 @@ import styled, { DefaultTheme } from 'styled-components';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import analytics from '../../../services/analytics';
 import parseEpnsFormatting from '../helpers/parseEpnsFormatting';
-import { mode } from '../../../theme';
+import { mode } from 'theme';
 import { NotificationClickProp } from 'components/types';
 import { changeColorShade } from 'components/utils';
 import { Notification } from 'context/UserContext/types';
@@ -13,7 +13,7 @@ import Text from 'components/Text';
 import Link from 'components/Link';
 import { Globe } from 'components/icons';
 import getDomain from 'helpers/functions/getDomain';
-import { getYoutubeId } from 'helpers/functions/getYoutubeId';
+import VideoPlayer, { isVideoUrl } from 'components/VideoPlayer';
 
 extend(relativeTime);
 
@@ -69,13 +69,13 @@ const Message = styled(Text)`
 
 const ImageContainer = styled.div`
   width: 100%;
-  border-radius: ${({ theme }) => theme.w.borderRadius.md};
   overflow: hidden;
 `;
 
 const NotificationImage = styled.img`
   width: 100%;
   object-fit: contain;
+  border-radius: ${({ theme }) => theme.w.borderRadius.md};
 `;
 
 const IconContainer = styled.div`
@@ -118,8 +118,6 @@ const NotificationFeedItem = ({
     return dayjs(date).fromNow();
   };
 
-  const youtubeId = getYoutubeId(notification?.image);
-
   return (
     <Container clickable={!!notification.cta} onClick={handleNotificationClick}>
       {showSenderDetails && (
@@ -147,16 +145,15 @@ const NotificationFeedItem = ({
         </Message>
 
         {notification.image && (
-          <ImageContainer>
-            {youtubeId ? (
-              <NotificationImage
-                src={`https://img.youtube.com/vi/${youtubeId}/0.jpg`}
-                alt="notification image"
-              />
+          <a href={notification.image} target={'_blank'} rel="noreferrer">
+            {isVideoUrl(notification.image) ? (
+              <VideoPlayer url={notification.image} />
             ) : (
-              <NotificationImage src={notification.image} alt="notification image" />
+              <ImageContainer>
+                <NotificationImage src={notification.image} alt="notification image" />
+              </ImageContainer>
             )}
-          </ImageContainer>
+          </a>
         )}
         <Flex justifyContent={'space-between'}>
           <Text size={'sm'} color={'secondary'}>
