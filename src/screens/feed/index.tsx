@@ -13,11 +13,11 @@ import FeedNavigation, { NavigationTabs } from 'screens/feed/components/FeedNavi
 import { Routes, useRouterContext } from 'context/RouterContext';
 
 const NotificationFeed = styled(Flex)`
-  ${({ theme }) => `@media (max-width: ${theme.breakpoints.mobile}px) {
+  ${({ theme }) => `@media (max-width: ${theme.w.breakpoints.mobile}px) {
     max-height: 100%;
   }`}
   &:not(:last-child) {
-    border-bottom: ${({ theme }) => `1px solid ${theme.colors.border.main}}`};
+    border-bottom: ${({ theme }) => `1px solid ${theme.w.colors.border.main}}`};
   }
   min-height: 300px;
   max-height: 400px;
@@ -35,10 +35,10 @@ const SettingsIcon = styled.div`
   width: 20px;
   height: 20px;
   display: flex;
-  color: ${({ theme }) => theme.colors.gray[100]};
+  color: ${({ theme }) => theme.w.colors.gray[100]};
   cursor: pointer;
   &:hover {
-    color: ${({ theme }) => theme.colors.gray[200]};
+    color: ${({ theme }) => theme.w.colors.gray[200]};
   }
 `;
 

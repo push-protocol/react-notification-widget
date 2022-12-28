@@ -13,7 +13,7 @@ const ChannelItem = styled(Flex)<{ disabled: boolean }>`
 const IconContainer = styled(Flex)`
   height: 16px;
   width: 16px;
-  color: ${({ theme }) => theme.colors.text.primary};
+  color: ${({ theme }) => theme.w.colors.text.primary};
 `;
 
 type PropsT = {

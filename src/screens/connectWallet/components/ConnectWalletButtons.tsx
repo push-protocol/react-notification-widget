@@ -3,7 +3,7 @@ import { Connector, useConnect } from 'wagmi';
 import Button from 'components/Button';
 import analytics from 'services/analytics';
 
-const ALLOWED_WALLETS = ['metaMask', 'walletConnect'];
+const ALLOWED_WALLETS = ['metaMask', 'walletConnect', 'coinbaseWallet'];
 
 const ConnectWalletButtons = () => {
   const { connect, connectors, isLoading } = useConnect();
@@ -26,10 +26,10 @@ const ConnectWalletButtons = () => {
               setSelectedWallet(connector.id);
               connectWallet(connector);
             }}
-            width={'100%'}
+            width={300}
             isLoading={isLoading && selectedWallet === connector.id}
           >
-            Connect with {connector.name}
+            {connector.name}
             {!connector.ready && ' (unsupported)'}
           </Button>
         ))}

@@ -8,7 +8,7 @@ const NoticeContainer = styled(Flex)`
   align-self: start;
   justify-content: center;
   width: 100%;
-  color: ${({ theme }) => mode(theme.colors.gray[50], theme.colors.gray[300])};
+  color: ${({ theme }) => mode(theme.w.colors.gray[50], theme.w.colors.gray[300])};
 `;
 
 const Notice = ({ text }: { text: string }) => (

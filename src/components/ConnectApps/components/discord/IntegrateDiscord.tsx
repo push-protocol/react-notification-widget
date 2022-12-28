@@ -9,7 +9,7 @@ const IconContainer = styled.div`
   height: 44px;
   width: 44px;
   flex-shrink: 0;
-  color: ${({ theme }) => theme.colors.primary.main};
+  color: ${({ theme }) => theme.w.colors.primary.main};
   position: relative;
 `;
 

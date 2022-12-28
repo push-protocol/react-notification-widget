@@ -37,14 +37,7 @@ export const Settings = () => {
   return (
     <Screen navbarActionComponent={!isSubscribeOnlyMode ? <NavbarActions /> : undefined} mb={1}>
       <Flex mt={!isSubscribeOnlyMode ? -5 : 0} mb={2}>
-        <SettingsHeader
-          title={
-            isSubscribeOnlyMode
-              ? `You are subscribed to updates from ${name}`
-              : 'Notification Settings'
-          }
-          icon={icon}
-        />
+        <SettingsHeader icon={icon} />
       </Flex>
       <WrongNetworkError mb={2} />
       <ConnectApps apps={appConfig.map((config) => config.app)} />

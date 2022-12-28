@@ -10,75 +10,81 @@ type MainColor = {
 
 declare module 'styled-components' {
   export interface DefaultTheme {
-    mode: 'dark' | 'light';
-    uppercasePageTitles: boolean;
-    spacing: (units: number) => number;
-    fontFamily?: string;
-    breakpoints: {
-      mobile: number;
-    };
-    borderRadius: {
-      xs: string;
-      sm: string;
-      md: string;
-      lg: string;
-    };
-    fontSize: {
-      sm: string;
-      md: string;
-      lg: string;
-      xl: string;
-    };
-    colors: {
-      notificationDot?: {
-        background?: string;
-        text?: string;
+    // theme is applied normally, under a "w" key to guard it, so that other apps using
+    // styled-components will not have a
+    w: {
+      mode: 'dark' | 'light';
+      uppercasePageTitles: boolean;
+      spacing: (units: number) => number;
+      fontFamily?: string;
+      breakpoints: {
+        mobile: number;
       };
-      bg: {
-        main: string;
+      borderRadius: {
+        xs: string;
+        sm: string;
+        md: string;
+        lg: string;
       };
-      button: {
-        text: string;
+      fontSize: {
+        sm: string;
+        md: string;
+        lg: string;
+        xl: string;
       };
-      primary: MainColor;
-      secondary: MainColor;
-      text: {
-        primary: string;
-        secondary: string;
-      };
-      border: {
-        main: string;
-      };
-      gray: {
-        50: string;
-        100: string;
-        200: string;
-        300: string;
-        400: string;
-        500: string;
-      };
-      light: {
-        10: string;
-        30: string;
-        50: string;
-        80: string;
-        100: string;
-      };
-      dark: {
-        10: string;
-        30: string;
-        50: string;
-        80: string;
-        100: string;
-      };
-      bell: {
-        color: string;
-      };
-      error: {
-        main: string;
-      };
-      success: {
-        main: string;
+      colors: {
+        notificationDot?: {
+          background?: string;
+          text?: string;
+        };
+        bg: {
+          main: string;
+        };
+        button: {
+          text: string;
+        };
+        primary: MainColor;
+        secondary: MainColor;
+        text: {
+          primary: string;
+          secondary: string;
+        };
+        border: {
+          main: string;
+        };
+        gray: {
+          50: string;
+          100: string;
+          200: string;
+          300: string;
+          400: string;
+          500: string;
+        };
+        light: {
+          10: string;
+          30: string;
+          50: string;
+          70: string;
+          80: string;
+          100: string;
+        };
+        dark: {
+          10: string;
+          30: string;
+          50: string;
+          70: string;
+          80: string;
+          100: string;
+        };
+        bell: {
+          color: string;
+        };
+        error: {
+          main: string;
+        };
+        success: {
+          main: string;
+        };
       };
     };
   }
@@ -109,7 +115,7 @@ export type CustomTheme = {
 
 const br = (xs: string, sm: string, md: string, lg: string) => ({ xs, sm, md, lg });
 
-const defaultTheme: DefaultTheme = {
+const defaultTheme: DefaultTheme['w'] = {
   mode: 'dark',
   uppercasePageTitles: false,
   spacing: (units) => units * 8,
@@ -147,6 +153,7 @@ const defaultTheme: DefaultTheme = {
       10: 'rgba(255, 255, 255, 0.1)',
       30: 'rgba(255, 255, 255, 0.3)',
       50: 'rgba(255, 255, 255, 0.5)',
+      70: 'rgba(255, 255, 255, 0.7)',
       80: 'rgba(255, 255, 255, 0.8)',
       100: 'rgba(255, 255, 255, 1)',
     },
@@ -154,6 +161,7 @@ const defaultTheme: DefaultTheme = {
       10: 'rgba(0, 0, 0, 0.1)',
       30: 'rgba(0, 0, 0, 0.3)',
       50: 'rgba(0, 0, 0, 0.5)',
+      70: 'rgba(0, 0, 0, 0.7)',
       80: 'rgba(0, 0, 0, 0.8)',
       100: 'rgba(0, 0, 0, 1)',
     },
@@ -181,47 +189,49 @@ export const makeTheme = (customTheme?: CustomTheme): DefaultTheme => {
   localStorage.setItem(LOCALSTORAGE_THEME_MODE_KEY, customTheme?.mode || defaultTheme.mode);
 
   if (!customTheme) {
-    return defaultTheme;
+    return { w: defaultTheme };
   }
 
   return {
-    ...defaultTheme,
-    uppercasePageTitles: !!customTheme.uppercasePageTitles,
-    fontFamily: customTheme.fontFamily || defaultTheme.fontFamily,
-    breakpoints: {
-      mobile: customTheme.mobileBreakpoint || defaultTheme.breakpoints.mobile,
-    },
-    borderRadius: {
-      ...getBorderRadius(customTheme.borderRadius),
-    },
-    colors: {
-      ...defaultTheme.colors,
-      notificationDot: {
-        text: customTheme.notificationDot?.textColor,
-        background: customTheme.notificationDot?.backgroundColor,
+    w: {
+      ...defaultTheme,
+      uppercasePageTitles: !!customTheme.uppercasePageTitles,
+      fontFamily: customTheme.fontFamily || defaultTheme.fontFamily,
+      breakpoints: {
+        mobile: customTheme.mobileBreakpoint || defaultTheme.breakpoints.mobile,
       },
-      button: {
-        text: customTheme.buttonTextColor || defaultTheme.colors.button.text,
+      borderRadius: {
+        ...getBorderRadius(customTheme.borderRadius),
       },
-      text: {
-        ...defaultTheme.colors.text,
-        ...(customTheme.textColor && {
-          primary: customTheme.textColor,
-          secondary: adjustColor(customTheme.textColor, 0.7),
-        }),
-      },
-      primary: {
-        ...getMainColor('primary', customTheme.primaryColor),
-      },
-      secondary: {
-        ...getMainColor('secondary', customTheme.secondaryColor),
-      },
-      bell: {
-        ...defaultTheme.colors.bell,
-        color: customTheme.bellColor || defaultTheme.colors.bell.color,
-      },
-      bg: {
-        main: customTheme.backgroundColor || defaultTheme.colors.bg.main,
+      colors: {
+        ...defaultTheme.colors,
+        notificationDot: {
+          text: customTheme.notificationDot?.textColor,
+          background: customTheme.notificationDot?.backgroundColor,
+        },
+        button: {
+          text: customTheme.buttonTextColor || defaultTheme.colors.button.text,
+        },
+        text: {
+          ...defaultTheme.colors.text,
+          ...(customTheme.textColor && {
+            primary: customTheme.textColor,
+            secondary: adjustColor(customTheme.textColor, 0.7),
+          }),
+        },
+        primary: {
+          ...getMainColor('primary', customTheme.primaryColor),
+        },
+        secondary: {
+          ...getMainColor('secondary', customTheme.secondaryColor),
+        },
+        bell: {
+          ...defaultTheme.colors.bell,
+          color: customTheme.bellColor || defaultTheme.colors.bell.color,
+        },
+        bg: {
+          main: customTheme.backgroundColor || defaultTheme.colors.bg.main,
+        },
       },
     },
   };
@@ -230,7 +240,7 @@ export const makeTheme = (customTheme?: CustomTheme): DefaultTheme => {
 const getMainColor = (
   colorKey: 'primary' | 'secondary',
   color?: string
-): DefaultTheme['colors']['primary'] => {
+): DefaultTheme['w']['colors']['primary'] => {
   if (!color) return defaultTheme.colors[colorKey];
 
   return {
@@ -243,7 +253,7 @@ const getMainColor = (
 const getBorderRadius = (customBr: CustomTheme['borderRadius']) => {
   if (!customBr) return defaultTheme.borderRadius;
 
-  const brMaps: Record<string, DefaultTheme['borderRadius']> = {
+  const brMaps: Record<string, DefaultTheme['w']['borderRadius']> = {
     none: br('0', '0', '0', '0'),
     sm: defaultTheme.borderRadius,
     md: br('8px', '10px', '12px', '16px'),

@@ -10,7 +10,6 @@ if (process.env.WHEREVER_ENV === 'production') {
 
 export function rudderInitialize() {
   if (!RUDDERSTACK_WRITE_KEY) {
-    console.log('No rudderstack key, probably dev env - disabling analytics');
     return;
   }
 

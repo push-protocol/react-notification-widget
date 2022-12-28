@@ -7,7 +7,7 @@ import Flex from './Flex';
 import { useUserContext } from 'context/UserContext';
 
 const MobileCloseButton = styled(Button)(({ theme }) => ({
-  [`@media (min-width: ${theme.breakpoints.mobile}px)`]: {
+  [`@media (min-width: ${theme.w.breakpoints.mobile}px)`]: {
     display: 'none',
   },
   width: 30,

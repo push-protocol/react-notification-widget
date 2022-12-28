@@ -35,7 +35,7 @@ const CheckBox = styled.input<{ disabled?: boolean }>`
   width: 42px;
   height: 26px;
   &:checked + ${CheckBoxLabel} {
-    background: ${({ theme }) => theme.colors.primary.dark};
+    background: ${({ theme }) => theme.w.colors.primary.dark};
     &::after {
       content: '';
       display: block;

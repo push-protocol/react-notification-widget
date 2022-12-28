@@ -1,5 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useChannelContext } from '../../../context/ChannelContext';
+import { useEnvironment } from '../../../context/EnvironmentContext';
+import Text from '../../../components/Text';
 import PageTitle from 'components/PageTitle';
 import Flex from 'components/layout/Flex';
 
@@ -14,26 +17,32 @@ const HeaderIconContainer = styled.div<{ size?: number }>`
   display: flex;
   justify-content: center;
   align-items: center;
-  background: ${({ theme }) => theme.colors.primary.main};
-  margin-bottom: ${({ theme }) => theme.spacing(1.5)}px;
+  background: ${({ theme }) => theme.w.colors.primary.main};
+  margin-bottom: ${({ theme }) => theme.w.spacing(1.5)}px;
 `;
 
 const HeaderImage = styled.img`
   height: 100%;
   width: 100%;
   border-radius: 100px;
-  background: ${({ theme }) => theme.colors.primary.main};
+  background: ${({ theme }) => theme.w.colors.primary.main};
 `;
 
-const SettingsHeader = ({ title, icon }: { title: string; icon: string }) => (
-  <Header justifyContent={'center'} alignItems={'center'} direction={'column'}>
-    <HeaderIconContainer size={58}>
-      <HeaderImage src={icon} alt={'channel icon'} />
-    </HeaderIconContainer>
-    <PageTitle mb={1} align={'center'}>
-      {title}
-    </PageTitle>
-  </Header>
-);
+const SettingsHeader = ({ icon }: { icon: string }) => {
+  const { name } = useChannelContext();
+  const { isSubscribeOnlyMode } = useEnvironment();
+
+  return (
+    <Header justifyContent={'center'} alignItems={'center'} direction={'column'}>
+      <HeaderIconContainer size={58}>
+        <HeaderImage src={icon} alt={'channel icon'} />
+      </HeaderIconContainer>
+      <PageTitle mb={1} align={'center'}>
+        {isSubscribeOnlyMode ? name : 'Notification Settings'}
+      </PageTitle>
+      {isSubscribeOnlyMode && <Text>Notification Settings</Text>}
+    </Header>
+  );
+};
 
 export default SettingsHeader;

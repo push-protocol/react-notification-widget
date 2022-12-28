@@ -13,7 +13,7 @@ const WrongNetworkError = ({ ...props }) => {
   return (
     <>
       {isWrongNetwork && !isLoggedIn && (
-        <Text color={theme.colors.error.main} align="center" {...props}>
+        <Text color={theme.w.colors.error.main} align="center" {...props}>
           Wrong network, please switch to {CHAIN_NAMES[chainId]} in your wallet to make changes
         </Text>
       )}

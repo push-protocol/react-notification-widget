@@ -1,6 +1,4 @@
 import React from 'react';
-import { useTheme } from 'styled-components';
-import { mode } from '../../theme';
 import { Screen } from 'components/layout/Screen';
 import Flex from 'components/layout/Flex';
 import Button from 'components/Button';
@@ -11,12 +9,11 @@ import { useUserContext } from 'context/UserContext';
 import formatAddress from 'helpers/functions/formatAddress';
 import { useEnvironment } from 'context/EnvironmentContext';
 
-export const Login = () => {
+export const VerifyAccount = () => {
   const { isLoading, login } = useAuthContext();
   const { isSubscribeOnlyMode } = useEnvironment();
   const { setRoute } = useRouterContext();
   const { userAddress } = useUserContext();
-  const theme = useTheme();
 
   const handleLogin = async () => {
     login(() => {
@@ -30,28 +27,20 @@ export const Login = () => {
         <Text size={'2xl'} mb={2} align={'center'} weight={700}>
           Hi, {formatAddress(userAddress)} 👋
         </Text>
-        <Text size={'xl'} mb={8} align={'center'}>
-          Sign in with your wallet to access your notifications
+        <Text size={'lg'} mb={8} align={'center'}>
+          Sign a message with your wallet to verify ownership of your account.
         </Text>
       </Flex>
       <Button
         onClick={handleLogin}
         size={'lg'}
         width={'100%'}
-        mb={1}
+        mb={3}
         isLoading={isLoading}
         disabled={isLoading}
       >
-        Sign In
+        Verify
       </Button>
-      <Text
-        align={'center'}
-        mb={5}
-        size={'sm'}
-        color={mode(theme.colors.light[50], theme.colors.dark[50])}
-      >
-        You will need to sign a message to prove ownership of your wallet.
-      </Text>
     </Screen>
   );
 };

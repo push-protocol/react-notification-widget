@@ -10,7 +10,8 @@ import { useChannelContext } from 'context/ChannelContext';
 const Container = styled.div`
   display: flex;
   justify-content: center;
-  margin-bottom: ${({ theme }) => theme.spacing(2)}px;
+  margin-bottom: ${({ theme }) => theme.w.spacing(2)}px;
+  max-width: 260px;
 `;
 
 const WalletContainer = styled.div`
@@ -23,7 +24,7 @@ const WalletContainer = styled.div`
 const WalletIcon = styled.div`
   width: 58px;
   height: 58px;
-  color: ${({ theme }) => theme.colors.primary.light};
+  color: ${({ theme }) => theme.w.colors.primary.light};
 `;
 
 const FromWalletIcon = styled.div`
@@ -47,7 +48,7 @@ const WalletText = styled.a`
   width: 86px;
   height: 20px;
   text-align: center;
-  margin-top: ${({ theme }) => theme.spacing(0.5)}px;
+  margin-top: ${({ theme }) => theme.w.spacing(0.5)}px;
   display: flex;
   gap: 4px;
   align-items: center;
@@ -63,17 +64,17 @@ const OpenEtherscanLinkContainer = styled.div`
 `;
 
 const Separator = styled.div`
-  padding-top: ${({ theme }) => theme.spacing(1)}px;
+  padding-top: ${({ theme }) => theme.w.spacing(1)}px;
   display: flex;
 `;
 
 const SeparatorIcon = styled.div`
   display: flex;
   height: 12px;
-  color: ${({ theme }) => theme.colors.primary.main};
+  color: ${({ theme }) => theme.w.colors.primary.main};
 `;
 
-const ChannelToUserIcons = ({ hideAddress }: { hideAddress: boolean }) => {
+const ChannelToUserIcons = () => {
   const { chain } = useNetwork();
 
   const { channelAddress, icon } = useChannelContext();
@@ -90,14 +91,12 @@ const ChannelToUserIcons = ({ hideAddress }: { hideAddress: boolean }) => {
         <FromWalletIcon>
           <img src={icon} alt="channel icon" />
         </FromWalletIcon>
-        {!hideAddress && (
-          <WalletText href={blockExplorerUrl} target={'_blank'} rel={'noopener'}>
-            <Text size={'sm'}>{channelEns || formatAddress(channelAddress)}</Text>
-            <OpenEtherscanLinkContainer>
-              <OpenLink />
-            </OpenEtherscanLinkContainer>
-          </WalletText>
-        )}
+        <WalletText href={blockExplorerUrl} target={'_blank'} rel={'noopener'}>
+          <Text size={'sm'}>{channelEns || formatAddress(channelAddress)}</Text>
+          <OpenEtherscanLinkContainer>
+            <OpenLink />
+          </OpenEtherscanLinkContainer>
+        </WalletText>
       </WalletContainer>
       <Separator>
         <SeparatorIcon>
@@ -108,11 +107,9 @@ const ChannelToUserIcons = ({ hideAddress }: { hideAddress: boolean }) => {
         <WalletIcon>
           <UserWalletIcon />
         </WalletIcon>
-        {!hideAddress && (
-          <WalletText>
-            <Text size={'sm'}>{userEns || formatAddress(address)}</Text>
-          </WalletText>
-        )}
+        <WalletText>
+          <Text size={'sm'}>{!address ? 'You' : userEns || formatAddress(address)}</Text>
+        </WalletText>
       </WalletContainer>
     </Container>
   );
