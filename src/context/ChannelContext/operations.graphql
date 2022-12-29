@@ -9,6 +9,7 @@ query PartnerInfo ($input: PartnerInfoInput!) {
         messageCategories {
             id
             name
+            description
         }
     }
 }

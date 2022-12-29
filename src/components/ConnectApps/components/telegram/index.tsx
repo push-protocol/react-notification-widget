@@ -1,6 +1,6 @@
 import React from 'react';
-import ChannelDropdown from '../ChannelDropdown';
-import ConnectedChannel from '../ConnectedChannel';
+import AppDropdown from '../AppDropdown';
+import ConnectedApp from '../ConnectedApp';
 import IntegrateTelegram from './IntegrateTelegram';
 import useTelegramActions from './useTelegramActions';
 import { useAuthContext } from 'context/AuthContext';
@@ -11,7 +11,7 @@ type TelegramChannelProps = {
   setOpen: () => void;
 };
 
-export const TelegramChannel = ({ open, setOpen }: TelegramChannelProps) => {
+export const TelegramConnector = ({ open, setOpen }: TelegramChannelProps) => {
   const { isLoading } = useAuthContext();
 
   const {
@@ -26,7 +26,7 @@ export const TelegramChannel = ({ open, setOpen }: TelegramChannelProps) => {
   } = useTelegramActions();
 
   return (
-    <ChannelDropdown
+    <AppDropdown
       title={'Telegram'}
       icon={<TelegramIcon />}
       isConnected={isConnected}
@@ -34,7 +34,7 @@ export const TelegramChannel = ({ open, setOpen }: TelegramChannelProps) => {
       setOpen={setOpen}
     >
       {isConnected ? (
-        <ConnectedChannel
+        <ConnectedApp
           description={
             hint ? `You are receiving alerts to ${hint}` : 'You Telegram account is connected'
           }
@@ -51,6 +51,6 @@ export const TelegramChannel = ({ open, setOpen }: TelegramChannelProps) => {
           isDisabled={telegramLoading || isLoading}
         />
       )}
-    </ChannelDropdown>
+    </AppDropdown>
   );
 };

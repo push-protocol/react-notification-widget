@@ -1,6 +1,6 @@
 import React from 'react';
-import ChannelDropdown from '../ChannelDropdown';
-import ConnectedChannel from '../ConnectedChannel';
+import AppDropdown from '../AppDropdown';
+import ConnectedApp from '../ConnectedApp';
 import { useUserContext } from '../../../../context/UserContext';
 import IntegrateDiscord from './IntegrateDiscord';
 import useDiscordActions from './useDiscordActions';
@@ -12,7 +12,7 @@ type DiscordChannelProps = {
   setOpen: () => void;
 };
 
-export const DiscordChannel = ({ open, setOpen }: DiscordChannelProps) => {
+export const DiscordConnector = ({ open, setOpen }: DiscordChannelProps) => {
   const { isLoading } = useAuthContext();
   const { userCommsChannels } = useUserContext();
 
@@ -21,7 +21,7 @@ export const DiscordChannel = ({ open, setOpen }: DiscordChannelProps) => {
   const isConnected = userCommsChannels?.discord.exists;
 
   return (
-    <ChannelDropdown
+    <AppDropdown
       title={'Discord'}
       icon={<DiscordIcon />}
       isConnected={isConnected}
@@ -29,7 +29,7 @@ export const DiscordChannel = ({ open, setOpen }: DiscordChannelProps) => {
       setOpen={setOpen}
     >
       {isConnected ? (
-        <ConnectedChannel
+        <ConnectedApp
           description={
             hint ? `You are receiving alerts to ${hint}` : 'Your Discord account is connected'
           }
@@ -40,6 +40,6 @@ export const DiscordChannel = ({ open, setOpen }: DiscordChannelProps) => {
       ) : (
         <IntegrateDiscord onOpenDiscord={handleOpenDiscord} />
       )}
-    </ChannelDropdown>
+    </AppDropdown>
   );
 };
