@@ -50,7 +50,12 @@ const FakeApp = () => {
 
   const widget = useMemo(() => {
     return (
-      <NotificationFeedProvider theme={theme} partnerKey={partnerKey} mode={WidgetMode.Default}>
+      <NotificationFeedProvider
+        theme={theme}
+        partnerKey={partnerKey}
+        discordToken={'bad-token'}
+        mode={WidgetMode.SubscribeOnly}
+      >
         <NotificationFeed gapFromBell={10}>
           <S.WidgetBellWrapper>
             <NotificationBell />

@@ -33,7 +33,8 @@ const CategoryContainer = styled(Flex)`
 
 const TitleContainer = styled(Flex)<{ grow: boolean }>`
   flex-direction: column;
-  ${({ grow }) => ({ flexGrow: grow ? 1 : undefined, width: !grow ? 105 : undefined })}
+  gap: 4px;
+  ${({ grow }) => ({ flexGrow: grow ? 1 : undefined, width: !grow ? 110 : undefined })}
 `;
 
 const PreferenceCategoryItem = ({
@@ -68,7 +69,7 @@ const PreferenceCategoryItem = ({
     <Flex alignItems={'center'} width={'100%'} mb={1}>
       <CategoryContainer justifyContent={!appConfig.length ? 'space-between' : undefined}>
         <TitleContainer grow={noApps}>
-          <Text size={'sm'}>{category.name}</Text>
+          <Text size={'md'}>{category.name}</Text>
           {!hideDescriptions && (
             <Text size={'sm'} color={'secondary'}>
               {category.description}

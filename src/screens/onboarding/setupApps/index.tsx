@@ -22,16 +22,12 @@ const Header = styled(Flex)`
   margin-bottom: 24px;
 `;
 
-export const SetupChannels = (props: { appsToConnect: MessagingApp[] }) => {
+export const SetupApps = (props: { appsToConnect: MessagingApp[] }) => {
   const { name } = useChannelContext();
   const { setIsOnboarding } = useAuthContext();
   const { setRoute } = useRouterContext();
   const { isSubscribeOnlyMode } = useEnvironment();
   const { userCommsChannels } = useUserContext();
-
-  const handleGoBack = () => {
-    setRoute(Routes.SetupPreferences);
-  };
 
   const onFinish = () => {
     analytics.track('channels set up', {
@@ -54,7 +50,7 @@ export const SetupChannels = (props: { appsToConnect: MessagingApp[] }) => {
       <Header>
         <PageTitle>
           {props.appsToConnect
-            ? 'Got it! Now connect your selected channels'
+            ? 'Got it! Now connect the apps you selected'
             : 'Stay informed on the go'}
         </PageTitle>
       </Header>
@@ -64,11 +60,16 @@ export const SetupChannels = (props: { appsToConnect: MessagingApp[] }) => {
       </Flex>
       <Flex width={'100%'} justifyContent={'space-between'} gap={1} mb={2}>
         {props.appsToConnect && (
-          <Button onClick={handleGoBack} height={20} width={'100%'} variant={'gray'}>
+          <Button
+            onClick={() => setRoute(Routes.SelectApps)}
+            size={'lg'}
+            width={'100%'}
+            variant={'gray'}
+          >
             Previous
           </Button>
         )}
-        <Button onClick={onFinish} height={20} width={'100%'} disabled={!finishButtonEnabled}>
+        <Button onClick={onFinish} size={'lg'} width={'100%'} disabled={!finishButtonEnabled}>
           Finish
         </Button>
       </Flex>

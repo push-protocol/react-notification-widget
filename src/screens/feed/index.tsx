@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import styled from 'styled-components';
 import { NotificationClickProp } from '../../components/types';
 import { useUserContext } from '../../context/UserContext';
 import Spinner from '../../components/Spinner';
 import { useChannelContext } from '../../context/ChannelContext';
+import { Notification } from '../../context/UserContext/types';
 import NotificationFeedItem from './components/NotificationFeedItem';
 import EmptyState from './components/EmptyState';
 import { Screen } from 'components/layout/Screen';
@@ -52,12 +53,20 @@ export const Feed = ({ onNotificationClick }: NotificationClickProp) => {
     setRoute(Routes.Settings);
   };
 
-  const notificationsToShow =
-    activeTab === NavigationTabs.App
-      ? allNotifications.filter(
-          (notif) => notif.appAddress.toLowerCase() === channelAddress.toLowerCase()
-        )
-      : allNotifications;
+  const [channelNotifs, otherNotifs] = useMemo(() => {
+    const channel: Notification[] = [];
+    const other: Notification[] = [];
+
+    allNotifications.forEach((notif) =>
+      notif.appAddress.toLowerCase() === channelAddress.toLowerCase()
+        ? channel.push(notif)
+        : other.push(notif)
+    );
+
+    return [channel, other];
+  }, [allNotifications]);
+
+  const notificationsToShow = activeTab === NavigationTabs.App ? channelNotifs : otherNotifs;
 
   return (
     <Screen
@@ -68,9 +77,12 @@ export const Feed = ({ onNotificationClick }: NotificationClickProp) => {
         </SettingsIcon>
       }
     >
-      <FeedNavigation activeTab={activeTab} setActiveTab={setActiveTab} />
+      {!!otherNotifs?.length && (
+        <FeedNavigation activeTab={activeTab} setActiveTab={setActiveTab} />
+      )}
+
       <NotificationFeed width={'100%'} direction={'column'} gap={2}>
-        <EmptyState show={!isLoading && !notificationsToShow?.length} />
+        <EmptyState show={!isLoading && !channelNotifs?.length} />
         {isLoading ? (
           <Flex height={150} justifyContent={'center'} alignItems={'center'} pb={3}>
             <Spinner />
