@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import useUnreadCount from '../../hooks/useUnreadCount';
+import { useEnvironment } from '../../context/EnvironmentContext';
 import { Bell } from 'components/icons';
 
 const Container = styled.div`
@@ -42,12 +43,15 @@ export type NotificationBellProps = {
 // any to avoid exposing props to consumers of the component (parent injects onClick and unreadCount)
 const NotificationBell = (props: NotificationBellProps & any) => {
   const unreadCount = useUnreadCount();
+  const { isSubscribeOnlyMode } = useEnvironment();
 
   return (
     <Container onClick={props.onClick}>
       <BellContainer size={props.size}>
         <Bell />
-        {!!unreadCount && <NotificationDot>{unreadCount > 9 ? '9+' : unreadCount}</NotificationDot>}
+        {!!unreadCount && !isSubscribeOnlyMode && (
+          <NotificationDot>{unreadCount > 9 ? '9+' : unreadCount}</NotificationDot>
+        )}
       </BellContainer>
     </Container>
   );
