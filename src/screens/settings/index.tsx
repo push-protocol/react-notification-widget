@@ -26,7 +26,7 @@ export const Settings = () => {
       app,
       enabled: userCommsChannels?.[app.toLowerCase() as Lowercase<typeof Web2Channels[0]>]
         ?.exists as boolean,
-      available: app === MessagingApp.Discord ? !!discordGuildUrl : true,
+      available: app === MessagingApp.Discord ? !!discordGuildUrl && isSubscribeOnlyMode : true,
     }))
     .filter((app) => app.available);
 
@@ -42,7 +42,9 @@ export const Settings = () => {
       <WrongNetworkError mb={2} />
       <ConnectApps apps={appConfig.map((config) => config.app)} />
 
-      {!!messageCategories.length && <Preferences hideChannelInfo messagingApps={appConfig} />}
+      {!!messageCategories.length && (
+        <Preferences hideChannelInfo hideDescriptions appConfig={appConfig} />
+      )}
 
       {process.env.WHEREVER_ENV === 'development' && (
         <Flex width={'100%'} justifyContent={'center'} mb={1}>

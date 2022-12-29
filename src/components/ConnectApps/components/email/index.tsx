@@ -1,6 +1,6 @@
 import React from 'react';
-import ChannelDropdown from '../ChannelDropdown';
-import ConnectedChannel from '../ConnectedChannel';
+import AppDropdown from '../AppDropdown';
+import ConnectedApp from '../ConnectedApp';
 import VerifyEmail from './VerifyEmail';
 import EditEmail from './EditEmail';
 import useEmailActions, { ConnectEmailViews } from './useEmailActions';
@@ -13,7 +13,7 @@ type EmailChannelProps = {
   setOpen: () => void;
 };
 
-export const EmailChannel = ({ open, setOpen }: EmailChannelProps) => {
+export const EmailConnector = ({ open, setOpen }: EmailChannelProps) => {
   const { isLoading } = useAuthContext();
 
   const {
@@ -32,7 +32,7 @@ export const EmailChannel = ({ open, setOpen }: EmailChannelProps) => {
   } = useEmailActions();
 
   return (
-    <ChannelDropdown
+    <AppDropdown
       title={'Email'}
       icon={<EmailIcon />}
       open={open}
@@ -61,7 +61,7 @@ export const EmailChannel = ({ open, setOpen }: EmailChannelProps) => {
           />
         )}
         {connectEmailView === ConnectEmailViews.Connected && (
-          <ConnectedChannel
+          <ConnectedApp
             description={`You are receiving alerts to ${hint}`}
             handleRemove={handleRemove}
             handleEdit={() => setConnectEmailView(ConnectEmailViews.Edit)}
@@ -70,6 +70,6 @@ export const EmailChannel = ({ open, setOpen }: EmailChannelProps) => {
           />
         )}
       </Flex>
-    </ChannelDropdown>
+    </AppDropdown>
   );
 };

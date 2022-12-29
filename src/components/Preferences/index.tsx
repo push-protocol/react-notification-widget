@@ -21,24 +21,26 @@ export type MessagingAppConfig = { enabled: boolean; app: MessagingApp };
 
 type PropsT = {
   hideChannelInfo?: boolean;
-  messagingApps: MessagingAppConfig[];
+  hideDescriptions?: boolean;
+  hideToggles?: boolean;
+  appConfig: MessagingAppConfig[];
 };
 
-const Preferences = ({ hideChannelInfo, messagingApps }: PropsT) => {
+const Preferences = (props: PropsT) => {
   const { user } = useUserContext();
   const { messageCategories } = useChannelContext();
 
   return (
     <PreferencesContainer>
-      <PreferencesHeader hideChannelInfo={hideChannelInfo} messagingAppConfig={messagingApps} />
+      <PreferencesHeader {...props} />
       {messageCategories.map((category) => (
         <PreferenceCategoryItem
+          {...props}
           key={category.id}
           category={category}
           userPref={user?.preferences?.find(
             (userPref) => userPref.commsChannelTagId === category.id
           )}
-          messagingAppConfig={messagingApps}
         />
       ))}
     </PreferencesContainer>
