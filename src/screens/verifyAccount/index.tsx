@@ -33,9 +33,10 @@ export const VerifyAccount = () => {
       </Flex>
       <Button
         onClick={handleLogin}
+        pl={4}
+        pr={4}
         size={'lg'}
-        width={'100%'}
-        mb={3}
+        mb={2}
         isLoading={isLoading}
         disabled={isLoading}
       >

@@ -79,7 +79,7 @@ export const Subscribe = () => {
       <Screen>
         <Flex
           width={300}
-          height={300}
+          height={250}
           direction={'column'}
           gap={2}
           justifyContent={'center'}
