@@ -15,7 +15,7 @@ import authStorage from 'services/authStorage';
 let apolloClient: ApolloClient<any>;
 
 const getReqHeaders = () => {
-  const authParams = authStorage.getAuthKey();
+  const authParams = authStorage.getAuth()?.token;
 
   return {
     'x-widget-version': WIDGET_VERSION,
@@ -24,7 +24,7 @@ const getReqHeaders = () => {
 };
 
 const refreshToken = async () => {
-  const currentRefreshToken = authStorage.getAuthRefreshKey();
+  const currentRefreshToken = authStorage.getAuth()?.refreshToken;
 
   if (!currentRefreshToken) {
     return false;
@@ -51,7 +51,7 @@ const refreshToken = async () => {
   const token = response.data?.refreshToken.token;
   const newRefreshToken = response.data?.refreshToken.refreshToken;
 
-  authStorage.updateAllTokens(token, newRefreshToken);
+  authStorage.updateUserTokens(token, newRefreshToken);
 
   return true;
 };
@@ -76,7 +76,7 @@ export const getApolloClient = ({ endpoint }: { endpoint: string }) => {
     const error = graphQLErrors?.[0];
 
     if (error?.extensions.code == 'INVALID_TOKEN') {
-      authStorage.removeAuthKeys();
+      authStorage.resetActiveKeys();
       return;
     }
 

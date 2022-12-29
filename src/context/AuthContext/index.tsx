@@ -14,7 +14,6 @@ import { useAuthenticate } from 'hooks/useAuthenticate';
 import { useChannelContext } from 'context/ChannelContext';
 import { usePrevious } from 'hooks/usePrevious';
 import authStorage from 'services/authStorage';
-import { useEnvironment } from 'context/EnvironmentContext';
 
 export type AuthInfo = {
   subscribe(): void;
@@ -56,7 +55,6 @@ const AuthProvider = ({
   children: ReactNode;
   discordToken?: string;
 }) => {
-  const { isSubscribeOnlyMode } = useEnvironment();
   const { setRoute } = useRouterContext();
   const { channelAddress, chainId } = useChannelContext();
   const { isConnected, address } = useAccount();
@@ -117,7 +115,7 @@ const AuthProvider = ({
       analytics.track('backend login successful');
 
       if (address) {
-        authStorage.updateAllTokens(result.token, result.refreshToken, address);
+        authStorage.updateUserTokens(result.token, result.refreshToken, address);
       }
 
       setLoggedInAddress(address);
@@ -133,7 +131,7 @@ const AuthProvider = ({
   };
 
   const _resetLoginState = () => {
-    if (address && authStorage.refreshTokensOnWalletChange(address)) {
+    if (address && authStorage.switchActiveTokens(address)) {
       setIsLoggedIn(true);
       setLoggedInAddress(address);
     } else {
@@ -174,10 +172,11 @@ const AuthProvider = ({
     const tokensList = authStorage.getUserTokens();
 
     if (address && tokensList[address]) {
-      authStorage.setCurrentAccount(address);
-      authStorage.setAuthKey(tokensList[address].authKey);
-      authStorage.setAuthRefreshKey(tokensList[address].authRefreshKey);
-      setRoute(isSubscribeOnlyMode ? Routes.Settings : Routes.NotificationsFeed);
+      authStorage.setAuth({
+        account: address,
+        token: tokensList[address].token,
+        refreshToken: tokensList[address].refreshToken,
+      });
       setIsLoggedIn(true);
       setLoggedInAddress(address);
     }
