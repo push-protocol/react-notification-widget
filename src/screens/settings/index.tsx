@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Notice from 'components/Notice';
 import { Screen } from 'components/layout/Screen';
 import Button from 'components/Button';
@@ -19,7 +19,7 @@ export const Settings = () => {
   const { isSubscribeOnlyMode } = useEnvironment();
   const { userCommsChannels } = useUserContext();
   const { name, icon, discordGuildUrl, messageCategories } = useChannelContext();
-  const { unsubscribe } = useAuthContext();
+  const { unsubscribe, isOnboarding } = useAuthContext();
 
   const appConfig = [MessagingApp.Telegram, MessagingApp.Email, MessagingApp.Discord]
     .map((app) => ({
@@ -34,17 +34,27 @@ export const Settings = () => {
     unsubscribe();
   };
 
+  const apps = appConfig.map((config) => config.app);
+  const [appOpen, setAppOpen] = useState<MessagingApp | undefined>(
+    isOnboarding ? apps?.[0] : undefined
+  );
+
   return (
     <Screen navbarActionComponent={!isSubscribeOnlyMode ? <NavbarActions /> : undefined} mb={1}>
       <Flex mt={!isSubscribeOnlyMode ? -5 : 0} mb={2}>
         <SettingsHeader icon={icon} />
       </Flex>
       <WrongNetworkError mb={2} />
-      <ConnectApps apps={appConfig.map((config) => config.app)} />
-
       {!!messageCategories.length && (
-        <Preferences hideChannelInfo hideDescriptions appConfig={appConfig} />
+        <Preferences
+          hideChannelInfo
+          hideDescriptions
+          appConfig={appConfig}
+          setAppOpen={setAppOpen}
+        />
       )}
+
+      <ConnectApps apps={apps} appOpen={appOpen} setAppOpen={setAppOpen} />
 
       {process.env.WHEREVER_ENV === 'development' && (
         <Flex width={'100%'} justifyContent={'center'} mb={1}>

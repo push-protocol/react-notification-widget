@@ -1,9 +1,9 @@
 import React from 'react';
 import AppDropdown from '../AppDropdown';
 import ConnectedApp from '../ConnectedApp';
-import { useUserContext } from '../../../../context/UserContext';
 import IntegrateDiscord from './IntegrateDiscord';
 import useDiscordActions from './useDiscordActions';
+import { useUserContext } from 'context/UserContext';
 import { Discord as DiscordIcon } from 'components/icons';
 import { useAuthContext } from 'context/AuthContext';
 
