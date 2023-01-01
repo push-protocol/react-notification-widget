@@ -4,6 +4,7 @@ import Spinner from '../../components/Spinner';
 import analytics from '../../services/analytics';
 import PageTitle from '../../components/PageTitle';
 import { UserSubscribeSource } from '../../global/types.generated';
+import useIsWrongNetwork from '../../hooks/useIsWrongNetwork';
 import NewTag from './components/NewTag';
 import { useUserSubscribeMutation } from './operations.generated';
 import ChannelToUserIcons from './components/ChannelToUserIcons';
@@ -38,7 +39,6 @@ export const Subscribe = () => {
   const [loadingMsg, setLoadingMsg] = useState('');
 
   const {
-    walletDisconnected,
     isSubscribed,
     setIsOnboarding,
     isOnboarding,
@@ -57,9 +57,9 @@ export const Subscribe = () => {
     channelAddress,
     name: channelName,
     messageCategories,
-    isWrongNetwork,
     error,
   } = useChannelContext();
+  const isWrongNetwork = useIsWrongNetwork();
 
   const { isLoading: userLoading } = useUserContext();
   const theme = useTheme();
@@ -153,12 +153,7 @@ export const Subscribe = () => {
               </Text>
             )}
           </Flex>
-          {!walletDisconnected && <WrongNetworkError />}
-          {!isWrongNetwork && walletDisconnected && (
-            <Text size={'sm'} mt={1} mb={2} color={'secondary'} opacity={0.8} align={'center'}>
-              You will need to sign a message to prove ownership of your wallet.
-            </Text>
-          )}
+          {isWrongNetwork && <WrongNetworkError />}
         </Flex>
       </Container>
     </Screen>
