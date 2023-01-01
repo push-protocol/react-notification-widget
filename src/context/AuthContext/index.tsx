@@ -10,10 +10,10 @@ import * as epns from '@epnsproject/sdk-restapi';
 import { useAccount, useDisconnect, useSigner } from 'wagmi';
 import { Routes, useRouterContext } from 'context/RouterContext';
 import analytics from 'services/analytics';
-import { LOCALSTORAGE_AUTH_KEY, LOCALSTORAGE_AUTH_REFRESH_KEY } from 'global/const';
 import { useAuthenticate } from 'hooks/useAuthenticate';
 import { useChannelContext } from 'context/ChannelContext';
 import { usePrevious } from 'hooks/usePrevious';
+import authStorage from 'services/authStorage';
 
 export type AuthInfo = {
   subscribe(): void;
@@ -114,8 +114,10 @@ const AuthProvider = ({
       const result = await _login(channelAddress);
       analytics.track('backend login successful');
 
-      localStorage.setItem(LOCALSTORAGE_AUTH_KEY, result.token);
-      localStorage.setItem(LOCALSTORAGE_AUTH_REFRESH_KEY, result.refreshToken);
+      if (address) {
+        authStorage.updateUserTokens(result.token, result.refreshToken, address);
+      }
+
       setLoggedInAddress(address);
       setIsLoggedIn(true);
 
@@ -129,10 +131,14 @@ const AuthProvider = ({
   };
 
   const _resetLoginState = () => {
-    localStorage.removeItem(LOCALSTORAGE_AUTH_KEY);
-    localStorage.removeItem(LOCALSTORAGE_AUTH_REFRESH_KEY);
-    setIsLoggedIn(false);
-    setLoggedInAddress('');
+    if (address && authStorage.switchActiveTokens(address)) {
+      setIsLoggedIn(true);
+      setLoggedInAddress(address);
+    } else {
+      setIsLoggedIn(false);
+      setLoggedInAddress('');
+      setRoute(Routes.Subscribe);
+    }
   };
 
   const logout = useCallback(() => {
@@ -161,12 +167,20 @@ const AuthProvider = ({
     }
   }, [address]);
 
+  // Set correct auth key on load
   useEffect(() => {
-    if (localStorage.getItem(LOCALSTORAGE_AUTH_KEY)) {
+    const tokensList = authStorage.getUserTokens();
+
+    if (address && tokensList[address]) {
+      authStorage.setAuth({
+        account: address,
+        token: tokensList[address].token,
+        refreshToken: tokensList[address].refreshToken,
+      });
       setIsLoggedIn(true);
       setLoggedInAddress(address);
     }
-  }, []);
+  }, [address]);
 
   const toggleSubscription = async (action: 'sub' | 'unsub') => {
     setIsLoading(true);
