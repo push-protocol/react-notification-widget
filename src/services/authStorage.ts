@@ -1,87 +1,72 @@
-import {
-  LOCALSTORAGE_AUTH_KEY,
-  LOCALSTORAGE_AUTH_REFRESH_KEY,
-  LOCALSTORAGE_CURRENT_WALLET_ADDRESS,
-  LOCALSTORAGE_WALLET_TOKENS,
-} from 'global/const';
+import { LOCALSTORAGE_PREFIX } from 'global/const';
+
+const LOCALSTORAGE_AUTH_STORAGE_KEY = `${LOCALSTORAGE_PREFIX}auth`;
+const LOCALSTORAGE_USER_TOKENS_KEY = `${LOCALSTORAGE_PREFIX}userTokens`;
+
+type AuthStoreKeys = 'account' | 'token' | 'refreshToken';
 
 class AuthStorage {
-  setAuthKey(value: string): void {
-    localStorage.setItem(LOCALSTORAGE_AUTH_KEY, value);
+  setAuth(value: Record<AuthStoreKeys, string | null>): void {
+    localStorage.setItem(LOCALSTORAGE_AUTH_STORAGE_KEY, JSON.stringify(value));
   }
 
-  setAuthRefreshKey(value: string): void {
-    localStorage.setItem(LOCALSTORAGE_AUTH_REFRESH_KEY, value);
+  getAuth(): { [s in AuthStoreKeys]: string | null } {
+    return JSON.parse(localStorage.getItem(LOCALSTORAGE_AUTH_STORAGE_KEY) || '{}');
   }
 
-  setCurrentWalletAddress(address: string) {
-    localStorage.setItem(LOCALSTORAGE_CURRENT_WALLET_ADDRESS, address);
+  setUserTokens(walletAddress: string, token: string, refreshToken: string): void {
+    const updatedTokens = this.getUserTokens();
+
+    updatedTokens[walletAddress] = {
+      token,
+      refreshToken,
+    };
+
+    localStorage.setItem(LOCALSTORAGE_USER_TOKENS_KEY, JSON.stringify(updatedTokens));
   }
 
-  updateTokens(authKey: string, authRefreshKey: string) {
-    const updatedTokens = this.getTokens();
-    const currentUser = this.getCurrentWalletAddress();
+  getUserTokens(): { [s: string]: { token: string; refreshToken: string } } {
+    return JSON.parse(localStorage.getItem(LOCALSTORAGE_USER_TOKENS_KEY) || '{}');
+  }
 
-    if (currentUser && updatedTokens[currentUser]) {
-      updatedTokens[currentUser] = {
-        authKey,
-        authRefreshKey,
-      };
+  updateUserTokens(token: string, refreshToken: string, currentAccount?: string) {
+    // If currentAccount is not passed but account is still saved in the list
+    const account = currentAccount || this.getAuth()?.account;
+
+    if (account) {
+      this.setUserTokens(account, token, refreshToken);
     }
 
-    this.setAuthKey(authKey);
-    this.setAuthRefreshKey(authRefreshKey);
+    this.setAuth({
+      account,
+      token,
+      refreshToken,
+    });
   }
 
-  refreshTokensOnWalletChange(walletAddress: string): boolean {
-    const updatedTokens = this.getTokens();
+  switchActiveTokens(walletAddress: string): boolean {
+    const updatedTokens = this.getUserTokens();
 
     if (updatedTokens[walletAddress]) {
-      this.setCurrentWalletAddress(walletAddress);
-      this.setAuthKey(updatedTokens[walletAddress].authKey);
-      this.setAuthRefreshKey(updatedTokens[walletAddress].authRefreshKey);
+      this.setAuth({
+        account: walletAddress,
+        token: updatedTokens[walletAddress].token,
+        refreshToken: updatedTokens[walletAddress].refreshToken,
+      });
       return true;
     }
+
+    this.resetActiveKeys();
 
     return false;
   }
 
-  setToken(walletAddress: string, authKey: string, authRefreshKey: string): void {
-    const updatedTokens = this.getTokens();
-
-    if (this.refreshTokensOnWalletChange(walletAddress)) return; // overwrite
-
-    updatedTokens[walletAddress] = {
-      authKey,
-      authRefreshKey,
-    };
-    this.setCurrentWalletAddress(walletAddress);
-    this.setAuthKey(authKey);
-    this.setAuthRefreshKey(authRefreshKey);
-
-    localStorage.setItem(LOCALSTORAGE_WALLET_TOKENS, JSON.stringify(updatedTokens));
-  }
-
-  getTokens() {
-    const tokens = localStorage.getItem(LOCALSTORAGE_WALLET_TOKENS);
-    return tokens ? JSON.parse(tokens) : {};
-  }
-
-  getCurrentWalletAddress(): string | null {
-    return localStorage.getItem(LOCALSTORAGE_CURRENT_WALLET_ADDRESS);
-  }
-
-  getAuthKey(): string | null {
-    return localStorage.getItem(LOCALSTORAGE_AUTH_KEY);
-  }
-
-  getAuthRefreshKey(): string | null {
-    return localStorage.getItem(LOCALSTORAGE_AUTH_REFRESH_KEY);
-  }
-
-  removeAuthKeys() {
-    localStorage.removeItem(LOCALSTORAGE_AUTH_KEY);
-    localStorage.removeItem(LOCALSTORAGE_AUTH_REFRESH_KEY);
+  resetActiveKeys() {
+    this.setAuth({
+      account: null,
+      token: null,
+      refreshToken: null,
+    });
   }
 }
 
