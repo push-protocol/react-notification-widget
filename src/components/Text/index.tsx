@@ -7,7 +7,7 @@ export const textSizes = {
   sm: 13,
   md: 14,
   lg: 16,
-  xl: 18,
+  xl: 20,
   '2xl': 24,
   '3xl': 32,
 };

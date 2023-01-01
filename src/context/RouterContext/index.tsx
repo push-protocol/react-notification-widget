@@ -21,10 +21,9 @@ const RouterProvider = ({ children }: { children: ReactNode }) => {
   const [active, setActive] = useState(Routes.ConnectWallet);
   const [routeProps, setRouteProps] = useState<RouteProps>({});
 
-  const setRouteWithParams = (route: Routes, props?: RouteProps) => {
+  const setRoute = (route: Routes, props?: RouteProps) => {
     setActive(route);
-
-    props ? setRouteProps(props) : setRouteProps({});
+    setRouteProps(props || {});
   };
 
   return (
@@ -32,7 +31,7 @@ const RouterProvider = ({ children }: { children: ReactNode }) => {
       value={{
         activeRoute: RouteConfig[active],
         routeProps,
-        setRoute: setRouteWithParams,
+        setRoute,
       }}
     >
       {children}

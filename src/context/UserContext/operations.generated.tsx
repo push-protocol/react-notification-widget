@@ -11,12 +11,27 @@ export type UserCommunicationChannelsQueryVariables = Types.Exact<{
 
 export type UserCommunicationChannelsQuery = { __typename?: 'Query', userCommunicationChannels: { __typename?: 'UserCommunicationChannelsPayload', email: { __typename?: 'UserCommunicationChannel', exists: boolean, hint?: string | null }, telegram: { __typename?: 'UserCommunicationChannel', exists: boolean, hint?: string | null }, discord: { __typename?: 'UserCommunicationChannel', exists: boolean, hint?: string | null } } };
 
+export type UserInfoFragment = { __typename?: 'User', id: string, lastReadAt: any, preferences: Array<{ __typename?: 'UserPreference', id: string, commsChannelTagId: string, email: boolean, telegram: boolean, discord: boolean, enabled: boolean }> };
+
 export type GetUserQueryVariables = Types.Exact<{ [key: string]: never; }>;
 
 
 export type GetUserQuery = { __typename?: 'Query', user: { __typename?: 'User', id: string, lastReadAt: any, preferences: Array<{ __typename?: 'UserPreference', id: string, commsChannelTagId: string, email: boolean, telegram: boolean, discord: boolean, enabled: boolean }> } };
 
-
+export const UserInfoFragmentDoc = gql`
+    fragment userInfo on User {
+  id
+  lastReadAt
+  preferences {
+    id
+    commsChannelTagId
+    email
+    telegram
+    discord
+    enabled
+  }
+}
+    `;
 export const UserCommunicationChannelsDocument = gql`
     query UserCommunicationChannels($address: String!) {
   userCommunicationChannels(address: $address) {
@@ -66,19 +81,10 @@ export type UserCommunicationChannelsQueryResult = ApolloReactCommon.QueryResult
 export const GetUserDocument = gql`
     query GetUser {
   user {
-    id
-    lastReadAt
-    preferences {
-      id
-      commsChannelTagId
-      email
-      telegram
-      discord
-      enabled
-    }
+    ...userInfo
   }
 }
-    `;
+    ${UserInfoFragmentDoc}`;
 
 /**
  * __useGetUserQuery__

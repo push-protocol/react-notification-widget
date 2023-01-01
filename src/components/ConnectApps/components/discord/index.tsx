@@ -1,9 +1,9 @@
 import React from 'react';
 import AppDropdown from '../AppDropdown';
 import ConnectedApp from '../ConnectedApp';
-import { useUserContext } from '../../../../context/UserContext';
 import IntegrateDiscord from './IntegrateDiscord';
 import useDiscordActions from './useDiscordActions';
+import { useUserContext } from 'context/UserContext';
 import { Discord as DiscordIcon } from 'components/icons';
 import { useAuthContext } from 'context/AuthContext';
 
@@ -16,13 +16,15 @@ export const DiscordConnector = ({ open, setOpen }: DiscordChannelProps) => {
   const { isLoading } = useAuthContext();
   const { userCommsChannels } = useUserContext();
 
-  const { deleteLoading, handleRemove, handleOpenDiscord, hint } = useDiscordActions();
+  const { deleteLoading, handleRemove, verifyLoading, handleOpenDiscord, hint } =
+    useDiscordActions();
 
   const isConnected = userCommsChannels?.discord.exists;
 
   return (
     <AppDropdown
       title={'Discord'}
+      isLoading={verifyLoading}
       icon={<DiscordIcon />}
       isConnected={isConnected}
       open={open}

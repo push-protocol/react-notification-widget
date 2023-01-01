@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Screen } from 'components/layout/Screen';
 import Flex from 'components/layout/Flex';
 import Button from 'components/Button';
@@ -10,10 +10,16 @@ import formatAddress from 'helpers/functions/formatAddress';
 import { useEnvironment } from 'context/EnvironmentContext';
 
 export const VerifyAccount = () => {
-  const { isLoading, login } = useAuthContext();
+  const { isLoading, login, isLoggedIn } = useAuthContext();
   const { isSubscribeOnlyMode } = useEnvironment();
   const { setRoute } = useRouterContext();
   const { userAddress } = useUserContext();
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      setRoute(isSubscribeOnlyMode ? Routes.Settings : Routes.NotificationsFeed);
+    }
+  }, [userAddress, isLoggedIn]);
 
   const handleLogin = async () => {
     login(() => {
@@ -33,9 +39,10 @@ export const VerifyAccount = () => {
       </Flex>
       <Button
         onClick={handleLogin}
+        pl={4}
+        pr={4}
         size={'lg'}
-        width={'100%'}
-        mb={3}
+        mb={2}
         isLoading={isLoading}
         disabled={isLoading}
       >

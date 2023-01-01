@@ -2,9 +2,9 @@
 // if this import is removed, the "types" in package.json should be changed
 import pkg from '../../package.json';
 
-export const LOCALSTORAGE_AUTH_KEY = 'whereverAuthToken';
-export const LOCALSTORAGE_AUTH_REFRESH_KEY = 'whereverAuthRefreshToken';
-export const LOCALSTORAGE_THEME_MODE_KEY = 'whereverThemeMode';
+export const LOCALSTORAGE_PREFIX = 'wherever.';
+
+export const LOCALSTORAGE_THEME_MODE_KEY = `${LOCALSTORAGE_PREFIX}themeMode`;
 
 export const WHEREVER_HOMEPAGE = 'https://wherever.to';
 export const WHEREVER_FAQ = 'https://wherever.to/faq';

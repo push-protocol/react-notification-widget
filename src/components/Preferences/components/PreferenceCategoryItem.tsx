@@ -11,6 +11,7 @@ import Flex from 'components/layout/Flex';
 import Text from 'components/Text';
 import Switch from 'components/Switch';
 import PreferenceBell from 'components/Preferences/components/PreferenceBell';
+import { MessagingApp } from 'global/types.generated';
 
 type PropsT = {
   userPref?: GetUserQuery['user']['preferences'][0];
@@ -18,6 +19,7 @@ type PropsT = {
   hideDescriptions?: boolean;
   hideToggles?: boolean;
   appConfig: MessagingAppConfig[];
+  onDisabledAppClick?: (app: MessagingApp) => void;
 };
 
 const CategoryContainer = styled(Flex)`
@@ -33,7 +35,8 @@ const CategoryContainer = styled(Flex)`
 
 const TitleContainer = styled(Flex)<{ grow: boolean }>`
   flex-direction: column;
-  ${({ grow }) => ({ flexGrow: grow ? 1 : undefined, width: !grow ? 105 : undefined })}
+  gap: 4px;
+  ${({ grow }) => ({ flexGrow: grow ? 1 : undefined, width: !grow ? 110 : undefined })}
 `;
 
 const PreferenceCategoryItem = ({
@@ -42,6 +45,7 @@ const PreferenceCategoryItem = ({
   userPref,
   category,
   appConfig,
+  onDisabledAppClick,
 }: PropsT) => {
   const updatePreference = useUpdatePreference();
 
@@ -68,7 +72,7 @@ const PreferenceCategoryItem = ({
     <Flex alignItems={'center'} width={'100%'} mb={1}>
       <CategoryContainer justifyContent={!appConfig.length ? 'space-between' : undefined}>
         <TitleContainer grow={noApps}>
-          <Text size={'sm'}>{category.name}</Text>
+          <Text size={'md'}>{category.name}</Text>
           {!hideDescriptions && (
             <Text size={'sm'} color={'secondary'}>
               {category.description}
@@ -92,9 +96,12 @@ const PreferenceCategoryItem = ({
               justifyContent={'center'}
             >
               <PreferenceBell
-                disabled={!enabled}
                 selected={userPref?.[app.toLowerCase() as Web2ChannelLower] || false}
-                onClick={() => handlePrefClick(app.toLowerCase() as Web2ChannelLower)}
+                onClick={() =>
+                  enabled
+                    ? handlePrefClick(app.toLowerCase() as Web2ChannelLower)
+                    : onDisabledAppClick?.(app)
+                }
               />
             </Flex>
           ))}
