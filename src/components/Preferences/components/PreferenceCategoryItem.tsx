@@ -11,6 +11,7 @@ import Flex from 'components/layout/Flex';
 import Text from 'components/Text';
 import Switch from 'components/Switch';
 import PreferenceBell from 'components/Preferences/components/PreferenceBell';
+import { MessagingApp } from 'global/types.generated';
 
 type PropsT = {
   userPref?: GetUserQuery['user']['preferences'][0];
@@ -18,6 +19,7 @@ type PropsT = {
   hideDescriptions?: boolean;
   hideToggles?: boolean;
   appConfig: MessagingAppConfig[];
+  setAppOpen?: (open?: MessagingApp) => void;
 };
 
 const CategoryContainer = styled(Flex)`
@@ -43,6 +45,7 @@ const PreferenceCategoryItem = ({
   userPref,
   category,
   appConfig,
+  setAppOpen,
 }: PropsT) => {
   const updatePreference = useUpdatePreference();
 
@@ -93,9 +96,12 @@ const PreferenceCategoryItem = ({
               justifyContent={'center'}
             >
               <PreferenceBell
-                disabled={!enabled}
                 selected={userPref?.[app.toLowerCase() as Web2ChannelLower] || false}
-                onClick={() => handlePrefClick(app.toLowerCase() as Web2ChannelLower)}
+                onClick={() =>
+                  enabled
+                    ? handlePrefClick(app.toLowerCase() as Web2ChannelLower)
+                    : setAppOpen?.(app)
+                }
               />
             </Flex>
           ))}

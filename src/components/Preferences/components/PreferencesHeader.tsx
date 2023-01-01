@@ -71,11 +71,10 @@ const PreferencesHeader = ({
         )}
       </ChannelInfo>
       <Channels>
-        {appConfig.map(({ app, enabled }) => {
+        {appConfig.map(({ app }) => {
           return (
             <HeaderChannelItem
               key={app}
-              disabled={!enabled}
               icon={MessagingAppInfo[app].icon}
               title={MessagingAppInfo[app].title}
             />

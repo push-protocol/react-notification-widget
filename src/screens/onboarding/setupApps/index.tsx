@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import analytics from '../../../services/analytics';
 import { useAuthContext } from '../../../context/AuthContext';
@@ -24,7 +24,7 @@ const Header = styled(Flex)`
 
 export const SetupApps = (props: { appsToConnect: MessagingApp[] }) => {
   const { name } = useChannelContext();
-  const { setIsOnboarding } = useAuthContext();
+  const { setIsOnboarding, isOnboarding } = useAuthContext();
   const { setRoute } = useRouterContext();
   const { isSubscribeOnlyMode } = useEnvironment();
   const { userCommsChannels } = useUserContext();
@@ -39,6 +39,11 @@ export const SetupApps = (props: { appsToConnect: MessagingApp[] }) => {
     setIsOnboarding(false);
     setRoute(isSubscribeOnlyMode ? Routes.SubscriptionFlowEnded : Routes.NotificationsFeed);
   };
+
+  const apps = props.appsToConnect || Web2Channels;
+  const [appOpen, setAppOpen] = useState<MessagingApp | undefined>(
+    isOnboarding ? apps?.[0] : undefined
+  );
 
   const finishButtonEnabled =
     !!userCommsChannels?.email?.exists ||
@@ -56,7 +61,7 @@ export const SetupApps = (props: { appsToConnect: MessagingApp[] }) => {
       </Header>
 
       <Flex mb={2} mt={2} width={'100%'}>
-        <ConnectApps apps={props.appsToConnect || Web2Channels} />
+        <ConnectApps apps={apps} appOpen={appOpen} setAppOpen={setAppOpen} />
       </Flex>
       <Flex width={'100%'} justifyContent={'space-between'} gap={1} mb={2}>
         {props.appsToConnect && (
