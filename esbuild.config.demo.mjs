@@ -14,12 +14,11 @@ esbuildServe({
   plugins: [
     NodeGlobalsPolyfillPlugin({
       buffer: true,
-      process: false
+      process: true,
     })
   ],
   define: {
-    'process.env.WHEREVER_ENV': JSON.stringify('production'),
-    'process.env.NODE_ENV': JSON.stringify('production'), // required for bundling
+    'WHEREVER_ENV': JSON.stringify('production'),
     global: 'window',
   },
 });

@@ -1,10 +1,11 @@
 import * as rudder from 'rudder-sdk-js';
+import { ENV } from '../global/const';
 
 let RUDDERSTACK_WRITE_KEY: string;
 
-if (process.env.WHEREVER_ENV === 'production') {
+if (ENV === 'production') {
   RUDDERSTACK_WRITE_KEY = '2EzrNnUAfbX1NnxeCDZzbSVd0p9';
-} else if (process.env.WHEREVER_ENV === 'staging') {
+} else if (ENV === 'staging') {
   RUDDERSTACK_WRITE_KEY = '2EzhYQgCELoWCA4pQbfhSXnE4HE';
 }
 
@@ -14,7 +15,7 @@ export function rudderInitialize() {
   }
 
   rudder.load(RUDDERSTACK_WRITE_KEY, 'https://wherevernntiw.dataplane.rudderstack.com', {
-    logLevel: process.env.WHEREVER_ENV !== 'production' ? 'DEBUG' : undefined,
+    logLevel: ENV !== 'production' ? 'DEBUG' : undefined,
     integrations: { All: true },
   });
 }

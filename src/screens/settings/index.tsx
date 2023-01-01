@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { ENV } from '../../global/const';
 import Notice from 'components/Notice';
 import { Screen } from 'components/layout/Screen';
 import Button from 'components/Button';
@@ -55,7 +56,7 @@ export const Settings = () => {
 
       <ConnectApps apps={apps} appOpen={appOpen} setAppOpen={setAppOpen} />
 
-      {process.env.WHEREVER_ENV === 'development' && (
+      {ENV === 'development' && (
         <Flex width={'100%'} justifyContent={'center'} mb={1}>
           <Button variant={'outlined'} onClick={handleUnsubscribe} height={20}>
             Unsubscribe
