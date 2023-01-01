@@ -18,10 +18,9 @@ const Container = styled(Flex)(({ theme }) => ({
 }));
 
 export const ConnectWallet = () => {
-  const { isConnected, isConnecting } = useAccount();
-
-  const { isLoading: authLoading } = useAuthContext();
   const { setRoute } = useRouterContext();
+  const { isConnected, isConnecting } = useAccount();
+  const { isLoading: authLoading } = useAuthContext();
   const { loading: channelLoading } = useChannelContext();
 
   useEffect(() => {
