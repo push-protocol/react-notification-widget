@@ -64,6 +64,7 @@ declare module 'styled-components' {
           10: string;
           30: string;
           50: string;
+          70: string;
           80: string;
           100: string;
         };
@@ -71,6 +72,7 @@ declare module 'styled-components' {
           10: string;
           30: string;
           50: string;
+          70: string;
           80: string;
           100: string;
         };
@@ -151,6 +153,7 @@ const defaultTheme: DefaultTheme['w'] = {
       10: 'rgba(255, 255, 255, 0.1)',
       30: 'rgba(255, 255, 255, 0.3)',
       50: 'rgba(255, 255, 255, 0.5)',
+      70: 'rgba(255, 255, 255, 0.7)',
       80: 'rgba(255, 255, 255, 0.8)',
       100: 'rgba(255, 255, 255, 1)',
     },
@@ -158,6 +161,7 @@ const defaultTheme: DefaultTheme['w'] = {
       10: 'rgba(0, 0, 0, 0.1)',
       30: 'rgba(0, 0, 0, 0.3)',
       50: 'rgba(0, 0, 0, 0.5)',
+      70: 'rgba(0, 0, 0, 0.7)',
       80: 'rgba(0, 0, 0, 0.8)',
       100: 'rgba(0, 0, 0, 1)',
     },

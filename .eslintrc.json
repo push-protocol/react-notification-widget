@@ -43,7 +43,7 @@
     "prettier/prettier": ["error", {"singleQuote":  true, "printWidth":  100, "endOfLine": "auto"}],
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
-    "no-use-before-define": "warn",
+    "no-use-before-define": "off",
     "@typescript-eslint/no-var-requires": "off"
   },
   "settings": {

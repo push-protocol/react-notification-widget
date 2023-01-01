@@ -1,5 +1,4 @@
 import React, { createContext, useContext, ReactNode, useState } from 'react';
-import analytics from '../../services/analytics';
 import { Routes, RouteConfig, Route } from './consts';
 
 type RouteProps = Record<string, any>;
@@ -19,13 +18,12 @@ const RouterContext = createContext<RouterContext>({
 } as RouterContext);
 
 const RouterProvider = ({ children }: { children: ReactNode }) => {
-  const [active, setActive] = useState(Routes.Subscribe);
+  const [active, setActive] = useState(Routes.ConnectWallet);
   const [routeProps, setRouteProps] = useState<RouteProps>({});
 
-  const setRouteWithParams = (route: Routes, props?: RouteProps) => {
+  const setRoute = (route: Routes, props?: RouteProps) => {
     setActive(route);
-
-    props ? setRouteProps(props) : setRouteProps({});
+    setRouteProps(props || {});
   };
 
   return (
@@ -33,7 +31,7 @@ const RouterProvider = ({ children }: { children: ReactNode }) => {
       value={{
         activeRoute: RouteConfig[active],
         routeProps,
-        setRoute: setRouteWithParams,
+        setRoute,
       }}
     >
       {children}

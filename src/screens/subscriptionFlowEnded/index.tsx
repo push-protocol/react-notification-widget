@@ -48,10 +48,10 @@ export const SubscriptionFlowEnded = () => {
         <Text size={'xl'} align={'center'} weight={700}>
           Thank you for subscribing!
         </Text>
-        <Text size={'lg'} align={'center'}>
+        <Text mb={4} size={'lg'} align={'center'}>
           Change your preferences at any time by visiting this page again.
         </Text>
-        <Button width={'100%'} onClick={handleViewSettings}>
+        <Button size={'lg'} onClick={handleViewSettings}>
           Continue to Settings
         </Button>
       </Flex>

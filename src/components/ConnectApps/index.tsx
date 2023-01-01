@@ -1,7 +1,7 @@
-import React, { ReactNode, useState } from 'react';
-import { DiscordChannel } from './components/discord';
-import { EmailChannel } from './components/email';
-import { TelegramChannel } from './components/telegram';
+import React, { useState, ReactElement } from 'react';
+import { DiscordConnector } from './components/discord';
+import { EmailConnector } from './components/email';
+import { TelegramConnector } from './components/telegram';
 import { MessagingApp } from 'global/types.generated';
 import { useAuthContext } from 'context/AuthContext';
 import Flex from 'components/layout/Flex';
@@ -9,33 +9,33 @@ import Flex from 'components/layout/Flex';
 const ConnectApps = ({ apps }: { apps: MessagingApp[] }) => {
   const { isOnboarding } = useAuthContext();
 
-  const [channelOpen, setChannelOpen] = useState<MessagingApp | undefined>(
+  const [appOpen, setAppOpen] = useState<MessagingApp | undefined>(
     isOnboarding ? apps?.[0] : undefined
   );
 
   const toggleChannelOpen = (channel: MessagingApp) => {
-    channelOpen === channel ? setChannelOpen(undefined) : setChannelOpen(channel);
+    appOpen === channel ? setAppOpen(undefined) : setAppOpen(channel);
   };
 
-  const channelComponents: { [key in MessagingApp]?: ReactNode } = {
+  const appConnectors: { [key in MessagingApp]?: ReactElement } = {
     [MessagingApp.Discord]: (
-      <DiscordChannel
+      <DiscordConnector
         key={MessagingApp.Discord}
-        open={channelOpen === MessagingApp.Discord}
+        open={appOpen === MessagingApp.Discord}
         setOpen={() => toggleChannelOpen(MessagingApp.Discord)}
       />
     ),
     [MessagingApp.Email]: (
-      <EmailChannel
+      <EmailConnector
         key={MessagingApp.Email}
-        open={channelOpen === MessagingApp.Email}
+        open={appOpen === MessagingApp.Email}
         setOpen={() => toggleChannelOpen(MessagingApp.Email)}
       />
     ),
     [MessagingApp.Telegram]: (
-      <TelegramChannel
+      <TelegramConnector
         key={MessagingApp.Telegram}
-        open={channelOpen === MessagingApp.Telegram}
+        open={appOpen === MessagingApp.Telegram}
         setOpen={() => toggleChannelOpen(MessagingApp.Telegram)}
       />
     ),
@@ -43,7 +43,7 @@ const ConnectApps = ({ apps }: { apps: MessagingApp[] }) => {
 
   return (
     <Flex gap={1} width={'100%'} direction={'column'} mb={2}>
-      {apps.map((channel) => channelComponents[channel])}
+      {apps.map((app) => appConnectors[app])}
     </Flex>
   );
 };

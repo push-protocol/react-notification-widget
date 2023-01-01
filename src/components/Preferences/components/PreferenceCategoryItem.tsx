@@ -15,13 +15,14 @@ import PreferenceBell from 'components/Preferences/components/PreferenceBell';
 type PropsT = {
   userPref?: GetUserQuery['user']['preferences'][0];
   category: PartnerInfoQuery['partnerInfo']['messageCategories'][0];
-  messagingAppConfig: MessagingAppConfig[];
+  hideDescriptions?: boolean;
+  hideToggles?: boolean;
+  appConfig: MessagingAppConfig[];
 };
 
-const PreferenceCategory = styled.div`
+const CategoryContainer = styled(Flex)`
+  width: 100%;
   display: flex;
-  flex: 1;
-  box-sizing: border-box;
   height: 36px;
   align-items: center;
   ${Text} {
@@ -30,7 +31,19 @@ const PreferenceCategory = styled.div`
   }
 `;
 
-const PreferenceCategoryItem = ({ userPref, category, messagingAppConfig }: PropsT) => {
+const TitleContainer = styled(Flex)<{ grow: boolean }>`
+  flex-direction: column;
+  gap: 4px;
+  ${({ grow }) => ({ flexGrow: grow ? 1 : undefined, width: !grow ? 110 : undefined })}
+`;
+
+const PreferenceCategoryItem = ({
+  hideDescriptions,
+  hideToggles,
+  userPref,
+  category,
+  appConfig,
+}: PropsT) => {
   const updatePreference = useUpdatePreference();
 
   const handlePrefClick = (pref: Web2ChannelLower | 'enabled') => {
@@ -49,24 +62,31 @@ const PreferenceCategoryItem = ({ userPref, category, messagingAppConfig }: Prop
         });
   };
 
-  // pref defaults to enabled if not defined
-  const prefEnabled = !userPref || userPref?.enabled;
+  const prefEnabled = !!userPref?.enabled;
+  const noApps = !appConfig.length;
 
   return (
-    <Flex alignItems={'center'} mb={1}>
-      <PreferenceCategory>
-        <Flex width={105}>
-          <Text size={'sm'}>{category.name}</Text>
-        </Flex>
+    <Flex alignItems={'center'} width={'100%'} mb={1}>
+      <CategoryContainer justifyContent={!appConfig.length ? 'space-between' : undefined}>
+        <TitleContainer grow={noApps}>
+          <Text size={'md'}>{category.name}</Text>
+          {!hideDescriptions && (
+            <Text size={'sm'} color={'secondary'}>
+              {category.description}
+            </Text>
+          )}
+        </TitleContainer>
 
-        <Flex width={32} alignItems={'center'} pl={1} pr={1}>
-          <Switch checked={prefEnabled} onChange={() => handlePrefClick('enabled')} />
-        </Flex>
-      </PreferenceCategory>
+        {!hideToggles && (
+          <Flex width={32} alignItems={'center'} pl={1} pr={1}>
+            <Switch checked={prefEnabled} onChange={() => handlePrefClick('enabled')} />
+          </Flex>
+        )}
+      </CategoryContainer>
 
-      {prefEnabled && (
+      {prefEnabled && !noApps && (
         <Flex width={PREFERENCES_WIDTH} gap={1} justifyContent={'end'}>
-          {messagingAppConfig.map(({ app, enabled }) => (
+          {appConfig.map(({ app, enabled }) => (
             <Flex
               key={`${app}${category.id}`}
               width={PREFERENCES_WIDTH / 3}

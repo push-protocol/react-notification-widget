@@ -1,4 +1,5 @@
 import React from 'react';
+import { useAuthContext } from '../../context/AuthContext';
 import { useUserPreferencesUpdateMutation } from './operations.generated';
 import { GetUserDocument, GetUserQuery } from 'context/UserContext/operations.generated';
 import { Web2ChannelLower } from 'context/UserContext/const';
@@ -12,11 +13,8 @@ const useUpdatePreference = () => {
     appOrEnabled: Web2ChannelLower | 'enabled',
     pref?: Partial<UserPreference>
   ) => {
-    // pref defaults to enabled if not defined
-    const defaultEnabled = !pref || !!pref?.enabled;
-    const updatedPref = { ...pref, enabled: defaultEnabled, [appOrEnabled]: !pref?.[appOrEnabled] };
-
-    const enabled = updatedPref.enabled;
+    const updatedPref = { ...pref, [appOrEnabled]: !pref?.[appOrEnabled] };
+    const enabled = !!updatedPref.enabled;
 
     const update = {
       commsChannelTagId: categoryId,

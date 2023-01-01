@@ -6,6 +6,7 @@ import PreferencesHeader from 'components/Preferences/components/PreferencesHead
 import PreferenceCategoryItem from 'components/Preferences/components/PreferenceCategoryItem';
 import { MessagingApp } from 'global/types.generated';
 import { useUserContext } from 'context/UserContext';
+import Flex from 'components/layout/Flex';
 
 const PreferencesContainer = styled.div`
   width: 100%;
@@ -21,26 +22,30 @@ export type MessagingAppConfig = { enabled: boolean; app: MessagingApp };
 
 type PropsT = {
   hideChannelInfo?: boolean;
-  messagingApps: MessagingAppConfig[];
+  hideDescriptions?: boolean;
+  hideToggles?: boolean;
+  appConfig: MessagingAppConfig[];
 };
 
-const Preferences = ({ hideChannelInfo, messagingApps }: PropsT) => {
+const Preferences = (props: PropsT) => {
   const { user } = useUserContext();
   const { messageCategories } = useChannelContext();
 
   return (
     <PreferencesContainer>
-      <PreferencesHeader hideChannelInfo={hideChannelInfo} messagingAppConfig={messagingApps} />
-      {messageCategories.map((category) => (
-        <PreferenceCategoryItem
-          key={category.id}
-          category={category}
-          userPref={user?.preferences?.find(
-            (userPref) => userPref.commsChannelTagId === category.id
-          )}
-          messagingAppConfig={messagingApps}
-        />
-      ))}
+      <PreferencesHeader {...props} />
+      <Flex direction={'column'} gap={1}>
+        {messageCategories.map((category) => (
+          <PreferenceCategoryItem
+            {...props}
+            key={category.id}
+            category={category}
+            userPref={user?.preferences?.find(
+              (userPref) => userPref.commsChannelTagId === category.id
+            )}
+          />
+        ))}
+      </Flex>
     </PreferencesContainer>
   );
 };

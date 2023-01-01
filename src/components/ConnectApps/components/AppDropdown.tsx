@@ -1,5 +1,6 @@
 import React, { ReactNode } from 'react';
 import styled, { useTheme, keyframes } from 'styled-components';
+import Spinner from '../../Spinner';
 import Flex from 'components/layout/Flex';
 import Text from 'components/Text';
 import { ArrowRight } from 'components/icons';
@@ -66,10 +67,12 @@ type SettingsItemProps = {
   open?: boolean;
   setOpen?: () => void;
   isConnected?: boolean;
+  isLoading?: boolean;
 };
 
-const ChannelDropdown = ({
+const AppDropdown = ({
   children,
+  isLoading,
   icon,
   title,
   open,
@@ -89,10 +92,14 @@ const ChannelDropdown = ({
             {title}
           </Text>
         </HeaderInfo>
-        {isConnected && (
-          <Text size={'sm'} color={theme.w.colors.success.main} weight={600}>
-            • CONNECTED
-          </Text>
+        {isLoading ? (
+          <Spinner size={18} />
+        ) : (
+          isConnected && (
+            <Text size={'sm'} color={theme.w.colors.success.main} weight={600}>
+              • CONNECTED
+            </Text>
+          )
         )}
       </Header>
       {open && <Content>{children}</Content>}
@@ -100,4 +107,4 @@ const ChannelDropdown = ({
   );
 };
 
-export default ChannelDropdown;
+export default AppDropdown;

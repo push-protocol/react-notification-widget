@@ -20,13 +20,11 @@ export type AnalyticsRangeInput = {
 
 export type Audience = {
   __typename?: 'Audience';
-  contractEventAudience?: Maybe<ContractEventAudience>;
   createdAt: Scalars['DateTime'];
   id: Scalars['String'];
-  incomingWebhookAudience?: Maybe<IncomingWebhookAudience>;
-  manualAudience?: Maybe<Array<ManualAudience>>;
   type: AudienceType;
   updatedAt: Scalars['DateTime'];
+  values: Scalars['JSON'];
   workflowId: Scalars['String'];
 };
 
@@ -140,7 +138,7 @@ export type CommsChannelTagOptInsPayload = {
 };
 
 export enum CommsChannelTagType {
-  Preference = 'PREFERENCE'
+  MessageCategory = 'MESSAGE_CATEGORY'
 }
 
 export type CommsChannelTagUpdateInput = {
@@ -153,12 +151,6 @@ export type CommsChannelTagUpdateInput = {
 export enum CommsChannelType {
   Epns = 'EPNS'
 }
-
-export type ContractEventAudience = {
-  __typename?: 'ContractEventAudience';
-  audienceId: Scalars['String'];
-  fields: Scalars['JSON'];
-};
 
 export type ContractTrigger = {
   __typename?: 'ContractTrigger';
@@ -195,12 +187,6 @@ export type IncomingWebhook = {
   name: Scalars['String'];
   parameters: Array<IncomingWebhookParameter>;
   secret: Scalars['String'];
-};
-
-export type IncomingWebhookAudience = {
-  __typename?: 'IncomingWebhookAudience';
-  audienceId: Scalars['String'];
-  field: Scalars['String'];
 };
 
 export type IncomingWebhookCreateInput = {
@@ -248,13 +234,6 @@ export type IncomingWebhookUpdateInput = {
   isActive: Scalars['Boolean'];
   name: Scalars['String'];
   parameters: Array<IncomingWebhookCreateInputParameter>;
-};
-
-export type ManualAudience = {
-  __typename?: 'ManualAudience';
-  address: Scalars['String'];
-  audienceId: Scalars['String'];
-  id: Scalars['String'];
 };
 
 export type MessageSendInput = {
@@ -315,7 +294,7 @@ export type Mutation = {
   userEmailValidate: GeneralResolverResponse;
   userLogin: UserLoginPayload;
   userPreferencesUpdate?: Maybe<UserPreference>;
-  userSubscribeToChannel: GeneralResolverResponse;
+  userSubscribeToChannel: User;
   userTelegramDelete: GeneralResolverResponse;
   userUpdateLastReadAt: User;
   workflowCreate: Workflow;
@@ -414,6 +393,11 @@ export type MutationUserPreferencesUpdateArgs = {
 };
 
 
+export type MutationUserSubscribeToChannelArgs = {
+  input?: InputMaybe<UserSubscribeToChannelInput>;
+};
+
+
 export type MutationWorkflowCreateArgs = {
   input: WorkflowCreateInput;
 };
@@ -472,6 +456,7 @@ export type Query = {
   __typename?: 'Query';
   commsChannel: CommsChannel;
   commsChannelSettings?: Maybe<CommsChannelSettings>;
+  commsChannelTags: Array<CommsChannelTag>;
   incomingWebhooks: Array<IncomingWebhook>;
   me: User;
   partnerInfo: PartnerInfo;
@@ -603,6 +588,14 @@ export type UserPreferenceUpdateInput = {
   telegram: Scalars['Boolean'];
 };
 
+export enum UserSubscribeSource {
+  Discord = 'Discord'
+}
+
+export type UserSubscribeToChannelInput = {
+  source?: InputMaybe<UserSubscribeSource>;
+};
+
 export type UserTelegramVerificationLinkPayload = {
   __typename?: 'UserTelegramVerificationLinkPayload';
   link: Scalars['String'];
@@ -617,6 +610,7 @@ export type Workflow = {
   createdByAddress: Scalars['String'];
   id: Scalars['String'];
   isActive: Scalars['Boolean'];
+  logs: Array<WorkflowRunLog>;
   message?: Maybe<MessageStep>;
   messageCategoryIds: Scalars['JSON'];
   name: Scalars['String'];
@@ -657,6 +651,15 @@ export type WorkflowCreateTriggerInput = {
 
 export type WorkflowDeleteInput = {
   ids: Array<Scalars['String']>;
+};
+
+export type WorkflowRunLog = {
+  __typename?: 'WorkflowRunLog';
+  createdAt: Scalars['DateTime'];
+  id: Scalars['String'];
+  recipients: Scalars['JSON'];
+  success: Scalars['Boolean'];
+  workflowId: Scalars['String'];
 };
 
 export type WorkflowUpdateInput = {

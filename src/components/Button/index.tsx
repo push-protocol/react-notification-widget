@@ -125,7 +125,6 @@ const ButtonWrapper = styled.button<ButtonProps>`
     border: none;
     font-weight: 600;
     display: flex;
-    align-self: flex-start;
     align-items: center;
     gap: 8px;
     justify-content: center;
