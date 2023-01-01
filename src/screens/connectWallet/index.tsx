@@ -21,7 +21,7 @@ const Container = styled(Flex)(({ theme }) => ({
 export const ConnectWallet = () => {
   const { isConnected, isConnecting } = useAccount();
 
-  const { userDisconnected, isLoading: authLoading } = useAuthContext();
+  const { walletDisconnected, isLoading: authLoading } = useAuthContext();
   const { setRoute } = useRouterContext();
   const { loading: channelLoading, isWrongNetwork } = useChannelContext();
 
@@ -62,7 +62,7 @@ export const ConnectWallet = () => {
           >
             <ConnectWalletButtons />
           </Flex>
-          {!isWrongNetwork && userDisconnected && (
+          {!isWrongNetwork && walletDisconnected && (
             <Text size={'sm'} mt={1} mb={2} color={'secondary'} opacity={0.8} align={'center'}>
               You will need to sign a message to prove ownership of your wallet.
             </Text>

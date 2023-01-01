@@ -38,7 +38,7 @@ export const Subscribe = () => {
   const [loadingMsg, setLoadingMsg] = useState('');
 
   const {
-    userDisconnected,
+    walletDisconnected,
     isSubscribed,
     setIsOnboarding,
     isOnboarding,
@@ -153,8 +153,8 @@ export const Subscribe = () => {
               </Text>
             )}
           </Flex>
-          {!userDisconnected && <WrongNetworkError />}
-          {!isWrongNetwork && userDisconnected && (
+          {!walletDisconnected && <WrongNetworkError />}
+          {!isWrongNetwork && walletDisconnected && (
             <Text size={'sm'} mt={1} mb={2} color={'secondary'} opacity={0.8} align={'center'}>
               You will need to sign a message to prove ownership of your wallet.
             </Text>

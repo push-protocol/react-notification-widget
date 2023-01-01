@@ -26,7 +26,7 @@ export type AuthInfo = {
   login(callback?: () => void): Promise<void>;
   isOnboarding: boolean;
   isSubscribed?: boolean;
-  userDisconnected: boolean;
+  walletDisconnected: boolean;
   setIsOnboarding(isFirst: boolean): void;
 };
 
@@ -115,7 +115,7 @@ const AuthProvider = ({
       analytics.track('backend login successful');
 
       if (address) {
-        authStorage.updateUserTokens(result.token, result.refreshToken, address);
+        authStorage.saveAndSetTokensForAddress({ ...result, address });
       }
 
       setLoggedInAddress(address);
@@ -131,7 +131,7 @@ const AuthProvider = ({
   };
 
   const _resetLoginState = () => {
-    if (address && authStorage.switchActiveTokens(address)) {
+    if (address && authStorage.switchActiveWalletTokens(address)) {
       setIsLoggedIn(true);
       setLoggedInAddress(address);
     } else {
@@ -169,11 +169,11 @@ const AuthProvider = ({
 
   // Set correct auth key on load
   useEffect(() => {
-    const tokensList = authStorage.getUserTokens();
+    const tokensList = authStorage.getUserSavedTokens();
 
     if (address && tokensList[address]) {
       authStorage.setAuth({
-        account: address,
+        address,
         token: tokensList[address].token,
         refreshToken: tokensList[address].refreshToken,
       });
@@ -221,7 +221,7 @@ const AuthProvider = ({
         login,
         isOnboarding,
         setIsOnboarding,
-        userDisconnected: !isConnected,
+        walletDisconnected: !isConnected,
         discordToken,
       }}
     >

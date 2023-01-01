@@ -24,7 +24,8 @@ const getReqHeaders = () => {
 };
 
 const refreshToken = async () => {
-  const currentRefreshToken = authStorage.getAuth()?.refreshToken;
+  const currentAuth = authStorage.getAuth();
+  const currentRefreshToken = currentAuth?.refreshToken;
 
   if (!currentRefreshToken) {
     return false;
@@ -51,7 +52,11 @@ const refreshToken = async () => {
   const token = response.data?.refreshToken.token;
   const newRefreshToken = response.data?.refreshToken.refreshToken;
 
-  authStorage.updateUserTokens(token, newRefreshToken);
+  authStorage.saveAndSetTokensForAddress({
+    token,
+    refreshToken: newRefreshToken,
+    address: currentAuth.address!,
+  });
 
   return true;
 };
@@ -76,7 +81,7 @@ export const getApolloClient = ({ endpoint }: { endpoint: string }) => {
     const error = graphQLErrors?.[0];
 
     if (error?.extensions.code == 'INVALID_TOKEN') {
-      authStorage.resetActiveKeys();
+      authStorage.removeActiveAddressTokens();
       return;
     }
 
