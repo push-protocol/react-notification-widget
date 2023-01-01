@@ -96,7 +96,7 @@ const PreferenceCategoryItem = ({
               justifyContent={'center'}
             >
               <PreferenceBell
-                selected={userPref?.[app.toLowerCase() as Web2ChannelLower] || false}
+                selected={(enabled && userPref?.[app.toLowerCase() as Web2ChannelLower]) || false}
                 onClick={() =>
                   enabled
                     ? handlePrefClick(app.toLowerCase() as Web2ChannelLower)
