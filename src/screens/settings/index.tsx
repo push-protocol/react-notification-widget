@@ -50,7 +50,7 @@ export const Settings = () => {
           hideChannelInfo
           hideDescriptions
           appConfig={appConfig}
-          setAppOpen={setAppOpen}
+          onDisabledAppClick={setAppOpen}
         />
       )}
 

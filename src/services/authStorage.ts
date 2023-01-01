@@ -53,8 +53,6 @@ class AuthStorage {
       return true;
     }
 
-    this.removeActiveAddressTokens();
-
     return false;
   }
 
@@ -64,7 +62,7 @@ class AuthStorage {
     if (activeAuth?.address) {
       const updatedTokens = {
         ...this.getUserSavedTokens(),
-        [activeAuth.address]: {},
+        [activeAuth.address]: undefined,
       };
 
       localStorage.setItem(LOCALSTORAGE_USER_TOKENS_KEY, JSON.stringify(updatedTokens));

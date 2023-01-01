@@ -41,9 +41,7 @@ export const SetupApps = (props: { appsToConnect: MessagingApp[] }) => {
   };
 
   const apps = props.appsToConnect || Web2Channels;
-  const [appOpen, setAppOpen] = useState<MessagingApp | undefined>(
-    isOnboarding ? apps?.[0] : undefined
-  );
+  const [appOpen, setAppOpen] = useState<MessagingApp | undefined>(apps?.[0]);
 
   const finishButtonEnabled =
     !!userCommsChannels?.email?.exists ||

@@ -19,7 +19,7 @@ type PropsT = {
   hideDescriptions?: boolean;
   hideToggles?: boolean;
   appConfig: MessagingAppConfig[];
-  setAppOpen?: (open?: MessagingApp) => void;
+  onDisabledAppClick?: (app: MessagingApp) => void;
 };
 
 const CategoryContainer = styled(Flex)`
@@ -45,7 +45,7 @@ const PreferenceCategoryItem = ({
   userPref,
   category,
   appConfig,
-  setAppOpen,
+  onDisabledAppClick,
 }: PropsT) => {
   const updatePreference = useUpdatePreference();
 
@@ -100,7 +100,7 @@ const PreferenceCategoryItem = ({
                 onClick={() =>
                   enabled
                     ? handlePrefClick(app.toLowerCase() as Web2ChannelLower)
-                    : setAppOpen?.(app)
+                    : onDisabledAppClick?.(app)
                 }
               />
             </Flex>

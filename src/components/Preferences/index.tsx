@@ -25,7 +25,7 @@ type PropsT = {
   hideDescriptions?: boolean;
   hideToggles?: boolean;
   appConfig: MessagingAppConfig[];
-  setAppOpen?: (open?: MessagingApp) => void;
+  onDisabledAppClick?: (app: MessagingApp) => void;
 };
 
 const Preferences = (props: PropsT) => {
