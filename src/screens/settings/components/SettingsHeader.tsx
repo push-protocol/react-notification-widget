@@ -6,10 +6,6 @@ import Text from '../../../components/Text';
 import PageTitle from 'components/PageTitle';
 import Flex from 'components/layout/Flex';
 
-const Header = styled(Flex)`
-  pointer-events: none;
-`;
-
 const HeaderIconContainer = styled.div<{ size?: number }>`
   height: ${({ size }) => size || 40}px;
   width: ${({ size }) => size || 40}px;
@@ -33,7 +29,7 @@ const SettingsHeader = ({ icon }: { icon: string }) => {
   const { isSubscribeOnlyMode } = useEnvironment();
 
   return (
-    <Header justifyContent={'center'} alignItems={'center'} direction={'column'}>
+    <Flex justifyContent={'center'} alignItems={'center'} direction={'column'}>
       <HeaderIconContainer size={58}>
         <HeaderImage src={icon} alt={'channel icon'} />
       </HeaderIconContainer>
@@ -41,7 +37,7 @@ const SettingsHeader = ({ icon }: { icon: string }) => {
         {isSubscribeOnlyMode ? name : 'Notification Settings'}
       </PageTitle>
       {isSubscribeOnlyMode && <Text>Notification Settings</Text>}
-    </Header>
+    </Flex>
   );
 };
 

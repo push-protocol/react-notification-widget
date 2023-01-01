@@ -44,7 +44,6 @@ export const Settings = () => {
       <Flex mt={!isSubscribeOnlyMode ? -5 : 0} mb={2}>
         <SettingsHeader icon={icon} />
       </Flex>
-      <WrongNetworkError mb={2} />
       {!!messageCategories.length && (
         <Preferences
           hideChannelInfo

@@ -7,7 +7,6 @@ import { Routes, useRouterContext } from 'context/RouterContext';
 import { useChannelContext } from 'context/ChannelContext';
 import { Screen } from 'components/layout/Screen';
 import Flex from 'components/layout/Flex';
-import Text from 'components/Text';
 import ConnectWalletButtons from 'screens/connectWallet/components/ConnectWalletButtons';
 import { useAuthContext } from 'context/AuthContext';
 
@@ -21,9 +20,9 @@ const Container = styled(Flex)(({ theme }) => ({
 export const ConnectWallet = () => {
   const { isConnected, isConnecting } = useAccount();
 
-  const { walletDisconnected, isLoading: authLoading } = useAuthContext();
+  const { isLoading: authLoading } = useAuthContext();
   const { setRoute } = useRouterContext();
-  const { loading: channelLoading, isWrongNetwork } = useChannelContext();
+  const { loading: channelLoading } = useChannelContext();
 
   useEffect(() => {
     if (isConnected) {
@@ -62,11 +61,6 @@ export const ConnectWallet = () => {
           >
             <ConnectWalletButtons />
           </Flex>
-          {!isWrongNetwork && walletDisconnected && (
-            <Text size={'sm'} mt={1} mb={2} color={'secondary'} opacity={0.8} align={'center'}>
-              You will need to sign a message to prove ownership of your wallet.
-            </Text>
-          )}
         </Flex>
       </Container>
     </Screen>

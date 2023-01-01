@@ -1,11 +1,12 @@
 import { useMemo } from 'react';
 import { providers } from 'ethers';
-import { createClient, configureChains, chain } from 'wagmi';
+import { createClient, configureChains } from 'wagmi';
 import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { WalletConnectConnector } from 'wagmi/connectors/walletConnect';
 import { CoinbaseWalletConnector } from 'wagmi/connectors/coinbaseWallet';
 import { MetaMaskConnector } from 'wagmi/connectors/metaMask';
 import { InjectedConnector } from 'wagmi/connectors/injected';
+import { MAINNET_CHAINS, TESTNET_CHAINS } from '../../global/const';
 import { ExternalProvider } from './index';
 
 const ALCHEMY_KEY = 'OAFEClC2JW9MaAAd0F-93QJNx2EoVQSV';
@@ -26,7 +27,7 @@ export default function useWagmiClient(provider?: ExternalProvider) {
     }
 
     const { chains } = configureChains(
-      [chain.goerli, chain.mainnet, chain.polygon, chain.arbitrum],
+      [...MAINNET_CHAINS, ...TESTNET_CHAINS],
       // setup a provider so that wagmi only tries to use alchemy
       [alchemyProvider({ apiKey: ALCHEMY_KEY })]
     );
