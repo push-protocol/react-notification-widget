@@ -4,7 +4,6 @@ import { UserCommunicationChannelsDocument } from 'context/UserContext/operation
 import analytics from 'services/analytics';
 import { Routes, useRouterContext } from 'context/RouterContext';
 import { useAuthContext } from 'context/AuthContext';
-import { useEnvironment } from 'context/EnvironmentContext';
 import {
   useDeleteChannelMutation,
   useGetTelegramVerificationLinkMutation,
@@ -12,8 +11,7 @@ import {
 import { MessagingApp } from 'global/types.generated';
 
 const useTelegramActions = () => {
-  const { isSubscribeOnlyMode } = useEnvironment();
-  const { login, setIsOnboarding } = useAuthContext();
+  const { login } = useAuthContext();
   const { setRoute } = useRouterContext();
   const { setUserCommsChannelsPollInterval, userCommsChannels, userCommsChannelsPollInterval } =
     useUserContext();
