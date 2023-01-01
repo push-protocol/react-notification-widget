@@ -18,7 +18,7 @@ esbuildServe({
     })
   ],
   define: {
-    'process.env.WHEREVER_ENV': JSON.stringify('production'),
+    'process.env.WHEREVER_ENV': JSON.stringify('staging'),
     'process.env.NODE_ENV': JSON.stringify('production'), // required for bundling
     global: 'window',
   },
