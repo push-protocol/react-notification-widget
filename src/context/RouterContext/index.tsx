@@ -10,7 +10,7 @@ type RouterContext = {
 };
 
 const RouterContext = createContext<RouterContext>({
-  activeRoute: RouteConfig[Routes.Subscribe],
+  activeRoute: RouteConfig[Routes.ConnectWallet],
   routeProps: {},
   setRoute() {
     return;

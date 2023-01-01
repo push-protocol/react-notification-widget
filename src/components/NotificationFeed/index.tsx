@@ -34,6 +34,7 @@ export type NotificationFeedProps = NotificationClickProp & {
 const NotificationFeed = (props: NotificationFeedProps): JSX.Element => {
   const { children, onNotificationClick } = props;
   const { feedOpen, setFeedOpen } = useUserContext();
+  const { isConnected } = useAccount();
   const unreadCount = useUnreadCount();
   const { isLoggedIn } = useAuthContext();
   const { address } = useAccount();
@@ -51,11 +52,11 @@ const NotificationFeed = (props: NotificationFeedProps): JSX.Element => {
   const [updateLastRead] = useUpdateLastReadMutation();
 
   useEffect(() => {
-    if (!isLoggedIn && activeRoute.requiresAuth) {
+    if (isConnected && !isLoggedIn && activeRoute.requiresAuth) {
       setRoute(Routes.VerifyAccount);
       return;
     }
-  }, [activeRoute, isLoggedIn]);
+  }, [activeRoute, isLoggedIn, isConnected]);
 
   const currentScreenComponent = useMemo(() => {
     analytics.track(`${activeRoute.name} page loaded`);

@@ -137,7 +137,6 @@ const AuthProvider = ({
     } else {
       setIsLoggedIn(false);
       setLoggedInAddress('');
-      setRoute(Routes.Subscribe);
     }
   };
 
