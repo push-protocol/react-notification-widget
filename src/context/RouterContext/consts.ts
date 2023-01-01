@@ -4,9 +4,10 @@ import {
   Settings,
   Feed,
   ChannelAdded,
-  SetupChannels,
+  SetupApps,
   SubscriptionFlowEnded,
-  SetupPreferences,
+  SelectApps,
+  SelectCategories,
   VerifyAccount,
 } from '../../screens';
 import { ConnectWallet } from '../../screens/connectWallet';
@@ -15,8 +16,9 @@ enum Routes {
   Subscribe = 'Subscribe',
   Settings = 'Settings',
   ChannelAdded = 'ChannelAdded',
-  SetupChannels = 'SetupChannels',
-  SetupPreferences = 'SetupPreferences',
+  SetupApps = 'SetupApps',
+  SelectCategories = 'SelectCategories',
+  SelectApps = 'SelectApps',
   NotificationsFeed = 'NotificationsFeed',
   SubscriptionFlowEnded = 'SubscriptionFlowEnded',
   VerifyAccount = 'VerifyAccount',
@@ -50,15 +52,20 @@ const RouteConfig: Record<Routes, Route> = {
     requiresAuth: false,
     name: Routes.ChannelAdded,
   },
-  [Routes.SetupChannels]: {
-    Component: SetupChannels,
+  [Routes.SetupApps]: {
+    Component: SetupApps,
     requiresAuth: false,
-    name: Routes.SetupChannels,
+    name: Routes.SetupApps,
   },
-  [Routes.SetupPreferences]: {
-    Component: SetupPreferences,
+  [Routes.SelectCategories]: {
+    Component: SelectCategories,
     requiresAuth: false,
-    name: Routes.SetupPreferences,
+    name: Routes.SelectCategories,
+  },
+  [Routes.SelectApps]: {
+    Component: SelectApps,
+    requiresAuth: false,
+    name: Routes.SelectApps,
   },
   [Routes.SubscriptionFlowEnded]: {
     Component: SubscriptionFlowEnded,

@@ -16,13 +16,15 @@ export const DiscordConnector = ({ open, setOpen }: DiscordChannelProps) => {
   const { isLoading } = useAuthContext();
   const { userCommsChannels } = useUserContext();
 
-  const { deleteLoading, handleRemove, handleOpenDiscord, hint } = useDiscordActions();
+  const { deleteLoading, handleRemove, verifyLoading, handleOpenDiscord, hint } =
+    useDiscordActions();
 
   const isConnected = userCommsChannels?.discord.exists;
 
   return (
     <AppDropdown
       title={'Discord'}
+      isLoading={verifyLoading}
       icon={<DiscordIcon />}
       isConnected={isConnected}
       open={open}

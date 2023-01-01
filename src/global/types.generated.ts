@@ -138,7 +138,7 @@ export type CommsChannelTagOptInsPayload = {
 };
 
 export enum CommsChannelTagType {
-  Preference = 'PREFERENCE'
+  MessageCategory = 'MESSAGE_CATEGORY'
 }
 
 export type CommsChannelTagUpdateInput = {
@@ -294,7 +294,7 @@ export type Mutation = {
   userEmailValidate: GeneralResolverResponse;
   userLogin: UserLoginPayload;
   userPreferencesUpdate?: Maybe<UserPreference>;
-  userSubscribeToChannel: GeneralResolverResponse;
+  userSubscribeToChannel: User;
   userTelegramDelete: GeneralResolverResponse;
   userUpdateLastReadAt: User;
   workflowCreate: Workflow;
@@ -390,6 +390,11 @@ export type MutationUserLoginArgs = {
 
 export type MutationUserPreferencesUpdateArgs = {
   input: UserPreferenceUpdateInput;
+};
+
+
+export type MutationUserSubscribeToChannelArgs = {
+  input?: InputMaybe<UserSubscribeToChannelInput>;
 };
 
 
@@ -581,6 +586,14 @@ export type UserPreferenceUpdateInput = {
   email: Scalars['Boolean'];
   enabled: Scalars['Boolean'];
   telegram: Scalars['Boolean'];
+};
+
+export enum UserSubscribeSource {
+  Discord = 'Discord'
+}
+
+export type UserSubscribeToChannelInput = {
+  source?: InputMaybe<UserSubscribeSource>;
 };
 
 export type UserTelegramVerificationLinkPayload = {

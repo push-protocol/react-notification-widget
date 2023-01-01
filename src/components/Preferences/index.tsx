@@ -6,6 +6,7 @@ import PreferencesHeader from 'components/Preferences/components/PreferencesHead
 import PreferenceCategoryItem from 'components/Preferences/components/PreferenceCategoryItem';
 import { MessagingApp } from 'global/types.generated';
 import { useUserContext } from 'context/UserContext';
+import Flex from 'components/layout/Flex';
 
 const PreferencesContainer = styled.div`
   width: 100%;
@@ -33,16 +34,18 @@ const Preferences = (props: PropsT) => {
   return (
     <PreferencesContainer>
       <PreferencesHeader {...props} />
-      {messageCategories.map((category) => (
-        <PreferenceCategoryItem
-          {...props}
-          key={category.id}
-          category={category}
-          userPref={user?.preferences?.find(
-            (userPref) => userPref.commsChannelTagId === category.id
-          )}
-        />
-      ))}
+      <Flex direction={'column'} gap={1}>
+        {messageCategories.map((category) => (
+          <PreferenceCategoryItem
+            {...props}
+            key={category.id}
+            category={category}
+            userPref={user?.preferences?.find(
+              (userPref) => userPref.commsChannelTagId === category.id
+            )}
+          />
+        ))}
+      </Flex>
     </PreferencesContainer>
   );
 };

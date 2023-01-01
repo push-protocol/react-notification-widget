@@ -1,10 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled, { useTheme } from 'styled-components';
 import Spinner from '../../components/Spinner';
 import analytics from '../../services/analytics';
-import NewTag from '../../components/NewTag';
 import PageTitle from '../../components/PageTitle';
-import { useUserSubscribedMutation } from './operations.generated';
+import { UserSubscribeSource } from '../../global/types.generated';
+import NewTag from './components/NewTag';
+import { useUserSubscribeMutation } from './operations.generated';
+import ChannelToUserIcons from './components/ChannelToUserIcons';
 import { WHEREVER_FAQ } from 'global/const';
 import { Routes, useRouterContext } from 'context/RouterContext';
 import Button from 'components/Button';
@@ -13,7 +15,6 @@ import { useChannelContext } from 'context/ChannelContext';
 import { Screen } from 'components/layout/Screen';
 import Flex from 'components/layout/Flex';
 import Text from 'components/Text';
-import ChannelToUserIcons from 'screens/subscribe/components/ChannelToUserIcons';
 import WrongNetworkError from 'components/Errors/WrongNetworkError';
 import { useAuthContext } from 'context/AuthContext';
 import { useEnvironment } from 'context/EnvironmentContext';
@@ -33,6 +34,9 @@ const SubscribeDescription = styled.div`
 
 export const Subscribe = () => {
   const { isSubscribeOnlyMode } = useEnvironment();
+  const { discordToken } = useAuthContext();
+  const [loadingMsg, setLoadingMsg] = useState('');
+
   const {
     userDisconnected,
     isSubscribed,
@@ -43,7 +47,10 @@ export const Subscribe = () => {
     login,
   } = useAuthContext();
 
-  const [subscribeUser] = useUserSubscribedMutation();
+  const [subscribeUser, { loading: subscribeLoading }] = useUserSubscribeMutation({
+    variables: { source: discordToken ? UserSubscribeSource.Discord : undefined },
+  });
+
   const { setRoute } = useRouterContext();
   const {
     loading: channelLoading,
@@ -67,11 +74,21 @@ export const Subscribe = () => {
     }
   }, [isSubscribed, isOnboarding, isSubscribeOnlyMode]);
 
-  if (channelLoading || authLoading || userLoading) {
+  if (channelLoading || authLoading || userLoading || subscribeLoading) {
     return (
       <Screen>
-        <Flex alignItems={'center'} height={300}>
+        <Flex
+          width={300}
+          height={250}
+          direction={'column'}
+          gap={2}
+          justifyContent={'center'}
+          alignItems={'center'}
+        >
           <Spinner size={30} />
+          <Text align={'center'} size={'sm'}>
+            {loadingMsg}
+          </Text>
         </Flex>
       </Screen>
     );
@@ -80,14 +97,18 @@ export const Subscribe = () => {
   const handleSubscribe = async () => {
     analytics.track('channel subscribe clicked', { channelAddress });
     setIsOnboarding(true);
+
+    setLoadingMsg('Sign the message in your wallet to subscribe');
     await subscribe();
     analytics.track('channel subscribe successful', { channelAddress });
 
+    setLoadingMsg('Sign the message in your wallet to verify ownership of your account');
     await login();
 
-    subscribeUser(); // don't wait for this to finish as it can trigger workflows
+    setLoadingMsg('Connecting you to the Wherever network');
+    await subscribeUser();
 
-    setRoute(messageCategories.length ? Routes.SetupPreferences : Routes.SetupChannels);
+    setRoute(messageCategories.length ? Routes.SelectCategories : Routes.SetupApps);
   };
 
   return (

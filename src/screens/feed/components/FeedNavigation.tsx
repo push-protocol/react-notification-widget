@@ -1,6 +1,7 @@
 import React from 'react';
 import styled, { useTheme } from 'styled-components';
 import analytics from '../../../services/analytics';
+import { mode } from '../../../theme';
 import Flex from 'components/layout/Flex';
 import Text from 'components/Text';
 import { Boxes } from 'components/icons';
@@ -15,7 +16,8 @@ const NavigationItem = styled.div<{ isActive?: boolean }>`
   display: flex;
   align-items: center;
   cursor: pointer;
-  ${({ isActive }) => isActive && `background: rgba(175, 175, 175, 0.3)`}
+  background: ${({ isActive, theme: { w } }) =>
+    isActive && mode(w.colors.light[10], w.colors.dark[10])};
 `;
 
 const ClientFeedIcon = styled.div`
@@ -76,7 +78,7 @@ const FeedNavigation = ({ activeTab, setActiveTab }: FeedNavigationProps) => {
         <AllFeedIconContainer>
           <Boxes color={theme.w.colors.text.primary} />
         </AllFeedIconContainer>
-        <Text>All</Text>
+        <Text>Other Channels</Text>
       </NavigationItem>
     </Flex>
   );
