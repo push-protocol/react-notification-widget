@@ -14,12 +14,12 @@ const shared = {
     nodeExternalsPlugin(),
     NodeGlobalsPolyfillPlugin({
       buffer: true,
-      process: false
+      process: true,
     })
 ],
   define: {
     global: 'window',
-    'process.env.WHEREVER_ENV': JSON.stringify('production')
+    'WHEREVER_ENV': JSON.stringify('production')
   },
   loader: {
     '.js': 'jsx',

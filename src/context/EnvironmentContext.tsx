@@ -1,4 +1,5 @@
 import React, { createContext, useContext } from 'react';
+import { ENV } from '../global/const';
 
 export type EnvType = 'production' | 'staging' | string;
 export enum WidgetMode {
@@ -36,7 +37,7 @@ export const EnvironmentProvider = ({
     production: 'prod',
   };
 
-  const whereverEnv = process.env.WHEREVER_ENV as string;
+  const whereverEnv = ENV as string;
 
   return (
     <EnvironmentContext.Provider

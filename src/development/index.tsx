@@ -8,6 +8,7 @@ import {
   NotificationFeedProvider,
   ThemeMode,
 } from '../index';
+import { ENV } from '../global/const';
 import * as S from './styles';
 import FloatingSettings, { Coordinates } from './components/FloatingSettings';
 import Logo from './components/Logo';
@@ -39,7 +40,7 @@ const defaultTheme = {
 };
 
 const DEFAULT_PARTNER_KEY =
-  process.env.WHEREVER_ENV === 'production'
+  ENV === 'production'
     ? '5e6a9f39-2c86-411c-90e1-b22642b930b6' // aave
     : 'cefa1b69-bfb9-4e70-bebc-9ee10316f882';
 

@@ -10,14 +10,13 @@ esbuildServe({
     '.js': 'jsx',
   },
   define: {
-    'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'), // required for bundling
-    'process.env.WHEREVER_ENV': JSON.stringify('development'),
+    'WHEREVER_ENV': JSON.stringify('development'),
     global: 'window',
   },
   plugins: [
     NodeGlobalsPolyfillPlugin({
       buffer: true,
-      process: false
+      process: true,
     })
   ],
 }, { port: 7001 });
