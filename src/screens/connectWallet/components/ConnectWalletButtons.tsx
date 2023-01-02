@@ -22,6 +22,10 @@ const ConnectWalletButtons = () => {
     analytics.track('wallet connect clicked', { wallet: connector.id });
 
     if (connector.id === 'metaMask' && isMobile()) {
+      if (connector.ready) {
+        return connect({ connector });
+      }
+
       window.open(`https://metamask.app.link/dapp/${window.location.href}`, '_blank');
       return;
     }
