@@ -24,7 +24,7 @@ const LayoutContainer = styled.div(({ theme }) => ({
   flexDirection: 'column',
   justifyContent: 'space-between',
   width: '380px',
-  boxSizing: 'border-box',
+  boxSizing: 'content-box',
   minHeight: '280px',
   overflowY: 'auto',
   borderRadius: theme.w.borderRadius.md,

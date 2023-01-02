@@ -4,6 +4,7 @@ import { mode } from '../../theme';
 
 const SwitchInputWrapper = styled.div`
   position: relative;
+  box-sizing: content-box;
   height: 16px;
   width: 28px;
   cursor: pointer;

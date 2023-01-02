@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 import styled from 'styled-components';
 import analytics from '../../../services/analytics';
 import Text from '../../../components/Text';
+import { useAuthContext } from '../../../context/AuthContext';
 import Flex from 'components/layout/Flex';
 import { Screen } from 'components/layout/Screen';
 import { useChannelContext } from 'context/ChannelContext';
@@ -12,7 +13,7 @@ import { useEnvironment } from 'context/EnvironmentContext';
 import Preferences from 'components/Preferences';
 import { MessagingApp } from 'global/types.generated';
 import { useUserContext } from 'context/UserContext';
-import { Web2ChannelLower, Web2Channels } from 'context/UserContext/const';
+import { Web2AppLower, Web2Apps } from 'context/UserContext/const';
 
 const Header = styled.div`
   text-align: center;
@@ -23,20 +24,21 @@ export const SelectApps = () => {
   const { discordGuildUrl, messageCategories, name } = useChannelContext();
   const { user } = useUserContext();
   const { setRoute } = useRouterContext();
+  const { discordToken } = useAuthContext();
   const { isSubscribeOnlyMode } = useEnvironment();
 
-  const appConfig = Web2Channels.filter((channel) =>
-    channel === MessagingApp.Discord ? discordGuildUrl && isSubscribeOnlyMode : true
+  const appConfig = Web2Apps.filter((channel) =>
+    channel === MessagingApp.Discord ? discordGuildUrl && discordToken : true
   ).map((app) => ({ app, enabled: true }));
 
   const appsToConnect = useMemo(() => {
-    return Web2Channels.filter((channel) => {
+    return Web2Apps.filter((channel) => {
       const selectedByUser = user?.preferences.some(
-        (pref) => pref[channel.toLowerCase() as Web2ChannelLower]
+        (pref) => pref[channel.toLowerCase() as Web2AppLower]
       );
 
       return channel === MessagingApp.Discord
-        ? selectedByUser && discordGuildUrl && isSubscribeOnlyMode
+        ? selectedByUser && discordGuildUrl && discordToken
         : selectedByUser;
     });
   }, [discordGuildUrl, user]);

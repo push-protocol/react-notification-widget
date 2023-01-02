@@ -4,7 +4,7 @@ import { PREFERENCES_WIDTH } from '../consts';
 import { MessagingAppConfig } from '../index';
 import useUpdatePreference from '../useUpdatePreference';
 import analytics from '../../../services/analytics';
-import { Web2ChannelLower } from 'context/UserContext/const';
+import { Web2AppLower } from 'context/UserContext/const';
 import { GetUserQuery } from 'context/UserContext/operations.generated';
 import { PartnerInfoQuery } from 'context/ChannelContext/operations.generated';
 import Flex from 'components/layout/Flex';
@@ -49,7 +49,7 @@ const PreferenceCategoryItem = ({
 }: PropsT) => {
   const updatePreference = useUpdatePreference();
 
-  const handlePrefClick = (pref: Web2ChannelLower | 'enabled') => {
+  const handlePrefClick = (pref: Web2AppLower | 'enabled') => {
     updatePreference(category.id, pref, userPref);
 
     const analyticsData = { category: category.name, categoryId: category.id };
@@ -96,10 +96,10 @@ const PreferenceCategoryItem = ({
               justifyContent={'center'}
             >
               <PreferenceBell
-                selected={(enabled && userPref?.[app.toLowerCase() as Web2ChannelLower]) || false}
+                selected={(enabled && userPref?.[app.toLowerCase() as Web2AppLower]) || false}
                 onClick={() =>
                   enabled
-                    ? handlePrefClick(app.toLowerCase() as Web2ChannelLower)
+                    ? handlePrefClick(app.toLowerCase() as Web2AppLower)
                     : onDisabledAppClick?.(app)
                 }
               />

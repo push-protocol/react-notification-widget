@@ -59,7 +59,7 @@ const NotificationBell = (props: NotificationBellProps & any) => {
         {!!unreadCount && !isSubscribeOnlyMode && (
           <NotificationDot>{unreadCount > 9 ? '9+' : unreadCount}</NotificationDot>
         )}
-        {isConnected && !isSubscribed && !authLoading && <NotificationDot size={12} />}
+        {isConnected && isSubscribed === false && !authLoading && <NotificationDot size={12} />}
       </BellContainer>
     </Container>
   );

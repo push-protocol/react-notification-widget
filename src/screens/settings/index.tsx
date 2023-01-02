@@ -6,7 +6,6 @@ import Button from 'components/Button';
 import Flex from 'components/layout/Flex';
 import ConnectApps from 'components/ConnectApps';
 import { useChannelContext } from 'context/ChannelContext';
-import WrongNetworkError from 'components/Errors/WrongNetworkError';
 import NavbarActions from 'screens/settings/components/NavbarActions';
 import SettingsHeader from 'screens/settings/components/SettingsHeader';
 import { useAuthContext } from 'context/AuthContext';
@@ -14,7 +13,7 @@ import { useEnvironment } from 'context/EnvironmentContext';
 import Preferences from 'components/Preferences';
 import { useUserContext } from 'context/UserContext';
 import { MessagingApp } from 'global/types.generated';
-import { Web2Channels } from 'context/UserContext/const';
+import { Web2Apps } from 'context/UserContext/const';
 
 export const Settings = () => {
   const { isSubscribeOnlyMode } = useEnvironment();
@@ -22,14 +21,12 @@ export const Settings = () => {
   const { name, icon, discordGuildUrl, messageCategories } = useChannelContext();
   const { unsubscribe, isOnboarding } = useAuthContext();
 
-  const appConfig = [MessagingApp.Telegram, MessagingApp.Email, MessagingApp.Discord]
-    .map((app) => ({
-      app,
-      enabled: userCommsChannels?.[app.toLowerCase() as Lowercase<typeof Web2Channels[0]>]
-        ?.exists as boolean,
-      available: app === MessagingApp.Discord ? !!discordGuildUrl && isSubscribeOnlyMode : true,
-    }))
-    .filter((app) => app.available);
+  const appConfig = Web2Apps.map((app) => ({
+    app,
+    enabled: userCommsChannels?.[app.toLowerCase() as Lowercase<typeof Web2Apps[0]>]
+      ?.exists as boolean,
+    available: app === MessagingApp.Discord ? !!discordGuildUrl && isSubscribeOnlyMode : true,
+  })).filter((app) => app.available);
 
   const handleUnsubscribe = () => {
     unsubscribe();

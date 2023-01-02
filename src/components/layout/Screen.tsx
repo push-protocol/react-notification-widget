@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Text from '../Text';
 import Button from '../Button';
 import PageTitle from '../PageTitle';
+import { useEnvironment } from '../../context/EnvironmentContext';
 import Flex from './Flex';
 import { useUserContext } from 'context/UserContext';
 
@@ -30,6 +31,7 @@ type ScreenPropsT = PropsWithChildren<{
 
 export const Screen = ({ title, navbarActionComponent, mb = 0, children }: ScreenPropsT) => {
   const { setFeedOpen } = useUserContext();
+  const { isSubscribeOnlyMode } = useEnvironment();
 
   return (
     <Flex direction={'column'} alignItems={'center'} width={'100%'} height={'100%'} mb={mb}>
@@ -37,11 +39,13 @@ export const Screen = ({ title, navbarActionComponent, mb = 0, children }: Scree
         <PageTitle>{title}</PageTitle>
         <Flex style={{ flexBasis: 1 }} alignItems={'center'} gap={1} mr={1}>
           {navbarActionComponent}
-          <MobileCloseButton onClick={() => setFeedOpen(false)} variant={'text'}>
-            <Text weight={400} size={'xl'}>
-              X
-            </Text>
-          </MobileCloseButton>
+          {!isSubscribeOnlyMode && (
+            <MobileCloseButton onClick={() => setFeedOpen(false)} variant={'text'}>
+              <Text weight={400} size={'xl'}>
+                X
+              </Text>
+            </MobileCloseButton>
+          )}
         </Flex>
       </TitleBar>
       {children}

@@ -13,7 +13,7 @@ import { Routes, useRouterContext } from 'context/RouterContext';
 import { useEnvironment } from 'context/EnvironmentContext';
 import { useUserContext } from 'context/UserContext';
 import { MessagingApp } from 'global/types.generated';
-import { Web2Channels } from 'context/UserContext/const';
+import { Web2Apps } from 'context/UserContext/const';
 
 const Header = styled(Flex)`
   text-align: center;
@@ -24,7 +24,7 @@ const Header = styled(Flex)`
 
 export const SetupApps = (props: { appsToConnect: MessagingApp[] }) => {
   const { name } = useChannelContext();
-  const { setIsOnboarding, isOnboarding } = useAuthContext();
+  const { setIsOnboarding } = useAuthContext();
   const { setRoute } = useRouterContext();
   const { isSubscribeOnlyMode } = useEnvironment();
   const { userCommsChannels } = useUserContext();
@@ -40,7 +40,7 @@ export const SetupApps = (props: { appsToConnect: MessagingApp[] }) => {
     setRoute(isSubscribeOnlyMode ? Routes.SubscriptionFlowEnded : Routes.NotificationsFeed);
   };
 
-  const apps = props.appsToConnect || Web2Channels;
+  const apps = props.appsToConnect || Web2Apps;
   const [appOpen, setAppOpen] = useState<MessagingApp | undefined>(apps?.[0]);
 
   const finishButtonEnabled =

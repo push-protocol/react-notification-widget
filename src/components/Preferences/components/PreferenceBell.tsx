@@ -30,6 +30,7 @@ const BellIconContainer = styled.div<{ selected: boolean }>`
   width: 16px;
   border-radius: 50%;
   padding: 8px;
+  box-sizing: content-box;
   transition: all 0.2s ease-in-out;
   animation: ${({ selected }) => (selected ? enlargeAnimation : undefined)};
   color: ${({ selected, theme: { w } }) =>
