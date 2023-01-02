@@ -46,7 +46,7 @@ const DEFAULT_PARTNER_KEY =
 const FakeApp = () => {
   const [partnerKey, setPartnerKey] = useState(DEFAULT_PARTNER_KEY);
   const [iframeUrl, setIframeUrl] = useState('');
-  const [theme, setTheme] = useState<CustomTheme>(hatsTheme);
+  const [theme, setTheme] = useState<CustomTheme>(defaultTheme);
   const [coordinates, setCoordinates] = useState<Coordinates>({ top: 100, left: '45%' });
 
   const widget = useMemo(() => {
