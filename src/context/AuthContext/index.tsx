@@ -66,7 +66,7 @@ const AuthProvider = ({
   const [isOnboarding, setIsOnboarding] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>();
   const [loggedInAddress, setLoggedInAddress] = useState<string>();
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
   const [refetchCounter, setRefetchCounter] = useState(0);
 

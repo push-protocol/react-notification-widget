@@ -1,7 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useAccount } from 'wagmi';
 import useUnreadCount from '../../hooks/useUnreadCount';
 import { useEnvironment } from '../../context/EnvironmentContext';
+import { useAuthContext } from '../../context/AuthContext';
 import { Bell } from 'components/icons';
 
 const Container = styled.div`
@@ -20,20 +22,22 @@ const BellContainer = styled.div<{ size?: number }>`
   position: relative;
 `;
 
-const NotificationDot = styled.div`
+const NotificationDot = styled.div<{ size?: number }>`
   position: absolute;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 12px;
   border-radius: 50%;
-  height: 22px;
-  width: 22px;
-  color: ${({ theme }) => theme.w.colors.notificationDot?.text || theme.w.colors.button.text};
+  ${({ size }) => ({
+    height: `${18 || size}px`,
+    width: `${18 || size}px`,
+  })}
+  color: ${({ theme }) => theme.w.colors.notificationDot?.text || theme.w.colors.light[80]};
   background-color: ${({ theme }) =>
-    theme.w.colors.notificationDot?.background || theme.w.colors.primary.main};
-  top: -8px;
-  right: -8px;
+    theme.w.colors.notificationDot?.background || theme.w.colors.error.main};
+  top: -6px;
+  right: -6px;
 `;
 
 export type NotificationBellProps = {
@@ -43,6 +47,9 @@ export type NotificationBellProps = {
 // any to avoid exposing props to consumers of the component (parent injects onClick and unreadCount)
 const NotificationBell = (props: NotificationBellProps & any) => {
   const unreadCount = useUnreadCount();
+  const { isConnected } = useAccount();
+  const { isSubscribed, isLoading: authLoading } = useAuthContext();
+
   const { isSubscribeOnlyMode } = useEnvironment();
 
   return (
@@ -52,6 +59,7 @@ const NotificationBell = (props: NotificationBellProps & any) => {
         {!!unreadCount && !isSubscribeOnlyMode && (
           <NotificationDot>{unreadCount > 9 ? '9+' : unreadCount}</NotificationDot>
         )}
+        {isConnected && !isSubscribed && !authLoading && <NotificationDot size={12} />}
       </BellContainer>
     </Container>
   );

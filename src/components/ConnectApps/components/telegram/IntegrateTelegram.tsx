@@ -46,7 +46,10 @@ const IntegrateTelegram = ({
           </TelegramIconContainer>
         </IconContainer>
         {url ? (
-          <Text>Verify your account with the @wherever bot.</Text>
+          <Text>
+            To connect, click the button or message @whereverLabsBot with &quot;
+            <strong>/start {url.split('start=')[1]}</strong>&quot;
+          </Text>
         ) : (
           <Text>Generate URL to link your wallet to your Telegram account.</Text>
         )}

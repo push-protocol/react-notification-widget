@@ -14,9 +14,9 @@ import FloatingSettings, { Coordinates } from './components/FloatingSettings';
 import Logo from './components/Logo';
 import BackgroundLogo from './components/BackgroundLogo';
 
-const hatsTheme = {
+const hatsTheme: CustomTheme = {
   buttonTextColor: '#000000',
-  capitalizePageTitles: true,
+  uppercasePageTitles: true,
   bellColor: '#8AFCFD',
   backgroundColor: '#0C1436',
   primaryColor: '#8AFCFD',
@@ -24,7 +24,7 @@ const hatsTheme = {
   fontFamily: '"RobotoMono", sans-serif',
 };
 
-const lightTheme = {
+const lightTheme: CustomTheme = {
   mode: ThemeMode.Light,
   primaryColor: '#3761F9',
   buttonTextColor: '#ffffff',
@@ -46,7 +46,7 @@ const DEFAULT_PARTNER_KEY =
 const FakeApp = () => {
   const [partnerKey, setPartnerKey] = useState(DEFAULT_PARTNER_KEY);
   const [iframeUrl, setIframeUrl] = useState('');
-  const [theme, setTheme] = useState<CustomTheme>(defaultTheme);
+  const [theme, setTheme] = useState<CustomTheme>(hatsTheme);
   const [coordinates, setCoordinates] = useState<Coordinates>({ top: 100, left: '45%' });
 
   const widget = useMemo(() => {
