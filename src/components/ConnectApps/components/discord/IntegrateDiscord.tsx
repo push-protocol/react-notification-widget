@@ -15,23 +15,20 @@ const IconContainer = styled.div`
 
 type IntegrateDiscordProps = {
   isLoading?: boolean;
-  isDisabled?: boolean;
-  onOpenDiscord: () => void;
+  error?: Error;
 };
 
-const IntegrateDiscord = ({ onOpenDiscord, isLoading, isDisabled }: IntegrateDiscordProps) => {
+const IntegrateDiscord = ({ isLoading, error }: IntegrateDiscordProps) => {
   return (
     <Flex direction={'column'} width={'100%'} gap={2}>
       <Flex gap={2} alignItems={'center'}>
         <IconContainer>
           <Wallet />
         </IconContainer>
-        <Text>Verify your account with the @wherever bot.</Text>
-      </Flex>
-      <Flex justifyContent={'end'} width={'100%'}>
-        <Button disabled={isDisabled} isLoading={isLoading} onClick={onOpenDiscord}>
-          Open Discord
-        </Button>
+        <Text>
+          {isLoading && 'Verifying your account...'}
+          {error && 'Something went wrong. Please try to reconnect through Discord.'}
+        </Text>
       </Flex>
     </Flex>
   );

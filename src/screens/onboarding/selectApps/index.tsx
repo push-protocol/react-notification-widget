@@ -27,8 +27,8 @@ export const SelectApps = () => {
   const { discordToken } = useAuthContext();
   const { isSubscribeOnlyMode } = useEnvironment();
 
-  const appConfig = Web2Apps.filter((channel) =>
-    channel === MessagingApp.Discord ? discordGuildUrl && discordToken : true
+  const appConfig = Web2Apps.filter((app) =>
+    app === MessagingApp.Discord ? discordGuildUrl && discordToken : true
   ).map((app) => ({ app, enabled: true }));
 
   const appsToConnect = useMemo(() => {

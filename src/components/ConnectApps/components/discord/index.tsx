@@ -16,15 +16,14 @@ export const DiscordConnector = ({ open, setOpen }: DiscordChannelProps) => {
   const { isLoading } = useAuthContext();
   const { userCommsChannels } = useUserContext();
 
-  const { deleteLoading, handleRemove, verifyLoading, handleOpenDiscord, hint } =
-    useDiscordActions();
+  const { deleteLoading, handleRemove, verifyData, hint } = useDiscordActions();
 
   const isConnected = userCommsChannels?.discord.exists;
 
   return (
     <AppDropdown
       title={'Discord'}
-      isLoading={verifyLoading}
+      isLoading={verifyData.loading}
       icon={<DiscordIcon />}
       isConnected={isConnected}
       open={open}
@@ -40,7 +39,7 @@ export const DiscordConnector = ({ open, setOpen }: DiscordChannelProps) => {
           isDisabled={deleteLoading || isLoading}
         />
       ) : (
-        <IntegrateDiscord onOpenDiscord={handleOpenDiscord} />
+        <IntegrateDiscord isLoading={verifyData.loading} error={verifyData.error} />
       )}
     </AppDropdown>
   );

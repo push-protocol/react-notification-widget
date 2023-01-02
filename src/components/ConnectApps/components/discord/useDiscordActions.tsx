@@ -26,7 +26,7 @@ const useDiscordActions = () => {
     },
   });
 
-  const [verifyDiscord, { loading: verifyLoading }] = useVerifyUserDiscordMutation({
+  const [verifyDiscord, verifyData] = useVerifyUserDiscordMutation({
     refetchQueries: [UserCommunicationChannelsDocument],
   });
 
@@ -73,7 +73,7 @@ const useDiscordActions = () => {
     deleteLoading,
     handleRemove,
     handleVerify,
-    verifyLoading,
+    verifyData,
     handleOpenDiscord,
     hint: userCommsChannels?.discord?.hint || '',
   };
