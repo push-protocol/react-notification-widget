@@ -44,7 +44,7 @@ export const SetupApps = (props: { appsToConnect: MessagingApp[] }) => {
     props.appsToConnect ||
     Web2Apps.filter((app) =>
       app === MessagingApp.Discord ? discordGuildUrl && discordToken : true
-    ).map((app) => ({ app, enabled: true }));
+    );
 
   const [appOpen, setAppOpen] = useState<MessagingApp | undefined>(apps?.[0]);
 
