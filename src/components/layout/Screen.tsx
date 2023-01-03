@@ -69,7 +69,7 @@ export const Screen = ({ title, navbarActionComponent, mb = 0, children }: Scree
     >
       <TitleBar mb={title || navbarActionComponent ? 2 : 0}>
         <PageTitle>{title}</PageTitle>
-        <Flex style={{ flexBasis: 1 }} alignItems={'center'} gap={1} mr={1}>
+        <Flex style={{ flexBasis: 1, zIndex: 20 }} alignItems={'center'} gap={1} mr={1}>
           {navbarActionComponent}
           {!isSubscribeOnlyMode && (
             <MobileCloseButton onClick={() => setFeedOpen(false)} variant={'text'}>

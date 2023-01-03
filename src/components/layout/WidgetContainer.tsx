@@ -9,7 +9,7 @@ import { changeColorShade } from 'components/utils';
 
 const POWERED_BY_HEIGHT = '42px';
 
-const LayoutContainer = styled.div(({ theme }) => ({
+const LayoutContainer = styled.div<LayoutProps>(({ theme, width }) => ({
   [`@media (max-width: ${theme.w.breakpoints.mobile}px)`]: {
     position: 'fixed',
     overflowY: 'hidden',
@@ -23,7 +23,7 @@ const LayoutContainer = styled.div(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'space-between',
-  width: '380px',
+  width: width?.desktop || '400px',
   boxSizing: 'content-box',
   minHeight: '280px',
   overflowY: 'auto',
@@ -45,9 +45,9 @@ const PoweredBy = styled(Flex)<{ hidden: boolean }>`
   backdrop-filter: brightness(0.85);
 `;
 
-const ChildrenContainer = styled.div(({ theme }) => ({
+const ChildrenContainer = styled.div<LayoutProps>(({ theme, maxHeight }) => ({
   height: `calc(100% - ${POWERED_BY_HEIGHT} - 8px)`,
-  maxHeight: 600,
+  maxHeight: maxHeight?.desktop || 600,
   overflowY: 'auto',
   '-ms-overflow-style': 'none',
   'scrollbar-width': 'none',
@@ -64,14 +64,16 @@ const ChildrenContainer = styled.div(({ theme }) => ({
 
 interface LayoutProps {
   children: ReactNode;
+  width?: { desktop: number | string };
+  maxHeight?: { desktop: number | string };
 }
 
-export const WidgetContainer = ({ children }: LayoutProps) => {
+export const WidgetContainer = (props: LayoutProps) => {
   const { isSubscribeOnlyMode } = useEnvironment();
 
   return (
-    <LayoutContainer>
-      <ChildrenContainer>{children}</ChildrenContainer>
+    <LayoutContainer {...props}>
+      <ChildrenContainer {...props}>{props.children}</ChildrenContainer>
 
       <PoweredBy hidden={isSubscribeOnlyMode} alignItems={'center'} justifyContent={'center'}>
         <Text size={'sm'} color={'secondary'} opacity={0.8} weight={500}>

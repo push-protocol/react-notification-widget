@@ -55,7 +55,7 @@ const NotificationFeedProvider = ({
           <ApolloProvider>
             <RouterProvider>
               <ChannelProvider partnerKey={partnerKey}>
-                <AuthProvider discordToken={discordToken}>
+                <AuthProvider partnerKey={partnerKey} discordToken={discordToken}>
                   <UserProvider isOpen={isOpen}>
                     <Reset />
                     {children}

@@ -74,6 +74,11 @@ class AuthStorage {
       refreshToken: undefined,
     });
   }
+
+  clearAllKeys = () => {
+    this.removeActiveAddressTokens();
+    localStorage.setItem(LOCALSTORAGE_USER_TOKENS_KEY, JSON.stringify({}));
+  };
 }
 
 const authStorage = new AuthStorage();

@@ -8,6 +8,7 @@ import React, {
 } from 'react';
 import * as epns from '@epnsproject/sdk-restapi';
 import { useAccount, useDisconnect, useSigner } from 'wagmi';
+import useLoadAuthFromStorage from './useLoadAuthFromStorage';
 import { Routes, useRouterContext } from 'context/RouterContext';
 import analytics from 'services/analytics';
 import { useAuthenticate } from 'hooks/useAuthenticate';
@@ -50,8 +51,10 @@ const AuthContext = createContext<AuthInfo & { loading?: boolean; handleGetUserI
 
 const AuthProvider = ({
   children,
+  partnerKey,
   discordToken,
 }: {
+  partnerKey: string;
   children: ReactNode;
   discordToken?: string;
 }) => {
@@ -69,6 +72,8 @@ const AuthProvider = ({
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
   const [refetchCounter, setRefetchCounter] = useState(0);
+
+  useLoadAuthFromStorage({ address, setLoggedInAddress, setIsLoggedIn, partnerKey });
 
   // handle signer null case when reloading window after clearing storage
   useEffect(() => {
@@ -163,21 +168,6 @@ const AuthProvider = ({
     if (prevAddress && prevAddress !== address) {
       _resetLoginState();
       setIsOnboarding(false);
-    }
-  }, [address]);
-
-  // Set correct auth key on load
-  useEffect(() => {
-    const tokensList = authStorage.getUserSavedTokens();
-
-    if (address && tokensList[address]) {
-      authStorage.setAuth({
-        address,
-        token: tokensList[address].token,
-        refreshToken: tokensList[address].refreshToken,
-      });
-      setIsLoggedIn(true);
-      setLoggedInAddress(address);
     }
   }, [address]);
 
