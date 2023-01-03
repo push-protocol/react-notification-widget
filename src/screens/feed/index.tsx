@@ -82,7 +82,7 @@ export const Feed = ({ onNotificationClick }: NotificationClickProp) => {
       )}
 
       <NotificationFeed width={'100%'} direction={'column'} gap={2}>
-        <EmptyState show={!isLoading && !channelNotifs?.length} />
+        <EmptyState show={!isLoading && !notificationsToShow?.length} />
         {isLoading ? (
           <Flex height={150} justifyContent={'center'} alignItems={'center'} pb={3}>
             <Spinner />
