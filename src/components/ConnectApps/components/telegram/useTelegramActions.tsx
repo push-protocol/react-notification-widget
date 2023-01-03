@@ -56,7 +56,7 @@ const useTelegramActions = () => {
 
   // poll during onboarding incase user is manually messaging the bot
   useEffect(() => {
-    if (isOnboarding && !userCommsChannelsPollInterval) {
+    if (isOnboarding && !userCommsChannelsPollInterval && !userCommsChannels?.telegram.exists) {
       setUserCommsChannelsPollInterval(4000);
     }
   }, [isOnboarding, userCommsChannelsPollInterval]);
