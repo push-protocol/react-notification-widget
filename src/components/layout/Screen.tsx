@@ -1,9 +1,11 @@
-import React, { PropsWithChildren, ReactElement } from 'react';
+import React, { PropsWithChildren, ReactElement, useEffect } from 'react';
 import styled from 'styled-components';
 import Text from '../Text';
 import Button from '../Button';
 import PageTitle from '../PageTitle';
 import { useEnvironment } from '../../context/EnvironmentContext';
+import { useRouterContext } from '../../context/RouterContext';
+import analytics from '../../services/analytics';
 import Flex from './Flex';
 import { useUserContext } from 'context/UserContext';
 
@@ -30,8 +32,13 @@ type ScreenPropsT = PropsWithChildren<{
 }>;
 
 export const Screen = ({ title, navbarActionComponent, mb = 0, children }: ScreenPropsT) => {
+  const { activeRoute } = useRouterContext();
   const { setFeedOpen } = useUserContext();
   const { isSubscribeOnlyMode } = useEnvironment();
+
+  useEffect(() => {
+    analytics.track(`${activeRoute.name} page loaded`);
+  }, []);
 
   return (
     <Flex direction={'column'} alignItems={'center'} width={'100%'} height={'100%'} mb={mb}>
