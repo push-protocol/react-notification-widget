@@ -22,6 +22,11 @@ type PropsT = {
   onDisabledAppClick?: (app: MessagingApp) => void;
 };
 
+const SwitchContainer = styled(Flex)`
+  // important for users on Chakra
+  box-sizing: content-box;
+`;
+
 const CategoryContainer = styled(Flex)`
   width: 100%;
   display: flex;
@@ -81,9 +86,9 @@ const PreferenceCategoryItem = ({
         </TitleContainer>
 
         {!hideToggles && (
-          <Flex width={32} alignItems={'center'} pl={1} pr={1}>
+          <SwitchContainer width={32} alignItems={'center'} pl={1} pr={1}>
             <Switch checked={prefEnabled} onChange={() => handlePrefClick('enabled')} />
-          </Flex>
+          </SwitchContainer>
         )}
       </CategoryContainer>
 
