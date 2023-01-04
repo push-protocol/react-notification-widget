@@ -41,8 +41,9 @@ const defaultTheme = {
 
 const DEFAULT_PARTNER_KEY =
   ENV === 'production'
-    ? '5e6a9f39-2c86-411c-90e1-b22642b930b6' // aave
-    : 'cefa1b69-bfb9-4e70-bebc-9ee10316f882';
+    ? // ? '5e6a9f39-2c86-411c-90e1-b22642b930b6' // aave
+      '07ef6fe0-6582-4f88-94ee-00349c42b068'
+    : '070d4d95-90fb-44b8-99cf-f440eeccf767';
 
 const FakeApp = () => {
   const [partnerKey, setPartnerKey] = useState(DEFAULT_PARTNER_KEY);
