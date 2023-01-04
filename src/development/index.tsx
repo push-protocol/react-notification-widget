@@ -38,10 +38,18 @@ const defaultTheme = {
   bellColor: '#968c8c',
 };
 
-const DEFAULT_PARTNER_KEY =
-  ENV === 'production'
-    ? '07ef6fe0-6582-4f88-94ee-00349c42b068'
-    : '070d4d95-90fb-44b8-99cf-f440eeccf767';
+const keys = {
+  prod: {
+    nozick: '259bdea9-7329-4654-bb4a-45f452a208ce',
+    wTest: '07ef6fe0-6582-4f88-94ee-00349c42b068',
+  },
+  staging: {
+    nozick: 'cefa1b69-bfb9-4e70-bebc-9ee10316f882',
+    wTest: '070d4d95-90fb-44b8-99cf-f440eeccf767',
+  },
+};
+
+const DEFAULT_PARTNER_KEY = ENV === 'production' ? keys.prod.wTest : keys.staging.wTest;
 
 const FakeApp = () => {
   const [partnerKey, setPartnerKey] = useState(DEFAULT_PARTNER_KEY);
