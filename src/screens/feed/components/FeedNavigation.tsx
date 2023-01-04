@@ -78,7 +78,7 @@ const FeedNavigation = ({ activeTab, setActiveTab }: FeedNavigationProps) => {
         <AllFeedIconContainer>
           <Boxes color={theme.w.colors.text.primary} />
         </AllFeedIconContainer>
-        <Text>Other Channels</Text>
+        <Text>Other</Text>
       </NavigationItem>
     </Flex>
   );

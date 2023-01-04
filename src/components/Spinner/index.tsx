@@ -21,6 +21,7 @@ const Spinner = styled.div<SpinnerProps>`
     width: ${({ size = 50 }) => `${size}px`};
     height: ${({ size = 50 }) => `${size}px`};
   }
+  box-sizing: content-box;
   border-radius: 50%;
   width: ${({ size = 50 }) => `${size}px`};
   height: ${({ size = 50 }) => `${size}px`};

@@ -28,6 +28,8 @@ const BellRef = forwardRef<HTMLDivElement, { children: ReactElement }>(({ childr
 export type NotificationFeedProps = NotificationClickProp & {
   gapFromBell?: number;
   placement?: Placement;
+  width?: { desktop: number | string };
+  maxHeight?: { desktop: number | string };
   children: ((args: { unreadCount?: number; onClick: () => void }) => ReactElement) | ReactElement;
 };
 
@@ -59,8 +61,6 @@ const NotificationFeed = (props: NotificationFeedProps): JSX.Element => {
   }, [activeRoute, isLoggedIn, isConnected]);
 
   const currentScreenComponent = useMemo(() => {
-    analytics.track(`${activeRoute.name} page loaded`);
-
     if (activeRoute.name === Routes.NotificationsFeed)
       return <activeRoute.Component onNotificationClick={onNotificationClick} />;
 
@@ -115,7 +115,9 @@ const NotificationFeed = (props: NotificationFeedProps): JSX.Element => {
         <BellRef ref={setReferenceRef}>{bell}</BellRef>
         {feedOpen && (
           <div ref={setPopperRef} style={styles.popper} {...attributes.popper}>
-            <WidgetContainer>{currentScreenComponent}</WidgetContainer>
+            <WidgetContainer width={props.width} maxHeight={props.maxHeight}>
+              {currentScreenComponent}
+            </WidgetContainer>
           </div>
         )}
       </div>

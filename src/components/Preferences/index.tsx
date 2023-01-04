@@ -35,7 +35,7 @@ const Preferences = (props: PropsT) => {
   return (
     <PreferencesContainer>
       <PreferencesHeader {...props} />
-      <Flex direction={'column'} gap={1}>
+      <Flex direction={'column'} gap={props.hideDescriptions ? 1 : 2}>
         {messageCategories.map((category) => (
           <PreferenceCategoryItem
             {...props}

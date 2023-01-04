@@ -4,6 +4,7 @@ import { mode } from '../../theme';
 
 const SwitchInputWrapper = styled.div`
   position: relative;
+  box-sizing: content-box;
   height: 16px;
   width: 28px;
   cursor: pointer;
@@ -27,7 +28,7 @@ const SwitchInputLabel = styled.label`
     height: 16px;
     margin-top: -5px;
     margin-left: -2px;
-    background: ${({ theme }) => theme.w.colors.text.primary};
+    background: ${({ theme }) => mode(theme.w.colors.light[50], theme.w.colors.dark[50])};
     box-shadow: 1px 3px 3px 1px rgba(0, 0, 0, 0.2);
     transition: 0.2s;
   }

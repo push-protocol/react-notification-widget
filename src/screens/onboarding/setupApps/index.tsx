@@ -13,7 +13,7 @@ import { Routes, useRouterContext } from 'context/RouterContext';
 import { useEnvironment } from 'context/EnvironmentContext';
 import { useUserContext } from 'context/UserContext';
 import { MessagingApp } from 'global/types.generated';
-import { Web2Channels } from 'context/UserContext/const';
+import { Web2Apps } from 'context/UserContext/const';
 
 const Header = styled(Flex)`
   text-align: center;
@@ -23,8 +23,8 @@ const Header = styled(Flex)`
 `;
 
 export const SetupApps = (props: { appsToConnect: MessagingApp[] }) => {
-  const { name } = useChannelContext();
-  const { setIsOnboarding, isOnboarding } = useAuthContext();
+  const { name, discordGuildUrl } = useChannelContext();
+  const { setIsOnboarding, discordToken } = useAuthContext();
   const { setRoute } = useRouterContext();
   const { isSubscribeOnlyMode } = useEnvironment();
   const { userCommsChannels } = useUserContext();
@@ -40,7 +40,12 @@ export const SetupApps = (props: { appsToConnect: MessagingApp[] }) => {
     setRoute(isSubscribeOnlyMode ? Routes.SubscriptionFlowEnded : Routes.NotificationsFeed);
   };
 
-  const apps = props.appsToConnect || Web2Channels;
+  const apps =
+    props.appsToConnect ||
+    Web2Apps.filter((app) =>
+      app === MessagingApp.Discord ? discordGuildUrl && discordToken : true
+    );
+
   const [appOpen, setAppOpen] = useState<MessagingApp | undefined>(apps?.[0]);
 
   const finishButtonEnabled =

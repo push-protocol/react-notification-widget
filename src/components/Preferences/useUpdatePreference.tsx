@@ -2,7 +2,7 @@ import React from 'react';
 import { useAuthContext } from '../../context/AuthContext';
 import { useUserPreferencesUpdateMutation } from './operations.generated';
 import { GetUserDocument, GetUserQuery } from 'context/UserContext/operations.generated';
-import { Web2ChannelLower } from 'context/UserContext/const';
+import { Web2AppLower } from 'context/UserContext/const';
 import { UserPreference } from 'global/types.generated';
 
 const useUpdatePreference = () => {
@@ -10,7 +10,7 @@ const useUpdatePreference = () => {
 
   const updatePreference = (
     categoryId: string,
-    appOrEnabled: Web2ChannelLower | 'enabled',
+    appOrEnabled: Web2AppLower | 'enabled',
     pref?: Partial<UserPreference>
   ) => {
     const updatedPref = { ...pref, [appOrEnabled]: !pref?.[appOrEnabled] };

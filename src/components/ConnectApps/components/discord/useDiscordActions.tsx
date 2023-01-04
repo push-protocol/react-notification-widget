@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { useUserContext } from 'context/UserContext';
 import { UserCommunicationChannelsDocument } from 'context/UserContext/operations.generated';
-import { Routes, useRouterContext } from 'context/RouterContext';
 import { useAuthContext } from 'context/AuthContext';
 import { useEnvironment } from 'context/EnvironmentContext';
 import analytics from 'services/analytics';
@@ -16,7 +15,6 @@ const useDiscordActions = () => {
   const { isSubscribeOnlyMode } = useEnvironment();
   const { discordGuildUrl } = useChannelContext();
   const { login, setIsOnboarding, discordToken } = useAuthContext();
-  const { setRoute } = useRouterContext();
   const { userCommsChannels } = useUserContext();
 
   const [deleteDiscord, { loading: deleteLoading }] = useDeleteChannelMutation({
@@ -28,7 +26,7 @@ const useDiscordActions = () => {
     },
   });
 
-  const [verifyDiscord, { loading: verifyLoading }] = useVerifyUserDiscordMutation({
+  const [verifyDiscord, verifyData] = useVerifyUserDiscordMutation({
     refetchQueries: [UserCommunicationChannelsDocument],
   });
 
@@ -67,7 +65,6 @@ const useDiscordActions = () => {
 
       if (response?.data?.userCommunicationsChannelDelete?.success) {
         analytics.track('discord deleted');
-        return setRoute(Routes.Settings);
       }
     });
   };
@@ -76,7 +73,7 @@ const useDiscordActions = () => {
     deleteLoading,
     handleRemove,
     handleVerify,
-    verifyLoading,
+    verifyData,
     handleOpenDiscord,
     hint: userCommsChannels?.discord?.hint || '',
   };

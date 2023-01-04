@@ -23,7 +23,11 @@ const ConnectApps = ({
   useEffect(() => {
     const timer = setTimeout(() => {
       if (appOpen && appRefs[appOpen]?.current) {
-        appRefs[appOpen]?.current.scrollIntoView({ behavior: 'smooth' });
+        appRefs[appOpen]?.current.scrollIntoView({
+          behavior: 'smooth',
+          block: 'end',
+          inline: 'nearest',
+        });
       }
     }, 200); // Needed because of app dropdown animation
 

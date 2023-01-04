@@ -2,9 +2,7 @@ import { useEffect } from 'react';
 import { useUserContext } from 'context/UserContext';
 import { UserCommunicationChannelsDocument } from 'context/UserContext/operations.generated';
 import analytics from 'services/analytics';
-import { Routes, useRouterContext } from 'context/RouterContext';
 import { useAuthContext } from 'context/AuthContext';
-import { useEnvironment } from 'context/EnvironmentContext';
 import {
   useDeleteChannelMutation,
   useGetTelegramVerificationLinkMutation,
@@ -12,9 +10,7 @@ import {
 import { MessagingApp } from 'global/types.generated';
 
 const useTelegramActions = () => {
-  const { isSubscribeOnlyMode } = useEnvironment();
-  const { login, setIsOnboarding } = useAuthContext();
-  const { setRoute } = useRouterContext();
+  const { login, isOnboarding } = useAuthContext();
   const { setUserCommsChannelsPollInterval, userCommsChannels, userCommsChannelsPollInterval } =
     useUserContext();
 
@@ -37,7 +33,6 @@ const useTelegramActions = () => {
       if (response?.data?.userCommunicationsChannelDelete?.success) {
         analytics.track('telegram integration removed');
         await getTelegramLink();
-        return setRoute(Routes.Settings);
       }
     });
   };
@@ -51,13 +46,20 @@ const useTelegramActions = () => {
 
   const handleOpenTG = async () => {
     analytics.track('open telegram clicked');
-    setUserCommsChannelsPollInterval(5000);
+    setUserCommsChannelsPollInterval(4000);
     window.open(
       telegramUrlData?.telegramVerificationLinkGenerate?.link,
       '_blank',
       'noopener,noreferrer'
     );
   };
+
+  // poll during onboarding incase user is manually messaging the bot
+  useEffect(() => {
+    if (isOnboarding && !userCommsChannelsPollInterval && !userCommsChannels?.telegram.exists) {
+      setUserCommsChannelsPollInterval(4000);
+    }
+  }, [isOnboarding, userCommsChannelsPollInterval]);
 
   useEffect(() => {
     if (userCommsChannelsPollInterval && userCommsChannels?.telegram?.exists) {

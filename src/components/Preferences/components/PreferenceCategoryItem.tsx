@@ -4,7 +4,7 @@ import { PREFERENCES_WIDTH } from '../consts';
 import { MessagingAppConfig } from '../index';
 import useUpdatePreference from '../useUpdatePreference';
 import analytics from '../../../services/analytics';
-import { Web2ChannelLower } from 'context/UserContext/const';
+import { Web2AppLower } from 'context/UserContext/const';
 import { GetUserQuery } from 'context/UserContext/operations.generated';
 import { PartnerInfoQuery } from 'context/ChannelContext/operations.generated';
 import Flex from 'components/layout/Flex';
@@ -22,10 +22,15 @@ type PropsT = {
   onDisabledAppClick?: (app: MessagingApp) => void;
 };
 
+const SwitchContainer = styled(Flex)`
+  // important for users on Chakra
+  box-sizing: content-box;
+`;
+
 const CategoryContainer = styled(Flex)`
   width: 100%;
   display: flex;
-  height: 36px;
+  min-height: 36px;
   align-items: center;
   ${Text} {
     overflow: hidden;
@@ -33,10 +38,13 @@ const CategoryContainer = styled(Flex)`
   }
 `;
 
-const TitleContainer = styled(Flex)<{ grow: boolean }>`
+const TitleContainer = styled(Flex)`
   flex-direction: column;
   gap: 4px;
-  ${({ grow }) => ({ flexGrow: grow ? 1 : undefined, width: !grow ? 110 : undefined })}
+  flex-grow: 1;
+  ${({ theme }) => `@media (max-width: ${theme.w.breakpoints.mobile}px) {
+    width: 110px;
+  }`}
 `;
 
 const PreferenceCategoryItem = ({
@@ -49,7 +57,7 @@ const PreferenceCategoryItem = ({
 }: PropsT) => {
   const updatePreference = useUpdatePreference();
 
-  const handlePrefClick = (pref: Web2ChannelLower | 'enabled') => {
+  const handlePrefClick = (pref: Web2AppLower | 'enabled') => {
     updatePreference(category.id, pref, userPref);
 
     const analyticsData = { category: category.name, categoryId: category.id };
@@ -68,11 +76,21 @@ const PreferenceCategoryItem = ({
   const prefEnabled = !!userPref?.enabled;
   const noApps = !appConfig.length;
 
+  const toggle = (
+    <SwitchContainer width={32} alignItems={'center'} pl={1} pr={1}>
+      <Switch checked={prefEnabled} onChange={() => handlePrefClick('enabled')} />
+    </SwitchContainer>
+  );
+
   return (
     <Flex alignItems={'center'} width={'100%'} mb={1}>
       <CategoryContainer justifyContent={!appConfig.length ? 'space-between' : undefined}>
-        <TitleContainer grow={noApps}>
-          <Text size={'md'}>{category.name}</Text>
+        {!hideToggles && hideDescriptions && toggle}
+
+        <TitleContainer>
+          <Text size={'md'} color={!prefEnabled ? 'secondary' : undefined}>
+            {category.name}
+          </Text>
           {!hideDescriptions && (
             <Text size={'sm'} color={'secondary'}>
               {category.description}
@@ -80,11 +98,7 @@ const PreferenceCategoryItem = ({
           )}
         </TitleContainer>
 
-        {!hideToggles && (
-          <Flex width={32} alignItems={'center'} pl={1} pr={1}>
-            <Switch checked={prefEnabled} onChange={() => handlePrefClick('enabled')} />
-          </Flex>
-        )}
+        {!hideToggles && !hideDescriptions && toggle}
       </CategoryContainer>
 
       {prefEnabled && !noApps && (
@@ -96,10 +110,10 @@ const PreferenceCategoryItem = ({
               justifyContent={'center'}
             >
               <PreferenceBell
-                selected={(enabled && userPref?.[app.toLowerCase() as Web2ChannelLower]) || false}
+                selected={(enabled && userPref?.[app.toLowerCase() as Web2AppLower]) || false}
                 onClick={() =>
                   enabled
-                    ? handlePrefClick(app.toLowerCase() as Web2ChannelLower)
+                    ? handlePrefClick(app.toLowerCase() as Web2AppLower)
                     : onDisabledAppClick?.(app)
                 }
               />

@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { useUserContext } from 'context/UserContext';
 import { UserCommunicationChannelsDocument } from 'context/UserContext/operations.generated';
 import analytics from 'services/analytics';
-import { Routes, useRouterContext } from 'context/RouterContext';
 import { useAuthContext } from 'context/AuthContext';
 import { useEnvironment } from 'context/EnvironmentContext';
 import {
@@ -20,8 +19,7 @@ export enum ConnectEmailViews {
 
 const useEmailActions = () => {
   const { isSubscribeOnlyMode } = useEnvironment();
-  const { login, isOnboarding, setIsOnboarding } = useAuthContext();
-  const { setRoute } = useRouterContext();
+  const { login, setIsOnboarding } = useAuthContext();
   const { userCommsChannels } = useUserContext();
 
   const [connectEmailView, setConnectEmailView] = useState(
@@ -85,7 +83,6 @@ const useEmailActions = () => {
         analytics.track('email deleted');
         setConnectEmailView(ConnectEmailViews.Edit);
         setEmail('');
-        return setRoute(Routes.Settings);
       }
     });
   };

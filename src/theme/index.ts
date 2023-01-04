@@ -11,7 +11,7 @@ type MainColor = {
 declare module 'styled-components' {
   export interface DefaultTheme {
     // theme is applied normally, under a "w" key to guard it, so that other apps using
-    // styled-components will not have a
+    // styled-components will not have type conflicts
     w: {
       mode: 'dark' | 'light';
       uppercasePageTitles: boolean;
