@@ -18,7 +18,7 @@ esbuildServe({
     })
   ],
   define: {
-    'WHEREVER_ENV': JSON.stringify('staging'),
+    'WHEREVER_ENV': JSON.stringify('production'),
     global: 'window',
   },
 });

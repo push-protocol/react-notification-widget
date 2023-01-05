@@ -42,7 +42,7 @@ const defaultTheme = {
 const DEFAULT_PARTNER_KEY =
   ENV === 'production'
     ? // ? '5e6a9f39-2c86-411c-90e1-b22642b930b6' // aave
-      '07ef6fe0-6582-4f88-94ee-00349c42b068'
+      '07ef6fe0-6582-4f88-94ee-00349c42b068' // w-test
     : '070d4d95-90fb-44b8-99cf-f440eeccf767';
 
 const FakeApp = () => {
