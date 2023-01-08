@@ -10,7 +10,7 @@ type RouterContext = {
 };
 
 const RouterContext = createContext<RouterContext>({
-  activeRoute: RouteConfig[Routes.ConnectWallet],
+  activeRoute: RouteConfig[Routes.Subscribe],
   routeProps: {},
   setRoute() {
     return;
@@ -18,7 +18,7 @@ const RouterContext = createContext<RouterContext>({
 } as RouterContext);
 
 const RouterProvider = ({ children }: { children: ReactNode }) => {
-  const [active, setActive] = useState(Routes.ConnectWallet);
+  const [active, setActive] = useState(Routes.Subscribe);
   const [routeProps, setRouteProps] = useState<RouteProps>({});
 
   const setRoute = (route: Routes, props?: RouteProps) => {

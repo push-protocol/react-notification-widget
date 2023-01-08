@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { Connector, useConnect } from 'wagmi';
+import Text from 'components/Text';
 import Button from 'components/Button';
 import analytics from 'services/analytics';
+import Flex from 'components/layout/Flex';
 
 const ALLOWED_WALLETS = ['metaMask', 'walletConnect', 'coinbaseWallet'];
 
@@ -14,12 +16,19 @@ const isMobile = function () {
   return check;
 };
 
-const ConnectWalletButtons = () => {
-  const { connect, connectors, isLoading } = useConnect();
+type PropsT = {
+  onConnect?: () => void;
+};
+
+const ConnectWalletButtons = (props: PropsT) => {
+  const { connect, connectors, isLoading } = useConnect({
+    onSuccess: () => setTimeout(props?.onConnect || '', 2000),
+  });
   const [selectedWallet, setSelectedWallet] = useState('');
 
-  const connectWallet = (connector: Connector) => {
+  const connectWallet = async (connector: Connector) => {
     analytics.track('wallet connect clicked', { wallet: connector.id });
+    setSelectedWallet(connector.id);
 
     if (connector.id === 'metaMask' && isMobile()) {
       if (connector.ready) {
@@ -34,24 +43,25 @@ const ConnectWalletButtons = () => {
   };
 
   return (
-    <>
+    <Flex alignItems={'center'} direction={'column'} gap={1.5}>
+      <Text mb={1} size={'sm'} align={'center'}>
+        <strong>Connect your wallet & subscribe</strong>
+        <br /> This won&apos;t trigger a transaction or cost any gas fees
+      </Text>
       {connectors
         .filter((connector) => ALLOWED_WALLETS.includes(connector.id))
         .map((connector) => (
           <Button
             disabled={isLoading}
             key={connector.id}
-            onClick={() => {
-              setSelectedWallet(connector.id);
-              connectWallet(connector);
-            }}
+            onClick={() => connectWallet(connector)}
             width={300}
             isLoading={isLoading && selectedWallet === connector.id}
           >
             {connector.name}
           </Button>
         ))}
-    </>
+    </Flex>
   );
 };
 

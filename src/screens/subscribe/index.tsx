@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import styled, { useTheme } from 'styled-components';
-import Spinner from '../../components/Spinner';
+import { useAccount } from 'wagmi';
 import analytics from '../../services/analytics';
-import PageTitle from '../../components/PageTitle';
 import { UserSubscribeSource } from '../../global/types.generated';
 import useIsWrongNetwork from '../../hooks/useIsWrongNetwork';
+import ConnectWalletButtons from './components/ConnectWalletButtons';
 import NewTag from './components/NewTag';
 import { useUserSubscribeMutation } from './operations.generated';
 import ChannelToUserIcons from './components/ChannelToUserIcons';
+import PageTitle from 'components/PageTitle';
+import Spinner from 'components/Spinner';
 import { WHEREVER_FAQ } from 'global/const';
 import { Routes, useRouterContext } from 'context/RouterContext';
 import Button from 'components/Button';
@@ -36,6 +38,7 @@ const SubscribeDescription = styled.div`
 export const Subscribe = () => {
   const { isSubscribeOnlyMode } = useEnvironment();
   const { discordToken } = useAuthContext();
+  const { isConnected } = useAccount();
   const [loadingMsg, setLoadingMsg] = useState('');
 
   const {
@@ -139,14 +142,18 @@ export const Subscribe = () => {
             direction={'column'}
             gap={1}
           >
-            <Button
-              width={'100%'}
-              onClick={handleSubscribe}
-              disabled={channelLoading || isWrongNetwork || !channelAddress}
-              size={'lg'}
-            >
-              Subscribe
-            </Button>
+            {isConnected ? (
+              <Button
+                width={'100%'}
+                onClick={handleSubscribe}
+                disabled={channelLoading || isWrongNetwork || !channelAddress}
+                size={'lg'}
+              >
+                Subscribe
+              </Button>
+            ) : (
+              <ConnectWalletButtons onConnect={handleSubscribe} />
+            )}
             {(error || !channelAddress) && (
               <Text color={theme.w.colors.error.main} align="center">
                 Invalid partner key

@@ -10,7 +10,6 @@ import {
   SelectCategories,
   VerifyAccount,
 } from '../../screens';
-import { ConnectWallet } from '../../screens/connectWallet';
 
 enum Routes {
   Subscribe = 'Subscribe',
@@ -22,7 +21,6 @@ enum Routes {
   NotificationsFeed = 'NotificationsFeed',
   SubscriptionFlowEnded = 'SubscriptionFlowEnded',
   VerifyAccount = 'VerifyAccount',
-  ConnectWallet = 'ConnectWallet',
 }
 
 type Route = {
@@ -76,11 +74,6 @@ const RouteConfig: Record<Routes, Route> = {
     Component: VerifyAccount,
     requiresAuth: false,
     name: Routes.VerifyAccount,
-  },
-  [Routes.ConnectWallet]: {
-    Component: ConnectWallet,
-    requiresAuth: false,
-    name: Routes.ConnectWallet,
   },
 };
 

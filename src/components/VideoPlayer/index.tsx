@@ -29,7 +29,8 @@ export const isVideoUrl = (url?: string) => {
 
   return (
     url.match(videoSourcesInfo[VideoSources.YOUTUBE].idRegex) ||
-    url.match(videoSourcesInfo[VideoSources.VIMEO].idRegex)
+    url.match(videoSourcesInfo[VideoSources.VIMEO].idRegex) ||
+    url.endsWith('mp4')
   );
 };
 
@@ -39,6 +40,10 @@ const getVideoId = (url: string, source: VideoSources) => {
 };
 
 const buildUrl = (url: string) => {
+  if (url.endsWith('mp4')) {
+    return url;
+  }
+
   const source: VideoSources = url.match(videoSourcesInfo[VideoSources.YOUTUBE].idRegex)
     ? VideoSources.YOUTUBE
     : VideoSources.VIMEO;

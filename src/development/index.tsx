@@ -49,9 +49,9 @@ const keys = {
   },
 };
 
-const DEFAULT_PARTNER_KEY = ENV === 'production' ? keys.prod.wTest : keys.staging.wTest;
+const DEFAULT_PARTNER_KEY = ENV === 'production' ? keys.prod.wTest : keys.staging.nozick;
 
-const FakeApp = () => {
+const DemoApp = () => {
   const [partnerKey, setPartnerKey] = useState(DEFAULT_PARTNER_KEY);
   const [iframeUrl, setIframeUrl] = useState('');
   const [theme, setTheme] = useState<CustomTheme>(defaultTheme);
@@ -108,4 +108,4 @@ const FakeApp = () => {
   );
 };
 
-render(<FakeApp />, document.getElementById('root'));
+render(<DemoApp />, document.getElementById('root'));
