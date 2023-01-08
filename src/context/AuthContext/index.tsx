@@ -25,6 +25,7 @@ export type AuthInfo = {
   loggedInAddress?: string;
   discordToken?: string;
   login(callback?: () => void): Promise<void>;
+  logout(): void;
   isOnboarding: boolean;
   isSubscribed?: boolean;
   walletDisconnected: boolean;
@@ -146,11 +147,11 @@ const AuthProvider = ({
   };
 
   const logout = useCallback(() => {
+    dc.disconnect();
     _resetLoginState();
     setIsSubscribed(false);
     setError(false);
     setIsLoading(false);
-    dc.disconnect();
   }, [dc]);
 
   useEffect(() => {
@@ -208,6 +209,7 @@ const AuthProvider = ({
         isLoading,
         error,
         login,
+        logout,
         isOnboarding,
         setIsOnboarding,
         walletDisconnected: !isConnected,

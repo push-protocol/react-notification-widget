@@ -1,7 +1,8 @@
 import React from 'react';
 import AppDropdown from '../AppDropdown';
 import ConnectedApp from '../ConnectedApp';
-import IntegrateDiscord from './IntegrateDiscord';
+import Flex from '../../../layout/Flex';
+import Text from '../../../Text';
 import useDiscordActions from './useDiscordActions';
 import { useUserContext } from 'context/UserContext';
 import { Discord as DiscordIcon } from 'components/icons';
@@ -39,7 +40,12 @@ export const DiscordConnector = ({ open, setOpen }: DiscordChannelProps) => {
           isDisabled={deleteLoading || isLoading}
         />
       ) : (
-        <IntegrateDiscord isLoading={verifyData.loading} error={verifyData.error} />
+        <Flex direction={'column'} width={'100%'} gap={2}>
+          <Text>
+            {verifyData.loading && 'Verifying your account...'}
+            {verifyData.error && 'Something went wrong. Please try to reconnect through Discord.'}
+          </Text>
+        </Flex>
       )}
     </AppDropdown>
   );

@@ -19,13 +19,16 @@ export const Settings = () => {
   const { isSubscribeOnlyMode } = useEnvironment();
   const { userCommsChannels } = useUserContext();
   const { name, icon, discordGuildUrl, messageCategories } = useChannelContext();
-  const { unsubscribe, isOnboarding } = useAuthContext();
+  const { unsubscribe, isOnboarding, logout, discordToken } = useAuthContext();
 
   const appConfig = Web2Apps.map((app) => ({
     app,
     enabled: userCommsChannels?.[app.toLowerCase() as Lowercase<typeof Web2Apps[0]>]
       ?.exists as boolean,
-    available: app === MessagingApp.Discord ? !!discordGuildUrl && isSubscribeOnlyMode : true,
+    available:
+      app === MessagingApp.Discord
+        ? (!!discordGuildUrl && discordToken) || userCommsChannels?.discord.exists
+        : true,
   })).filter((app) => app.available);
 
   const handleUnsubscribe = () => {
@@ -61,6 +64,14 @@ export const Settings = () => {
         </Flex>
       )}
       <Notice text={`${name} doesn't have access to your info`} />
+
+      {isSubscribeOnlyMode && (
+        <Flex width={'100%'} justifyContent={'center'} mb={1} mt={2}>
+          <Button variant={'outlined'} onClick={logout}>
+            Disconnect
+          </Button>
+        </Flex>
+      )}
     </Screen>
   );
 };
