@@ -19,7 +19,7 @@ export type UserContext = {
   setUserCommsChannelsPollInterval: (interval: number) => void;
   userCommsChannelsPollInterval: number;
   isLoading: boolean;
-  userAddress?: string;
+  userAddress?: `0x${string}`;
   feedOpen: boolean;
   setFeedOpen: (isOpen: boolean) => void;
 };

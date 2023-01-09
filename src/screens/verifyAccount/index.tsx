@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { useEnsName } from 'wagmi';
 import { Screen } from 'components/layout/Screen';
 import Flex from 'components/layout/Flex';
 import Button from 'components/Button';
@@ -14,6 +15,7 @@ export const VerifyAccount = () => {
   const { isSubscribeOnlyMode } = useEnvironment();
   const { setRoute } = useRouterContext();
   const { userAddress } = useUserContext();
+  const { data: userEns } = useEnsName({ address: userAddress });
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -31,7 +33,7 @@ export const VerifyAccount = () => {
     <Screen>
       <Flex direction={'column'}>
         <Text size={'2xl'} mb={2} align={'center'} weight={700}>
-          Hi, {formatAddress(userAddress)} 👋
+          Hi, {userEns || formatAddress(userAddress)} 👋
         </Text>
         <Text size={'lg'} mb={8} align={'center'}>
           Sign a message with your wallet to verify ownership of your account.
