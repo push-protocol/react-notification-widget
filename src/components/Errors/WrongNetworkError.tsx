@@ -10,7 +10,7 @@ const WrongNetworkError = ({ ...props }) => {
 
   return (
     <Text color={theme.w.colors.error.main} align="center" {...props}>
-      Wrong network, please switch to {CHAIN_NAMES[chainId]} in your wallet to make changes
+      Please switch to {CHAIN_NAMES[chainId]} in your wallet to make changes
     </Text>
   );
 };
