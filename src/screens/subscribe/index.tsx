@@ -160,7 +160,7 @@ export const Subscribe = () => {
               </Text>
             )}
           </Flex>
-          {isWrongNetwork && <WrongNetworkError />}
+          {isWrongNetwork && <WrongNetworkError action={'subscribe'} />}
         </Flex>
       </Container>
     </Screen>

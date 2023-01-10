@@ -82,10 +82,15 @@ export const Settings = () => {
         >
           <Flex width={'100%'} direction={'column'} gap={2}>
             <Text>Sign a message with your wallet to unsubscribe from all communication</Text>
-            <Button isLoading={isLoading} variant={'gray'} onClick={handleUnsubscribe}>
+            <Button
+              disabled={isWrongNetwork}
+              isLoading={isLoading}
+              variant={'gray'}
+              onClick={handleUnsubscribe}
+            >
               Unsubscribe
             </Button>
-            {isWrongNetwork && <WrongNetworkError />}
+            {isWrongNetwork && <WrongNetworkError action={'unsubscribe'} />}
           </Flex>
         </Dropdown>
       </Flex>
