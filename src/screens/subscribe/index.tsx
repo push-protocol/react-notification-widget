@@ -45,7 +45,7 @@ export const Subscribe = () => {
     isSubscribed,
     setIsOnboarding,
     isOnboarding,
-    subscribe,
+    subscribe: signSubscribeMsg,
     isLoading: authLoading,
     login,
   } = useAuthContext();
@@ -102,7 +102,7 @@ export const Subscribe = () => {
     setIsOnboarding(true);
 
     setLoadingMsg('Sign the message in your wallet to subscribe');
-    await subscribe();
+    await signSubscribeMsg();
     analytics.track('channel subscribe successful', { channelAddress });
 
     setLoadingMsg('Sign the message in your wallet to verify ownership of your account');

@@ -63,7 +63,7 @@ export const SetupApps = (props: { appsToConnect: MessagingApp[] }) => {
         </PageTitle>
       </Header>
 
-      <Flex mb={2} mt={2} width={'100%'}>
+      <Flex mb={4} mt={2} width={'100%'}>
         <ConnectApps apps={apps} appOpen={appOpen} setAppOpen={setAppOpen} />
       </Flex>
       <Flex width={'100%'} justifyContent={'space-between'} gap={1} mb={2}>

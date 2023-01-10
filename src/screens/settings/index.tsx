@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
-import { ENV } from '../../global/const';
-import Notice from 'components/Notice';
+import { PersonFill as PersonIcon } from '@styled-icons/octicons';
+import Dropdown from '../../components/Dropdown';
+import Text from '../../components/Text';
+import WrongNetworkError from '../../components/Errors/WrongNetworkError';
+import useIsWrongNetwork from '../../hooks/useIsWrongNetwork';
+import { useUnsubscribeMutation } from './operations.generated';
 import { Screen } from 'components/layout/Screen';
 import Button from 'components/Button';
 import Flex from 'components/layout/Flex';
@@ -18,8 +22,14 @@ import { Web2Apps } from 'context/UserContext/const';
 export const Settings = () => {
   const { isSubscribeOnlyMode } = useEnvironment();
   const { userCommsChannels } = useUserContext();
-  const { name, icon, discordGuildUrl, messageCategories } = useChannelContext();
-  const { unsubscribe, isOnboarding, logout, discordToken } = useAuthContext();
+  const { icon, discordGuildUrl, messageCategories } = useChannelContext();
+  const { unsubscribe: signUnsubscribeMsg, isOnboarding, logout, discordToken } = useAuthContext();
+  const isWrongNetwork = useIsWrongNetwork();
+
+  const [unsubscribe] = useUnsubscribeMutation();
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [accountMenuOpen, setAccountMenuOpen] = useState(false);
 
   const appConfig = Web2Apps.map((app) => ({
     app,
@@ -31,8 +41,15 @@ export const Settings = () => {
         : true,
   })).filter((app) => app.available);
 
-  const handleUnsubscribe = () => {
-    unsubscribe();
+  const handleUnsubscribe = async () => {
+    setIsLoading(true);
+
+    try {
+      await signUnsubscribeMsg();
+      await unsubscribe();
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const apps = appConfig.map((config) => config.app);
@@ -56,21 +73,27 @@ export const Settings = () => {
 
       <ConnectApps apps={apps} appOpen={appOpen} setAppOpen={setAppOpen} />
 
-      {ENV === 'development' && (
-        <Flex width={'100%'} justifyContent={'center'} mb={1}>
-          <Button variant={'outlined'} onClick={handleUnsubscribe} height={20}>
-            Unsubscribe
-          </Button>
-        </Flex>
-      )}
-      <Notice text={`${name} doesn't have access to your info`} />
+      <Flex mt={1} mb={1} width={'100%'}>
+        <Dropdown
+          open={accountMenuOpen}
+          toggleOpen={() => setAccountMenuOpen(!accountMenuOpen)}
+          title={'Account'}
+          icon={<PersonIcon />}
+        >
+          <Flex width={'100%'} direction={'column'} gap={2}>
+            <Text>Sign a message with your wallet to unsubscribe from all communication</Text>
+            <Button isLoading={isLoading} variant={'gray'} onClick={handleUnsubscribe}>
+              Unsubscribe
+            </Button>
+            {isWrongNetwork && <WrongNetworkError />}
+          </Flex>
+        </Dropdown>
+      </Flex>
 
       {isSubscribeOnlyMode && (
-        <Flex width={'100%'} justifyContent={'center'} mb={1} mt={2}>
-          <Button variant={'outlined'} onClick={logout}>
-            Disconnect
-          </Button>
-        </Flex>
+        <Button mt={1} mb={2} variant={'gray'} onClick={logout}>
+          Disconnect Wallet
+        </Button>
       )}
     </Screen>
   );

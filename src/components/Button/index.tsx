@@ -141,7 +141,7 @@ const ButtonWrapper = styled.button<ButtonProps>`
 const Button = (props: ButtonProps & ButtonHTMLAttributes<any>) => {
   const { children, ...rest } = props;
   return (
-    <ButtonWrapper {...rest}>
+    <ButtonWrapper disabled={rest.isLoading} {...rest}>
       {children}
       {rest.isLoading && (
         <Flex ml={1} style={{ overflow: 'hidden' }}>

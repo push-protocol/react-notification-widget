@@ -1,5 +1,5 @@
 import React from 'react';
-import AppDropdown from '../AppDropdown';
+import Dropdown from '../../../Dropdown';
 import ConnectedApp from '../ConnectedApp';
 import IntegrateTelegram from './IntegrateTelegram';
 import useTelegramActions from './useTelegramActions';
@@ -8,10 +8,10 @@ import { Telegram as TelegramIcon } from 'components/icons';
 
 type TelegramChannelProps = {
   open: boolean;
-  setOpen: () => void;
+  toggleOpen: () => void;
 };
 
-export const TelegramConnector = ({ open, setOpen }: TelegramChannelProps) => {
+export const TelegramConnector = ({ open, toggleOpen }: TelegramChannelProps) => {
   const { isLoading } = useAuthContext();
 
   const {
@@ -26,12 +26,12 @@ export const TelegramConnector = ({ open, setOpen }: TelegramChannelProps) => {
   } = useTelegramActions();
 
   return (
-    <AppDropdown
+    <Dropdown
       title={'Telegram'}
       icon={<TelegramIcon />}
       isConnected={isConnected}
       open={open}
-      setOpen={setOpen}
+      toggleOpen={toggleOpen}
     >
       {isConnected ? (
         <ConnectedApp
@@ -51,6 +51,6 @@ export const TelegramConnector = ({ open, setOpen }: TelegramChannelProps) => {
           isDisabled={telegramLoading || isLoading}
         />
       )}
-    </AppDropdown>
+    </Dropdown>
   );
 };

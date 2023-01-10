@@ -1,11 +1,12 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useEffect, useRef } from 'react';
 import styled, { useTheme, keyframes } from 'styled-components';
-import Spinner from '../../Spinner';
+import Spinner from '../Spinner';
 import Flex from 'components/layout/Flex';
 import Text from 'components/Text';
 import { ArrowRight } from 'components/icons';
 
 const Container = styled(Flex)<{ open?: boolean }>`
+  width: 100%;
   border-radius: ${({ theme }) => theme.w.borderRadius.md};
   background: ${({ theme, open }) => (open ? theme.w.colors.dark['10'] : 'unset')};
   border: ${({ theme, open }) =>
@@ -20,7 +21,6 @@ const Header = styled(Flex)`
   padding: 8px;
   cursor: pointer;
   background: transparent;
-  display: flex;
   justify-content: space-between;
 `;
 
@@ -61,28 +61,45 @@ const Content = styled(Flex)<{ open?: boolean }>`
 `;
 
 type SettingsItemProps = {
-  icon?: ReactNode;
-  title?: string;
-  children?: ReactNode;
-  open?: boolean;
-  setOpen?: () => void;
+  icon: ReactNode;
+  title: string;
+  children: ReactNode;
+  open: boolean;
+  toggleOpen: () => void;
   isConnected?: boolean;
   isLoading?: boolean;
 };
 
-const AppDropdown = ({
+const Dropdown = ({
   children,
   isLoading,
   icon,
   title,
   open,
-  setOpen,
+  toggleOpen,
   isConnected,
 }: SettingsItemProps) => {
   const theme = useTheme();
+
+  const ref = useRef<HTMLSpanElement | null>(null);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (open && ref?.current) {
+        ref?.current.scrollIntoView({
+          behavior: 'smooth',
+          block: 'end',
+          inline: 'nearest',
+        });
+      }
+    }, 200); // Needed because of app dropdown animation
+
+    return () => clearTimeout(timer);
+  }, [open]);
+
   return (
-    <Container gap={1} direction={'column'} open={open}>
-      <Header alignItems={'center'} onClick={setOpen}>
+    <Container direction={'column'} open={open}>
+      <Header alignItems={'center'} onClick={toggleOpen}>
         <HeaderInfo gap={1}>
           <DropdownIcon open={open}>
             <ArrowRight />
@@ -103,8 +120,9 @@ const AppDropdown = ({
         )}
       </Header>
       {open && <Content>{children}</Content>}
+      <span ref={ref} />
     </Container>
   );
 };
 
-export default AppDropdown;
+export default Dropdown;
