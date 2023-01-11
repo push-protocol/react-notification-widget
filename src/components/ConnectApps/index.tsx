@@ -1,4 +1,4 @@
-import React, { MutableRefObject, ReactElement, useEffect, useRef } from 'react';
+import React, { ReactElement } from 'react';
 import { DiscordConnector } from './components/discord';
 import { EmailConnector } from './components/email';
 import { TelegramConnector } from './components/telegram';
@@ -14,62 +14,36 @@ const ConnectApps = ({
   appOpen?: MessagingApp;
   setAppOpen: (open?: MessagingApp) => void;
 }) => {
-  const appRefs: { [key in MessagingApp]?: MutableRefObject<any> } = {
-    [MessagingApp.Discord]: useRef<HTMLDivElement | null>(null),
-    [MessagingApp.Telegram]: useRef<HTMLDivElement | null>(null),
-    [MessagingApp.Email]: useRef<HTMLDivElement | null>(null),
-  };
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      if (appOpen && appRefs[appOpen]?.current) {
-        appRefs[appOpen]?.current.scrollIntoView({
-          behavior: 'smooth',
-          block: 'end',
-          inline: 'nearest',
-        });
-      }
-    }, 200); // Needed because of app dropdown animation
-
-    return () => clearTimeout(timer);
-  }, [appOpen]);
-
   const toggleChannelOpen = (channel: MessagingApp) => {
     appOpen === channel ? setAppOpen(undefined) : setAppOpen(channel);
   };
 
   const appConnectors: { [key in MessagingApp]?: ReactElement } = {
     [MessagingApp.Discord]: (
-      <div key={MessagingApp.Discord}>
-        <DiscordConnector
-          open={appOpen === MessagingApp.Discord}
-          setOpen={() => toggleChannelOpen(MessagingApp.Discord)}
-        />
-        <span ref={appRefs[MessagingApp.Discord]} />
-      </div>
+      <DiscordConnector
+        key={MessagingApp.Discord}
+        open={appOpen === MessagingApp.Discord}
+        toggleOpen={() => toggleChannelOpen(MessagingApp.Discord)}
+      />
     ),
     [MessagingApp.Email]: (
-      <div key={MessagingApp.Email}>
-        <EmailConnector
-          open={appOpen === MessagingApp.Email}
-          setOpen={() => toggleChannelOpen(MessagingApp.Email)}
-        />
-        <span ref={appRefs[MessagingApp.Email]} />
-      </div>
+      <EmailConnector
+        key={MessagingApp.Email}
+        open={appOpen === MessagingApp.Email}
+        toggleOpen={() => toggleChannelOpen(MessagingApp.Email)}
+      />
     ),
     [MessagingApp.Telegram]: (
-      <div key={MessagingApp.Telegram}>
-        <TelegramConnector
-          open={appOpen === MessagingApp.Telegram}
-          setOpen={() => toggleChannelOpen(MessagingApp.Telegram)}
-        />
-        <span ref={appRefs[MessagingApp.Telegram]} />
-      </div>
+      <TelegramConnector
+        key={MessagingApp.Telegram}
+        open={appOpen === MessagingApp.Telegram}
+        toggleOpen={() => toggleChannelOpen(MessagingApp.Telegram)}
+      />
     ),
   };
 
   return (
-    <Flex gap={1} width={'100%'} direction={'column'} mb={2}>
+    <Flex gap={1} width={'100%'} direction={'column'}>
       {apps.map((app) => appConnectors[app])}
     </Flex>
   );

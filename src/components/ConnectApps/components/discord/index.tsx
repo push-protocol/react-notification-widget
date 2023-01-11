@@ -1,5 +1,5 @@
 import React from 'react';
-import AppDropdown from '../AppDropdown';
+import Dropdown from '../../../Dropdown';
 import ConnectedApp from '../ConnectedApp';
 import Flex from '../../../layout/Flex';
 import Text from '../../../Text';
@@ -10,10 +10,10 @@ import { useAuthContext } from 'context/AuthContext';
 
 type DiscordChannelProps = {
   open: boolean;
-  setOpen: () => void;
+  toggleOpen: () => void;
 };
 
-export const DiscordConnector = ({ open, setOpen }: DiscordChannelProps) => {
+export const DiscordConnector = ({ open, toggleOpen }: DiscordChannelProps) => {
   const { isLoading } = useAuthContext();
   const { userCommsChannels } = useUserContext();
 
@@ -22,13 +22,13 @@ export const DiscordConnector = ({ open, setOpen }: DiscordChannelProps) => {
   const isConnected = userCommsChannels?.discord.exists;
 
   return (
-    <AppDropdown
+    <Dropdown
       title={'Discord'}
       isLoading={verifyData.loading}
       icon={<DiscordIcon />}
       isConnected={isConnected}
       open={open}
-      setOpen={setOpen}
+      toggleOpen={toggleOpen}
     >
       {isConnected ? (
         <ConnectedApp
@@ -47,6 +47,6 @@ export const DiscordConnector = ({ open, setOpen }: DiscordChannelProps) => {
           </Text>
         </Flex>
       )}
-    </AppDropdown>
+    </Dropdown>
   );
 };

@@ -296,6 +296,7 @@ export type Mutation = {
   userPreferencesUpdate?: Maybe<UserPreference>;
   userSubscribeToChannel: User;
   userTelegramDelete: GeneralResolverResponse;
+  userUnsubscribeFromChannel: User;
   userUpdateLastReadAt: User;
   workflowCreate: Workflow;
   workflowDelete: BatchActionResponse;

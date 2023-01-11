@@ -1,5 +1,5 @@
 import React from 'react';
-import AppDropdown from '../AppDropdown';
+import Dropdown from '../../../Dropdown';
 import ConnectedApp from '../ConnectedApp';
 import VerifyEmail from './VerifyEmail';
 import EditEmail from './EditEmail';
@@ -10,10 +10,10 @@ import Flex from 'components/layout/Flex';
 
 type EmailChannelProps = {
   open: boolean;
-  setOpen: () => void;
+  toggleOpen: () => void;
 };
 
-export const EmailConnector = ({ open, setOpen }: EmailChannelProps) => {
+export const EmailConnector = ({ open, toggleOpen }: EmailChannelProps) => {
   const { isLoading } = useAuthContext();
 
   const {
@@ -32,11 +32,11 @@ export const EmailConnector = ({ open, setOpen }: EmailChannelProps) => {
   } = useEmailActions();
 
   return (
-    <AppDropdown
+    <Dropdown
       title={'Email'}
       icon={<EmailIcon />}
       open={open}
-      setOpen={setOpen}
+      toggleOpen={toggleOpen}
       isConnected={!!isConnected}
     >
       <Flex width={'100%'}>
@@ -70,6 +70,6 @@ export const EmailConnector = ({ open, setOpen }: EmailChannelProps) => {
           />
         )}
       </Flex>
-    </AppDropdown>
+    </Dropdown>
   );
 };
