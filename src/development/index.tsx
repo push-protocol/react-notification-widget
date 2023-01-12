@@ -70,7 +70,7 @@ const DemoApp = () => {
   }, [partnerKey, theme]);
 
   return (
-    <div style={{ display: 'flex', height: '100vh', width: '100vw', background: 'black' }}>
+    <div style={{ display: 'flex', height: '150vh', width: '100vw', background: 'black' }}>
       <S.BackgroundLogoContainer>
         <BackgroundLogo />
       </S.BackgroundLogoContainer>

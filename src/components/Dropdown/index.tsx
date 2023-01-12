@@ -88,7 +88,7 @@ const Dropdown = ({
       if (open && ref?.current) {
         ref?.current.scrollIntoView({
           behavior: 'smooth',
-          block: 'end',
+          block: 'nearest',
           inline: 'nearest',
         });
       }
