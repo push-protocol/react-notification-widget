@@ -136,10 +136,11 @@ const AuthProvider = ({
     }
   };
 
-  const _resetLoginState = () => {
+  const _resetLoginState = async () => {
     if (address && authStorage.switchActiveWalletTokens(address)) {
       setIsLoggedIn(true);
       setLoggedInAddress(address);
+      await refetchSigner(); // must be refetched to instantiate with new wallet
     } else {
       setIsLoggedIn(false);
       setLoggedInAddress('');
