@@ -2,6 +2,7 @@ import React from 'react';
 import dayjs, { extend } from 'dayjs';
 import styled, { DefaultTheme } from 'styled-components';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import snarkdown from 'snarkdown';
 import analytics from '../../../services/analytics';
 import parseEpnsFormatting from '../helpers/parseEpnsFormatting';
 import { mode } from 'theme';
@@ -65,6 +66,11 @@ const UnreadNotification = styled.div`
 const Message = styled(Text)`
   white-space: break-spaces;
   word-break: break-word;
+
+  ol,
+  ul {
+    list-style-position: inside;
+  }
 `;
 
 const ImageContainer = styled.div`
@@ -140,9 +146,13 @@ const NotificationFeedItem = ({
           </NotificationTitle>
         </Flex>
 
-        <Message mt={1} mb={1} size={'md'} weight={500}>
-          {parseEpnsFormatting(notification.message)}
-        </Message>
+        <Message
+          mt={1}
+          mb={1}
+          size={'md'}
+          weight={500}
+          dangerouslySetInnerHTML={{ __html: snarkdown(parseEpnsFormatting(notification.message)) }}
+        />
 
         {notification.image &&
           (isVideoUrl(notification.image) ? (

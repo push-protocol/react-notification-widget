@@ -46,10 +46,11 @@ const keys = {
   staging: {
     nozick: 'cefa1b69-bfb9-4e70-bebc-9ee10316f882',
     wTest: '070d4d95-90fb-44b8-99cf-f440eeccf767',
+    dino: '6a71067c-49c7-4863-bf16-a34511a277e1',
   },
 };
 
-const DEFAULT_PARTNER_KEY = ENV === 'production' ? keys.prod.wTest : keys.staging.wTest;
+const DEFAULT_PARTNER_KEY = ENV === 'production' ? keys.prod.nozick : keys.staging.dino;
 
 const DemoApp = () => {
   const [partnerKey, setPartnerKey] = useState(DEFAULT_PARTNER_KEY);
