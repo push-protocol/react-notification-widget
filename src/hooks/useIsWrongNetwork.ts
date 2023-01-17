@@ -1,10 +1,10 @@
-import { useNetwork } from 'wagmi';
 import { useState, useEffect } from 'react';
 import { useChannelContext } from '../context/ChannelContext';
+import { useAccountContext } from '../context/AccountContext';
 // import { MAINNET_CHAINS, TESTNET_CHAINS } from '../global/const';
 
 const useIsWrongNetwork = () => {
-  const { chain: walletChain } = useNetwork();
+  const { chainId: walletChain } = useAccountContext();
   const { chainId: channelChain } = useChannelContext();
 
   const [isWrongNetwork, setIsWrongNetwork] = useState(false);
@@ -19,7 +19,7 @@ const useIsWrongNetwork = () => {
     // const testnetIds = TESTNET_CHAINS.map((chain) => chain.id);
     // const channelIsMainnet = mainnetIds.includes(channelChain);
 
-    setIsWrongNetwork(channelChain !== walletChain.id);
+    setIsWrongNetwork(channelChain !== walletChain);
   }, [channelChain, walletChain]);
 
   return isWrongNetwork;

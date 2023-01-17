@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import styled, { useTheme } from 'styled-components';
-import { useAccount } from 'wagmi';
 import analytics from '../../services/analytics';
 import { UserSubscribeSource } from '../../global/types.generated';
 import useIsWrongNetwork from '../../hooks/useIsWrongNetwork';
+import { useAccountContext } from '../../context/AccountContext';
 import ConnectWalletButtons from './components/ConnectWalletButtons';
 import NewTag from './components/NewTag';
 import { useUserSubscribeMutation } from './operations.generated';
@@ -38,7 +38,7 @@ const SubscribeDescription = styled.div`
 export const Subscribe = () => {
   const { isSubscribeOnlyMode } = useEnvironment();
   const { discordToken } = useAuthContext();
-  const { isConnected } = useAccount();
+  const { isConnected } = useAccountContext();
   const [loadingMsg, setLoadingMsg] = useState('');
 
   const {

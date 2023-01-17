@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useAccount } from 'wagmi';
 import useUnreadCount from '../../hooks/useUnreadCount';
 import { useEnvironment } from '../../context/EnvironmentContext';
 import { useAuthContext } from '../../context/AuthContext';
+import { useAccountContext } from '../../context/AccountContext';
 import { Bell } from 'components/icons';
 
 const Container = styled.div`
@@ -47,7 +47,7 @@ export type NotificationBellProps = {
 // any to avoid exposing props to consumers of the component (parent injects onClick and unreadCount)
 const NotificationBell = (props: NotificationBellProps & any) => {
   const unreadCount = useUnreadCount();
-  const { isConnected } = useAccount();
+  const { isConnected } = useAccountContext();
   const { isSubscribed, isLoading: authLoading } = useAuthContext();
 
   const { isSubscribeOnlyMode } = useEnvironment();

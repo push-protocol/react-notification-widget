@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useAccount, useEnsName, useNetwork } from 'wagmi';
+import { useEnsName } from 'wagmi';
+import { useAccountContext } from '../../../context/AccountContext';
 import { UserWalletIcon } from './UserWalletIcon';
 import Text from 'components/Text';
 import { Dots, OpenLink } from 'components/icons';
@@ -74,13 +75,16 @@ const SeparatorIcon = styled.div`
   color: ${({ theme }) => theme.w.colors.primary.main};
 `;
 
+const chainIdsToBlockExplorer: Record<number, string> = {
+  1: 'https://etherscan.io',
+  5: 'https://goerli.etherscan.io',
+};
+
 const ChannelToUserIcons = () => {
-  const { chain } = useNetwork();
-
   const { channelAddress, icon } = useChannelContext();
-  const { address } = useAccount();
+  const { address, chainId } = useAccountContext();
 
-  const blockExplorerUrl = `${chain?.blockExplorers?.default?.url}/address/${channelAddress}`;
+  const blockExplorerUrl = `${chainIdsToBlockExplorer[chainId || 1]}/address/${channelAddress}`;
 
   const { data: channelEns } = useEnsName({ address: channelAddress as `0x${string}` });
   const { data: userEns } = useEnsName({ address });
