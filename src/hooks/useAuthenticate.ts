@@ -1,5 +1,5 @@
-import { useAccount, useSigner } from 'wagmi';
 import { SiweMessage } from 'siwe';
+import { useAccountContext } from '../context/AccountContext';
 import {
   useNonceGenerateMutation,
   useUserLoginMutation,
@@ -20,10 +20,9 @@ type SignatureMessage = {
 export class LoginError extends Error {}
 
 export const useAuthenticate = () => {
-  const { address } = useAccount();
+  const { address, signMessage } = useAccountContext();
   const [generateNonce] = useNonceGenerateMutation();
   const [loginUser] = useUserLoginMutation();
-  const signer = useSigner();
   const { chainId } = useChannelContext();
 
   const login = async (channelAddress: string) => {
@@ -61,9 +60,7 @@ export const useAuthenticate = () => {
     const message = new SiweMessage(msg).prepareMessage();
 
     try {
-      // in some cases wagmi returns an undefined signer, even though one is instantiated. This(refetch) validates an actual signer is always returned
-      const refetchedSigner = await signer.refetch();
-      const signature = await refetchedSigner.data?.signMessage(message);
+      const signature = await signMessage(message);
       return [msg, signature as string];
     } catch (e) {
       throw new LoginError("Can't obtain signature");

@@ -2,7 +2,6 @@ import React, { cloneElement, forwardRef, ReactElement, useEffect, useMemo, useS
 import { usePopper } from 'react-popper';
 import ClickAwayListener from 'react-click-away-listener';
 import styled, { useTheme } from 'styled-components';
-import { useAccount } from 'wagmi';
 import { Placement } from '@popperjs/core';
 import useWindowSize from '../../helpers/hooks/useWindowSize';
 import { NotificationClickProp } from '../types';
@@ -10,6 +9,7 @@ import analytics from '../../services/analytics';
 import { useAuthContext } from '../../context/AuthContext';
 import useUnreadCount from '../../hooks/useUnreadCount';
 import { WIDGET_VERSION } from '../../global/const';
+import { useAccountContext } from '../../context/AccountContext';
 import { useUpdateLastReadMutation } from './operations.generated';
 import { useChannelContext } from 'context/ChannelContext';
 import { useUserContext } from 'context/UserContext';
@@ -35,11 +35,11 @@ export type NotificationFeedProps = NotificationClickProp & {
 
 const NotificationFeed = (props: NotificationFeedProps): JSX.Element => {
   const { children, onNotificationClick } = props;
+
   const { feedOpen, setFeedOpen } = useUserContext();
-  const { isConnected } = useAccount();
+  const { isConnected, address } = useAccountContext();
   const unreadCount = useUnreadCount();
   const { isLoggedIn } = useAuthContext();
-  const { address } = useAccount();
   const { channelAddress, name } = useChannelContext();
   const { activeRoute, routeProps, setRoute } = useRouterContext();
   const theme = useTheme();

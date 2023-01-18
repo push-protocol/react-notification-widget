@@ -3,6 +3,7 @@ import { WagmiConfig } from 'wagmi';
 import { ThemeProvider } from 'styled-components';
 import { providers } from 'ethers';
 import { CustomTheme, makeTheme } from '../../theme';
+import { AccountProvider, CustomSigner } from '../../context/AccountContext';
 import useWagmiClient from './useWagmiClient';
 import { UserProvider } from 'context/UserContext';
 import { Reset } from 'theme/ResetCss';
@@ -18,9 +19,8 @@ export type ExternalProvider =
   | providers.ExternalProvider
   | providers.JsonRpcFetchFunc;
 
-export type RpcUrls = { ethereum: string };
-
 export type NotificationFeedProviderProps = PropsWithChildren<{
+  customSigner?: Required<CustomSigner>;
   partnerKey: string;
   discordToken?: string;
   provider?: ExternalProvider;
@@ -38,9 +38,14 @@ const NotificationFeedProvider = ({
   children,
   disableAnalytics,
   isOpen,
-  mode,
+  mode = WidgetMode.Default,
+  customSigner,
 }: NotificationFeedProviderProps) => {
   const wagmiClient = useWagmiClient(provider);
+
+  if (mode === WidgetMode.Default && !customSigner && !provider) {
+    console.error('Wherever: at least 1 of "provider" or "customSigner" props must be provided');
+  }
 
   useEffect(() => {
     if (!disableAnalytics) {
@@ -55,12 +60,14 @@ const NotificationFeedProvider = ({
           <ApolloProvider>
             <RouterProvider>
               <ChannelProvider partnerKey={partnerKey}>
-                <AuthProvider partnerKey={partnerKey} discordToken={discordToken}>
-                  <UserProvider isOpen={isOpen}>
-                    <Reset />
-                    {children}
-                  </UserProvider>
-                </AuthProvider>
+                <AccountProvider {...customSigner}>
+                  <AuthProvider partnerKey={partnerKey} discordToken={discordToken}>
+                    <UserProvider isOpen={isOpen}>
+                      <Reset />
+                      {children}
+                    </UserProvider>
+                  </AuthProvider>
+                </AccountProvider>
               </ChannelProvider>
             </RouterProvider>
           </ApolloProvider>

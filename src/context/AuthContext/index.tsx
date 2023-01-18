@@ -7,7 +7,7 @@ import React, {
   useState,
 } from 'react';
 import * as epns from '@epnsproject/sdk-restapi';
-import { useAccount, useDisconnect, useSigner } from 'wagmi';
+import { useAccountContext, EthTypedData } from '../AccountContext';
 import useLoadAuthFromStorage from './useLoadAuthFromStorage';
 import { Routes, useRouterContext } from 'context/RouterContext';
 import analytics from 'services/analytics';
@@ -28,7 +28,6 @@ export type AuthInfo = {
   logout(): void;
   isOnboarding: boolean;
   isSubscribed?: boolean;
-  walletDisconnected: boolean;
   setIsOnboarding(isFirst: boolean): void;
 };
 
@@ -61,10 +60,8 @@ const AuthProvider = ({
 }) => {
   const { setRoute } = useRouterContext();
   const { channelAddress, chainId } = useChannelContext();
-  const { isConnected, address } = useAccount();
-  const { data: signer, refetch: refetchSigner } = useSigner();
+  const { signTypedData, refetchSigner, address, isConnected, disconnect } = useAccountContext();
   const { login: _login } = useAuthenticate();
-  const dc = useDisconnect();
 
   const [isSubscribed, setIsSubscribed] = useState<boolean>();
   const [isOnboarding, setIsOnboarding] = useState(false);
@@ -72,21 +69,8 @@ const AuthProvider = ({
   const [loggedInAddress, setLoggedInAddress] = useState<string>();
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
-  const [refetchCounter, setRefetchCounter] = useState(0);
 
   useLoadAuthFromStorage({ address, setLoggedInAddress, setIsLoggedIn, partnerKey });
-
-  // handle signer null case when reloading window after clearing storage
-  useEffect(() => {
-    if (signer || refetchCounter > 10) return;
-
-    const timeout = setInterval(async () => {
-      refetchSigner();
-      setRefetchCounter((counter) => counter + 1);
-    }, 500);
-
-    return () => clearInterval(timeout);
-  }, [signer]);
 
   useEffect(() => {
     if (!isConnected || !channelAddress) {
@@ -148,12 +132,12 @@ const AuthProvider = ({
   };
 
   const logout = useCallback(() => {
-    dc.disconnect();
+    disconnect();
     _resetLoginState();
     setIsSubscribed(false);
     setError(false);
     setIsLoading(false);
-  }, [dc]);
+  }, [disconnect]);
 
   useEffect(() => {
     if (!isConnected) {
@@ -176,7 +160,13 @@ const AuthProvider = ({
   const toggleSubscription = async (action: 'sub' | 'unsub') => {
     setIsLoading(true);
     const params = {
-      signer: signer as any,
+      signer: {
+        _signTypedData: (
+          domain: EthTypedData['domain'],
+          types: EthTypedData['types'],
+          message: EthTypedData['message']
+        ) => signTypedData({ message, domain, types, primaryType: Object.keys(types)[0] }),
+      } as any,
       channelAddress: `eip155:${chainId}:${channelAddress}`,
       userAddress: `eip155:${chainId}:${address}`,
       env: chainId === 1 ? undefined : 'staging',
@@ -213,7 +203,6 @@ const AuthProvider = ({
         logout,
         isOnboarding,
         setIsOnboarding,
-        walletDisconnected: !isConnected,
         discordToken,
       }}
     >
