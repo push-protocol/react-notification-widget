@@ -7,13 +7,13 @@ import { CustomTheme, ThemeMode } from './theme';
 import { Notification } from './context/UserContext/types';
 import NotificationFeed, { NotificationFeedProps } from './components/NotificationFeed';
 import { WidgetMode } from './context/EnvironmentContext';
-import { WhereverSigner } from './context/AccountContext';
+import { CustomSigner } from './context/AccountContext';
 
 export {
   NotificationFeed,
   NotificationFeedProvider,
   NotificationBell,
-  WhereverSigner,
+  CustomSigner,
   CustomTheme,
   ThemeMode,
   NotificationFeedProviderProps,

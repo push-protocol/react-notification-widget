@@ -3,7 +3,7 @@ import { WagmiConfig } from 'wagmi';
 import { ThemeProvider } from 'styled-components';
 import { providers } from 'ethers';
 import { CustomTheme, makeTheme } from '../../theme';
-import { AccountProvider, WhereverSigner } from '../../context/AccountContext';
+import { AccountProvider, CustomSigner } from '../../context/AccountContext';
 import useWagmiClient from './useWagmiClient';
 import { UserProvider } from 'context/UserContext';
 import { Reset } from 'theme/ResetCss';
@@ -20,7 +20,7 @@ export type ExternalProvider =
   | providers.JsonRpcFetchFunc;
 
 export type NotificationFeedProviderProps = PropsWithChildren<{
-  customSigner?: Required<WhereverSigner>;
+  customSigner?: Required<CustomSigner>;
   partnerKey: string;
   discordToken?: string;
   provider?: ExternalProvider;
