@@ -50,7 +50,7 @@ const keys = {
   },
 };
 
-const DEFAULT_PARTNER_KEY = ENV === 'production' ? keys.prod.nozick : keys.staging.dino;
+const DEFAULT_PARTNER_KEY = ENV === 'production' ? keys.prod.nozick : keys.staging.nozick;
 
 const DemoApp = () => {
   const [partnerKey, setPartnerKey] = useState(DEFAULT_PARTNER_KEY);

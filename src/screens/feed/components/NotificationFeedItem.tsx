@@ -3,6 +3,7 @@ import dayjs, { extend } from 'dayjs';
 import styled, { DefaultTheme } from 'styled-components';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import snarkdown from 'snarkdown';
+import domPurify from 'dompurify';
 import analytics from '../../../services/analytics';
 import parseEpnsFormatting from '../helpers/parseEpnsFormatting';
 import { mode } from 'theme';
@@ -124,6 +125,8 @@ const NotificationFeedItem = ({
     return dayjs(date).fromNow();
   };
 
+  const sanitizedMessage = domPurify.sanitize(snarkdown(parseEpnsFormatting(notification.message)));
+
   return (
     <Container clickable={!!notification.cta} onClick={handleNotificationClick}>
       {showSenderDetails && (
@@ -151,7 +154,7 @@ const NotificationFeedItem = ({
           mb={1}
           size={'md'}
           weight={500}
-          dangerouslySetInnerHTML={{ __html: snarkdown(parseEpnsFormatting(notification.message)) }}
+          dangerouslySetInnerHTML={{ __html: sanitizedMessage }}
         />
 
         {notification.image &&
