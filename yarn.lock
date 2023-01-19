@@ -1613,10 +1613,10 @@
   resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.11.6.tgz#cee20bd55e68a1720bdab363ecf0c821ded4cd45"
   integrity sha512-50/17A98tWUfQ176raKiOGXuYpLyyVMkxxG6oylzL3BPOlA6ADGdK7EYunSa4I064xerltq9TGXs8HmOk5E+vw==
 
-"@pushprotocol/restapi@^0.2.2":
-  version "0.2.2"
-  resolved "https://registry.yarnpkg.com/@pushprotocol/restapi/-/restapi-0.2.2.tgz#81e7b20bec48fe3ad7c96a9b767732b60fc0b957"
-  integrity sha512-+LFAoq9PP3CmT8jPiVSIAD4JOHl4BWmh0i+QuTFtrUOF0T2rgBas0U39W/nLpwaOxHiMhjh7bKK9ETiedWnFjw==
+"@pushprotocol/restapi@^0.3.0":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/@pushprotocol/restapi/-/restapi-0.3.0.tgz#3367d8732ee8e08a2e63ff8e13bbde2d80b5177f"
+  integrity sha512-JpOXDSRlR1z9JjhC/P72wNoBaaLHJs8mYOO4UuLkhqI8SqprUh7i2OnZOdqrC7+horlgivCuw/sT0KmPUMYbdw==
   dependencies:
     "@metamask/eth-sig-util" "^5.0.0"
     axios "^0.27.2"
