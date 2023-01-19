@@ -30,7 +30,7 @@
   "license": "ISC",
   "dependencies": {
     "@apollo/client": "^3.6.9",
-    "@pushprotocol/restapi": "^0.3.0",
+    "@epnsproject/sdk-restapi": "^0.1.20",
     "@popperjs/core": "^2.11.6",
     "@styled-icons/octicons": "^10.47.0",
     "dayjs": "^1.11.5",

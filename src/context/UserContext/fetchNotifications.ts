@@ -1,4 +1,4 @@
-import * as epns from '@pushprotocol/restapi';
+import * as epns from '@epnsproject/sdk-restapi';
 import dayjs from 'dayjs';
 import { EpnsNotificationRawResp, Notification } from './types';
 

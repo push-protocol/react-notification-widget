@@ -6,7 +6,7 @@ import React, {
   useEffect,
   useState,
 } from 'react';
-import * as epns from '@pushprotocol/restapi';
+import * as epns from '@epnsproject/sdk-restapi';
 import { useAccountContext, EthTypedData } from '../AccountContext';
 import useLoadAuthFromStorage from './useLoadAuthFromStorage';
 import { Routes, useRouterContext } from 'context/RouterContext';
