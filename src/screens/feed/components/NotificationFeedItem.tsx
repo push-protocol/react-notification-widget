@@ -149,7 +149,11 @@ const NotificationFeedItem = ({
             <VideoPlayer url={notification.image} />
           ) : (
             <ImageContainer>
-              <NotificationImage src={notification.image} alt="notification image" />
+              <NotificationImage
+                loading={'lazy'}
+                src={notification.image}
+                alt="notification image"
+              />
             </ImageContainer>
           ))}
         <Flex justifyContent={'space-between'}>
