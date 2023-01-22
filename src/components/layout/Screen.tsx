@@ -1,20 +1,13 @@
-import React, {
-  PropsWithChildren,
-  ReactElement,
-  useEffect,
-  useState,
-  useRef,
-  useMemo,
-} from 'react';
+import React, { PropsWithChildren, ReactElement, useEffect, useState, useRef } from 'react';
 import styled from 'styled-components';
 import Text from '../Text';
 import Button from '../Button';
 import PageTitle from '../PageTitle';
-import { useEnvironment } from '../../context/EnvironmentContext';
-import { useRouterContext } from '../../context/RouterContext';
-import analytics from '../../services/analytics';
-import useIsInViewport from '../../hooks/useIsInViewport';
 import Flex from './Flex';
+import { useEnvironment } from 'context/EnvironmentContext';
+import { useRouterContext } from 'context/RouterContext';
+import analytics from 'services/analytics';
+import useIsInViewport from 'hooks/useIsInViewport';
 import { useUserContext } from 'context/UserContext';
 
 const MobileCloseButton = styled(Button)(({ theme }) => ({
