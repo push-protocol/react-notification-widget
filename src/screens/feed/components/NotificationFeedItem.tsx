@@ -2,7 +2,7 @@ import React from 'react';
 import dayjs, { extend } from 'dayjs';
 import styled, { DefaultTheme } from 'styled-components';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import snarkdown from 'snarkdown';
+import { marked } from 'marked';
 import domPurify from 'dompurify';
 import analytics from '../../../services/analytics';
 import parseEpnsFormatting from '../helpers/parseEpnsFormatting';
@@ -68,8 +68,13 @@ const Message = styled(Text)`
   white-space: break-spaces;
   word-break: break-word;
 
+  a {
+    color: ${({ theme }) => theme.w.colors.link.color};
+  }
+
   ol,
   ul {
+    white-space: normal;
     list-style-position: inside;
   }
 `;
@@ -125,7 +130,7 @@ const NotificationFeedItem = ({
     return dayjs(date).fromNow();
   };
 
-  const sanitizedMessage = domPurify.sanitize(snarkdown(parseEpnsFormatting(notification.message)));
+  const sanitizedMessage = domPurify.sanitize(marked(parseEpnsFormatting(notification.message)));
 
   return (
     <Container clickable={!!notification.cta} onClick={handleNotificationClick}>
