@@ -54,6 +54,7 @@ const buildUrl = (url: string) => {
 const VideoPlayer = ({ url }: { url: string }) => (
   <Container>
     <iframe
+      loading={'lazy'}
       height={'180px'}
       src={buildUrl(url)}
       frameBorder={'0'}
