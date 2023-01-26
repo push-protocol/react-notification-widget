@@ -69,7 +69,7 @@ const Message = styled(Text)`
   word-break: break-word;
 
   a {
-    color: ${({ theme }) => theme.w.colors.primary.light};
+    color: ${({ theme }) => theme.w.colors.primary.main};
   }
 
   ol,

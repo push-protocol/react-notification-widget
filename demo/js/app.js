@@ -2251,7 +2251,7 @@ Please report this to https://github.com/markedjs/marked.`,e.silent)return"<p>An
   word-break: break-word;
 
   a {
-    color: ${({theme:t})=>t.w.colors.primary.light};
+    color: ${({theme:t})=>t.w.colors.primary.main};
   }
 
   ol,
