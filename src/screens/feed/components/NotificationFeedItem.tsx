@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import dayjs, { extend } from 'dayjs';
 import styled, { DefaultTheme } from 'styled-components';
 import relativeTime from 'dayjs/plugin/relativeTime';
@@ -69,7 +69,7 @@ const Message = styled(Text)`
   word-break: break-word;
 
   a {
-    color: ${({ theme }) => theme.w.colors.link.color};
+    color: ${({ theme }) => theme.w.colors.primary.light};
   }
 
   ol,
@@ -130,7 +130,10 @@ const NotificationFeedItem = ({
     return dayjs(date).fromNow();
   };
 
-  const sanitizedMessage = domPurify.sanitize(marked(parseEpnsFormatting(notification.message)));
+  const sanitizedMessage = useMemo(
+    () => domPurify.sanitize(marked(parseEpnsFormatting(notification.message))),
+    [notification.message]
+  );
 
   return (
     <Container clickable={!!notification.cta} onClick={handleNotificationClick}>

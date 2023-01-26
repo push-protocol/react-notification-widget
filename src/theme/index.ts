@@ -76,9 +76,6 @@ declare module 'styled-components' {
           80: string;
           100: string;
         };
-        link: {
-          color: string;
-        };
         bell: {
           color: string;
         };
@@ -175,9 +172,6 @@ const defaultTheme: DefaultTheme['w'] = {
       300: '#565E6E',
       400: '#4D5565',
       500: '#424A5A',
-    },
-    link: {
-      color: '#4299E1',
     },
     bell: {
       color: '#FCFCFC',
