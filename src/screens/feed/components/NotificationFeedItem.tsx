@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import dayjs, { extend } from 'dayjs';
 import styled, { DefaultTheme } from 'styled-components';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import { marked } from 'marked';
+import domPurify from 'dompurify';
 import analytics from '../../../services/analytics';
 import parseEpnsFormatting from '../helpers/parseEpnsFormatting';
 import { mode } from 'theme';
@@ -65,6 +67,16 @@ const UnreadNotification = styled.div`
 const Message = styled(Text)`
   white-space: break-spaces;
   word-break: break-word;
+
+  a {
+    color: ${({ theme }) => theme.w.colors.primary.main};
+  }
+
+  ol,
+  ul {
+    white-space: normal;
+    list-style-position: inside;
+  }
 `;
 
 const ImageContainer = styled.div`
@@ -118,6 +130,11 @@ const NotificationFeedItem = ({
     return dayjs(date).fromNow();
   };
 
+  const sanitizedMessage = useMemo(
+    () => domPurify.sanitize(marked(parseEpnsFormatting(notification.message))),
+    [notification.message]
+  );
+
   return (
     <Container clickable={!!notification.cta} onClick={handleNotificationClick}>
       {showSenderDetails && (
@@ -140,9 +157,13 @@ const NotificationFeedItem = ({
           </NotificationTitle>
         </Flex>
 
-        <Message mt={1} mb={1} size={'md'} weight={500}>
-          {parseEpnsFormatting(notification.message)}
-        </Message>
+        <Message
+          mt={1}
+          mb={1}
+          size={'md'}
+          weight={500}
+          dangerouslySetInnerHTML={{ __html: sanitizedMessage }}
+        />
 
         {notification.image &&
           (isVideoUrl(notification.image) ? (
