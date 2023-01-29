@@ -130,6 +130,22 @@ const NotificationFeedItem = ({
     return dayjs(date).fromNow();
   };
 
+  const renderer = {
+    heading(text: string) {
+      return `<p>${text}</p>`;
+    },
+    blockquote(quote: string) {
+      return `<p>${quote}</p>`;
+    },
+    link(href: string | null, title: string | null, text: string): string {
+      return notification.cta
+        ? `<span>${href}</span>`
+        : `<a href="${href}" title='${title}' target='_blank'>${text || href}</a>`;
+    },
+  };
+
+  marked.use({ renderer });
+
   const sanitizedMessage = useMemo(
     () => domPurify.sanitize(marked(parseEpnsFormatting(notification.message))),
     [notification.message]
@@ -157,13 +173,7 @@ const NotificationFeedItem = ({
           </NotificationTitle>
         </Flex>
 
-        <Message
-          mt={1}
-          mb={1}
-          size={'md'}
-          weight={500}
-          dangerouslySetInnerHTML={{ __html: sanitizedMessage }}
-        />
+        <Message mt={1} size={'md'} dangerouslySetInnerHTML={{ __html: sanitizedMessage }} />
 
         {notification.image &&
           (isVideoUrl(notification.image) ? (

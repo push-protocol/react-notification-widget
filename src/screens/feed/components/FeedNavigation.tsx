@@ -39,7 +39,7 @@ const AllFeedIconContainer = styled.div`
 
 export enum NavigationTabs {
   App,
-  All,
+  Other,
 }
 
 interface FeedNavigationProps {
@@ -51,17 +51,12 @@ const FeedNavigation = ({ activeTab, setActiveTab }: FeedNavigationProps) => {
   const { name, icon } = useChannelContext();
   const theme = useTheme();
 
-  const handleTabClick = (tabName: NavigationTabs) => {
-    analytics.track('notifications tab switch', { tab: tabName });
-    setActiveTab(tabName);
-  };
-
   return (
     <Flex width={'100%'} mb={1} gap={1.5}>
       <NavigationItem
         isActive={activeTab === NavigationTabs.App}
         onClick={() => {
-          handleTabClick(NavigationTabs.App);
+          setActiveTab(NavigationTabs.App);
         }}
       >
         <ClientFeedIcon>
@@ -70,9 +65,9 @@ const FeedNavigation = ({ activeTab, setActiveTab }: FeedNavigationProps) => {
         <Text>{name}</Text>
       </NavigationItem>
       <NavigationItem
-        isActive={activeTab === NavigationTabs.All}
+        isActive={activeTab === NavigationTabs.Other}
         onClick={() => {
-          handleTabClick(NavigationTabs.All);
+          setActiveTab(NavigationTabs.Other);
         }}
       >
         <AllFeedIconContainer>

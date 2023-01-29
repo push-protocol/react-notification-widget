@@ -1,10 +1,12 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useRef } from 'react';
 import styled from 'styled-components';
+import InfiniteScroll from 'react-infinite-scroller';
 import { NotificationClickProp } from '../../components/types';
 import { useUserContext } from '../../context/UserContext';
 import Spinner from '../../components/Spinner';
 import { useChannelContext } from '../../context/ChannelContext';
 import { Notification } from '../../context/UserContext/types';
+import analytics from '../../services/analytics';
 import NotificationFeedItem from './components/NotificationFeedItem';
 import EmptyState from './components/EmptyState';
 import { Screen } from 'components/layout/Screen';
@@ -12,6 +14,8 @@ import { Settings } from 'components/icons';
 import Flex from 'components/layout/Flex';
 import FeedNavigation, { NavigationTabs } from 'screens/feed/components/FeedNavigation';
 import { Routes, useRouterContext } from 'context/RouterContext';
+
+const NOTIFS_PER_PAGE = 10;
 
 const NotificationFeed = styled(Flex)`
   ${({ theme }) => `@media (max-width: ${theme.w.breakpoints.mobile}px) {
@@ -48,6 +52,8 @@ export const Feed = ({ onNotificationClick }: NotificationClickProp) => {
   const { channelAddress } = useChannelContext();
   const { setRoute } = useRouterContext();
   const [activeTab, setActiveTab] = useState(NavigationTabs.App);
+  const [page, setPage] = useState(0);
+  const feedRef = useRef<HTMLDivElement | null>(null);
 
   const handleViewSettings = () => {
     setRoute(Routes.Settings);
@@ -66,7 +72,21 @@ export const Feed = ({ onNotificationClick }: NotificationClickProp) => {
     return [channel, other];
   }, [allNotifications]);
 
-  const notificationsToShow = activeTab === NavigationTabs.App ? channelNotifs : otherNotifs;
+  const tabNotifs = activeTab === NavigationTabs.App ? channelNotifs : otherNotifs;
+  const notificationsToShow = useMemo(() => {
+    return tabNotifs.slice(0, page * NOTIFS_PER_PAGE + NOTIFS_PER_PAGE);
+  }, [activeTab, page, tabNotifs]);
+
+  const handleTabSwitch = (tab: NavigationTabs) => {
+    analytics.track('notifications tab switch', { tab });
+
+    if (feedRef.current?.scrollTop) {
+      feedRef.current.scrollTop = 0;
+    }
+
+    setPage(0);
+    setActiveTab(tab);
+  };
 
   return (
     <Screen
@@ -78,26 +98,30 @@ export const Feed = ({ onNotificationClick }: NotificationClickProp) => {
       }
     >
       {!!otherNotifs?.length && (
-        <FeedNavigation activeTab={activeTab} setActiveTab={setActiveTab} />
+        <FeedNavigation activeTab={activeTab} setActiveTab={handleTabSwitch} />
       )}
 
-      <NotificationFeed width={'100%'} direction={'column'} gap={2}>
+      <NotificationFeed ref={feedRef} width={'100%'} direction={'column'} gap={2}>
         <EmptyState show={!isLoading && !notificationsToShow?.length} />
         {isLoading ? (
           <Flex height={150} justifyContent={'center'} alignItems={'center'} pb={3}>
             <Spinner />
           </Flex>
         ) : (
-          notificationsToShow.map((notification, index) => {
-            return (
+          <InfiniteScroll
+            loadMore={() => setPage((currPage) => currPage + 1)}
+            useWindow={false}
+            hasMore={!!tabNotifs[notificationsToShow.length]}
+          >
+            {notificationsToShow.map((notification, index) => (
               <NotificationFeedItem
                 onNotificationClick={onNotificationClick}
-                key={index}
+                key={`${index}-${notification.timestamp}`}
                 notification={notification}
-                showSenderDetails={activeTab === NavigationTabs.All}
+                showSenderDetails={activeTab === NavigationTabs.Other}
               />
-            );
-          })
+            ))}
+          </InfiniteScroll>
         )}
       </NotificationFeed>
     </Screen>
