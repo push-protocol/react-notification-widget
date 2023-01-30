@@ -3,7 +3,7 @@ import { ENV } from '../global/const';
 
 let RUDDERSTACK_WRITE_KEY: string;
 
-// tab_url was logging user addresses in Shapeshift, so it is disabled
+// tab_url was logging user addresses in certain cases, so it is disabled
 const DEFAULT_OPTS = { page: { tab_url: '' } };
 
 if (ENV === 'production') {
