@@ -3,9 +3,13 @@ import { ENV } from '../global/const';
 
 let RUDDERSTACK_WRITE_KEY: string;
 
+// tab_url was logging user addresses in Shapeshift, so it is disabled
+const DEFAULT_OPTS = { page: { tab_url: '' } };
+
 if (ENV === 'production') {
   RUDDERSTACK_WRITE_KEY = '2EzrNnUAfbX1NnxeCDZzbSVd0p9';
-} else if (ENV === 'staging') {
+} else {
+  // } else if (ENV === 'staging') {
   RUDDERSTACK_WRITE_KEY = '2EzhYQgCELoWCA4pQbfhSXnE4HE';
 }
 
@@ -26,15 +30,11 @@ class Analytics {
   }
 
   identify(traits: { channelName: string; channelAddress: string; widgetVersion: string }) {
-    rudder.identify(traits);
+    rudder.identify(traits, DEFAULT_OPTS);
   }
 
   track(event: string, args?: Record<string, any>) {
-    rudder.track(event, args);
-  }
-
-  page(page: string) {
-    rudder.page(page);
+    rudder.track(event, args, DEFAULT_OPTS);
   }
 }
 
