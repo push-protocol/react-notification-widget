@@ -2,10 +2,10 @@ import React, { useMemo } from 'react';
 import dayjs, { extend } from 'dayjs';
 import styled, { DefaultTheme } from 'styled-components';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import { marked } from 'marked';
 import domPurify from 'dompurify';
-import analytics from '../../../services/analytics';
 import parseEpnsFormatting from '../helpers/parseEpnsFormatting';
+import analytics from 'services/analytics';
+import mdToHtml from 'services/mdToHtml';
 import { mode } from 'theme';
 import { NotificationClickProp } from 'components/types';
 import { changeColorShade } from 'components/utils';
@@ -74,6 +74,7 @@ const Message = styled(Text)`
 
   ol,
   ul {
+    line-height: 12px;
     white-space: normal;
     list-style-position: inside;
   }
@@ -144,12 +145,11 @@ const NotificationFeedItem = ({
     },
   };
 
-  marked.use({ renderer });
+  const sanitizedMessage = useMemo(() => {
+    const msgWithoutEpnsFormatting = parseEpnsFormatting(notification.message);
 
-  const sanitizedMessage = useMemo(
-    () => domPurify.sanitize(marked(parseEpnsFormatting(notification.message))),
-    [notification.message]
-  );
+    return domPurify.sanitize(mdToHtml(msgWithoutEpnsFormatting, { notification }));
+  }, [notification.message]);
 
   return (
     <Container clickable={!!notification.cta} onClick={handleNotificationClick}>
@@ -173,7 +173,7 @@ const NotificationFeedItem = ({
           </NotificationTitle>
         </Flex>
 
-        <Message mt={1} size={'md'} dangerouslySetInnerHTML={{ __html: sanitizedMessage }} />
+        <Message mt={1} mb={1} size={'md'} dangerouslySetInnerHTML={{ __html: sanitizedMessage }} />
 
         {notification.image &&
           (isVideoUrl(notification.image) ? (
