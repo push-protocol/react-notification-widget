@@ -8,8 +8,7 @@ const DEFAULT_OPTS = { page: { tab_url: '' } };
 
 if (ENV === 'production') {
   RUDDERSTACK_WRITE_KEY = '2EzrNnUAfbX1NnxeCDZzbSVd0p9';
-} else {
-  // } else if (ENV === 'staging') {
+} else if (ENV === 'staging') {
   RUDDERSTACK_WRITE_KEY = '2EzhYQgCELoWCA4pQbfhSXnE4HE';
 }
 
