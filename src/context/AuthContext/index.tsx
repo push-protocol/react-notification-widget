@@ -182,7 +182,7 @@ const AuthProvider = ({
     if (response.status == 'success') {
       setIsSubscribed(action === 'sub');
     } else {
-      throw 'error subscribing to channel';
+      throw `Wherever: error ${action}scribing to channel: ${response.message}`;
     }
   };
 

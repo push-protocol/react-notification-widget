@@ -1,5 +1,5 @@
-import React, { createContext, useContext, PropsWithChildren, useState, useEffect } from 'react';
-import { useAccount, useNetwork, useSigner, useDisconnect } from 'wagmi';
+import React, { createContext, PropsWithChildren, useContext, useEffect, useState } from 'react';
+import { useAccount, useDisconnect, useNetwork, useSigner } from 'wagmi';
 import { utils } from 'ethers';
 import useValidateProps from './useValidateProps';
 
@@ -61,7 +61,12 @@ const AccountProvider = (props: AccountContextProps) => {
 
   const signMessage = async (msg: string): Promise<string | undefined> => {
     if (isCustomSigner) {
-      return props.signMessage?.(msg);
+      try {
+        return await props.signMessage?.(msg);
+      } catch (e) {
+        console.error(`Wherever: Error signing message - ${e}`);
+        return;
+      }
     }
 
     if (wagmiConnected) {
@@ -88,7 +93,12 @@ const AccountProvider = (props: AccountContextProps) => {
         ...types,
       };
 
-      return props.signTypedData?.(args);
+      try {
+        return await props.signTypedData?.(args);
+      } catch (e) {
+        console.error(`Wherever: Error signing typed data - ${e}`);
+        return;
+      }
     }
 
     if (wagmiConnected) {
