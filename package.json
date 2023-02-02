@@ -1,6 +1,6 @@
 {
   "name": "@wherever/react-notification-feed",
-  "version": "0.3.8",
+  "version": "0.3.9",
   "description": "",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
