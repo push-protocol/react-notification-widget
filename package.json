@@ -42,10 +42,10 @@
     "react-popper": "^2.3.0",
     "rudder-sdk-js": "^2.18.1",
     "siwe": "^1.1.6",
-    "styled-components": "^5.3.5",
     "wagmi": "^0.10.1"
   },
   "peerDependencies": {
+    "styled-components": ">=5",
     "react": ">=16.8.0",
     "react-dom": ">=16.8.0"
   },
@@ -84,6 +84,7 @@
     "react": ">=16.8.0",
     "react-dom": ">=16.8.0",
     "rimraf": "^3.0.2",
+    "styled-components": "^5.3.6",
     "typescript": "^4.7.4"
   }
 }
