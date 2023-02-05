@@ -1,6 +1,6 @@
 {
   "name": "@wherever/react-notification-feed",
-  "version": "0.3.9",
+  "version": "0.3.10",
   "description": "",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
@@ -34,6 +34,7 @@
     "@popperjs/core": "^2.11.6",
     "@styled-icons/octicons": "^10.47.0",
     "dayjs": "^1.11.5",
+    "dompurify": "^2.4.3",
     "ethers": "^5.6.9",
     "graphql": "^16.6.0",
     "react-click-away-listener": "^2.2.2",
@@ -64,7 +65,6 @@
     "@types/styled-components": "^5.1.26",
     "@typescript-eslint/eslint-plugin": "5.30.5",
     "@typescript-eslint/parser": "5.30.5",
-    "dompurify": "^2.4.3",
     "esbuild": "^0.15.5",
     "esbuild-node-externals": "^1.5.0",
     "esbuild-register": "^3.3.3",
