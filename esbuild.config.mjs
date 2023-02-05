@@ -7,6 +7,7 @@ const entryFile = 'src/index.tsx';
 const shared = {
   bundle: true,
   entryPoints: [entryFile],
+  external: ['styled-components', 'react', 'react-dom'],
   logLevel: 'info',
   minify: true,
   sourcemap: true,
