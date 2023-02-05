@@ -7,7 +7,6 @@ esbuildServe({
   bundle: true,
   minify: true,
   entryPoints: ['src/development/index.tsx'],
-  external: ['styled-components', 'react', 'react-dom'],
   outfile: './demo/js/app.js',
   loader: {
     '.js': 'jsx',
