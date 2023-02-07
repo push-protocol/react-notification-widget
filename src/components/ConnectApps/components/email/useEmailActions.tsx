@@ -1,15 +1,15 @@
 import { useState } from 'react';
-import { useUserContext } from 'context/UserContext';
-import { UserCommunicationChannelsDocument } from 'context/UserContext/operations.generated';
-import analytics from 'services/analytics';
-import { useAuthContext } from 'context/AuthContext';
-import { useEnvironment } from 'context/EnvironmentContext';
 import {
   useDeleteChannelMutation,
   useSaveUserEmailMutation,
   useValidateUserEmailMutation,
-} from 'components/ConnectApps/operations.generated';
-import { MessagingApp } from 'global/types.generated';
+} from '../../operations.generated';
+import { MessagingApp } from '../../../../global/types.generated';
+import { useUserContext } from '../../../../context/UserContext';
+import { UserCommunicationChannelsDocument } from '../../../../context/UserContext/operations.generated';
+import analytics from '../../../../services/analytics';
+import { useAuthContext } from '../../../../context/AuthContext';
+import { useEnvironment } from '../../../../context/EnvironmentContext';
 
 export enum ConnectEmailViews {
   Edit = 'Edit',

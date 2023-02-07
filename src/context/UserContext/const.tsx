@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react';
-import { MessagingApp } from 'global/types.generated';
-import { Discord, Email, Telegram } from 'components/icons';
+import { MessagingApp } from '../../global/types.generated';
+import { Discord, Email, Telegram } from '../../components/icons';
 
 const MessagingAppInfo: { [key: string]: { title: string; icon: ReactNode } } = {
   [MessagingApp.Discord]: {

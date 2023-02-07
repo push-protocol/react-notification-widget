@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTheme } from 'styled-components';
-import { IconProps } from 'components/icons/types';
+import { IconProps } from '../types';
 
 export const Wallet = ({ className }: IconProps) => {
   const theme = useTheme();

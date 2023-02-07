@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTheme } from 'styled-components';
-import { IconProps } from 'components/icons/types';
+import { IconProps } from '../types';
 
 export const Bell = ({ className, color }: IconProps & { color?: string; size?: number }) => {
   const theme = useTheme();

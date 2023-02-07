@@ -1,9 +1,8 @@
 import React from 'react';
-import { useAuthContext } from '../../context/AuthContext';
+import { GetUserDocument, GetUserQuery } from '../../context/UserContext/operations.generated';
+import { Web2AppLower } from '../../context/UserContext/const';
+import { UserPreference } from '../../global/types.generated';
 import { useUserPreferencesUpdateMutation } from './operations.generated';
-import { GetUserDocument, GetUserQuery } from 'context/UserContext/operations.generated';
-import { Web2AppLower } from 'context/UserContext/const';
-import { UserPreference } from 'global/types.generated';
 
 const useUpdatePreference = () => {
   const [updateUserPreferences] = useUserPreferencesUpdateMutation();

@@ -2,10 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 import { PREFERENCES_WIDTH } from '../consts';
 import { MessagingAppConfig } from '../index';
-import { useChannelContext } from 'context/ChannelContext';
-import Text from 'components/Text';
-import HeaderChannelItem from 'components/Preferences/components/HeaderChannelItem';
-import { MessagingAppInfo } from 'context/UserContext/const';
+import { useChannelContext } from '../../../context/ChannelContext';
+import Text from '../../Text';
+import HeaderChannelItem from '../../Preferences/components/HeaderChannelItem';
+import { MessagingAppInfo } from '../../../context/UserContext/const';
 
 const HeaderContainer = styled.div`
   display: flex;

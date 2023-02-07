@@ -9,8 +9,8 @@ import {
 } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import { onError } from '@apollo/client/link/error';
-import { WIDGET_VERSION } from 'global/const';
-import authStorage from 'services/authStorage';
+import { WIDGET_VERSION } from '../global/const';
+import authStorage from '../services/authStorage';
 
 let apolloClient: ApolloClient<any>;
 

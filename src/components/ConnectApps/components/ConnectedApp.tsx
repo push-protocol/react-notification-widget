@@ -1,7 +1,7 @@
 import React from 'react';
-import Flex from 'components/layout/Flex';
-import Button from 'components/Button';
-import Text from 'components/Text';
+import Flex from '../../layout/Flex';
+import Button from '../../Button';
+import Text from '../../Text';
 
 type ConnectedChannelProps = {
   description: string;

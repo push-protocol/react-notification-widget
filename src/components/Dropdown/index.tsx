@@ -1,9 +1,9 @@
 import React, { ReactNode, useEffect, useRef } from 'react';
 import styled, { useTheme, keyframes } from 'styled-components';
 import Spinner from '../Spinner';
-import Flex from 'components/layout/Flex';
-import Text from 'components/Text';
-import { ArrowRight } from 'components/icons';
+import Flex from '../layout/Flex';
+import Text from '../Text';
+import { ArrowRight } from '../icons';
 
 const Container = styled(Flex)<{ open?: boolean }>`
   width: 100%;

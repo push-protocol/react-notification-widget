@@ -1,10 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
-import Flex from 'components/layout/Flex';
-import Button from 'components/Button';
-import Text from 'components/Text';
-import { Wallet } from 'components/icons';
-import { TelegramSquare } from 'components/icons/pack/TelegramSquare';
+import Flex from '../../../layout/Flex';
+import Button from '../../../Button';
+import Text from '../../../Text';
+import { Wallet } from '../../../icons';
+import { TelegramSquare } from '../../../icons/pack/TelegramSquare';
 
 type IntegrateTelegramProps = {
   url?: string;

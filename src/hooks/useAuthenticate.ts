@@ -3,8 +3,8 @@ import { useAccountContext } from '../context/AccountContext';
 import {
   useNonceGenerateMutation,
   useUserLoginMutation,
-} from 'screens/verifyAccount/operations.generated';
-import { useChannelContext } from 'context/ChannelContext';
+} from '../screens/verifyAccount/operations.generated';
+import { useChannelContext } from '../context/ChannelContext';
 
 type SignatureMessage = {
   domain: string;

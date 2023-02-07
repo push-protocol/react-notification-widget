@@ -2,9 +2,9 @@
   "name": "@wherever/react-notification-feed",
   "version": "0.3.10",
   "description": "",
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
-  "types": "dist/types/src/index.d.ts",
+  "main": "dist/index.umd.js",
+  "module": "dist/index.es.js",
+  "types": "dist/types/index.d.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/whereverlabs/react-notification-widget.git"
@@ -14,11 +14,10 @@
   },
   "scripts": {
     "prepare": "husky install",
-    "build": "npm run clean-dist && node esbuild.config.mjs && tsc --emitDeclarationOnly",
+    "build": "tsc && vite build",
+    "build:demo": "tsc && vite build --config vite.config.demo.ts",
     "build:noEmit": "yarn tsc --noEmit",
-    "build:demo": "node esbuild.config.demo.mjs",
-    "clean-dist": "rimraf dist",
-    "dev": "node esbuild-serve.mjs -w",
+    "dev": "vite --config vite.dev.ts",
     "codegen": "graphql-codegen --config codegen.yml",
     "prepublishOnly": "yarn build:noEmit && yarn build",
     "publish:local": "YARN_VERSION_GIT_TAG='' yarn publish --registry=\"http://localhost:4873\""
@@ -45,9 +44,9 @@
     "wagmi": "^0.10.1"
   },
   "peerDependencies": {
-    "styled-components": ">=5",
     "react": ">=16.8.0",
-    "react-dom": ">=16.8.0"
+    "react-dom": ">=16.8.0",
+    "styled-components": ">=5"
   },
   "devDependencies": {
     "@esbuild-plugins/node-globals-polyfill": "^0.1.1",
@@ -65,10 +64,7 @@
     "@types/styled-components": "^5.1.26",
     "@typescript-eslint/eslint-plugin": "5.30.5",
     "@typescript-eslint/parser": "5.30.5",
-    "esbuild": "^0.15.5",
-    "esbuild-node-externals": "^1.5.0",
-    "esbuild-register": "^3.3.3",
-    "esbuild-serve": "^1.0.1",
+    "@vitejs/plugin-react": "^3.1.0",
     "eslint": "8.19.0",
     "eslint-config-next": "12.2.0",
     "eslint-config-prettier": "8.5.0",
@@ -83,8 +79,13 @@
     "process": "^0.11.10",
     "react": ">=16.8.0",
     "react-dom": ">=16.8.0",
-    "rimraf": "^3.0.2",
+    "rollup-plugin-exclude-dependencies-from-bundle": "^1.1.23",
+    "rollup-plugin-polyfill-node": "^0.12.0",
     "styled-components": "^5.3.6",
-    "typescript": "^4.7.4"
+    "typescript": "^4.7.4",
+    "util": "^0.12.5",
+    "vite": "^4.1.1",
+    "vite-plugin-dts": "^1.7.2",
+    "vite-plugin-node-polyfills": "^0.7.0"
   }
 }

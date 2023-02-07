@@ -18,8 +18,7 @@
     "resolveJsonModule": true,
     "noEmit": false,
     "jsx": "react-jsx",
-    "baseUrl": "src",
-    "outDir": "./dist",
+    "outDir": "dist",
     "declarationDir": "./dist/types",
     "declaration": true,
     "sourceMap": true

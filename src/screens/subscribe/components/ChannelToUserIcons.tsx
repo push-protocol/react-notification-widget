@@ -2,11 +2,11 @@ import React from 'react';
 import styled from 'styled-components';
 import { useEnsName } from 'wagmi';
 import { useAccountContext } from '../../../context/AccountContext';
+import Text from '../../../components/Text';
+import { Dots, OpenLink } from '../../../components/icons';
+import formatAddress from '../../../helpers/functions/formatAddress';
+import { useChannelContext } from '../../../context/ChannelContext';
 import { UserWalletIcon } from './UserWalletIcon';
-import Text from 'components/Text';
-import { Dots, OpenLink } from 'components/icons';
-import formatAddress from 'helpers/functions/formatAddress';
-import { useChannelContext } from 'context/ChannelContext';
 
 const Container = styled.div`
   display: flex;

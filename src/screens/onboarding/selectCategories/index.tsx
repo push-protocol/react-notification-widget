@@ -1,12 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
-import Flex from 'components/layout/Flex';
-import { Screen } from 'components/layout/Screen';
-import PageTitle from 'components/PageTitle';
-import Button from 'components/Button';
-import { Routes, useRouterContext } from 'context/RouterContext';
-import Preferences from 'components/Preferences';
-import { useUserContext } from 'context/UserContext';
+import Flex from '../../../components/layout/Flex';
+import { Screen } from '../../../components/layout/Screen';
+import PageTitle from '../../../components/PageTitle';
+import Button from '../../../components/Button';
+import { Routes, useRouterContext } from '../../../context/RouterContext';
+import Preferences from '../../../components/Preferences';
+import { useUserContext } from '../../../context/UserContext';
 
 const Header = styled.div`
   text-align: center;

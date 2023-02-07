@@ -3,17 +3,17 @@ import styled from 'styled-components';
 import analytics from '../../../services/analytics';
 import Text from '../../../components/Text';
 import { useAuthContext } from '../../../context/AuthContext';
-import Flex from 'components/layout/Flex';
-import { Screen } from 'components/layout/Screen';
-import { useChannelContext } from 'context/ChannelContext';
-import PageTitle from 'components/PageTitle';
-import Button from 'components/Button';
-import { Routes, useRouterContext } from 'context/RouterContext';
-import { useEnvironment } from 'context/EnvironmentContext';
-import Preferences from 'components/Preferences';
-import { MessagingApp } from 'global/types.generated';
-import { useUserContext } from 'context/UserContext';
-import { Web2AppLower, Web2Apps } from 'context/UserContext/const';
+import Flex from '../../../components/layout/Flex';
+import { Screen } from '../../../components/layout/Screen';
+import { useChannelContext } from '../../../context/ChannelContext';
+import PageTitle from '../../../components/PageTitle';
+import Button from '../../../components/Button';
+import { Routes, useRouterContext } from '../../../context/RouterContext';
+import { useEnvironment } from '../../../context/EnvironmentContext';
+import Preferences from '../../../components/Preferences';
+import { MessagingApp } from '../../../global/types.generated';
+import { useUserContext } from '../../../context/UserContext';
+import { Web2AppLower, Web2Apps } from '../../../context/UserContext/const';
 
 const Header = styled.div`
   text-align: center;

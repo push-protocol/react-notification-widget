@@ -4,7 +4,7 @@ import { Margins, Paddings } from '../types';
 import { genSpaces, renderStringNumValue, adjustColor, conditionalRenderProp } from '../utils';
 import Spinner from '../Spinner';
 import { mode } from '../../theme';
-import Flex from 'components/layout/Flex';
+import Flex from '../layout/Flex';
 
 const fontSizes = {
   sm: '12px',

@@ -1,12 +1,12 @@
 import React, { useMemo, useState } from 'react';
-import { render } from 'react-dom';
-import { WidgetMode } from '../context/EnvironmentContext';
+import { createRoot } from 'react-dom/client';
 import {
-  CustomTheme,
+  type CustomTheme,
   NotificationBell,
   NotificationFeed,
   NotificationFeedProvider,
   ThemeMode,
+  WidgetMode,
 } from '../index';
 import { ENV } from '../global/const';
 import * as S from './styles';
@@ -50,12 +50,12 @@ const keys = {
   },
 };
 
-const DEFAULT_PARTNER_KEY = ENV === 'production' ? keys.prod.wTest : keys.staging.nozick;
+const DEFAULT_PARTNER_KEY = ENV === 'production' ? keys.staging.dino : keys.staging.dino;
 
 const DemoApp = () => {
   const [partnerKey, setPartnerKey] = useState(DEFAULT_PARTNER_KEY);
   const [iframeUrl, setIframeUrl] = useState('');
-  const [theme, setTheme] = useState<CustomTheme>(defaultTheme);
+  const [theme, setTheme] = useState<any>(defaultTheme);
   const [coordinates, setCoordinates] = useState<Coordinates>({ top: 100, left: '45%' });
 
   const widget = useMemo(() => {
@@ -109,4 +109,9 @@ const DemoApp = () => {
   );
 };
 
-render(<DemoApp />, document.getElementById('root'));
+const root = createRoot(document.getElementById('root') as HTMLElement);
+root.render(
+  <React.StrictMode>
+    <DemoApp />
+  </React.StrictMode>
+);

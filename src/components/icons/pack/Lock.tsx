@@ -1,5 +1,5 @@
 import React from 'react';
-import { IconProps } from 'components/icons/types';
+import { IconProps } from '../types';
 
 export const Lock = ({ className }: IconProps) => {
   return (

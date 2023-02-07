@@ -1,6 +1,6 @@
 import React, { createContext, ReactNode, useContext, useEffect, useState } from 'react';
 import { ApolloError } from '@apollo/client';
-import { usePartnerInfoQuery, PartnerInfoQuery } from 'context/ChannelContext/operations.generated';
+import { usePartnerInfoQuery, PartnerInfoQuery } from '../ChannelContext/operations.generated';
 
 export type ChannelInfo = {
   icon: string;

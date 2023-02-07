@@ -4,7 +4,7 @@ import useUnreadCount from '../../hooks/useUnreadCount';
 import { useEnvironment } from '../../context/EnvironmentContext';
 import { useAuthContext } from '../../context/AuthContext';
 import { useAccountContext } from '../../context/AccountContext';
-import { Bell } from 'components/icons';
+import { Bell } from '../icons';
 
 const Container = styled.div`
   cursor: pointer;

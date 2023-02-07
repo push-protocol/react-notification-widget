@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react';
 import { useEnsName } from 'wagmi';
-import { Screen } from 'components/layout/Screen';
-import Flex from 'components/layout/Flex';
-import Button from 'components/Button';
-import Text from 'components/Text';
-import { useAuthContext } from 'context/AuthContext';
-import { Routes, useRouterContext } from 'context/RouterContext';
-import { useUserContext } from 'context/UserContext';
-import formatAddress from 'helpers/functions/formatAddress';
-import { useEnvironment } from 'context/EnvironmentContext';
+import { Screen } from '../../components/layout/Screen';
+import Flex from '../../components/layout/Flex';
+import Button from '../../components/Button';
+import Text from '../../components/Text';
+import { useAuthContext } from '../../context/AuthContext';
+import { Routes, useRouterContext } from '../../context/RouterContext';
+import { useUserContext } from '../../context/UserContext';
+import formatAddress from '../../helpers/functions/formatAddress';
+import { useEnvironment } from '../../context/EnvironmentContext';
 
 export const VerifyAccount = () => {
   const { isLoading, login, isLoggedIn } = useAuthContext();

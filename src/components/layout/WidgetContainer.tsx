@@ -1,11 +1,11 @@
 import React, { ReactNode } from 'react';
 import styled from 'styled-components';
+import Text from '../Text';
+import Link from '../Link';
 import { useEnvironment } from '../../context/EnvironmentContext';
+import { WHEREVER_HOMEPAGE } from '../../global/const';
+import { changeColorShade } from '../utils';
 import Flex from './Flex';
-import Text from 'components/Text';
-import Link from 'components/Link';
-import { WHEREVER_HOMEPAGE } from 'global/const';
-import { changeColorShade } from 'components/utils';
 
 const POWERED_BY_HEIGHT = '42px';
 

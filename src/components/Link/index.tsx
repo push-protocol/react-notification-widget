@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react';
 import styled from 'styled-components';
-import { textSizes } from 'components/Text';
+import { textSizes } from '../Text';
 
 type LinkProps = {
   src?: string;

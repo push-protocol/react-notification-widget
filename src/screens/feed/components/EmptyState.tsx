@@ -1,6 +1,6 @@
 import React from 'react';
 import Text from '../../../components/Text';
-import Flex from 'components/layout/Flex';
+import Flex from '../../../components/layout/Flex';
 
 const EmptyState = (props: { show: boolean }) => {
   if (!props.show) return null;

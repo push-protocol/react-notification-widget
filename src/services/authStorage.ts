@@ -1,4 +1,4 @@
-import { LOCALSTORAGE_PREFIX } from 'global/const';
+import { LOCALSTORAGE_PREFIX } from '../global/const';
 
 const LOCALSTORAGE_AUTH_STORAGE_KEY = `${LOCALSTORAGE_PREFIX}auth`;
 const LOCALSTORAGE_USER_TOKENS_KEY = `${LOCALSTORAGE_PREFIX}userTokens`;

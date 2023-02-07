@@ -7,14 +7,14 @@ import React, {
   useState,
 } from 'react';
 import * as epns from '@epnsproject/sdk-restapi';
+import { useChannelContext } from '../ChannelContext';
+import { usePrevious } from '../../hooks/usePrevious';
+import authStorage from '../../services/authStorage';
+import { Routes, useRouterContext } from '../RouterContext';
+import analytics from '../../services/analytics';
+import { useAuthenticate } from '../../hooks/useAuthenticate';
 import { useAccountContext, EthTypedData } from '../AccountContext';
 import useLoadAuthFromStorage from './useLoadAuthFromStorage';
-import { Routes, useRouterContext } from 'context/RouterContext';
-import analytics from 'services/analytics';
-import { useAuthenticate } from 'hooks/useAuthenticate';
-import { useChannelContext } from 'context/ChannelContext';
-import { usePrevious } from 'hooks/usePrevious';
-import authStorage from 'services/authStorage';
 
 export type AuthInfo = {
   subscribe(): void;
