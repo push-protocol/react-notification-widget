@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Margins, Paddings } from 'components/types';
+import { Margins, Paddings } from '../types';
 
 const CheckBoxWrapper = styled.div`
   position: relative;

@@ -1,9 +1,9 @@
 import React, { ReactElement } from 'react';
+import Flex from '../layout/Flex';
 import { DiscordConnector } from './components/discord';
 import { EmailConnector } from './components/email';
 import { TelegramConnector } from './components/telegram';
 import { MessagingApp } from 'global/types.generated';
-import Flex from 'components/layout/Flex';
 
 const ConnectApps = ({
   apps,

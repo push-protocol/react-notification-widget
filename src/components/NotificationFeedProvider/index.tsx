@@ -2,17 +2,17 @@ import React, { PropsWithChildren, useEffect } from 'react';
 import { WagmiConfig } from 'wagmi';
 import { ThemeProvider } from 'styled-components';
 import { providers } from 'ethers';
+import { ApolloProvider } from '../ApolloProvider';
+import { Reset } from '../../theme/ResetCss';
 import { CustomTheme, makeTheme } from '../../theme';
-import { AccountProvider, CustomSigner } from '../../context/AccountContext';
 import useWagmiClient from './useWagmiClient';
-import { UserProvider } from 'context/UserContext';
-import { Reset } from 'theme/ResetCss';
+import analytics from 'services/analytics';
+import { EnvironmentProvider, WidgetMode } from 'context/EnvironmentContext';
+import { AuthProvider } from 'context/AuthContext';
 import { RouterProvider } from 'context/RouterContext';
 import { ChannelProvider } from 'context/ChannelContext';
-import { ApolloProvider } from 'components/ApolloProvider';
-import { EnvironmentProvider, WidgetMode } from 'context/EnvironmentContext';
-import analytics from 'services/analytics';
-import { AuthProvider } from 'context/AuthContext';
+import { UserProvider } from 'context/UserContext';
+import { AccountProvider, CustomSigner } from 'context/AccountContext';
 
 export type ExternalProvider =
   | providers.BaseProvider

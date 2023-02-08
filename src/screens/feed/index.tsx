@@ -1,19 +1,19 @@
 import React, { useMemo, useState, useRef } from 'react';
 import styled from 'styled-components';
 import InfiniteScroll from 'react-infinite-scroller';
-import { NotificationClickProp } from '../../components/types';
-import { useUserContext } from '../../context/UserContext';
-import Spinner from '../../components/Spinner';
-import { useChannelContext } from '../../context/ChannelContext';
-import { Notification } from '../../context/UserContext/types';
-import analytics from '../../services/analytics';
-import NotificationFeedItem from './components/NotificationFeedItem';
+import FeedNavigation, { NavigationTabs } from '../../screens/feed/components/FeedNavigation';
 import EmptyState from './components/EmptyState';
+import NotificationFeedItem from './components/NotificationFeedItem';
+import analytics from 'services/analytics';
+import { useUserContext } from 'context/UserContext';
+import { useChannelContext } from 'context/ChannelContext';
+import { Notification } from 'context/UserContext/types';
+import { Routes, useRouterContext } from 'context/RouterContext';
 import { Screen } from 'components/layout/Screen';
 import { Settings } from 'components/icons';
+import { NotificationClickProp } from 'components/types';
 import Flex from 'components/layout/Flex';
-import FeedNavigation, { NavigationTabs } from 'screens/feed/components/FeedNavigation';
-import { Routes, useRouterContext } from 'context/RouterContext';
+import Spinner from 'components/Spinner';
 
 const NOTIFS_PER_PAGE = 10;
 

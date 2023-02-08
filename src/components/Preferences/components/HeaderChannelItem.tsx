@@ -1,8 +1,8 @@
 import React, { ReactNode } from 'react';
 import styled from 'styled-components';
 import { PREFERENCES_WIDTH } from '../consts';
-import Text from 'components/Text';
-import Flex from 'components/layout/Flex';
+import Text from '../../Text';
+import Flex from '../../layout/Flex';
 
 const ChannelItem = styled(Flex)`
   height: 100%;

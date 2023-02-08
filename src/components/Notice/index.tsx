@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import { mode } from '../../theme';
-import Flex from 'components/layout/Flex';
-import Text from 'components/Text';
+import Flex from '../layout/Flex';
+import Text from '../Text';
 
 const NoticeContainer = styled(Flex)`
   align-self: start;

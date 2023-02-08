@@ -1,6 +1,6 @@
 import { DefaultTheme } from 'styled-components';
 import { LOCALSTORAGE_THEME_MODE_KEY } from '../global/const';
-import { changeColorShade, adjustColor } from 'components/utils';
+import { changeColorShade, adjustColor } from '../components/utils';
 
 type MainColor = {
   light: string;

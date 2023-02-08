@@ -1,13 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
-import { WHEREVER_FAQ } from '../../global/const';
-import Link from '../../components/Link';
+import { useChannelContext } from 'context/ChannelContext';
+import { Routes, useRouterContext } from 'context/RouterContext';
+import Link from 'components/Link';
 import { Screen } from 'components/layout/Screen';
 import Text from 'components/Text';
 import Flex from 'components/layout/Flex';
-import { useChannelContext } from 'context/ChannelContext';
-import Button from 'components/Button';
-import { Routes, useRouterContext } from 'context/RouterContext';
 
 const HeaderIconContainer = styled.div`
   height: 64px;

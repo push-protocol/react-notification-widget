@@ -1,8 +1,8 @@
 import React from 'react';
 import styled, { keyframes, css, useTheme } from 'styled-components';
+import { mode } from '../../../theme';
+import { Bell } from '../../icons';
 import CrossedOutBell from './CrossedOutBell';
-import { mode } from 'theme';
-import { Bell } from 'components/icons';
 
 type PropsT = {
   onClick: () => void;

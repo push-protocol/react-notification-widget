@@ -1,6 +1,6 @@
 import React, { PropsWithChildren } from 'react';
 import styled from 'styled-components';
-import Text, { TextProps } from 'components/Text';
+import Text, { TextProps } from '../Text';
 
 const Wrapper = styled(Text)`
   text-transform: ${({ theme }) => (theme.w.uppercasePageTitles ? 'uppercase' : undefined)};

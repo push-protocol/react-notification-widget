@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import Text from 'components/Text';
-import TextInput from 'components/TextInput';
-import Flex from 'components/layout/Flex';
-import Button from 'components/Button';
+import Text from '../../../Text';
+import TextInput from '../../../TextInput';
+import Flex from '../../../layout/Flex';
+import Button from '../../../Button';
 
 type VerifyEmailProps = {
   email: string;

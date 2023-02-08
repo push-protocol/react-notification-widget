@@ -3,19 +3,19 @@ import dayjs, { extend } from 'dayjs';
 import styled, { DefaultTheme } from 'styled-components';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import domPurify from 'dompurify';
+import { mode } from '../../../theme';
+import getDomain from '../../../helpers/functions/getDomain';
 import parseEpnsFormatting from '../helpers/parseEpnsFormatting';
 import analytics from 'services/analytics';
 import mdToHtml from 'services/mdToHtml';
-import { mode } from 'theme';
-import { NotificationClickProp } from 'components/types';
-import { changeColorShade } from 'components/utils';
 import { Notification } from 'context/UserContext/types';
-import Flex from 'components/layout/Flex';
 import Text from 'components/Text';
 import Link from 'components/Link';
 import { Globe } from 'components/icons';
-import getDomain from 'helpers/functions/getDomain';
 import VideoPlayer, { isVideoUrl } from 'components/VideoPlayer';
+import { NotificationClickProp } from 'components/types';
+import { changeColorShade } from 'components/utils';
+import Flex from 'components/layout/Flex';
 
 extend(relativeTime);
 

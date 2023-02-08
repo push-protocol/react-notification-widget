@@ -6,8 +6,8 @@ import { WalletConnectConnector } from 'wagmi/connectors/walletConnect';
 import { CoinbaseWalletConnector } from 'wagmi/connectors/coinbaseWallet';
 import { MetaMaskConnector } from 'wagmi/connectors/metaMask';
 import { InjectedConnector } from 'wagmi/connectors/injected';
-import { MAINNET_CHAINS, TESTNET_CHAINS } from '../../global/const';
 import { ExternalProvider } from './index';
+import { MAINNET_CHAINS, TESTNET_CHAINS } from 'global/const';
 
 const ALCHEMY_KEY = 'OAFEClC2JW9MaAAd0F-93QJNx2EoVQSV';
 

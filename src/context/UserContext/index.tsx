@@ -7,7 +7,7 @@ import { UserContext, Notification } from './types';
 import fetchNotifications from './fetchNotifications';
 import { useUserCommunicationChannelsLazyQuery, useGetUserLazyQuery } from './operations.generated';
 
-const UserContext = createContext<UserContext>({} as any);
+const UserContexts = createContext<UserContext>({} as any);
 
 export const UserProvider = ({ children, isOpen }: { children: ReactNode; isOpen?: boolean }) => {
   const { isLoggedIn, loggedInAddress } = useAuthContext(); // requires the actual account that was used to sign the auth msg, not the connected wallet
@@ -88,7 +88,7 @@ export const UserProvider = ({ children, isOpen }: { children: ReactNode; isOpen
   }, [isOpen]);
 
   return (
-    <UserContext.Provider
+    <UserContexts.Provider
       value={{
         isLoading,
         feedOpen,
@@ -102,10 +102,10 @@ export const UserProvider = ({ children, isOpen }: { children: ReactNode; isOpen
       }}
     >
       {children}
-    </UserContext.Provider>
+    </UserContexts.Provider>
   );
 };
 
 export function useUserContext() {
-  return useContext(UserContext);
+  return useContext(UserContexts);
 }

@@ -5,15 +5,15 @@ import styled, { useTheme } from 'styled-components';
 import { Placement } from '@popperjs/core';
 import useWindowSize from '../../helpers/hooks/useWindowSize';
 import { NotificationClickProp } from '../types';
-import analytics from '../../services/analytics';
-import { useAuthContext } from '../../context/AuthContext';
 import useUnreadCount from '../../hooks/useUnreadCount';
-import { WIDGET_VERSION } from '../../global/const';
-import { useAccountContext } from '../../context/AccountContext';
+import { WidgetContainer } from '../layout/WidgetContainer';
 import { useUpdateLastReadMutation } from './operations.generated';
+import analytics from 'services/analytics';
+import { WIDGET_VERSION } from 'global/const';
+import { useAuthContext } from 'context/AuthContext';
+import { useAccountContext } from 'context/AccountContext';
 import { useChannelContext } from 'context/ChannelContext';
 import { useUserContext } from 'context/UserContext';
-import { WidgetContainer } from 'components/layout/WidgetContainer';
 import { Routes, useRouterContext } from 'context/RouterContext';
 
 const MobileContainer = styled.div<{ isOpen: boolean }>`

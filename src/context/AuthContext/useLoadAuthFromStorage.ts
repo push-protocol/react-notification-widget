@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
-import { LOCALSTORAGE_PREFIX } from '../../global/const';
-import authStorage from '../../services/authStorage';
+import authStorage from 'services/authStorage';
+import { LOCALSTORAGE_PREFIX } from 'global/const';
 
 type ArgsT = {
   setLoggedInAddress: (addr: string) => void;

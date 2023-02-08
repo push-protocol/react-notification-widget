@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { VideoSources, videoSourcesInfo } from 'components/VideoPlayer/consts';
+import { VideoSources, videoSourcesInfo } from './consts';
 
 const Container = styled.div`
   position: relative;
