@@ -15,7 +15,7 @@
   "scripts": {
     "prepare": "husky install",
     "build": "tsc && vite build --config vite.config.demo.ts",
-    "build:pkg": "tsc && vite build",
+    "build:pkg": "tsc && vite build --config vite.config.pkg.ts",
     "build:noEmit": "yarn tsc --noEmit",
     "dev": "vite --config vite.dev.ts",
     "codegen": "graphql-codegen --config codegen.yml",

@@ -14,7 +14,7 @@ export default defineConfig({
     sourcemap: true,
     lib: {
       entry: path.resolve(__dirname, 'src/index.ts'),
-      name: 'Notification Widget',
+      name: 'Wherever Notification Widget',
       formats: ['es', 'cjs'],
       fileName: (format) => `${format}/index.js`,
     },
