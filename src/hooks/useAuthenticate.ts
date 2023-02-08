@@ -1,10 +1,10 @@
 import { SiweMessage } from 'siwe';
-import { useAccountContext } from '../context/AccountContext';
 import {
   useNonceGenerateMutation,
   useUserLoginMutation,
 } from '../screens/verifyAccount/operations.generated';
-import { useChannelContext } from '../context/ChannelContext';
+import { useAccountContext } from 'context/AccountContext';
+import { useChannelContext } from 'context/ChannelContext';
 
 type SignatureMessage = {
   domain: string;

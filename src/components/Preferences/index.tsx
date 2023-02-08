@@ -1,12 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useChannelContext } from '../../context/ChannelContext';
 import { mode } from '../../theme';
 import PreferencesHeader from '../Preferences/components/PreferencesHeader';
 import PreferenceCategoryItem from '../Preferences/components/PreferenceCategoryItem';
 import { MessagingApp } from '../../global/types.generated';
-import { useUserContext } from '../../context/UserContext';
 import Flex from '../layout/Flex';
+import { useUserContext } from 'context/UserContext';
+import { useChannelContext } from 'context/ChannelContext';
 
 const PreferencesContainer = styled.div`
   width: 100%;

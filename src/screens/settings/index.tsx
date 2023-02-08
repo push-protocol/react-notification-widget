@@ -1,23 +1,23 @@
 import React, { useState } from 'react';
 import { PersonFill as PersonIcon } from '@styled-icons/octicons';
-import Dropdown from '../../components/Dropdown';
-import Text from '../../components/Text';
-import WrongNetworkError from '../../components/Errors/WrongNetworkError';
 import useIsWrongNetwork from '../../hooks/useIsWrongNetwork';
-import { Screen } from '../../components/layout/Screen';
-import Button from '../../components/Button';
-import Flex from '../../components/layout/Flex';
-import ConnectApps from '../../components/ConnectApps';
-import { useChannelContext } from '../../context/ChannelContext';
 import NavbarActions from '../../screens/settings/components/NavbarActions';
 import SettingsHeader from '../../screens/settings/components/SettingsHeader';
-import { useAuthContext } from '../../context/AuthContext';
-import { useEnvironment } from '../../context/EnvironmentContext';
-import Preferences from '../../components/Preferences';
-import { useUserContext } from '../../context/UserContext';
 import { MessagingApp } from '../../global/types.generated';
-import { Web2Apps } from '../../context/UserContext/const';
 import { useUnsubscribeMutation } from './operations.generated';
+import { useChannelContext } from 'context/ChannelContext';
+import { useAuthContext } from 'context/AuthContext';
+import { useEnvironment } from 'context/EnvironmentContext';
+import { useUserContext } from 'context/UserContext';
+import { Web2Apps } from 'context/UserContext/const';
+import Preferences from 'components/Preferences';
+import ConnectApps from 'components/ConnectApps';
+import Flex from 'components/layout/Flex';
+import Button from 'components/Button';
+import { Screen } from 'components/layout/Screen';
+import WrongNetworkError from 'components/Errors/WrongNetworkError';
+import Text from 'components/Text';
+import Dropdown from 'components/Dropdown';
 
 export const Settings = () => {
   const { isSubscribeOnlyMode } = useEnvironment();

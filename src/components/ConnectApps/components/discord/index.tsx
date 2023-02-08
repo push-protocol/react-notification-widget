@@ -4,9 +4,9 @@ import Dropdown from '../../../Dropdown';
 import ConnectedApp from '../ConnectedApp';
 import Flex from '../../../layout/Flex';
 import Text from '../../../Text';
-import { useUserContext } from '../../../../context/UserContext';
-import { useAuthContext } from '../../../../context/AuthContext';
 import useDiscordActions from './useDiscordActions';
+import { useUserContext } from 'context/UserContext';
+import { useAuthContext } from 'context/AuthContext';
 
 type DiscordChannelProps = {
   open: boolean;

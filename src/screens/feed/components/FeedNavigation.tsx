@@ -1,10 +1,10 @@
 import React from 'react';
 import styled, { useTheme } from 'styled-components';
 import { mode } from '../../../theme';
-import Flex from '../../../components/layout/Flex';
-import Text from '../../../components/Text';
-import { Boxes } from '../../../components/icons';
-import { useChannelContext } from '../../../context/ChannelContext';
+import { useChannelContext } from 'context/ChannelContext';
+import Flex from 'components/layout/Flex';
+import Text from 'components/Text';
+import { Boxes } from 'components/icons';
 
 const NavigationItem = styled.div<{ isActive?: boolean }>`
   height: 36px;

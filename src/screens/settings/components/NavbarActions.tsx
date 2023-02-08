@@ -1,6 +1,6 @@
 import React from 'react';
-import { Routes, useRouterContext } from '../../../context/RouterContext';
-import Button from '../../../components/Button';
+import { Routes, useRouterContext } from 'context/RouterContext';
+import Button from 'components/Button';
 
 const NavbarActions = () => {
   const { setRoute } = useRouterContext();

@@ -1,19 +1,19 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import analytics from '../../../services/analytics';
-import { useAuthContext } from '../../../context/AuthContext';
-import Notice from '../../../components/Notice';
-import ConnectApps from '../../../components/ConnectApps';
-import Flex from '../../../components/layout/Flex';
-import { Screen } from '../../../components/layout/Screen';
-import { useChannelContext } from '../../../context/ChannelContext';
-import PageTitle from '../../../components/PageTitle';
-import Button from '../../../components/Button';
-import { Routes, useRouterContext } from '../../../context/RouterContext';
-import { useEnvironment } from '../../../context/EnvironmentContext';
-import { useUserContext } from '../../../context/UserContext';
 import { MessagingApp } from '../../../global/types.generated';
-import { Web2Apps } from '../../../context/UserContext/const';
+import { useAuthContext } from 'context/AuthContext';
+import { useChannelContext } from 'context/ChannelContext';
+import { Routes, useRouterContext } from 'context/RouterContext';
+import { useEnvironment } from 'context/EnvironmentContext';
+import { useUserContext } from 'context/UserContext';
+import { Web2Apps } from 'context/UserContext/const';
+import Notice from 'components/Notice';
+import ConnectApps from 'components/ConnectApps';
+import Flex from 'components/layout/Flex';
+import { Screen } from 'components/layout/Screen';
+import PageTitle from 'components/PageTitle';
+import Button from 'components/Button';
 
 const Header = styled(Flex)`
   text-align: center;

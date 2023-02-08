@@ -1,10 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 import useUnreadCount from '../../hooks/useUnreadCount';
-import { useEnvironment } from '../../context/EnvironmentContext';
-import { useAuthContext } from '../../context/AuthContext';
-import { useAccountContext } from '../../context/AccountContext';
 import { Bell } from '../icons';
+import { useEnvironment } from 'context/EnvironmentContext';
+import { useAuthContext } from 'context/AuthContext';
+import { useAccountContext } from 'context/AccountContext';
 
 const Container = styled.div`
   cursor: pointer;

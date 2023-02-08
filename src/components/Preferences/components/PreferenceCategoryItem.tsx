@@ -4,14 +4,14 @@ import { PREFERENCES_WIDTH } from '../consts';
 import { MessagingAppConfig } from '../index';
 import useUpdatePreference from '../useUpdatePreference';
 import analytics from '../../../services/analytics';
-import { Web2AppLower } from '../../../context/UserContext/const';
-import { GetUserQuery } from '../../../context/UserContext/operations.generated';
-import { PartnerInfoQuery } from '../../../context/ChannelContext/operations.generated';
 import Flex from '../../layout/Flex';
 import Text from '../../Text';
 import Switch from '../../Switch';
 import PreferenceBell from '../../Preferences/components/PreferenceBell';
 import { MessagingApp } from '../../../global/types.generated';
+import { PartnerInfoQuery } from 'context/ChannelContext/operations.generated';
+import { GetUserQuery } from 'context/UserContext/operations.generated';
+import { Web2AppLower } from 'context/UserContext/const';
 
 type PropsT = {
   userPref?: GetUserQuery['user']['preferences'][0];

@@ -1,4 +1,4 @@
-import { Notification } from '../context/UserContext/types';
+import { Notification } from 'context/UserContext/types';
 
 type MdToHtmlProps = { notification: Notification };
 

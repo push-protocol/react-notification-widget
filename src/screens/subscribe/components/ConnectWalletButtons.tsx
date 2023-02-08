@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Connector, useConnect } from 'wagmi';
-import Text from '../../../components/Text';
-import Button from '../../../components/Button';
-import analytics from '../../../services/analytics';
-import Flex from '../../../components/layout/Flex';
+import Button from 'components/Button';
+import analytics from 'services/analytics';
+import Flex from 'components/layout/Flex';
+import Text from 'components/Text';
 
 const ALLOWED_WALLETS = ['metaMask', 'walletConnect', 'coinbaseWallet'];
 

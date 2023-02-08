@@ -1,11 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Routes, useRouterContext } from '../../context/RouterContext';
-import { Screen } from '../../components/layout/Screen';
-import Button from '../../components/Button';
-import Text from '../../components/Text';
-import { Check } from '../../components/icons';
-import Flex from '../../components/layout/Flex';
+import { Routes, useRouterContext } from 'context/RouterContext';
+import { Screen } from 'components/layout/Screen';
+import Button from 'components/Button';
+import Text from 'components/Text';
+import { Check } from 'components/icons';
+import Flex from 'components/layout/Flex';
 
 const HeaderIconContainer = styled.div`
   height: 40px;

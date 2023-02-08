@@ -3,13 +3,13 @@ import {
   useDeleteChannelMutation,
   useVerifyUserDiscordMutation,
 } from '../../../ConnectApps/operations.generated';
-import { useUserContext } from '../../../../context/UserContext';
-import { UserCommunicationChannelsDocument } from '../../../../context/UserContext/operations.generated';
-import { useAuthContext } from '../../../../context/AuthContext';
-import { useEnvironment } from '../../../../context/EnvironmentContext';
 import analytics from '../../../../services/analytics';
-import { useChannelContext } from '../../../../context/ChannelContext';
 import { MessagingApp } from '../../../../global/types.generated';
+import { useUserContext } from 'context/UserContext';
+import { UserCommunicationChannelsDocument } from 'context/UserContext/operations.generated';
+import { useAuthContext } from 'context/AuthContext';
+import { useEnvironment } from 'context/EnvironmentContext';
+import { useChannelContext } from 'context/ChannelContext';
 
 const useDiscordActions = () => {
   const { isSubscribeOnlyMode } = useEnvironment();

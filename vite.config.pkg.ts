@@ -7,6 +7,7 @@ import dts from 'vite-plugin-dts';
 import excludeDependenciesFromBundle from 'rollup-plugin-exclude-dependencies-from-bundle';
 import rollupNodePolyFill from 'rollup-plugin-polyfill-node';
 import { nodePolyfills } from 'vite-plugin-node-polyfills';
+import tsconfigPaths from 'vite-tsconfig-paths';
 
 export default defineConfig({
   build: {
@@ -29,6 +30,7 @@ export default defineConfig({
       },
       plugins: [
         rollupNodePolyFill(),
+        tsconfigPaths(),
         excludeDependenciesFromBundle({
           peerDependencies: true,
         }),

@@ -6,15 +6,15 @@ import { Placement } from '@popperjs/core';
 import useWindowSize from '../../helpers/hooks/useWindowSize';
 import { NotificationClickProp } from '../types';
 import analytics from '../../services/analytics';
-import { useAuthContext } from '../../context/AuthContext';
 import useUnreadCount from '../../hooks/useUnreadCount';
 import { WIDGET_VERSION } from '../../global/const';
-import { useAccountContext } from '../../context/AccountContext';
-import { useChannelContext } from '../../context/ChannelContext';
-import { useUserContext } from '../../context/UserContext';
 import { WidgetContainer } from '../layout/WidgetContainer';
-import { Routes, useRouterContext } from '../../context/RouterContext';
 import { useUpdateLastReadMutation } from './operations.generated';
+import { useAuthContext } from 'context/AuthContext';
+import { useAccountContext } from 'context/AccountContext';
+import { useChannelContext } from 'context/ChannelContext';
+import { useUserContext } from 'context/UserContext';
+import { Routes, useRouterContext } from 'context/RouterContext';
 
 const MobileContainer = styled.div<{ isOpen: boolean }>`
   display: ${({ isOpen }) => (isOpen ? 'block' : 'none')};

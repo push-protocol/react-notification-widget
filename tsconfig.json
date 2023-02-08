@@ -16,6 +16,7 @@
     "module": "esnext",
     "moduleResolution": "node",
     "resolveJsonModule": true,
+    "baseUrl": "src",
     "noEmit": false,
     "jsx": "react-jsx",
     "outDir": "dist",

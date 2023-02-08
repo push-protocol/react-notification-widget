@@ -1,10 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useChannelContext } from '../../../context/ChannelContext';
-import { useEnvironment } from '../../../context/EnvironmentContext';
-import Text from '../../../components/Text';
-import PageTitle from '../../../components/PageTitle';
-import Flex from '../../../components/layout/Flex';
+import { useChannelContext } from 'context/ChannelContext';
+import { useEnvironment } from 'context/EnvironmentContext';
+import Text from 'components/Text';
+import PageTitle from 'components/PageTitle';
+import Flex from 'components/layout/Flex';
 
 const HeaderIconContainer = styled.div<{ size?: number }>`
   height: ${({ size }) => size || 40}px;

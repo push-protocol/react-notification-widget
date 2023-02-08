@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { useChannelContext } from '../context/ChannelContext';
-import { useAccountContext } from '../context/AccountContext';
+import { useChannelContext } from 'context/ChannelContext';
+import { useAccountContext } from 'context/AccountContext';
 // import { MAINNET_CHAINS, TESTNET_CHAINS } from '../global/const';
 
 const useIsWrongNetwork = () => {

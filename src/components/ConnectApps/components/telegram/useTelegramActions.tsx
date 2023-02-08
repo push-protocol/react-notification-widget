@@ -1,13 +1,13 @@
 import { useEffect } from 'react';
-import { useUserContext } from '../../../../context/UserContext';
-import { UserCommunicationChannelsDocument } from '../../../../context/UserContext/operations.generated';
 import analytics from '../../../../services/analytics';
-import { useAuthContext } from '../../../../context/AuthContext';
 import { MessagingApp } from '../../../../global/types.generated';
 import {
   useDeleteChannelMutation,
   useGetTelegramVerificationLinkMutation,
 } from '../../operations.generated';
+import { useUserContext } from 'context/UserContext';
+import { UserCommunicationChannelsDocument } from 'context/UserContext/operations.generated';
+import { useAuthContext } from 'context/AuthContext';
 
 const useTelegramActions = () => {
   const { login, isOnboarding } = useAuthContext();
