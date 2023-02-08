@@ -6,9 +6,15 @@ import { nodePolyfills } from 'vite-plugin-node-polyfills';
 export default defineConfig({
   build: {
     outDir: 'demo',
-    sourcemap: true,
     minify: true,
     rollupOptions: {
+      output: {
+        globals: {
+          react: 'React',
+          'react-dom': 'ReactDOM',
+          'styled-components': 'styled',
+        },
+      },
       plugins: [rollupNodePolyFill()],
     },
   },
