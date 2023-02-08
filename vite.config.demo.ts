@@ -5,7 +5,6 @@ import { nodePolyfills } from 'vite-plugin-node-polyfills';
 
 export default defineConfig({
   build: {
-    outDir: 'public',
     minify: true,
     rollupOptions: {
       plugins: [rollupNodePolyFill()],
