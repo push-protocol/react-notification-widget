@@ -1,10 +1,10 @@
 import React, { useMemo, useState, useRef } from 'react';
 import styled from 'styled-components';
 import InfiniteScroll from 'react-infinite-scroller';
-import analytics from '../../services/analytics';
 import FeedNavigation, { NavigationTabs } from '../../screens/feed/components/FeedNavigation';
 import EmptyState from './components/EmptyState';
 import NotificationFeedItem from './components/NotificationFeedItem';
+import analytics from 'services/analytics';
 import { useUserContext } from 'context/UserContext';
 import { useChannelContext } from 'context/ChannelContext';
 import { Notification } from 'context/UserContext/types';

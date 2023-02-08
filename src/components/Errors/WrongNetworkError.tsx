@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTheme } from 'styled-components';
 import Text from '../Text';
-import { CHAIN_NAMES } from '../../global/const';
+import { CHAIN_NAMES } from 'global/const';
 import { useChannelContext } from 'context/ChannelContext';
 
 type PropsT = {

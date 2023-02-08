@@ -1,6 +1,6 @@
 import { ApolloProvider as Apollo } from '@apollo/client';
 import React, { useMemo } from 'react';
-import { getApolloClient } from '../../services/apolloClient';
+import { getApolloClient } from 'services/apolloClient';
 import { useEnvironment } from 'context/EnvironmentContext';
 
 export const ApolloProvider = ({ children }: { children: React.ReactNode }) => {

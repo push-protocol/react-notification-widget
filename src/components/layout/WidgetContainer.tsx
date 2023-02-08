@@ -2,9 +2,9 @@ import React, { ReactNode } from 'react';
 import styled from 'styled-components';
 import Text from '../Text';
 import Link from '../Link';
-import { WHEREVER_HOMEPAGE } from '../../global/const';
 import { changeColorShade } from '../utils';
 import Flex from './Flex';
+import { WHEREVER_HOMEPAGE } from 'global/const';
 import { useEnvironment } from 'context/EnvironmentContext';
 
 const POWERED_BY_HEIGHT = '42px';

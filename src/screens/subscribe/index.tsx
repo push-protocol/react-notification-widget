@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import styled, { useTheme } from 'styled-components';
-import analytics from '../../services/analytics';
-import { UserSubscribeSource } from '../../global/types.generated';
 import useIsWrongNetwork from '../../hooks/useIsWrongNetwork';
-import { WHEREVER_FAQ } from '../../global/const';
 import ChannelToUserIcons from './components/ChannelToUserIcons';
 import { useUserSubscribeMutation } from './operations.generated';
 import NewTag from './components/NewTag';
 import ConnectWalletButtons from './components/ConnectWalletButtons';
+import analytics from 'services/analytics';
+import { WHEREVER_FAQ } from 'global/const';
+import { UserSubscribeSource } from 'global/types.generated';
 import { useAccountContext } from 'context/AccountContext';
 import { Routes, useRouterContext } from 'context/RouterContext';
 import { useChannelContext } from 'context/ChannelContext';

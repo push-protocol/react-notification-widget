@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
-import analytics from '../../../services/analytics';
-import { MessagingApp } from '../../../global/types.generated';
+import analytics from 'services/analytics';
+import { MessagingApp } from 'global/types.generated';
 import { useAuthContext } from 'context/AuthContext';
 import { useChannelContext } from 'context/ChannelContext';
 import { Routes, useRouterContext } from 'context/RouterContext';

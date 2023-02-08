@@ -1,9 +1,9 @@
 import React from 'react';
-import { UserCommunicationChannel } from '../../../../global/types.generated';
 import TextInput from '../../../TextInput';
 import Flex from '../../../layout/Flex';
 import Button from '../../../Button';
 import isEmailValid from '../../../../helpers/functions/isEmailValid';
+import { UserCommunicationChannel } from 'global/types.generated';
 
 type EditEmailProps = {
   value: string;
