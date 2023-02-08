@@ -18,9 +18,6 @@ export const hotReloadHelper = (): Plugin => ({
 
 export default defineConfig({
   plugins: [react(), nodePolyfills(), hotReloadHelper()],
-  optimizeDeps: {
-    exclude: ['web3'],
-  },
   define: {
     global: 'window',
     WHEREVER_ENV: JSON.stringify('development'),
