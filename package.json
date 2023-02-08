@@ -14,12 +14,12 @@
   },
   "scripts": {
     "prepare": "husky install",
-    "build": "tsc && vite build",
-    "build:demo": "tsc && vite build --config vite.config.demo.ts",
+    "build": "tsc && vite build --config vite.config.demo.ts",
+    "build:pkg": "tsc && vite build",
     "build:noEmit": "yarn tsc --noEmit",
     "dev": "vite --config vite.dev.ts",
     "codegen": "graphql-codegen --config codegen.yml",
-    "prepublishOnly": "yarn build:noEmit && yarn build",
+    "prepublishOnly": "yarn build:pkg",
     "publish:local": "YARN_VERSION_GIT_TAG='' yarn publish --registry=\"http://localhost:4873\""
   },
   "files": [
