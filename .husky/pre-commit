@@ -3,5 +3,6 @@
 
 yarn lint-staged
 yarn build:noEmit
-echo "pre commit done"
+yarn build:demo
+git add 'demo/*'
 
