@@ -1,6 +1,5 @@
 import react from '@vitejs/plugin-react';
 import { defineConfig, Plugin } from 'vite';
-import rollupNodePolyFill from 'rollup-plugin-polyfill-node';
 import { nodePolyfills } from 'vite-plugin-node-polyfills';
 
 // Needed to avoid crashing on hot reload due to circular dependencies
@@ -19,11 +18,6 @@ export const hotReloadHelper = (): Plugin => ({
 
 export default defineConfig({
   plugins: [react(), nodePolyfills(), hotReloadHelper()],
-  build: {
-    rollupOptions: {
-      plugins: [rollupNodePolyFill()],
-    },
-  },
   optimizeDeps: {
     exclude: ['web3'],
   },
