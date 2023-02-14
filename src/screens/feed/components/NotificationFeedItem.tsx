@@ -3,11 +3,11 @@ import dayjs, { extend } from 'dayjs';
 import styled, { DefaultTheme } from 'styled-components';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import domPurify from 'dompurify';
+import { Converter } from 'showdown';
 import { mode } from '../../../theme';
 import getDomain from '../../../helpers/functions/getDomain';
 import parseEpnsFormatting from '../helpers/parseEpnsFormatting';
 import analytics from 'services/analytics';
-import mdToHtml from 'services/mdToHtml';
 import { Notification } from 'context/UserContext/types';
 import Text from 'components/Text';
 import Link from 'components/Link';
@@ -131,24 +131,16 @@ const NotificationFeedItem = ({
     return dayjs(date).fromNow();
   };
 
-  const renderer = {
-    heading(text: string) {
-      return `<p>${text}</p>`;
-    },
-    blockquote(quote: string) {
-      return `<p>${quote}</p>`;
-    },
-    link(href: string | null, title: string | null, text: string): string {
-      return notification.cta
-        ? `<span>${href}</span>`
-        : `<a href="${href}" title='${title}' target='_blank'>${text || href}</a>`;
-    },
-  };
-
   const sanitizedMessage = useMemo(() => {
     const msgWithoutEpnsFormatting = parseEpnsFormatting(notification.message);
 
-    return domPurify.sanitize(mdToHtml(msgWithoutEpnsFormatting, { notification }));
+    const parser = new Converter({
+      openLinksInNewWindow: true,
+      requireSpaceBeforeHeadingText: true,
+    });
+    const htmlText = parser.makeHtml(msgWithoutEpnsFormatting);
+
+    return domPurify.sanitize(htmlText);
   }, [notification.message]);
 
   return (
