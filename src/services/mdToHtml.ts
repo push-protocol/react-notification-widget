@@ -28,7 +28,7 @@ const rules: [RegExp, string | ((opts: MdToHtmlProps) => string)][] = [
   [
     /\[([^\]]+)\]\(([^)]+)\)/g,
     (opts) =>
-      opts.notification.cta ? '<span>$1($2)</span>' : '<a href="$2" target="_blank">$1</a>',
+      opts.notification.cta ? '<span>$1 ($2)</span>' : '<a href="$2" target="_blank">$1</a>',
   ],
 
   //Image
