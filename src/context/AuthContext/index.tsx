@@ -12,6 +12,7 @@ import { usePrevious } from '../../hooks/usePrevious';
 import { Routes, useRouterContext } from '../RouterContext';
 import { useAuthenticate } from '../../hooks/useAuthenticate';
 import { useAccountContext, EthTypedData } from '../AccountContext';
+import { isMainnnet } from '../../global/helpers';
 import useLoadAuthFromStorage from './useLoadAuthFromStorage';
 import analytics from 'services/analytics';
 import authStorage from 'services/authStorage';
@@ -39,7 +40,7 @@ const isUserSubscribed = async (args: {
   const { userAddress, channelAddress, chainId } = args;
   const subbedChannels: { channel: string }[] = await epns.user.getSubscriptions({
     user: `eip155:${chainId}:${userAddress}`,
-    env: chainId === 1 ? undefined : 'staging',
+    env: isMainnnet(chainId) ? undefined : 'staging',
   });
   const subbedChannelsLower = subbedChannels.map((s) => s.channel.toLowerCase());
   return subbedChannelsLower.indexOf(channelAddress.toLowerCase()) !== -1;
@@ -169,7 +170,7 @@ const AuthProvider = ({
       } as any,
       channelAddress: `eip155:${chainId}:${channelAddress}`,
       userAddress: `eip155:${chainId}:${address}`,
-      env: chainId === 1 ? undefined : 'staging',
+      env: isMainnnet(chainId) ? undefined : 'staging',
     };
 
     const response =

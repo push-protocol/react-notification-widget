@@ -1,5 +1,6 @@
 import * as epns from '@epnsproject/sdk-restapi';
 import dayjs from 'dayjs';
+import { isMainnnet } from '../../global/helpers';
 import { EpnsNotificationRawResp, Notification } from './types';
 
 const fetchNotifications = async (epnsUserAddress: string, chainId: number) => {
@@ -7,7 +8,7 @@ const fetchNotifications = async (epnsUserAddress: string, chainId: number) => {
     .getFeeds({
       raw: true,
       user: epnsUserAddress,
-      env: chainId === 1 ? undefined : 'staging',
+      env: isMainnnet(chainId) ? undefined : 'staging',
       page: 1,
       limit: 1000,
     })

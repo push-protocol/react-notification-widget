@@ -23,7 +23,7 @@ export const Settings = () => {
   const { isSubscribeOnlyMode } = useEnvironment();
   const { userCommsChannels } = useUserContext();
   const { icon, discordGuildUrl, messageCategories } = useChannelContext();
-  const { unsubscribe: signUnsubscribeMsg, isOnboarding, logout, discordToken } = useAuthContext();
+  const { unsubscribe: signUnsubscribeMsg, logout, discordToken } = useAuthContext();
   const isWrongNetwork = useIsWrongNetwork();
 
   const [unsubscribe] = useUnsubscribeMutation();
@@ -53,9 +53,7 @@ export const Settings = () => {
   };
 
   const apps = appConfig.map((config) => config.app);
-  const [appOpen, setAppOpen] = useState<MessagingApp | undefined>(
-    isOnboarding ? apps?.[0] : undefined
-  );
+  const [appOpen, setAppOpen] = useState<MessagingApp | undefined>();
 
   return (
     <Screen navbarActionComponent={!isSubscribeOnlyMode ? <NavbarActions /> : undefined} mb={1}>
