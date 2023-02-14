@@ -13,10 +13,10 @@ const LayoutContainer = styled.div<LayoutProps>(({ theme, width }) => ({
   [`@media (max-width: ${theme.w.breakpoints.mobile}px)`]: {
     position: 'fixed',
     overflowY: 'hidden',
-    top: 0,
+    top: 'env(safe-area-inset-top)',
     left: 0,
     width: '100vw',
-    height: '100%',
+    height: 'calc(100% - env(safe-area-inset-top))',
     borderRadius: 0,
     zIndex: 999,
   },
