@@ -136,6 +136,7 @@ const NotificationFeedItem = ({
 
     const parser = new Converter({
       openLinksInNewWindow: true,
+      strikethrough: true,
       requireSpaceBeforeHeadingText: true,
     });
     const htmlText = parser.makeHtml(msgWithoutEpnsFormatting);
