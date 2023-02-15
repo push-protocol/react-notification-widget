@@ -9,7 +9,7 @@ import getDomain from '../../../helpers/functions/getDomain';
 import parseEpnsFormatting from '../helpers/parseEpnsFormatting';
 import analytics from 'services/analytics';
 import { Notification } from 'context/UserContext/types';
-import Text from 'components/Text';
+import Text, { textSizes } from 'components/Text';
 import Link from 'components/Link';
 import { Globe } from 'components/icons';
 import VideoPlayer, { isVideoUrl } from 'components/VideoPlayer';
@@ -18,6 +18,12 @@ import { changeColorShade } from 'components/utils';
 import Flex from 'components/layout/Flex';
 
 extend(relativeTime);
+const mdToHtmlParser = new Converter({
+  openLinksInNewWindow: true,
+  strikethrough: true,
+  simplifiedAutoLink: true,
+  requireSpaceBeforeHeadingText: true,
+});
 
 const Container = styled(Flex)<{ clickable: boolean; theme: DefaultTheme }>`
   cursor: ${({ clickable }) => (clickable ? 'pointer' : 'cursor')};
@@ -71,10 +77,22 @@ const Message = styled(Text)`
   a {
     color: ${({ theme }) => theme.w.colors.primary.main};
   }
+  // a sort of global css reset for the markdown rendered HTML
+  // prettier-ignore
+  p, h1, h2, h3, h4, h5, h6, ol, ul{
+    padding: 0;
+    margin: 0;
+  }
+
+  // turn markdown rendered headings to normal p size
+  // prettier-ignore
+  h1, h2, h3, h4, h5, h6 {
+   font-size: ${textSizes.md}px;  
+  }
 
   ol,
   ul {
-    line-height: 12px;
+    line-height: 22px;
     white-space: normal;
     list-style-position: inside;
   }
@@ -133,13 +151,7 @@ const NotificationFeedItem = ({
 
   const sanitizedMessage = useMemo(() => {
     const msgWithoutEpnsFormatting = parseEpnsFormatting(notification.message);
-
-    const parser = new Converter({
-      openLinksInNewWindow: true,
-      strikethrough: true,
-      requireSpaceBeforeHeadingText: true,
-    });
-    const htmlText = parser.makeHtml(msgWithoutEpnsFormatting);
+    const htmlText = mdToHtmlParser.makeHtml(msgWithoutEpnsFormatting);
 
     return domPurify.sanitize(htmlText);
   }, [notification.message]);

@@ -50,13 +50,14 @@ const genSpaces = (
   theme: DefaultTheme,
   { p, pb, pl, pt, pr, m, mt, mb, ml, mr }: Margins & Paddings
 ) => {
+  // default the margin and padding to 0 to avoid issues with user-agent applied css
   const value = css`
-    ${conditionalRenderProp('margin', renderStringNumValue(m, theme.w.spacing))};
+    ${conditionalRenderProp('margin', renderStringNumValue(m || 0, theme.w.spacing))};
     ${conditionalRenderProp('margin-left', renderStringNumValue(ml, theme.w.spacing))};
     ${conditionalRenderProp('margin-right', renderStringNumValue(mr, theme.w.spacing))};
     ${conditionalRenderProp('margin-top', renderStringNumValue(mt, theme.w.spacing))};
     ${conditionalRenderProp('margin-bottom', renderStringNumValue(mb, theme.w.spacing))};
-    ${conditionalRenderProp('padding', renderStringNumValue(p, theme.w.spacing))};
+    ${conditionalRenderProp('padding', renderStringNumValue(p || 0, theme.w.spacing))};
     ${conditionalRenderProp('padding-top', renderStringNumValue(pt, theme.w.spacing))};
     ${conditionalRenderProp('padding-bottom', renderStringNumValue(pb, theme.w.spacing))};
     ${conditionalRenderProp('padding-right', renderStringNumValue(pr, theme.w.spacing))};

@@ -3,7 +3,6 @@ import { WagmiConfig } from 'wagmi';
 import { ThemeProvider } from 'styled-components';
 import { providers } from 'ethers';
 import { ApolloProvider } from '../ApolloProvider';
-import { Reset } from '../../theme/ResetCss';
 import { CustomTheme, makeTheme } from '../../theme';
 import useWagmiClient from './useWagmiClient';
 import analytics from 'services/analytics';
@@ -62,10 +61,7 @@ const NotificationFeedProvider = ({
               <ChannelProvider partnerKey={partnerKey}>
                 <AccountProvider {...customSigner}>
                   <AuthProvider partnerKey={partnerKey} discordToken={discordToken}>
-                    <UserProvider isOpen={isOpen}>
-                      <Reset />
-                      {children}
-                    </UserProvider>
+                    <UserProvider isOpen={isOpen}>{children}</UserProvider>
                   </AuthProvider>
                 </AccountProvider>
               </ChannelProvider>
