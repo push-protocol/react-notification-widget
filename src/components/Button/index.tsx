@@ -1,7 +1,7 @@
 import styled, { css, DefaultTheme } from 'styled-components';
 import React, { ButtonHTMLAttributes, PropsWithChildren } from 'react';
 import { Margins, Paddings } from '../types';
-import { genSpaces, renderStringNumValue, adjustColor, conditionalRenderProp } from '../utils';
+import { genSpaces, valToPx, adjustColor, conditionalRenderProp } from '../utils';
 import Spinner from '../Spinner';
 import { mode } from '../../theme';
 import Flex from '../layout/Flex';
@@ -128,11 +128,10 @@ const ButtonWrapper = styled.button<ButtonProps>`
     align-items: center;
     gap: 8px;
     justify-content: center;
-    padding: ${theme.w.spacing(1)}px ${theme.w.spacing(3)}px;
     color: ${textColor || theme.w.colors.button.text};
-    ${conditionalRenderProp('width', renderStringNumValue(width))};
-    ${conditionalRenderProp('height', renderStringNumValue(height))};
-    ${genSpaces(theme, rest)}
+    ${conditionalRenderProp('width', valToPx(width))};
+    ${conditionalRenderProp('height', valToPx(height))};
+    ${genSpaces(theme, { pl: 2, pr: 2, pt: 1, pb: 1, ...rest })}
     ${variantStyles(variant, theme).join('')}
     ${buttonSizeStyles(size, theme).join('')}
   `};

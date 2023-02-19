@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { Margins, Paddings } from '../types';
-import { conditionalRenderProp, genSpaces, renderStringNumValue } from '../utils';
+import { conditionalRenderProp, genSpaces, valToPx } from '../utils';
 
 export const textSizes = {
   xs: 10,
@@ -32,10 +32,7 @@ const Text = styled.p<TextProps>`
       'color',
       color ? theme.w.colors.text[color as ColorKeys] || color : theme.w.colors.text.primary
     )};
-    ${conditionalRenderProp(
-      'font-size',
-      renderStringNumValue(size ? textSizes[size] : textSizes.md)
-    )};
+    ${conditionalRenderProp('font-size', valToPx(size ? textSizes[size] : textSizes.md))};
     ${conditionalRenderProp('font-weight', weight)};
     ${conditionalRenderProp('font-family', fontFamily || theme.w.fontFamily || 'inherit')};
     ${conditionalRenderProp('text-align', align)};

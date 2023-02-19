@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { conditionalRenderProp, genSpaces, renderStringNumValue } from '../utils';
+import { conditionalRenderProp, genSpaces, valToPx } from '../utils';
 import { Paddings, Margins } from '../types';
 
 type PropsT = {
@@ -17,10 +17,10 @@ const Flex = styled.div<PropsT>`
   ${({ theme, direction, height, width, gap, justifyContent, alignItems, bg, ...rest }) => `
     display: flex;
     ${conditionalRenderProp('background-color', bg)};
-    ${conditionalRenderProp('height', renderStringNumValue(height))};
-    ${conditionalRenderProp('width', renderStringNumValue(width))};
+    ${conditionalRenderProp('height', valToPx(height))};
+    ${conditionalRenderProp('width', valToPx(width))};
     ${conditionalRenderProp('flex-direction', direction)};
-    ${conditionalRenderProp('gap', renderStringNumValue(gap, theme.w.spacing))};
+    ${conditionalRenderProp('gap', valToPx(gap, theme.w.spacing))};
     ${conditionalRenderProp('align-items', alignItems)};
     ${conditionalRenderProp('justify-content', justifyContent)};
     ${genSpaces(theme, rest)}

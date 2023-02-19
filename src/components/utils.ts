@@ -2,7 +2,7 @@ import { DefaultTheme, css } from 'styled-components';
 import { StandardPropertiesHyphen } from 'csstype';
 import { Margins, Paddings } from './types';
 
-const renderStringNumValue = (value?: string | number, spacing?: (units: number) => number) => {
+const valToPx = (value?: string | number, spacing?: (units: number) => number) => {
   if (typeof value === 'number') {
     return `${spacing ? spacing(value) : value}px`;
   } else {
@@ -52,19 +52,19 @@ const genSpaces = (
 ) => {
   // default the margin and padding to 0 to avoid issues with user-agent applied css
   const value = css`
-    ${conditionalRenderProp('margin', renderStringNumValue(m || 0, theme.w.spacing))};
-    ${conditionalRenderProp('margin-left', renderStringNumValue(ml, theme.w.spacing))};
-    ${conditionalRenderProp('margin-right', renderStringNumValue(mr, theme.w.spacing))};
-    ${conditionalRenderProp('margin-top', renderStringNumValue(mt, theme.w.spacing))};
-    ${conditionalRenderProp('margin-bottom', renderStringNumValue(mb, theme.w.spacing))};
-    ${conditionalRenderProp('padding', renderStringNumValue(p || 0, theme.w.spacing))};
-    ${conditionalRenderProp('padding-top', renderStringNumValue(pt, theme.w.spacing))};
-    ${conditionalRenderProp('padding-bottom', renderStringNumValue(pb, theme.w.spacing))};
-    ${conditionalRenderProp('padding-right', renderStringNumValue(pr, theme.w.spacing))};
-    ${conditionalRenderProp('padding-left', renderStringNumValue(pl, theme.w.spacing))};
+    ${conditionalRenderProp('margin', valToPx(m || 0, theme.w.spacing))};
+    ${conditionalRenderProp('margin-left', valToPx(ml, theme.w.spacing))};
+    ${conditionalRenderProp('margin-right', valToPx(mr, theme.w.spacing))};
+    ${conditionalRenderProp('margin-top', valToPx(mt, theme.w.spacing))};
+    ${conditionalRenderProp('margin-bottom', valToPx(mb, theme.w.spacing))};
+    ${conditionalRenderProp('padding', valToPx(p || 0, theme.w.spacing))};
+    ${conditionalRenderProp('padding-top', valToPx(pt, theme.w.spacing))};
+    ${conditionalRenderProp('padding-bottom', valToPx(pb, theme.w.spacing))};
+    ${conditionalRenderProp('padding-right', valToPx(pr, theme.w.spacing))};
+    ${conditionalRenderProp('padding-left', valToPx(pl, theme.w.spacing))};
   `;
 
   return value.join('');
 };
 
-export { adjustColor, genSpaces, renderStringNumValue, conditionalRenderProp, changeColorShade };
+export { adjustColor, genSpaces, valToPx, conditionalRenderProp, changeColorShade };
