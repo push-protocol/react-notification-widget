@@ -3,7 +3,6 @@ import styled, { useTheme } from 'styled-components';
 import useIsWrongNetwork from '../../hooks/useIsWrongNetwork';
 import ChannelToUserIcons from './components/ChannelToUserIcons';
 import { useUserSubscribeMutation } from './operations.generated';
-import NewTag from './components/NewTag';
 import ConnectWalletButtons from './components/ConnectWalletButtons';
 import analytics from 'services/analytics';
 import { WHEREVER_FAQ } from 'global/const';
@@ -118,14 +117,15 @@ export const Subscribe = () => {
     <Screen mb={1}>
       <Container>
         <Flex alignItems={'center'} direction={'column'} gap={1}>
-          <NewTag />
-          <PageTitle align={'center'}>Wallet-to-wallet notifications</PageTitle>
+          <PageTitle align={'center'}>
+            {channelName} is requesting permission to message your wallet
+          </PageTitle>
         </Flex>
         <Flex alignItems={'center'} direction={'column'} mb={3} mt={2}>
           <ChannelToUserIcons />
           <SubscribeDescription>
             <Text size={'md'}>
-              {`${channelName} is using the Ethereum Push Notifications protocol to securely message its users. No spam, opt-out at any time.`}{' '}
+              {`${channelName} is using a wallet-to-wallet messaging protocol to securely message its users.`}{' '}
               <Link display={'inline-block'} src={WHEREVER_FAQ}>
                 Learn more.
               </Link>
@@ -143,14 +143,19 @@ export const Subscribe = () => {
             gap={1}
           >
             {isConnected ? (
-              <Button
-                width={'100%'}
-                onClick={handleSubscribe}
-                disabled={channelLoading || isWrongNetwork || !channelAddress}
-                size={'lg'}
-              >
-                Subscribe
-              </Button>
+              <>
+                <Button
+                  width={'100%'}
+                  onClick={handleSubscribe}
+                  disabled={channelLoading || isWrongNetwork || !channelAddress}
+                  size={'lg'}
+                >
+                  Subscribe
+                </Button>
+                <Text align={'center'}>
+                  You will need to connect your wallet, then sign a message to subscribe
+                </Text>
+              </>
             ) : (
               <ConnectWalletButtons onConnect={handleSubscribe} />
             )}

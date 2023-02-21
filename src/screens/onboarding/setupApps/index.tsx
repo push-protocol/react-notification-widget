@@ -69,7 +69,7 @@ export const SetupApps = (props: { appsToConnect: MessagingApp[] }) => {
       <Flex width={'100%'} justifyContent={'space-between'} gap={1} mb={2}>
         {props.appsToConnect && (
           <Button
-            onClick={() => setRoute(Routes.SelectApps)}
+            onClick={() => setRoute(Routes.SelectCategories)}
             size={'lg'}
             width={'100%'}
             variant={'gray'}

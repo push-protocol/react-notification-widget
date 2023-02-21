@@ -112,7 +112,7 @@ const ChannelToUserIcons = () => {
           <UserWalletIcon />
         </WalletIcon>
         <WalletText>
-          <Text size={'sm'}>{!address ? 'You' : userEns || formatAddress(address)}</Text>
+          <Text size={'sm'}>{!address ? 'Your wallet' : userEns || formatAddress(address)}</Text>
         </WalletText>
       </WalletContainer>
     </Container>

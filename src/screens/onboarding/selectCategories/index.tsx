@@ -1,5 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Web2AppLower, Web2Apps } from '../../../context/UserContext/const';
+import { MessagingApp } from '../../../global/types.generated';
+import { useChannelContext } from '../../../context/ChannelContext';
+import { useAuthContext } from '../../../context/AuthContext';
+import useUpdatePreference from '../../../components/Preferences/useUpdatePreference';
 import { Routes, useRouterContext } from 'context/RouterContext';
 import { useUserContext } from 'context/UserContext';
 import Flex from 'components/layout/Flex';
@@ -7,6 +12,7 @@ import { Screen } from 'components/layout/Screen';
 import PageTitle from 'components/PageTitle';
 import Button from 'components/Button';
 import Preferences from 'components/Preferences';
+import Text from 'components/Text';
 
 const Header = styled.div`
   text-align: center;
@@ -14,14 +20,32 @@ const Header = styled.div`
 `;
 
 export const SelectCategories = () => {
+  const { discordGuildUrl, messageCategories } = useChannelContext();
   const { user } = useUserContext();
   const { setRoute } = useRouterContext();
+  const { discordToken } = useAuthContext();
+  const updatePreference = useUpdatePreference();
 
   const goNextDisabled = user?.preferences.every((pref) => !pref?.enabled);
 
   const handleGoNext = () => {
-    setRoute(Routes.SelectApps);
-    return;
+    const availableWeb2Apps = Web2Apps.filter((app) =>
+      app === MessagingApp.Discord ? discordGuildUrl && discordToken : true
+    );
+
+    availableWeb2Apps.forEach((web2App) => {
+      messageCategories.forEach((category) => {
+        const userPref = user?.preferences?.find(
+          (userPref) => userPref.commsChannelTagId === category.id
+        );
+
+        if (userPref?.enabled) {
+          updatePreference(category.id, web2App.toLowerCase() as Web2AppLower, userPref);
+        }
+      });
+    });
+
+    setRoute(Routes.SetupApps);
   };
 
   return (
@@ -37,6 +61,9 @@ export const SelectCategories = () => {
           Next
         </Button>
       </Flex>
+      <Text color={'secondary'} mb={1}>
+        You can change your preferences at any time
+      </Text>
     </Screen>
   );
 };
