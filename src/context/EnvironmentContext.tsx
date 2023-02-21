@@ -27,8 +27,8 @@ export const EnvironmentProvider = ({
 }) => {
   const gqlEndpointMap: { [key in EnvType]: string } = {
     development: 'http://localhost:4001/graphql',
-    staging: 'https://staging-api.wherever.to/graphql',
-    production: 'https://api.wherever.to/graphql',
+    staging: 'https://staging-api.wherever.im/graphql',
+    production: 'https://api.wherever.im/graphql',
   };
 
   const epnsEnvMap: { [key in EnvType]: string } = {
