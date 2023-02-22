@@ -5,6 +5,7 @@ import { MessagingApp } from '../../../global/types.generated';
 import { useChannelContext } from '../../../context/ChannelContext';
 import { useAuthContext } from '../../../context/AuthContext';
 import useUpdatePreference from '../../../components/Preferences/useUpdatePreference';
+import { useEnvironment } from '../../../context/EnvironmentContext';
 import { Routes, useRouterContext } from 'context/RouterContext';
 import { useUserContext } from 'context/UserContext';
 import Flex from 'components/layout/Flex';
@@ -25,10 +26,15 @@ export const SelectCategories = () => {
   const { setRoute } = useRouterContext();
   const { discordToken } = useAuthContext();
   const updatePreference = useUpdatePreference();
+  const { isSubscribeOnlyMode } = useEnvironment();
 
   const goNextDisabled = user?.preferences.every((pref) => !pref?.enabled);
 
   const handleGoNext = () => {
+    if (!isSubscribeOnlyMode) {
+      return setRoute(Routes.SelectApps);
+    }
+
     const availableWeb2Apps = Web2Apps.filter((app) =>
       app === MessagingApp.Discord ? discordGuildUrl && discordToken : true
     );
@@ -61,9 +67,11 @@ export const SelectCategories = () => {
           Next
         </Button>
       </Flex>
-      <Text color={'secondary'} mb={1}>
-        You can change your preferences at any time
-      </Text>
+      {isSubscribeOnlyMode && (
+        <Text color={'secondary'} mb={1}>
+          You can change your preferences at any time
+        </Text>
+      )}
     </Screen>
   );
 };
