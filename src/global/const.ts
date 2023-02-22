@@ -12,8 +12,8 @@ export const ENV = WHEREVER_ENV;
 
 export const LOCALSTORAGE_THEME_MODE_KEY = `${LOCALSTORAGE_PREFIX}themeMode`;
 
-export const WHEREVER_HOMEPAGE = 'https://wherever.to';
-export const WHEREVER_FAQ = 'https://wherever.to/faq';
+export const WHEREVER_HOMEPAGE = 'https://wherever.im';
+export const WHEREVER_FAQ = 'https://wherever.im/faq';
 
 export const WIDGET_VERSION = pkg.version;
 
