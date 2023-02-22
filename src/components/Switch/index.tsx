@@ -1,4 +1,4 @@
-import React, { useId } from 'react';
+import React, { useMemo } from 'react';
 import styled from 'styled-components';
 import { mode } from '../../theme';
 
@@ -56,7 +56,7 @@ type CheckboxProps = {
 };
 
 const Switch = ({ checked, onChange }: CheckboxProps) => {
-  const uniqueId = useId();
+  const uniqueId = useMemo(() => `switch-${Math.random()}`, []);
 
   return (
     <SwitchInputWrapper>
