@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import styled from 'styled-components';
 import analytics from 'services/analytics';
 import { MessagingApp } from 'global/types.generated';
@@ -53,14 +53,25 @@ export const SetupApps = (props: { appsToConnect: MessagingApp[] }) => {
     !!userCommsChannels?.telegram?.exists ||
     !!userCommsChannels?.discord?.exists;
 
+  const heading = useMemo(() => {
+    if (!props.appsToConnect) {
+      // channel has no categories
+      return 'Stay informed on the go';
+    }
+
+    if (isSubscribeOnlyMode) {
+      // got here without selecting specific apps
+      return 'Where else should we notify you?';
+    }
+
+    return 'Got it! Now connect the apps you selected';
+  }, [isSubscribeOnlyMode, props]);
+
   return (
     <Screen mb={1}>
       <Header>
-        <PageTitle>
-          {props.appsToConnect
-            ? 'Got it! Now connect the apps you selected'
-            : 'Stay informed on the go'}
-        </PageTitle>
+        <PageTitle>{heading}</PageTitle>
+        <Notice mt={0.5} text={`Wherever will forward messages sent to you wallet`} />
       </Header>
 
       <Flex mb={4} mt={2} width={'100%'}>
@@ -69,7 +80,9 @@ export const SetupApps = (props: { appsToConnect: MessagingApp[] }) => {
       <Flex width={'100%'} justifyContent={'space-between'} gap={1} mb={2}>
         {props.appsToConnect && (
           <Button
-            onClick={() => setRoute(Routes.SelectApps)}
+            onClick={() =>
+              setRoute(isSubscribeOnlyMode ? Routes.SelectCategories : Routes.SelectApps)
+            }
             size={'lg'}
             width={'100%'}
             variant={'gray'}
@@ -81,7 +94,7 @@ export const SetupApps = (props: { appsToConnect: MessagingApp[] }) => {
           Finish
         </Button>
       </Flex>
-      <Notice text={`${name} won't have access to your info`} />
+      <Notice mb={1} text={`Wherever will never share your info with ${name} or anyone else.`} />
     </Screen>
   );
 };

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import styled, { useTheme } from 'styled-components';
 import useIsWrongNetwork from '../../hooks/useIsWrongNetwork';
+import Notice from '../../components/Notice';
 import ChannelToUserIcons from './components/ChannelToUserIcons';
 import { useUserSubscribeMutation } from './operations.generated';
-import NewTag from './components/NewTag';
 import ConnectWalletButtons from './components/ConnectWalletButtons';
 import analytics from 'services/analytics';
 import { WHEREVER_FAQ } from 'global/const';
@@ -101,7 +101,7 @@ export const Subscribe = () => {
     analytics.track('channel subscribe clicked', { channelAddress });
     setIsOnboarding(true);
 
-    setLoadingMsg('Sign the message in your wallet to subscribe');
+    setLoadingMsg('Sign the message in your wallet to approve');
     await signSubscribeMsg();
     analytics.track('channel subscribe successful', { channelAddress });
 
@@ -118,14 +118,15 @@ export const Subscribe = () => {
     <Screen mb={1}>
       <Container>
         <Flex alignItems={'center'} direction={'column'} gap={1}>
-          <NewTag />
-          <PageTitle align={'center'}>Wallet-to-wallet notifications</PageTitle>
+          <PageTitle align={'center'}>
+            {channelName} is requesting permission to message your wallet
+          </PageTitle>
         </Flex>
         <Flex alignItems={'center'} direction={'column'} mb={3} mt={2}>
           <ChannelToUserIcons />
           <SubscribeDescription>
-            <Text size={'md'}>
-              {`${channelName} is using the Ethereum Push Notifications protocol to securely message its users. No spam, opt-out at any time.`}{' '}
+            <Text pl={1} pr={1} mt={1} size={'md'}>
+              {`${channelName} is using a secure wallet-to-wallet messaging protocol to message its users.`}{' '}
               <Link display={'inline-block'} src={WHEREVER_FAQ}>
                 Learn more.
               </Link>
@@ -143,14 +144,22 @@ export const Subscribe = () => {
             gap={1}
           >
             {isConnected ? (
-              <Button
-                width={'100%'}
-                onClick={handleSubscribe}
-                disabled={channelLoading || isWrongNetwork || !channelAddress}
-                size={'lg'}
-              >
-                Subscribe
-              </Button>
+              <>
+                <Button
+                  width={'100%'}
+                  onClick={handleSubscribe}
+                  disabled={channelLoading || isWrongNetwork || !channelAddress}
+                  size={'lg'}
+                >
+                  Approve
+                </Button>
+                <Notice
+                  mt={0.5}
+                  text={
+                    "You will need to sign a message to grant permission. This won't cost any fees."
+                  }
+                />
+              </>
             ) : (
               <ConnectWalletButtons onConnect={handleSubscribe} />
             )}

@@ -9,7 +9,7 @@ export type PartnerInfoQueryVariables = Types.Exact<{
 }>;
 
 
-export type PartnerInfoQuery = { __typename?: 'Query', partnerInfo: { __typename?: 'PartnerInfo', id: string, channelAddress: string, logo?: string | null, name: string, chainId: number, discordGuildUrl?: string | null, messageCategories: Array<{ __typename?: 'CommsChannelTag', id: string, name: string, description?: string | null }> } };
+export type PartnerInfoQuery = { __typename?: 'Query', partnerInfo: { __typename?: 'PartnerInfo', id: string, channelAddress: string, logo?: string | null, name: string, slug?: string, chainId: number, discordGuildUrl?: string | null, messageCategories: Array<{ __typename?: 'CommsChannelTag', id: string, name: string, description?: string | null }> } };
 
 
 export const PartnerInfoDocument = gql`
@@ -20,6 +20,7 @@ export const PartnerInfoDocument = gql`
     logo
     name
     chainId
+    slug
     discordGuildUrl
     messageCategories {
       id

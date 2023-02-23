@@ -1,5 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Web2AppLower, Web2Apps } from '../../../context/UserContext/const';
+import { MessagingApp } from '../../../global/types.generated';
+import { useChannelContext } from '../../../context/ChannelContext';
+import { useAuthContext } from '../../../context/AuthContext';
+import useUpdatePreference from '../../../components/Preferences/useUpdatePreference';
+import { useEnvironment } from '../../../context/EnvironmentContext';
+import Notice from '../../../components/Notice';
+import { useUserPreferencesUpdateMutation } from '../../../components/Preferences/operations.generated';
 import { Routes, useRouterContext } from 'context/RouterContext';
 import { useUserContext } from 'context/UserContext';
 import Flex from 'components/layout/Flex';
@@ -14,14 +22,45 @@ const Header = styled.div`
 `;
 
 export const SelectCategories = () => {
+  const { discordGuildUrl, messageCategories } = useChannelContext();
   const { user } = useUserContext();
   const { setRoute } = useRouterContext();
+  const { discordToken } = useAuthContext();
+  const { isSubscribeOnlyMode } = useEnvironment();
+  const [updateUserPreferences] = useUserPreferencesUpdateMutation();
 
   const goNextDisabled = user?.preferences.every((pref) => !pref?.enabled);
 
   const handleGoNext = () => {
-    setRoute(Routes.SelectApps);
-    return;
+    if (!isSubscribeOnlyMode) {
+      return setRoute(Routes.SelectApps);
+    }
+
+    const appsToConnect = Web2Apps.filter((app) =>
+      app === MessagingApp.Discord ? discordGuildUrl && discordToken : true
+    );
+
+    messageCategories.forEach((category) => {
+      const userPref = user?.preferences?.find(
+        (userPref) => userPref.commsChannelTagId === category.id
+      );
+
+      if (userPref?.enabled) {
+        updateUserPreferences({
+          variables: {
+            input: {
+              enabled: true,
+              email: true,
+              telegram: true,
+              discord: true,
+              commsChannelTagId: category.id,
+            },
+          },
+        });
+      }
+    });
+
+    setRoute(Routes.SetupApps, { appsToConnect });
   };
 
   return (
@@ -37,6 +76,9 @@ export const SelectCategories = () => {
           Next
         </Button>
       </Flex>
+      {isSubscribeOnlyMode && (
+        <Notice mb={1} text={'You can update your preferences at any time'} />
+      )}
     </Screen>
   );
 };
