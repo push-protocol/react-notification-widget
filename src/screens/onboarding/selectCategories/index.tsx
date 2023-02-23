@@ -6,6 +6,8 @@ import { useChannelContext } from '../../../context/ChannelContext';
 import { useAuthContext } from '../../../context/AuthContext';
 import useUpdatePreference from '../../../components/Preferences/useUpdatePreference';
 import { useEnvironment } from '../../../context/EnvironmentContext';
+import Notice from '../../../components/Notice';
+import { useUserPreferencesUpdateMutation } from '../../../components/Preferences/operations.generated';
 import { Routes, useRouterContext } from 'context/RouterContext';
 import { useUserContext } from 'context/UserContext';
 import Flex from 'components/layout/Flex';
@@ -13,7 +15,6 @@ import { Screen } from 'components/layout/Screen';
 import PageTitle from 'components/PageTitle';
 import Button from 'components/Button';
 import Preferences from 'components/Preferences';
-import Text from 'components/Text';
 
 const Header = styled.div`
   text-align: center;
@@ -25,8 +26,8 @@ export const SelectCategories = () => {
   const { user } = useUserContext();
   const { setRoute } = useRouterContext();
   const { discordToken } = useAuthContext();
-  const updatePreference = useUpdatePreference();
   const { isSubscribeOnlyMode } = useEnvironment();
+  const [updateUserPreferences] = useUserPreferencesUpdateMutation();
 
   const goNextDisabled = user?.preferences.every((pref) => !pref?.enabled);
 
@@ -39,16 +40,24 @@ export const SelectCategories = () => {
       app === MessagingApp.Discord ? discordGuildUrl && discordToken : true
     );
 
-    appsToConnect.forEach((web2App) => {
-      messageCategories.forEach((category) => {
-        const userPref = user?.preferences?.find(
-          (userPref) => userPref.commsChannelTagId === category.id
-        );
+    messageCategories.forEach((category) => {
+      const userPref = user?.preferences?.find(
+        (userPref) => userPref.commsChannelTagId === category.id
+      );
 
-        if (userPref?.enabled) {
-          updatePreference(category.id, web2App.toLowerCase() as Web2AppLower, userPref);
-        }
-      });
+      if (userPref?.enabled) {
+        updateUserPreferences({
+          variables: {
+            input: {
+              enabled: true,
+              email: true,
+              telegram: true,
+              discord: true,
+              commsChannelTagId: category.id,
+            },
+          },
+        });
+      }
     });
 
     setRoute(Routes.SetupApps, { appsToConnect });
@@ -68,9 +77,7 @@ export const SelectCategories = () => {
         </Button>
       </Flex>
       {isSubscribeOnlyMode && (
-        <Text color={'secondary'} mb={1}>
-          You can change your preferences at any time
-        </Text>
+        <Notice mb={1} text={'You can update your preferences at any time'} />
       )}
     </Screen>
   );

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled, { useTheme } from 'styled-components';
 import useIsWrongNetwork from '../../hooks/useIsWrongNetwork';
+import Notice from '../../components/Notice';
 import ChannelToUserIcons from './components/ChannelToUserIcons';
 import { useUserSubscribeMutation } from './operations.generated';
 import ConnectWalletButtons from './components/ConnectWalletButtons';
@@ -100,7 +101,7 @@ export const Subscribe = () => {
     analytics.track('channel subscribe clicked', { channelAddress });
     setIsOnboarding(true);
 
-    setLoadingMsg('Sign the message in your wallet to subscribe');
+    setLoadingMsg('Sign the message in your wallet to approve');
     await signSubscribeMsg();
     analytics.track('channel subscribe successful', { channelAddress });
 
@@ -124,8 +125,8 @@ export const Subscribe = () => {
         <Flex alignItems={'center'} direction={'column'} mb={3} mt={2}>
           <ChannelToUserIcons />
           <SubscribeDescription>
-            <Text size={'md'}>
-              {`${channelName} is using a wallet-to-wallet messaging protocol to securely message its users.`}{' '}
+            <Text pl={1} pr={1} mt={1} size={'md'}>
+              {`${channelName} is using a secure wallet-to-wallet messaging protocol to message its users.`}{' '}
               <Link display={'inline-block'} src={WHEREVER_FAQ}>
                 Learn more.
               </Link>
@@ -150,8 +151,14 @@ export const Subscribe = () => {
                   disabled={channelLoading || isWrongNetwork || !channelAddress}
                   size={'lg'}
                 >
-                  Subscribe
+                  Approve
                 </Button>
+                <Notice
+                  mt={0.5}
+                  text={
+                    "You will need to sign a message to grant permission. This won't cost any fees."
+                  }
+                />
               </>
             ) : (
               <ConnectWalletButtons onConnect={handleSubscribe} />

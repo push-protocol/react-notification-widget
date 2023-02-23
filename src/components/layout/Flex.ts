@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { conditionalRenderProp, genSpaces, valToPx } from '../utils';
 import { Paddings, Margins } from '../types';
 
-type PropsT = {
+export type FlexProps = {
   height?: string | number;
   width?: string | number;
   direction?: 'column' | 'row';
@@ -13,7 +13,7 @@ type PropsT = {
 } & Paddings &
   Margins;
 
-const Flex = styled.div<PropsT>`
+const Flex = styled.div<FlexProps>`
   ${({ theme, direction, height, width, gap, justifyContent, alignItems, bg, ...rest }) => `
     display: flex;
     ${conditionalRenderProp('background-color', bg)};
