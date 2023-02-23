@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { useChannelContext } from 'context/ChannelContext';
 import { Routes, useRouterContext } from 'context/RouterContext';
+import Button from 'components/Button';
 import Link from 'components/Link';
 import { Screen } from 'components/layout/Screen';
 import Text from 'components/Text';
@@ -25,7 +26,7 @@ const HeaderIcon = styled.img`
 `;
 
 export const SubscriptionFlowEnded = () => {
-  const { icon } = useChannelContext();
+  const { slug } = useChannelContext();
   const { setRoute } = useRouterContext();
 
   const handleViewSettings = () => {
@@ -35,28 +36,19 @@ export const SubscriptionFlowEnded = () => {
   return (
     <Screen>
       <Flex justifyContent={'center'} alignItems={'center'} direction={'column'} gap={2}>
-        <HeaderIconContainer>
-          <HeaderIcon src={icon} />
-        </HeaderIconContainer>
         <Text size={'xl'} align={'center'} weight={700}>
-          Thanks for subscribing!
+          Thank you for subscribing!
         </Text>
         <Text mb={2} align={'center'}>
           <br />
-          You’re all set here - feel free to close this tab and head back to Discord, or you can
-          <Link display={'inline-block'} onClick={handleViewSettings}>
-            &nbsp;continue to Settings&nbsp;
+          Change your preferences at any time by visiting
+          <Link display={'inline-block'} src={`https://app.wherever.im/channel/${slug}`}>
+            &nbsp; app.wherever.im/channel/{slug}&nbsp;
           </Link>
-          to view or update your preferences.
+          <Button onClick={handleViewSettings} mt={2} width={'100%'}>
+            Continue to Settings
+          </Button>
         </Text>
-        <img
-          alt={'goodbye-pic'}
-          style={{ borderRadius: 12 }}
-          height={350}
-          src={
-            'https://lh3.googleusercontent.com/lWEX3-m5_ZUB0HWZs6Fm_x1sS0kfw3qI3YCMtrYGuzaDnQUjATvIQldYyX6ys5d6Sa4=w2400'
-          }
-        />
       </Flex>
     </Screen>
   );

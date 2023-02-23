@@ -35,11 +35,11 @@ export const SelectCategories = () => {
       return setRoute(Routes.SelectApps);
     }
 
-    const availableWeb2Apps = Web2Apps.filter((app) =>
+    const appsToConnect = Web2Apps.filter((app) =>
       app === MessagingApp.Discord ? discordGuildUrl && discordToken : true
     );
 
-    availableWeb2Apps.forEach((web2App) => {
+    appsToConnect.forEach((web2App) => {
       messageCategories.forEach((category) => {
         const userPref = user?.preferences?.find(
           (userPref) => userPref.commsChannelTagId === category.id
@@ -51,7 +51,7 @@ export const SelectCategories = () => {
       });
     });
 
-    setRoute(Routes.SetupApps);
+    setRoute(Routes.SetupApps, { appsToConnect });
   };
 
   return (

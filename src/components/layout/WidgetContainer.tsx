@@ -25,7 +25,6 @@ const LayoutContainer = styled.div<LayoutProps>(({ theme, width }) => ({
   justifyContent: 'space-between',
   width: width?.desktop || '400px',
   boxSizing: 'content-box',
-  minHeight: '280px',
   overflowY: 'auto',
   borderRadius: theme.w.borderRadius.md,
   boxShadow: '0 20px 36px rgba(0, 0, 0, 0.25)',

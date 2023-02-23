@@ -45,7 +45,7 @@ const ConnectWalletButtons = (props: PropsT) => {
   return (
     <Flex alignItems={'center'} direction={'column'} gap={1.5}>
       <Text mb={1} size={'sm'} align={'center'}>
-        <strong>Connect your wallet to allow</strong>
+        <strong>Connect your wallet to continue</strong>
       </Text>
       {connectors
         .filter((connector) => ALLOWED_WALLETS.includes(connector.id))

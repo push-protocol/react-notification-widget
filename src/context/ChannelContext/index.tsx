@@ -5,6 +5,7 @@ import { usePartnerInfoQuery, PartnerInfoQuery } from '../ChannelContext/operati
 export type ChannelInfo = {
   icon: string;
   name: string;
+  slug: string;
   channelAddress: string;
   chainId: number;
   messageCategories: PartnerInfoQuery['partnerInfo']['messageCategories'];
@@ -15,6 +16,7 @@ const emptyChannel = {
   channelAddress: '',
   icon: '',
   name: '',
+  slug: '',
   chainId: 0,
   messageCategories: [],
   preferences: [],
@@ -50,6 +52,7 @@ const ChannelProvider = ({
       messageCategories: data.partnerInfo.messageCategories,
       icon: data.partnerInfo.logo as string,
       name: data.partnerInfo.name,
+      slug: data.partnerInfo.slug as string,
       chainId: data.partnerInfo.chainId,
       discordGuildUrl: data.partnerInfo.discordGuildUrl,
     });

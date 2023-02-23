@@ -152,9 +152,6 @@ export const Subscribe = () => {
                 >
                   Subscribe
                 </Button>
-                <Text align={'center'}>
-                  You will need to connect your wallet, then sign a message to subscribe
-                </Text>
               </>
             ) : (
               <ConnectWalletButtons onConnect={handleSubscribe} />

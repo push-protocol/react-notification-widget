@@ -5,6 +5,7 @@ query PartnerInfo ($input: PartnerInfoInput!) {
         logo
         name
         chainId
+        slug
         discordGuildUrl
         messageCategories {
             id
