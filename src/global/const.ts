@@ -26,3 +26,5 @@ export const CHAIN_NAMES: { [key: number]: string } = {
   [polygon.id]: polygon.name,
   [polygonMumbai.id]: polygonMumbai.name,
 };
+
+export const ALCHEMY_KEY = 'OAFEClC2JW9MaAAd0F-93QJNx2EoVQSV';
