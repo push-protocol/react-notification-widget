@@ -4,7 +4,7 @@ import { ThemeProvider } from 'styled-components';
 import { providers } from 'ethers';
 import { darkTheme, RainbowKitProvider } from '@rainbow-me/rainbowkit';
 import { ApolloProvider } from '../ApolloProvider';
-import { CustomTheme, makeTheme } from '../../theme';
+import defaultTheme, { CustomTheme, makeTheme } from '../../theme';
 import useWagmiClient from './useWagmiClient';
 import analytics from 'services/analytics';
 import { EnvironmentProvider, WidgetMode } from 'context/EnvironmentContext';
@@ -58,7 +58,14 @@ const NotificationFeedProvider = ({
     <EnvironmentProvider mode={mode}>
       <ThemeProvider theme={makeTheme(theme)}>
         <WagmiConfig client={wagmiClient}>
-          <RainbowKitProvider theme={darkTheme({ borderRadius: 'small' })} chains={chains}>
+          <RainbowKitProvider
+            theme={darkTheme({
+              borderRadius: 'small',
+              accentColor: theme?.primaryColor || defaultTheme.colors.primary.main,
+              accentColorForeground: theme?.buttonTextColor || defaultTheme.colors.text.primary,
+            })}
+            chains={chains}
+          >
             <ApolloProvider>
               <RouterProvider>
                 <ChannelProvider partnerKey={partnerKey}>

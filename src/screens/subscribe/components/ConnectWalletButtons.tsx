@@ -1,28 +1,35 @@
-import React, { useEffect } from 'react';
-import { useConnect } from 'wagmi';
+import React from 'react';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
+import styled from 'styled-components';
 import analytics from 'services/analytics';
 import Flex from 'components/layout/Flex';
 
-type PropsT = {
-  onConnect?: () => void;
-};
+const Container = styled(Flex)`
+  * {
+    width: 100%;
+  }
+  button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+`;
 
-const ConnectWalletButtons = (props: PropsT) => {
-  const { isLoading } = useConnect({
-    onSuccess: () => setTimeout(props?.onConnect || '', 2000),
-  });
-
-  useEffect(() => {
-    if (isLoading) {
-      analytics.track('wallet connect clicked');
-    }
-  }, [isLoading]);
+const ConnectWalletButtons = () => {
+  const trackClick = () => {
+    analytics.track('wallet connect clicked');
+  };
 
   return (
-    <Flex alignItems={'center'} direction={'column'} gap={1.5}>
-      <ConnectButton label={'Connect your wallet to allow'} />
-    </Flex>
+    <Container
+      width={'100%'}
+      onClick={trackClick}
+      alignItems={'center'}
+      direction={'column'}
+      gap={1.5}
+    >
+      <ConnectButton label={'Connect wallet'} />
+    </Container>
   );
 };
 

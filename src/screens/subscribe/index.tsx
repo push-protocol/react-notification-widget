@@ -161,7 +161,10 @@ export const Subscribe = () => {
                 />
               </>
             ) : (
-              <ConnectWalletButtons onConnect={handleSubscribe} />
+              <>
+                <ConnectWalletButtons />
+                <Notice mt={0.5} text={'Connect your wallet to approve'} />
+              </>
             )}
             {(error || !channelAddress) && (
               <Text color={theme.w.colors.error.main} align="center">
