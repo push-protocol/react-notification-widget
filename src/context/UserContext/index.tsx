@@ -1,4 +1,5 @@
 import React, { createContext, ReactNode, useContext, useEffect, useState } from 'react';
+import { useEnsName } from 'wagmi';
 import { useEnvironment } from '../EnvironmentContext';
 import { useChannelContext } from '../ChannelContext';
 import { useAuthContext } from '../AuthContext';
@@ -12,6 +13,7 @@ const UserContexts = createContext<UserContext>({} as any);
 export const UserProvider = ({ children, isOpen }: { children: ReactNode; isOpen?: boolean }) => {
   const { isLoggedIn, loggedInAddress } = useAuthContext(); // requires the actual account that was used to sign the auth msg, not the connected wallet
   const { address: userAddress } = useAccountContext();
+  const { data: userEns } = useEnsName({ address: userAddress });
   const { epnsEnv } = useEnvironment();
   const { channelAddress, chainId } = useChannelContext();
 
@@ -98,6 +100,7 @@ export const UserProvider = ({ children, isOpen }: { children: ReactNode; isOpen
         setUserCommsChannelsPollInterval,
         userCommsChannelsPollInterval,
         notifications,
+        userEns,
         userAddress,
       }}
     >

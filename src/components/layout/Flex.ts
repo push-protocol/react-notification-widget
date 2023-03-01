@@ -1,9 +1,10 @@
-import styled from 'styled-components';
+import styled, { DefaultTheme } from 'styled-components';
 import { conditionalRenderProp, genSpaces, valToPx } from '../utils';
 import { Paddings, Margins } from '../types';
 
 export type FlexProps = {
   height?: string | number;
+  br?: keyof DefaultTheme['w']['borderRadius'];
   width?: string | number;
   direction?: 'column' | 'row';
   gap?: number | string;
@@ -14,9 +15,10 @@ export type FlexProps = {
   Margins;
 
 const Flex = styled.div<FlexProps>`
-  ${({ theme, direction, height, width, gap, justifyContent, alignItems, bg, ...rest }) => `
+  ${({ theme, direction, height, width, br, gap, justifyContent, alignItems, bg, ...rest }) => `
     display: flex;
     ${conditionalRenderProp('background-color', bg)};
+    ${conditionalRenderProp('border-radius', br ? theme.w.borderRadius[br] : undefined)};
     ${conditionalRenderProp('height', valToPx(height))};
     ${conditionalRenderProp('width', valToPx(width))};
     ${conditionalRenderProp('flex-direction', direction)};

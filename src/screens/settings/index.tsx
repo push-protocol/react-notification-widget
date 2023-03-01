@@ -1,103 +1,35 @@
 import React, { useState } from 'react';
-import { PersonFill as PersonIcon } from '@styled-icons/octicons';
-import useIsWrongNetwork from '../../hooks/useIsWrongNetwork';
-import NavbarActions from '../../screens/settings/components/NavbarActions';
-import SettingsHeader from '../../screens/settings/components/SettingsHeader';
-import { useUnsubscribeMutation } from './operations.generated';
-import { MessagingApp } from 'global/types.generated';
+import { useEnvironment } from '../../context/EnvironmentContext';
+import NavbarActions from './components/NavbarActions';
+import SettingsHeader from './components/SettingsHeader';
+import SettingTabs from './components/SettingTabs';
+import { SettingsTabNames } from './types';
+import PassportTab from './components/PassportTab';
+import DiscoverTab from './components/DiscoverTab';
 import { useChannelContext } from 'context/ChannelContext';
-import { useAuthContext } from 'context/AuthContext';
-import { useEnvironment } from 'context/EnvironmentContext';
-import { useUserContext } from 'context/UserContext';
-import { Web2Apps } from 'context/UserContext/const';
-import Preferences from 'components/Preferences';
-import ConnectApps from 'components/ConnectApps';
 import Flex from 'components/layout/Flex';
-import Button from 'components/Button';
 import { Screen } from 'components/layout/Screen';
-import WrongNetworkError from 'components/Errors/WrongNetworkError';
-import Text from 'components/Text';
-import Dropdown from 'components/Dropdown';
 
 export const Settings = () => {
+  const { icon } = useChannelContext();
   const { isSubscribeOnlyMode } = useEnvironment();
-  const { userCommsChannels } = useUserContext();
-  const { icon, discordGuildUrl, messageCategories } = useChannelContext();
-  const { unsubscribe: signUnsubscribeMsg, logout, discordToken } = useAuthContext();
-  const isWrongNetwork = useIsWrongNetwork();
 
-  const [unsubscribe] = useUnsubscribeMutation();
+  const [activeTab, setActiveTab] = useState(SettingsTabNames.Passport);
 
-  const [isLoading, setIsLoading] = useState(false);
-  const [accountMenuOpen, setAccountMenuOpen] = useState(false);
-
-  const appConfig = Web2Apps.map((app) => ({
-    app,
-    enabled: userCommsChannels?.[app.toLowerCase() as Lowercase<typeof Web2Apps[0]>]
-      ?.exists as boolean,
-    available:
-      app === MessagingApp.Discord
-        ? (!!discordGuildUrl && discordToken) || userCommsChannels?.discord.exists
-        : true,
-  })).filter((app) => app.available);
-
-  const handleUnsubscribe = async () => {
-    setIsLoading(true);
-
-    try {
-      await signUnsubscribeMsg();
-      await unsubscribe();
-    } finally {
-      setIsLoading(false);
-    }
+  const tabMap = {
+    [SettingsTabNames.Discover]: <DiscoverTab />,
+    [SettingsTabNames.Passport]: <PassportTab />,
   };
 
-  const apps = appConfig.map((config) => config.app);
-  const [appOpen, setAppOpen] = useState<MessagingApp | undefined>();
-
   return (
-    <Screen navbarActionComponent={!isSubscribeOnlyMode ? <NavbarActions /> : undefined} mb={1}>
-      <Flex mt={!isSubscribeOnlyMode ? -5 : 0} mb={2}>
+    <Screen navbarActionComponent={<NavbarActions />} mb={1}>
+      <Flex mt={-5} mb={2}>
         <SettingsHeader icon={icon} />
       </Flex>
-      {!!messageCategories.length && (
-        <Preferences
-          hideChannelInfo
-          hideDescriptions
-          appConfig={appConfig}
-          onDisabledAppClick={setAppOpen}
-        />
-      )}
 
-      <ConnectApps apps={apps} appOpen={appOpen} setAppOpen={setAppOpen} />
+      {isSubscribeOnlyMode && <SettingTabs selectedTab={activeTab} onTabSwitch={setActiveTab} />}
 
-      <Flex mt={1} mb={1} width={'100%'}>
-        <Dropdown
-          open={accountMenuOpen}
-          toggleOpen={() => setAccountMenuOpen(!accountMenuOpen)}
-          title={'Account'}
-          icon={<PersonIcon />}
-        >
-          <Flex width={'100%'} direction={'column'} gap={2}>
-            <Text>Sign a message with your wallet to unsubscribe from all communication</Text>
-            <Button
-              disabled={isWrongNetwork}
-              isLoading={isLoading}
-              variant={'gray'}
-              onClick={handleUnsubscribe}
-            >
-              Unsubscribe
-            </Button>
-            {isWrongNetwork && <WrongNetworkError action={'unsubscribe'} />}
-          </Flex>
-        </Dropdown>
-      </Flex>
-
-      {isSubscribeOnlyMode && (
-        <Button mt={1} mb={2} variant={'gray'} onClick={logout}>
-          Disconnect Wallet
-        </Button>
-      )}
+      {tabMap[activeTab]}
     </Screen>
   );
 };

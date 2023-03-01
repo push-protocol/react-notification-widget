@@ -4,18 +4,20 @@ import { mode } from '../../theme';
 import PreferencesHeader from '../Preferences/components/PreferencesHeader';
 import PreferenceCategoryItem from '../Preferences/components/PreferenceCategoryItem';
 import Flex from '../layout/Flex';
+import { useEnvironment } from '../../context/EnvironmentContext';
 import { MessagingApp } from 'global/types.generated';
 import { useUserContext } from 'context/UserContext';
 import { useChannelContext } from 'context/ChannelContext';
 
-const PreferencesContainer = styled.div`
+const PreferencesContainer = styled.div<{ hideBorder: boolean }>`
   width: 100%;
-  margin-bottom: 16px;
   background: ${({ theme }) => mode(theme.w.colors.dark[10], undefined)};
-  padding: ${({ theme }) => theme.w.spacing(1)}px;
   border-radius: ${({ theme }) => theme.w.borderRadius.md};
-  border: 1px solid ${({ theme }) => mode(theme.w.colors.light[10], theme.w.colors.dark[10])};
+  padding: ${({ hideBorder }) => (hideBorder ? 0 : '16px 8px 8px 0')};
   box-sizing: border-box;
+  border: 1px solid
+    ${({ theme, hideBorder }) =>
+      hideBorder ? 'transparent' : mode(theme.w.colors.light[10], theme.w.colors.dark[10])};
 `;
 
 export type MessagingAppConfig = { enabled: boolean; app: MessagingApp };
@@ -30,10 +32,11 @@ type PropsT = {
 
 const Preferences = (props: PropsT) => {
   const { user } = useUserContext();
+  const { isSubscribeOnlyMode } = useEnvironment();
   const { messageCategories } = useChannelContext();
 
   return (
-    <PreferencesContainer>
+    <PreferencesContainer hideBorder={isSubscribeOnlyMode}>
       <PreferencesHeader {...props} />
       <Flex direction={'column'} gap={props.hideDescriptions ? 1 : 2}>
         {messageCategories.map((category) => (

@@ -1,5 +1,5 @@
 import React, { ReactElement } from 'react';
-import Flex from '../layout/Flex';
+import Flex, { FlexProps } from '../layout/Flex';
 import { DiscordConnector } from './components/discord';
 import { EmailConnector } from './components/email';
 import { TelegramConnector } from './components/telegram';
@@ -9,11 +9,12 @@ const ConnectApps = ({
   apps,
   appOpen,
   setAppOpen,
+  ...flexProps
 }: {
   apps: MessagingApp[];
   appOpen?: MessagingApp;
   setAppOpen: (open?: MessagingApp) => void;
-}) => {
+} & FlexProps) => {
   const toggleChannelOpen = (channel: MessagingApp) => {
     appOpen === channel ? setAppOpen(undefined) : setAppOpen(channel);
   };
@@ -43,7 +44,7 @@ const ConnectApps = ({
   };
 
   return (
-    <Flex gap={1} width={'100%'} direction={'column'}>
+    <Flex gap={1} width={'100%'} direction={'column'} {...flexProps}>
       {apps.map((app) => appConnectors[app])}
     </Flex>
   );

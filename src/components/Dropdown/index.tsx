@@ -4,24 +4,29 @@ import Spinner from '../Spinner';
 import Flex from '../layout/Flex';
 import Text from '../Text';
 import { ArrowRight } from '../icons';
+import { mode } from '../../theme';
 
 const Container = styled(Flex)<{ open?: boolean }>`
   width: 100%;
   border-radius: ${({ theme }) => theme.w.borderRadius.md};
-  background: ${({ theme, open }) => (open ? theme.w.colors.dark['10'] : 'unset')};
+  background: ${({ theme, open }) =>
+    open ? mode(theme.w.colors.dark['10'], theme.w.colors.light['10']) : 'unset'};
   border: ${({ theme, open }) =>
     open ? `1px solid ${theme.w.colors.light['10']}` : '1px solid transparent'};
   transition: all 0.2s ease-in-out;
-  :hover {
-    background: ${({ theme }) => theme.w.colors.dark['10']};
-  }
 `;
 
 const Header = styled(Flex)`
   padding: 8px;
+  border-radius: ${({ theme }) => theme.w.borderRadius.md};
   cursor: pointer;
+  transition: all 0.2s ease-in-out;
+
   background: transparent;
   justify-content: space-between;
+  :hover {
+    background: ${({ theme }) => mode(theme.w.colors.light['10'], theme.w.colors.dark['10'])};
+  }
 `;
 
 const HeaderInfo = styled(Flex)`
@@ -47,21 +52,17 @@ const IconContainer = styled(Flex)`
   color: ${({ theme }) => theme.w.colors.text.primary};
 `;
 
-const openDropdown = keyframes`
-  0%   { max-height: 0; }
-  100% { max-height: 500px; }
-`;
-
 const Content = styled(Flex)<{ open?: boolean }>`
-  padding: 8px 8px 12px 8px;
-  background: transparent;
-  max-height: 500px;
   overflow: hidden;
-  animation: ${openDropdown} 1s linear;
+  transition: opacity 0.3s ease-out, max-height 0.4s ease-out, padding 0.2s linear;
+  ${({ open }) =>
+    open
+      ? { maxHeight: 500, padding: '8px 8px 12px 8px', opacity: 1 }
+      : { maxHeight: 0, opacity: 0, padding: 0 }}
 `;
 
 type SettingsItemProps = {
-  icon: ReactNode;
+  icon: ReactNode | string;
   title: string;
   children: ReactNode;
   open: boolean;
@@ -104,7 +105,11 @@ const Dropdown = ({
           <DropdownIcon open={open}>
             <ArrowRight />
           </DropdownIcon>
-          <IconContainer>{icon}</IconContainer>
+          {typeof icon === 'string' ? (
+            <img src={icon} width={24} height={24} style={{ borderRadius: 25 }} />
+          ) : (
+            <IconContainer>{icon}</IconContainer>
+          )}
           <Text size={'lg'} weight={600}>
             {title}
           </Text>
@@ -119,7 +124,7 @@ const Dropdown = ({
           )
         )}
       </Header>
-      {open && <Content>{children}</Content>}
+      <Content open={open}>{children}</Content>
       <span ref={ref} />
     </Container>
   );

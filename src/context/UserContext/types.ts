@@ -20,6 +20,7 @@ export type UserContext = {
   userCommsChannelsPollInterval: number;
   isLoading: boolean;
   userAddress?: `0x${string}`;
+  userEns?: string | null;
   feedOpen: boolean;
   setFeedOpen: (isOpen: boolean) => void;
 };

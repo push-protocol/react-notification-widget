@@ -40,6 +40,8 @@ export default function useWagmiClient(provider?: ExternalProvider) {
           chains,
           options: {
             qrcode: true,
+            name: 'Wherever',
+            projectId: '8702507d2e8fbe25563c45434f74cfe3',
           },
         }),
         new MetaMaskConnector({

@@ -1,5 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useEnsName } from 'wagmi';
+import { useUserContext } from '../../../context/UserContext';
+import trimString from '../../../helpers/functions/trimString';
+import formatAddress from '../../../helpers/functions/formatAddress';
 import { useChannelContext } from 'context/ChannelContext';
 import { useEnvironment } from 'context/EnvironmentContext';
 import Text from 'components/Text';
@@ -25,7 +29,8 @@ const HeaderImage = styled.img`
 `;
 
 const SettingsHeader = ({ icon }: { icon: string }) => {
-  const { name } = useChannelContext();
+  const { userAddress, userEns } = useUserContext();
+
   const { isSubscribeOnlyMode } = useEnvironment();
 
   return (
@@ -34,9 +39,8 @@ const SettingsHeader = ({ icon }: { icon: string }) => {
         <HeaderImage src={icon} alt={'channel icon'} />
       </HeaderIconContainer>
       <PageTitle mb={1} align={'center'}>
-        {isSubscribeOnlyMode ? name : 'Notification Settings'}
+        {isSubscribeOnlyMode ? userEns || formatAddress(userAddress) : 'Notification Settings'}
       </PageTitle>
-      {isSubscribeOnlyMode && <Text>Notification Settings</Text>}
     </Flex>
   );
 };

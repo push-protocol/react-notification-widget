@@ -1,5 +1,5 @@
 import React, { useMemo, useState, useRef } from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import InfiniteScroll from 'react-infinite-scroller';
 import FeedNavigation, { NavigationTabs } from '../../screens/feed/components/FeedNavigation';
 import EmptyState from './components/EmptyState';
@@ -36,14 +36,26 @@ const NotificationFeed = styled(Flex)`
   }
 `;
 
+const spin = keyframes`
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(180deg);
+    transform: rotate(180deg);
+  }
+`;
+
 const SettingsIcon = styled.div`
   width: 20px;
   height: 20px;
   display: flex;
-  color: ${({ theme }) => theme.w.colors.gray[100]};
+  color: ${({ theme }) => theme.w.colors.text.secondary};
   cursor: pointer;
+  transition: all 0.2s ease-in;
   &:hover {
-    color: ${({ theme }) => theme.w.colors.gray[200]};
+    animation: ${spin} 0.5s ease-in;
   }
 `;
 
