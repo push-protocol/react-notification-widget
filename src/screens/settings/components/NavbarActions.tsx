@@ -1,7 +1,8 @@
 import React from 'react';
 import styled, { useTheme, keyframes } from 'styled-components';
-import { Bell } from '../../../components/icons';
-import Flex from '../../../components/layout/Flex';
+import { Bell } from 'components/icons';
+import Flex from 'components/layout/Flex';
+import { useUserContext } from 'context/UserContext';
 import { Routes, useRouterContext } from 'context/RouterContext';
 
 const spin = keyframes`
@@ -36,14 +37,16 @@ const IconWrapper = styled(Flex)`
 
 const NavbarActions = () => {
   const { setRoute } = useRouterContext();
+  const { setUserCommsChannelsPollInterval } = useUserContext();
   const theme = useTheme();
 
-  const handleGoBack = () => {
+  const handleGoToFeed = () => {
+    setUserCommsChannelsPollInterval(0);
     setRoute(Routes.NotificationsFeed);
   };
 
   return (
-    <IconWrapper onClick={handleGoBack}>
+    <IconWrapper onClick={handleGoToFeed}>
       <Bell color={theme.w.colors.text.secondary} />
     </IconWrapper>
   );

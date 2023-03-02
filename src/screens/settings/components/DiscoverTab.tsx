@@ -1,76 +1,99 @@
 import { useTheme } from 'styled-components';
-import { Users } from '../../../components/icons';
+import { useChannelsDiscoveryQuery, ChannelsDiscoveryQuery } from '../operations.generated';
+import { Users } from 'components/icons';
+import Spinner from 'components/Spinner';
 import Flex from 'components/layout/Flex';
 import { mode } from 'theme';
 import Button from 'components/Button';
 import Text from 'components/Text';
 
-const channels = [
-  {
-    icon: 'https://avatars.githubusercontent.com/u/102358895?s=200&v=4',
-    name: 'EPNS',
-    description: 'Lorem ipsum description of the kings really good to  know about this channel',
-    subCount: '12',
-    isSubscribed: false,
-  },
-  {
-    icon: 'https://pbs.twimg.com/profile_images/1526963356799668224/C64XFkk4_400x400.jpg',
-    name: 'AAVE',
-    description: 'Lorem ipsum description of the kings really good to  know about this channel',
-    subCount: '12',
-    isSubscribed: false,
-  },
-  {
-    icon: '',
-    name: 'UNI',
-    description: 'Lorem ipsum description of the kings really good to  know about this channel',
-    subCount: '12',
-    isSubscribed: false,
-  },
-  {
-    icon: '',
-    name: 'Snapshot',
-    description: 'Lorem ipsum description of the kings really good to  know about this channel',
-    subCount: '12',
-    isSubscribed: false,
-  },
-];
+type PropsT = {
+  subscriptions: string[];
+  addSubscription: (addr: string) => void;
+  addSubscriptionLoading?: string;
+};
 
-const DiscoverTab = () => {
+const DiscoverTab = ({ addSubscription, subscriptions, addSubscriptionLoading }: PropsT) => {
   const {
     w: { colors },
   } = useTheme();
 
+  const { data, loading } = useChannelsDiscoveryQuery();
+
+  if (loading) {
+    return (
+      <Flex height={300} alignItems={'center'} justifyContent={'center'}>
+        <Spinner />
+      </Flex>
+    );
+  }
+
+  const channels = data?.commsChannelDiscover as ChannelsDiscoveryQuery['commsChannelDiscover'];
+
   return (
     <Flex direction={'column'} gap={2}>
-      {channels.map((channel) => (
-        <Flex
-          alignItems={'center'}
-          br={'md'}
-          gap={2}
-          key={channel.name}
-          p={2}
-          bg={mode(colors.light[10], colors.dark[10])}
-        >
-          <img src={channel.icon} width={40} height={40} style={{ borderRadius: 15 }} />
-          <Flex direction={'column'}>
-            <Text>{channel.name}</Text>
-            <Text>{channel.description}</Text>
-          </Flex>
-          <Flex direction={'column'} alignItems={'center'}>
-            <Flex alignItems={'center'} gap={0.5}>
-              <Flex height={24} width={24}>
-                <Users color={colors.text.secondary} />
-              </Flex>
-              <Text color={'secondary'}>{channel.subCount}K</Text>
-            </Flex>
+      {channels.map((channel) => {
+        const subCount = getSubCount(channel.subscriberCount);
+        const subCountText = subCount?.thousands ? `${subCount.count}K` : '< 1K';
 
-            <Button>Subscribe</Button>
+        return (
+          <Flex
+            alignItems={'center'}
+            justifyContent={'space-between'}
+            br={'md'}
+            gap={1}
+            key={channel.name}
+            pl={1}
+            pr={1}
+            pb={2}
+            pt={2}
+            bg={mode(colors.light[10], colors.dark[10])}
+          >
+            {channel.icon ? (
+              <Flex mr={1} width={45}>
+                <img src={channel.icon} width={40} height={40} style={{ borderRadius: 15 }} />
+              </Flex>
+            ) : (
+              <Flex width={40} height={40} alignItems={'center'} justifyContent={'center'}>
+                🏛
+              </Flex>
+            )}
+            <Flex style={{ flexGrow: 1 }} direction={'column'}>
+              <Text>
+                <strong>{channel.name}</strong>
+              </Text>
+              <Text>{channel.description}</Text>
+            </Flex>
+            <Flex direction={'column'} alignItems={'center'}>
+              <Flex alignItems={'center'} gap={0.5}>
+                <Flex height={24} width={24}>
+                  <Users color={colors.text.secondary} />
+                </Flex>
+                <Text color={'secondary'}>{subCountText}</Text>
+              </Flex>
+
+              {subscriptions.includes(channel.address.toLowerCase()) ? (
+                <Button disabled>Subscribed✓</Button>
+              ) : (
+                <Button
+                  isLoading={channel.address.toLowerCase() === addSubscriptionLoading}
+                  onClick={() => addSubscription(channel.address)}
+                >
+                  Subscribe
+                </Button>
+              )}
+            </Flex>
           </Flex>
-        </Flex>
-      ))}
+        );
+      })}
     </Flex>
   );
+};
+
+const getSubCount = (count: null | number = 0) => {
+  if (!count) return { count: 0 };
+
+  return count / 1000 > 1 ? { thousands: true, count: Math.floor(count / 1000) } : { count };
 };
 
 export default DiscoverTab;

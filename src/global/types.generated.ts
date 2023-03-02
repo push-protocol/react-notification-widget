@@ -41,6 +41,32 @@ export type BatchActionResponse = {
   count: Scalars['Float'];
 };
 
+export type ChannelForUser = {
+  __typename?: 'ChannelForUser';
+  channelAddress: Scalars['String'];
+  icon: Scalars['String'];
+  name: Scalars['String'];
+  processed: Scalars['Boolean'];
+  type: ChannelForUserType;
+};
+
+export enum ChannelForUserType {
+  Delegate = 'DELEGATE',
+  Messenger = 'MESSENGER',
+  Owner = 'OWNER'
+}
+
+export enum ChannelUserRole {
+  Messenger = 'MESSENGER',
+  Owner = 'OWNER',
+  Subscriber = 'SUBSCRIBER'
+}
+
+export type ChannelsForUserInput = {
+  chainId: Scalars['Float'];
+  userAddress: Scalars['String'];
+};
+
 export type CommsChannel = {
   __typename?: 'CommsChannel';
   analytics: CommsChannelAnalytics;
@@ -57,6 +83,7 @@ export type CommsChannel = {
   logo?: Maybe<Scalars['String']>;
   name: Scalars['String'];
   partnerApiKey: Scalars['String'];
+  slug?: Maybe<Scalars['String']>;
   subscribers: Array<CommsChannelSubscriber>;
   type: CommsChannelType;
   updatedAt: Scalars['DateTime'];
@@ -70,17 +97,6 @@ export type CommsChannelAnalytics = {
 
 export type CommsChannelAnalyticsSubscribersArgs = {
   range: AnalyticsRangeInput;
-};
-
-export type CommsChannelSettings = {
-  __typename?: 'CommsChannelSettings';
-  commsChannelId: Scalars['String'];
-  id: Scalars['String'];
-  userAddressActivity?: Maybe<Scalars['Boolean']>;
-};
-
-export type CommsChannelSettingsUpdateInput = {
-  userAddressActivity?: InputMaybe<Scalars['Boolean']>;
 };
 
 export type CommsChannelStats = {
@@ -118,6 +134,8 @@ export type CommsChannelTag = {
   id: Scalars['String'];
   name: Scalars['String'];
   optIns: CommsChannelTagOptInsPayload;
+  order: Scalars['Int'];
+  subtype: CommsChannelTagSubtype;
   type: CommsChannelTagType;
   updatedAt: Scalars['DateTime'];
 };
@@ -125,6 +143,8 @@ export type CommsChannelTag = {
 export type CommsChannelTagCreateInput = {
   description?: InputMaybe<Scalars['String']>;
   name: Scalars['String'];
+  order: Scalars['Float'];
+  subtype: CommsChannelTagSubtype;
   type: CommsChannelTagType;
 };
 
@@ -137,6 +157,15 @@ export type CommsChannelTagOptInsPayload = {
   count: Scalars['Float'];
 };
 
+export type CommsChannelTagReorderInput = {
+  ids: Array<Scalars['String']>;
+};
+
+export enum CommsChannelTagSubtype {
+  Channel = 'CHANNEL',
+  TokenReceived = 'TOKEN_RECEIVED'
+}
+
 export enum CommsChannelTagType {
   MessageCategory = 'MESSAGE_CATEGORY'
 }
@@ -145,12 +174,29 @@ export type CommsChannelTagUpdateInput = {
   description?: InputMaybe<Scalars['String']>;
   id: Scalars['String'];
   name: Scalars['String'];
-  type: CommsChannelTagType;
 };
 
 export enum CommsChannelType {
   Epns = 'EPNS'
 }
+
+export type CommsChannelUserCreateInput = {
+  role?: InputMaybe<ChannelUserRole>;
+  userAddress: Scalars['String'];
+};
+
+export type CommsChannelUsersInput = {
+  roles: Array<ChannelUserRole>;
+};
+
+export type CommsChannelsOnUsers = {
+  __typename?: 'CommsChannelsOnUsers';
+  commsChannelId: Scalars['String'];
+  createdAt: Scalars['DateTime'];
+  id: Scalars['String'];
+  role: ChannelUserRole;
+  userAddress: Scalars['String'];
+};
 
 export type ContractTrigger = {
   __typename?: 'ContractTrigger';
@@ -274,10 +320,12 @@ export enum MessagingApp {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  commsChannelSettingsUpdate: CommsChannelSettings;
   commsChannelTagCreate: CommsChannelTag;
   commsChannelTagDelete: GeneralResolverResponse;
+  commsChannelTagReorder: Array<CommsChannelTag>;
   commsChannelTagUpdate: CommsChannelTag;
+  commsChannelUserCreate: CommsChannelsOnUsers;
+  commsChannelUserDelete: GeneralResolverResponse;
   emailUnsubscribe: GeneralResolverResponse;
   incomingWebhookCreate: IncomingWebhook;
   incomingWebhookDelete: GeneralResolverResponse;
@@ -289,23 +337,17 @@ export type Mutation = {
   telegramVerificationLinkGenerate: UserTelegramVerificationLinkPayload;
   userCommunicationsChannelDelete: GeneralResolverResponse;
   userDiscordVerify: GeneralResolverResponse;
-  userEmailDelete: GeneralResolverResponse;
   userEmailUpdate: GeneralResolverResponse;
   userEmailValidate: GeneralResolverResponse;
   userLogin: UserLoginPayload;
   userPreferencesUpdate?: Maybe<UserPreference>;
   userSubscribeToChannel: User;
-  userTelegramDelete: GeneralResolverResponse;
+  userSubscribeToDiscoveredChannel: UserSubscription;
   userUnsubscribeFromChannel: User;
   userUpdateLastReadAt: User;
   workflowCreate: Workflow;
   workflowDelete: BatchActionResponse;
   workflowUpdate: Workflow;
-};
-
-
-export type MutationCommsChannelSettingsUpdateArgs = {
-  input: CommsChannelSettingsUpdateInput;
 };
 
 
@@ -319,8 +361,23 @@ export type MutationCommsChannelTagDeleteArgs = {
 };
 
 
+export type MutationCommsChannelTagReorderArgs = {
+  input: CommsChannelTagReorderInput;
+};
+
+
 export type MutationCommsChannelTagUpdateArgs = {
   input: CommsChannelTagUpdateInput;
+};
+
+
+export type MutationCommsChannelUserCreateArgs = {
+  input: CommsChannelUserCreateInput;
+};
+
+
+export type MutationCommsChannelUserDeleteArgs = {
+  input: CommsChannelUserCreateInput;
 };
 
 
@@ -399,6 +456,16 @@ export type MutationUserSubscribeToChannelArgs = {
 };
 
 
+export type MutationUserSubscribeToDiscoveredChannelArgs = {
+  input: UserSubscribeToDiscoveredChannelInput;
+};
+
+
+export type MutationUserUnsubscribeFromChannelArgs = {
+  input?: InputMaybe<UserUnsubscribeFromChannelInput>;
+};
+
+
 export type MutationWorkflowCreateArgs = {
   input: WorkflowCreateInput;
 };
@@ -434,10 +501,13 @@ export type PartnerInfo = {
   logo?: Maybe<Scalars['String']>;
   messageCategories: Array<CommsChannelTag>;
   name: Scalars['String'];
+  partnerApiKey: Scalars['String'];
+  slug?: Maybe<Scalars['String']>;
 };
 
 export type PartnerInfoInput = {
-  partnerApiKey: Scalars['String'];
+  partnerApiKey?: InputMaybe<Scalars['String']>;
+  slug?: InputMaybe<Scalars['String']>;
 };
 
 export type ProjectToken = {
@@ -455,16 +525,29 @@ export type ProjectTokenSaveInput = {
 
 export type Query = {
   __typename?: 'Query';
+  channelsForUser: Array<ChannelForUser>;
   commsChannel: CommsChannel;
-  commsChannelSettings?: Maybe<CommsChannelSettings>;
+  commsChannelDiscover: Array<UserDiscoverChannel>;
   commsChannelTags: Array<CommsChannelTag>;
+  commsChannelUsers: Array<CommsChannelsOnUsers>;
   incomingWebhooks: Array<IncomingWebhook>;
   me: User;
   partnerInfo: PartnerInfo;
   projectToken?: Maybe<ProjectToken>;
   user: User;
   userCommunicationChannels: UserCommunicationChannelsPayload;
+  userSubscriptions: Array<UserSubscription>;
   workflows: Array<Workflow>;
+};
+
+
+export type QueryChannelsForUserArgs = {
+  input: ChannelsForUserInput;
+};
+
+
+export type QueryCommsChannelUsersArgs = {
+  input: CommsChannelUsersInput;
 };
 
 
@@ -492,12 +575,31 @@ export type RefreshTokenPayload = {
   token: Scalars['String'];
 };
 
+export type SnapshotTrigger = {
+  __typename?: 'SnapshotTrigger';
+  event: SnapshotTriggerEvent;
+  id: Scalars['String'];
+  space: Scalars['String'];
+  triggerId: Scalars['String'];
+};
+
+export enum SnapshotTriggerEvent {
+  ProposalCreated = 'PROPOSAL_CREATED',
+  ProposalDeleted = 'PROPOSAL_DELETED',
+  ProposalEnded = 'PROPOSAL_ENDED',
+  ProposalEndsIn_1 = 'PROPOSAL_ENDS_IN_1',
+  ProposalEndsIn_12 = 'PROPOSAL_ENDS_IN_12',
+  ProposalEndsIn_24 = 'PROPOSAL_ENDS_IN_24',
+  ProposalStarted = 'PROPOSAL_STARTED'
+}
+
 export type Trigger = {
   __typename?: 'Trigger';
   contract?: Maybe<ContractTrigger>;
   id: Scalars['String'];
   incomingWebhook?: Maybe<IncomingWebhook>;
   incomingWebhookId?: Maybe<Scalars['String']>;
+  snapshot?: Maybe<SnapshotTrigger>;
   type: TriggerType;
   updatedAt: Scalars['DateTime'];
   workflowId: Scalars['String'];
@@ -506,12 +608,12 @@ export type Trigger = {
 export enum TriggerType {
   ContractCall = 'CONTRACT_CALL',
   IncomingWebhook = 'INCOMING_WEBHOOK',
-  NewSubscriber = 'NEW_SUBSCRIBER'
+  NewSubscriber = 'NEW_SUBSCRIBER',
+  SnapshotEvent = 'SNAPSHOT_EVENT'
 }
 
 export type User = {
   __typename?: 'User';
-  addressActivityChannel?: Maybe<Scalars['String']>;
   createdAt: Scalars['DateTime'];
   discordId?: Maybe<Scalars['String']>;
   discordUsername?: Maybe<Scalars['String']>;
@@ -519,7 +621,8 @@ export type User = {
   id: Scalars['String'];
   lastReadAt: Scalars['DateTime'];
   preferences: Array<UserPreference>;
-  telegramId?: Maybe<Scalars['Int']>;
+  subscriptions: Array<UserSubscription>;
+  telegramId?: Maybe<Scalars['String']>;
   telegramUsername?: Maybe<Scalars['String']>;
   updatedAt: Scalars['DateTime'];
   walletAddress: Scalars['String'];
@@ -547,6 +650,17 @@ export type UserDiscordVerifyInput = {
   token: Scalars['String'];
 };
 
+export type UserDiscoverChannel = {
+  __typename?: 'UserDiscoverChannel';
+  address: Scalars['String'];
+  description?: Maybe<Scalars['String']>;
+  icon?: Maybe<Scalars['String']>;
+  id: Scalars['Float'];
+  name: Scalars['String'];
+  subscriberCount?: Maybe<Scalars['Float']>;
+  url?: Maybe<Scalars['String']>;
+};
+
 export type UserEmailUpdateInput = {
   email: Scalars['String'];
 };
@@ -566,7 +680,9 @@ export type UserLoginInput = {
 export type UserLoginPayload = {
   __typename?: 'UserLoginPayload';
   refreshToken: Scalars['String'];
+  refreshTokenExpiresAt: Scalars['DateTime'];
   token: Scalars['String'];
+  tokenExpiresAt: Scalars['DateTime'];
   user: User;
 };
 
@@ -597,9 +713,41 @@ export type UserSubscribeToChannelInput = {
   source?: InputMaybe<UserSubscribeSource>;
 };
 
+export type UserSubscribeToDiscoveredChannelInput = {
+  chainId: Scalars['Float'];
+  channelAddress: Scalars['String'];
+};
+
+export type UserSubscription = {
+  __typename?: 'UserSubscription';
+  address: Scalars['String'];
+  chainId: Scalars['Float'];
+  commsChannelTags?: Maybe<Array<UserSubscriptionChannelTag>>;
+  icon?: Maybe<Scalars['String']>;
+  id: Scalars['String'];
+  name: Scalars['String'];
+  source: UserSubscriptionSource;
+};
+
+export type UserSubscriptionChannelTag = {
+  __typename?: 'UserSubscriptionChannelTag';
+  name: Scalars['String'];
+  userPreferences: Array<UserPreference>;
+};
+
+export enum UserSubscriptionSource {
+  Push = 'Push',
+  Wherever = 'Wherever'
+}
+
 export type UserTelegramVerificationLinkPayload = {
   __typename?: 'UserTelegramVerificationLinkPayload';
   link: Scalars['String'];
+};
+
+export type UserUnsubscribeFromChannelInput = {
+  chainId?: InputMaybe<Scalars['Float']>;
+  channelAddress?: InputMaybe<Scalars['String']>;
 };
 
 export type Workflow = {
@@ -647,7 +795,13 @@ export type WorkflowCreateMessageInput = {
 export type WorkflowCreateTriggerInput = {
   contract?: InputMaybe<ContractTriggerInput>;
   incomingWebhookId?: InputMaybe<Scalars['String']>;
-  type: Scalars['String'];
+  snapshot?: InputMaybe<WorkflowCreateTriggerSnapshotInput>;
+  type: TriggerType;
+};
+
+export type WorkflowCreateTriggerSnapshotInput = {
+  event: SnapshotTriggerEvent;
+  space: Scalars['String'];
 };
 
 export type WorkflowDeleteInput = {

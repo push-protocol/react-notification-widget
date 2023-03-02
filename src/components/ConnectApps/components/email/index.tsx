@@ -35,7 +35,7 @@ export const EmailConnector = ({ open, toggleOpen }: EmailChannelProps) => {
     <Dropdown
       title={'Email'}
       icon={<EmailIcon />}
-      open={open}
+      isOpen={open}
       toggleOpen={toggleOpen}
       isConnected={!!isConnected}
     >

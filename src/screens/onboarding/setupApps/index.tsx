@@ -27,7 +27,7 @@ export const SetupApps = (props: { appsToConnect: MessagingApp[] }) => {
   const { setIsOnboarding, discordToken } = useAuthContext();
   const { setRoute } = useRouterContext();
   const { isSubscribeOnlyMode } = useEnvironment();
-  const { userCommsChannels } = useUserContext();
+  const { userCommsChannels, setUserCommsChannelsPollInterval } = useUserContext();
 
   const onFinish = () => {
     analytics.track('channels set up', {
@@ -36,6 +36,7 @@ export const SetupApps = (props: { appsToConnect: MessagingApp[] }) => {
       telegram: userCommsChannels?.telegram?.exists,
     });
 
+    setUserCommsChannelsPollInterval(0);
     setIsOnboarding(false);
     setRoute(isSubscribeOnlyMode ? Routes.SubscriptionFlowEnded : Routes.NotificationsFeed);
   };

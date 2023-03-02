@@ -1,5 +1,45 @@
-mutation Unsubscribe {
-    userUnsubscribeFromChannel {
+mutation Unsubscribe($input: UserUnsubscribeFromChannelInput) {
+    userUnsubscribeFromChannel(input: $input) {
         id
+    }
+}
+
+mutation SubscribeToDiscoveredChannel($input: UserSubscribeToDiscoveredChannelInput!) {
+    userSubscribeToDiscoveredChannel(input: $input) {
+        id
+        address
+    }
+}
+
+query GetUserSubscriptions {
+    userSubscriptions {
+        name
+        id
+        address
+        icon
+        source
+        commsChannelTags {
+            name
+            userPreferences {
+              id
+            commsChannelTagId
+                discord
+                email
+                enabled
+                telegram
+            }
+        }
+    }
+}
+
+query ChannelsDiscovery {
+    commsChannelDiscover {
+        id
+        subscriberCount
+        address
+        description
+        icon
+        name
+        url
     }
 }

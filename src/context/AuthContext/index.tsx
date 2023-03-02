@@ -18,8 +18,8 @@ import analytics from 'services/analytics';
 import authStorage from 'services/authStorage';
 
 export type AuthInfo = {
-  subscribe(): void;
-  unsubscribe(): void;
+  subscribe(channelAddress?: string): void;
+  unsubscribe(channelAddress?: string): void;
   isLoading: boolean;
   error: boolean;
   isLoggedIn?: boolean;
@@ -158,7 +158,7 @@ const AuthProvider = ({
     }
   }, [address]);
 
-  const toggleSubscription = async (action: 'sub' | 'unsub') => {
+  const toggleSubscription = async (action: 'sub' | 'unsub', subbedChannel?: string) => {
     setIsLoading(true);
     const params = {
       signer: {
@@ -168,7 +168,7 @@ const AuthProvider = ({
           message: EthTypedData['message']
         ) => signTypedData({ message, domain, types, primaryType: Object.keys(types)[0] }),
       } as any,
-      channelAddress: `eip155:${chainId}:${channelAddress}`,
+      channelAddress: `eip155:${chainId}:${subbedChannel || channelAddress}`,
       userAddress: `eip155:${chainId}:${address}`,
       env: isMainnnet(chainId) ? undefined : 'staging',
     };
@@ -181,14 +181,16 @@ const AuthProvider = ({
     setIsLoading(false);
 
     if (response.status == 'success') {
+      // if action is not related to logged in channel do nothing
+      if (subbedChannel) return;
       setIsSubscribed(action === 'sub');
     } else {
       throw `Wherever: error ${action}scribing to channel: ${response.message}`;
     }
   };
 
-  const subscribe = async () => toggleSubscription('sub');
-  const unsubscribe = async () => toggleSubscription('unsub');
+  const subscribe = async (address?: string) => toggleSubscription('sub', address);
+  const unsubscribe = async (address?: string) => toggleSubscription('unsub', address);
 
   return (
     <AuthContext.Provider

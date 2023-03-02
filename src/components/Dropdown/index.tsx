@@ -16,7 +16,7 @@ const Container = styled(Flex)<{ open?: boolean }>`
   transition: all 0.2s ease-in-out;
 `;
 
-const Header = styled(Flex)`
+const DropdownHeader = styled(Flex)`
   padding: 8px;
   border-radius: ${({ theme }) => theme.w.borderRadius.md};
   cursor: pointer;
@@ -65,7 +65,7 @@ type SettingsItemProps = {
   icon: ReactNode | string;
   title: string;
   children: ReactNode;
-  open: boolean;
+  isOpen: boolean;
   toggleOpen: () => void;
   isConnected?: boolean;
   isLoading?: boolean;
@@ -76,7 +76,7 @@ const Dropdown = ({
   isLoading,
   icon,
   title,
-  open,
+  isOpen,
   toggleOpen,
   isConnected,
 }: SettingsItemProps) => {
@@ -86,7 +86,7 @@ const Dropdown = ({
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      if (open && ref?.current) {
+      if (isOpen && ref?.current) {
         ref?.current.scrollIntoView({
           behavior: 'smooth',
           block: 'nearest',
@@ -96,13 +96,13 @@ const Dropdown = ({
     }, 200); // Needed because of app dropdown animation
 
     return () => clearTimeout(timer);
-  }, [open]);
+  }, [isOpen]);
 
   return (
-    <Container direction={'column'} open={open}>
-      <Header alignItems={'center'} onClick={toggleOpen}>
+    <Container direction={'column'} open={isOpen}>
+      <DropdownHeader alignItems={'center'} onClick={toggleOpen}>
         <HeaderInfo gap={1}>
-          <DropdownIcon open={open}>
+          <DropdownIcon open={isOpen}>
             <ArrowRight />
           </DropdownIcon>
           {typeof icon === 'string' ? (
@@ -123,8 +123,8 @@ const Dropdown = ({
             </Text>
           )
         )}
-      </Header>
-      <Content open={open}>{children}</Content>
+      </DropdownHeader>
+      <Content open={isOpen}>{children}</Content>
       <span ref={ref} />
     </Container>
   );

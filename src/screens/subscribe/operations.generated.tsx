@@ -1,7 +1,7 @@
-import * as Types from 'global/types.generated';
+import * as Types from '../../global/types.generated';
 
 import { gql } from '@apollo/client';
-import { UserInfoFragmentDoc } from 'context/UserContext/operations.generated';
+import { UserInfoFragmentDoc } from '../../context/UserContext/operations.generated';
 import * as ApolloReactCommon from '@apollo/client';
 import * as ApolloReactHooks from '@apollo/client';
 const defaultOptions = {} as const;

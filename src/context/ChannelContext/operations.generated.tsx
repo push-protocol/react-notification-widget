@@ -1,4 +1,4 @@
-import * as Types from 'global/types.generated';
+import * as Types from '../../global/types.generated';
 
 import { gql } from '@apollo/client';
 import * as ApolloReactCommon from '@apollo/client';
@@ -9,7 +9,7 @@ export type PartnerInfoQueryVariables = Types.Exact<{
 }>;
 
 
-export type PartnerInfoQuery = { __typename?: 'Query', partnerInfo: { __typename?: 'PartnerInfo', id: string, channelAddress: string, logo?: string | null, name: string, slug?: string, chainId: number, discordGuildUrl?: string | null, messageCategories: Array<{ __typename?: 'CommsChannelTag', id: string, name: string, description?: string | null }> } };
+export type PartnerInfoQuery = { __typename?: 'Query', partnerInfo: { __typename?: 'PartnerInfo', id: string, channelAddress: string, logo?: string | null, name: string, chainId: number, slug?: string | null, discordGuildUrl?: string | null, messageCategories: Array<{ __typename?: 'CommsChannelTag', id: string, name: string, description?: string | null }> } };
 
 
 export const PartnerInfoDocument = gql`

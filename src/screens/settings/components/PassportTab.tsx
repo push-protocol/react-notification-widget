@@ -9,7 +9,11 @@ import Button from '../../../components/Button';
 import WrongNetworkError from '../../../components/Errors/WrongNetworkError';
 import { Web2Apps } from '../../../context/UserContext/const';
 import { MessagingApp } from '../../../global/types.generated';
-import { useUnsubscribeMutation } from '../operations.generated';
+import {
+  useUnsubscribeMutation,
+  useGetUserSubscriptionsQuery,
+  GetUserSubscriptionsDocument,
+} from '../operations.generated';
 import { useAuthContext } from '../../../context/AuthContext';
 import { useEnvironment } from '../../../context/EnvironmentContext';
 import { useUserContext } from '../../../context/UserContext';
@@ -24,10 +28,11 @@ const PassportTab = () => {
   const { userCommsChannels } = useUserContext();
   const isWrongNetwork = useIsWrongNetwork();
 
-  const { icon, discordGuildUrl, messageCategories, name } = useChannelContext();
+  const { icon, discordGuildUrl, messageCategories, name, chainId } = useChannelContext();
   const { unsubscribe: signUnsubscribeMsg, logout, discordToken } = useAuthContext();
 
-  const [unsubscribe] = useUnsubscribeMutation();
+  const [unsubscribe] = useUnsubscribeMutation({ refetchQueries: [GetUserSubscriptionsDocument] });
+  const { data: userSubsData } = useGetUserSubscriptionsQuery();
 
   const appConfig = Web2Apps.map((app) => ({
     app,
@@ -39,12 +44,14 @@ const PassportTab = () => {
         : true,
   })).filter((app) => app.available);
 
-  const handleUnsubscribe = async () => {
+  const handleUnsubscribe = async (channelAddress?: string) => {
     setIsLoading(true);
 
     try {
-      await signUnsubscribeMsg();
-      await unsubscribe();
+      await signUnsubscribeMsg(channelAddress);
+      await unsubscribe(
+        channelAddress ? { variables: { input: { channelAddress, chainId } } } : undefined
+      );
     } finally {
       setIsLoading(false);
     }
@@ -63,21 +70,46 @@ const PassportTab = () => {
         </Flex>
       )}
 
-      {/*TODO: map something here*/}
       {isSubscribeOnlyMode ? (
-        <Dropdown
-          icon={icon}
-          title={name}
-          open={openChannel === 0}
-          toggleOpen={() => setOpenChannel(openChannel === 0 ? -1 : 0)}
-        >
-          <Preferences
-            hideChannelInfo
-            hideDescriptions
-            appConfig={appConfig}
-            onDisabledAppClick={setAppOpen}
-          />
-        </Dropdown>
+        <>
+          <Dropdown
+            icon={icon}
+            title={name}
+            isOpen={openChannel === 0}
+            toggleOpen={() => setOpenChannel(openChannel === 0 ? -1 : 0)}
+          >
+            <Flex direction={'column'} width={'100%'} gap={1}>
+              <Preferences
+                hideChannelInfo
+                hideDescriptions
+                appConfig={appConfig}
+                onDisabledAppClick={setAppOpen}
+              />
+              <Button isLoading={isLoading} onClick={() => handleUnsubscribe()} variant={'gray'}>
+                Unsubscribe
+              </Button>
+            </Flex>
+          </Dropdown>
+          {userSubsData?.userSubscriptions.map((subscription, i) => (
+            <Dropdown
+              key={subscription.address}
+              icon={subscription.icon}
+              title={subscription.name}
+              isOpen={openChannel === i + 1}
+              toggleOpen={() => setOpenChannel(openChannel === i + 1 ? -1 : i + 1)}
+            >
+              <Flex direction={'column'} width={'100%'} gap={1}>
+                <Button
+                  isLoading={isLoading}
+                  onClick={() => handleUnsubscribe(subscription.address)}
+                  variant={'gray'}
+                >
+                  Unsubscribe
+                </Button>
+              </Flex>
+            </Dropdown>
+          ))}
+        </>
       ) : (
         !!messageCategories.length && (
           <Preferences
@@ -99,30 +131,8 @@ const PassportTab = () => {
 
       <ConnectApps mt={1} apps={apps} appOpen={appOpen} setAppOpen={setAppOpen} />
 
-      <Flex mt={1} mb={1} width={'100%'}>
-        <Dropdown
-          open={accountMenuOpen}
-          toggleOpen={() => setAccountMenuOpen(!accountMenuOpen)}
-          title={'Account'}
-          icon={<PersonIcon />}
-        >
-          <Flex width={'100%'} direction={'column'} gap={2}>
-            <Text>Sign a message with your wallet to unsubscribe from all communication</Text>
-            <Button
-              disabled={isWrongNetwork}
-              isLoading={isLoading}
-              variant={'gray'}
-              onClick={handleUnsubscribe}
-            >
-              Unsubscribe
-            </Button>
-            {isWrongNetwork && <WrongNetworkError action={'unsubscribe'} />}
-          </Flex>
-        </Dropdown>
-      </Flex>
-
       {isSubscribeOnlyMode && (
-        <Button mt={1} mb={2} variant={'gray'} onClick={logout}>
+        <Button mt={2} mb={2} variant={'gray'} onClick={logout}>
           Disconnect Wallet
         </Button>
       )}

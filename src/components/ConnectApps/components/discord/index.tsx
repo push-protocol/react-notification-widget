@@ -27,7 +27,7 @@ export const DiscordConnector = ({ open, toggleOpen }: DiscordChannelProps) => {
       isLoading={verifyData.loading}
       icon={<DiscordIcon />}
       isConnected={isConnected}
-      open={open}
+      isOpen={open}
       toggleOpen={toggleOpen}
     >
       {isConnected ? (

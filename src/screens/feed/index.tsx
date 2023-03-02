@@ -1,7 +1,8 @@
 import React, { useMemo, useState, useRef } from 'react';
-import styled, { keyframes } from 'styled-components';
+import styled, { keyframes, css } from 'styled-components';
 import InfiniteScroll from 'react-infinite-scroller';
 import FeedNavigation, { NavigationTabs } from '../../screens/feed/components/FeedNavigation';
+import { useEnvironment } from '../../context/EnvironmentContext';
 import EmptyState from './components/EmptyState';
 import NotificationFeedItem from './components/NotificationFeedItem';
 import analytics from 'services/analytics';
@@ -16,6 +17,25 @@ import Flex from 'components/layout/Flex';
 import Spinner from 'components/Spinner';
 
 const NOTIFS_PER_PAGE = 10;
+
+const animateIn = keyframes`
+  0% {
+    opacity: 0;
+    top: 30px;
+  }
+  100% {
+    opacity: 1;
+    top: 0;
+  }
+`;
+
+const NotificationAnimation = styled.div<{ delay: number }>`
+  position: relative;
+  animation: ${({ delay }) =>
+    css`
+      ${animateIn} ${delay * 0.1}s ease-in
+    `};
+`;
 
 const NotificationFeed = styled(Flex)`
   ${({ theme }) => `@media (max-width: ${theme.w.breakpoints.mobile}px) {
@@ -63,6 +83,7 @@ export const Feed = ({ onNotificationClick }: NotificationClickProp) => {
   const { notifications: allNotifications, isLoading } = useUserContext();
   const { channelAddress } = useChannelContext();
   const { setRoute } = useRouterContext();
+  const { isSubscribeOnlyMode } = useEnvironment();
   const [activeTab, setActiveTab] = useState(NavigationTabs.App);
   const [page, setPage] = useState(0);
   const feedRef = useRef<HTMLDivElement | null>(null);
@@ -84,7 +105,12 @@ export const Feed = ({ onNotificationClick }: NotificationClickProp) => {
     return [channel, other];
   }, [allNotifications]);
 
-  const tabNotifs = activeTab === NavigationTabs.App ? channelNotifs : otherNotifs;
+  const tabNotifs = isSubscribeOnlyMode
+    ? allNotifications
+    : activeTab === NavigationTabs.App
+    ? channelNotifs
+    : otherNotifs;
+
   const notificationsToShow = useMemo(() => {
     return tabNotifs.slice(0, page * NOTIFS_PER_PAGE + NOTIFS_PER_PAGE);
   }, [activeTab, page, tabNotifs]);
@@ -109,7 +135,7 @@ export const Feed = ({ onNotificationClick }: NotificationClickProp) => {
         </SettingsIcon>
       }
     >
-      {!!otherNotifs?.length && (
+      {!!otherNotifs?.length && !isSubscribeOnlyMode && (
         <FeedNavigation activeTab={activeTab} setActiveTab={handleTabSwitch} />
       )}
 
@@ -126,12 +152,16 @@ export const Feed = ({ onNotificationClick }: NotificationClickProp) => {
             hasMore={!!tabNotifs[notificationsToShow.length]}
           >
             {notificationsToShow.map((notification, index) => (
-              <NotificationFeedItem
-                onNotificationClick={onNotificationClick}
+              <NotificationAnimation
                 key={`${index}-${notification.timestamp}`}
-                notification={notification}
-                showSenderDetails={activeTab === NavigationTabs.Other}
-              />
+                delay={index / (page || 1)}
+              >
+                <NotificationFeedItem
+                  onNotificationClick={onNotificationClick}
+                  notification={notification}
+                  showSenderDetails={isSubscribeOnlyMode || activeTab === NavigationTabs.Other}
+                />
+              </NotificationAnimation>
             ))}
           </InfiniteScroll>
         )}

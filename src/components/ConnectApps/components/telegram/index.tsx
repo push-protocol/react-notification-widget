@@ -30,7 +30,7 @@ export const TelegramConnector = ({ open, toggleOpen }: TelegramChannelProps) =>
       title={'Telegram'}
       icon={<TelegramIcon />}
       isConnected={isConnected}
-      open={open}
+      isOpen={open}
       toggleOpen={toggleOpen}
     >
       {isConnected ? (

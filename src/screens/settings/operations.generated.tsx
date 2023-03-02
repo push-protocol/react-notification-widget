@@ -1,18 +1,37 @@
-import * as Types from 'global/types.generated';
+import * as Types from '../../global/types.generated';
 
 import { gql } from '@apollo/client';
 import * as ApolloReactCommon from '@apollo/client';
 import * as ApolloReactHooks from '@apollo/client';
 const defaultOptions = {} as const;
-export type UnsubscribeMutationVariables = Types.Exact<{ [key: string]: never; }>;
+export type UnsubscribeMutationVariables = Types.Exact<{
+  input?: Types.InputMaybe<Types.UserUnsubscribeFromChannelInput>;
+}>;
 
 
 export type UnsubscribeMutation = { __typename?: 'Mutation', userUnsubscribeFromChannel: { __typename?: 'User', id: string } };
 
+export type SubscribeToDiscoveredChannelMutationVariables = Types.Exact<{
+  input: Types.UserSubscribeToDiscoveredChannelInput;
+}>;
+
+
+export type SubscribeToDiscoveredChannelMutation = { __typename?: 'Mutation', userSubscribeToDiscoveredChannel: { __typename?: 'UserSubscription', id: string, address: string } };
+
+export type GetUserSubscriptionsQueryVariables = Types.Exact<{ [key: string]: never; }>;
+
+
+export type GetUserSubscriptionsQuery = { __typename?: 'Query', userSubscriptions: Array<{ __typename?: 'UserSubscription', name: string, id: string, address: string, icon?: string | null, source: Types.UserSubscriptionSource, commsChannelTags?: Array<{ __typename?: 'UserSubscriptionChannelTag', name: string, userPreferences: Array<{ __typename?: 'UserPreference', id: string, commsChannelTagId: string, discord: boolean, email: boolean, enabled: boolean, telegram: boolean }> }> | null }> };
+
+export type ChannelsDiscoveryQueryVariables = Types.Exact<{ [key: string]: never; }>;
+
+
+export type ChannelsDiscoveryQuery = { __typename?: 'Query', commsChannelDiscover: Array<{ __typename?: 'UserDiscoverChannel', id: number, subscriberCount?: number | null, address: string, description?: string | null, icon?: string | null, name: string, url?: string | null }> };
+
 
 export const UnsubscribeDocument = gql`
-    mutation Unsubscribe {
-  userUnsubscribeFromChannel {
+    mutation Unsubscribe($input: UserUnsubscribeFromChannelInput) {
+  userUnsubscribeFromChannel(input: $input) {
     id
   }
 }
@@ -32,6 +51,7 @@ export type UnsubscribeMutationFn = ApolloReactCommon.MutationFunction<Unsubscri
  * @example
  * const [unsubscribeMutation, { data, loading, error }] = useUnsubscribeMutation({
  *   variables: {
+ *      input: // value for 'input'
  *   },
  * });
  */
@@ -42,3 +62,126 @@ export function useUnsubscribeMutation(baseOptions?: ApolloReactHooks.MutationHo
 export type UnsubscribeMutationHookResult = ReturnType<typeof useUnsubscribeMutation>;
 export type UnsubscribeMutationResult = ApolloReactCommon.MutationResult<UnsubscribeMutation>;
 export type UnsubscribeMutationOptions = ApolloReactCommon.BaseMutationOptions<UnsubscribeMutation, UnsubscribeMutationVariables>;
+export const SubscribeToDiscoveredChannelDocument = gql`
+    mutation SubscribeToDiscoveredChannel($input: UserSubscribeToDiscoveredChannelInput!) {
+  userSubscribeToDiscoveredChannel(input: $input) {
+    id
+    address
+  }
+}
+    `;
+export type SubscribeToDiscoveredChannelMutationFn = ApolloReactCommon.MutationFunction<SubscribeToDiscoveredChannelMutation, SubscribeToDiscoveredChannelMutationVariables>;
+
+/**
+ * __useSubscribeToDiscoveredChannelMutation__
+ *
+ * To run a mutation, you first call `useSubscribeToDiscoveredChannelMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSubscribeToDiscoveredChannelMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [subscribeToDiscoveredChannelMutation, { data, loading, error }] = useSubscribeToDiscoveredChannelMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useSubscribeToDiscoveredChannelMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<SubscribeToDiscoveredChannelMutation, SubscribeToDiscoveredChannelMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useMutation<SubscribeToDiscoveredChannelMutation, SubscribeToDiscoveredChannelMutationVariables>(SubscribeToDiscoveredChannelDocument, options);
+      }
+export type SubscribeToDiscoveredChannelMutationHookResult = ReturnType<typeof useSubscribeToDiscoveredChannelMutation>;
+export type SubscribeToDiscoveredChannelMutationResult = ApolloReactCommon.MutationResult<SubscribeToDiscoveredChannelMutation>;
+export type SubscribeToDiscoveredChannelMutationOptions = ApolloReactCommon.BaseMutationOptions<SubscribeToDiscoveredChannelMutation, SubscribeToDiscoveredChannelMutationVariables>;
+export const GetUserSubscriptionsDocument = gql`
+    query GetUserSubscriptions {
+  userSubscriptions {
+    name
+    id
+    address
+    icon
+    source
+    commsChannelTags {
+      name
+      userPreferences {
+        id
+        commsChannelTagId
+        discord
+        email
+        enabled
+        telegram
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetUserSubscriptionsQuery__
+ *
+ * To run a query within a React component, call `useGetUserSubscriptionsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUserSubscriptionsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetUserSubscriptionsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetUserSubscriptionsQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<GetUserSubscriptionsQuery, GetUserSubscriptionsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useQuery<GetUserSubscriptionsQuery, GetUserSubscriptionsQueryVariables>(GetUserSubscriptionsDocument, options);
+      }
+export function useGetUserSubscriptionsLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GetUserSubscriptionsQuery, GetUserSubscriptionsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return ApolloReactHooks.useLazyQuery<GetUserSubscriptionsQuery, GetUserSubscriptionsQueryVariables>(GetUserSubscriptionsDocument, options);
+        }
+export type GetUserSubscriptionsQueryHookResult = ReturnType<typeof useGetUserSubscriptionsQuery>;
+export type GetUserSubscriptionsLazyQueryHookResult = ReturnType<typeof useGetUserSubscriptionsLazyQuery>;
+export type GetUserSubscriptionsQueryResult = ApolloReactCommon.QueryResult<GetUserSubscriptionsQuery, GetUserSubscriptionsQueryVariables>;
+export const ChannelsDiscoveryDocument = gql`
+    query ChannelsDiscovery {
+  commsChannelDiscover {
+    id
+    subscriberCount
+    address
+    description
+    icon
+    name
+    url
+  }
+}
+    `;
+
+/**
+ * __useChannelsDiscoveryQuery__
+ *
+ * To run a query within a React component, call `useChannelsDiscoveryQuery` and pass it any options that fit your needs.
+ * When your component renders, `useChannelsDiscoveryQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useChannelsDiscoveryQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useChannelsDiscoveryQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<ChannelsDiscoveryQuery, ChannelsDiscoveryQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useQuery<ChannelsDiscoveryQuery, ChannelsDiscoveryQueryVariables>(ChannelsDiscoveryDocument, options);
+      }
+export function useChannelsDiscoveryLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<ChannelsDiscoveryQuery, ChannelsDiscoveryQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return ApolloReactHooks.useLazyQuery<ChannelsDiscoveryQuery, ChannelsDiscoveryQueryVariables>(ChannelsDiscoveryDocument, options);
+        }
+export type ChannelsDiscoveryQueryHookResult = ReturnType<typeof useChannelsDiscoveryQuery>;
+export type ChannelsDiscoveryLazyQueryHookResult = ReturnType<typeof useChannelsDiscoveryLazyQuery>;
+export type ChannelsDiscoveryQueryResult = ApolloReactCommon.QueryResult<ChannelsDiscoveryQuery, ChannelsDiscoveryQueryVariables>;
