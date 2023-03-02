@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { useEnsName } from 'wagmi';
 import formatAddress from '../../../helpers/functions/formatAddress';
 import { UserWalletIcon } from './UserWalletIcon';
-import { useAccountContext } from 'context/AccountContext';
+import { useSignerContext } from 'context/SignerContext';
 import { useChannelContext } from 'context/ChannelContext';
 import { Dots, OpenLink } from 'components/icons';
 import Text from 'components/Text';
@@ -82,7 +82,7 @@ const chainIdsToBlockExplorer: Record<number, string> = {
 
 const ChannelToUserIcons = () => {
   const { channelAddress, icon } = useChannelContext();
-  const { address, chainId } = useAccountContext();
+  const { address, chainId } = useSignerContext();
 
   const blockExplorerUrl = `${chainIdsToBlockExplorer[chainId || 1]}/address/${channelAddress}`;
 

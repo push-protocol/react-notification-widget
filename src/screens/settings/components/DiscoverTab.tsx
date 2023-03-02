@@ -1,4 +1,4 @@
-import { useTheme } from 'styled-components';
+import styled, { useTheme } from 'styled-components';
 import { useChannelsDiscoveryQuery, ChannelsDiscoveryQuery } from '../operations.generated';
 import { Users } from 'components/icons';
 import Spinner from 'components/Spinner';
@@ -6,6 +6,14 @@ import Flex from 'components/layout/Flex';
 import { mode } from 'theme';
 import Button from 'components/Button';
 import Text from 'components/Text';
+
+const ChannelImg = styled.img`
+  width: 40px;
+  height: 40px;
+  border-radius: 15px;
+  // chakra sets a max width, unset it here
+  max-width: unset;
+`;
 
 type PropsT = {
   subscriptions: string[];
@@ -51,7 +59,7 @@ const DiscoverTab = ({ addSubscription, subscriptions, addSubscriptionLoading }:
           >
             {channel.icon ? (
               <Flex mr={1} width={45}>
-                <img src={channel.icon} width={40} height={40} style={{ borderRadius: 15 }} />
+                <ChannelImg src={channel.icon} />
               </Flex>
             ) : (
               <Flex width={40} height={40} alignItems={'center'} justifyContent={'center'}>

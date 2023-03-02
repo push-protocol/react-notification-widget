@@ -50,7 +50,7 @@ const keys = {
   },
 };
 
-const DEFAULT_PARTNER_KEY = ENV === 'production' ? keys.prod.wTest : keys.staging.nozick;
+const DEFAULT_PARTNER_KEY = ENV === 'production' ? keys.prod.wTest : keys.staging.wTest;
 
 const DemoApp = () => {
   const [partnerKey, setPartnerKey] = useState(DEFAULT_PARTNER_KEY);
@@ -60,7 +60,11 @@ const DemoApp = () => {
 
   const widget = useMemo(() => {
     return (
-      <NotificationFeedProvider theme={theme} partnerKey={partnerKey} mode={WidgetMode.Default}>
+      <NotificationFeedProvider
+        theme={theme}
+        partnerKey={partnerKey}
+        mode={WidgetMode.SubscribeOnly}
+      >
         <NotificationFeed gapFromBell={10}>
           <S.WidgetBellWrapper>
             <NotificationBell />

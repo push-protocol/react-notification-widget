@@ -4,7 +4,7 @@ import useUnreadCount from '../../hooks/useUnreadCount';
 import { Bell } from '../icons';
 import { useEnvironment } from 'context/EnvironmentContext';
 import { useAuthContext } from 'context/AuthContext';
-import { useAccountContext } from 'context/AccountContext';
+import { useSignerContext } from 'context/SignerContext';
 
 const Container = styled.div`
   cursor: pointer;
@@ -47,7 +47,7 @@ export type NotificationBellProps = {
 // any to avoid exposing props to consumers of the component (parent injects onClick and unreadCount)
 const NotificationBell = (props: NotificationBellProps & any) => {
   const unreadCount = useUnreadCount();
-  const { isConnected } = useAccountContext();
+  const { isConnected } = useSignerContext();
   const { isSubscribed, isLoading: authLoading } = useAuthContext();
 
   const { isSubscribeOnlyMode } = useEnvironment();

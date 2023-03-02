@@ -3,7 +3,7 @@ import {
   useNonceGenerateMutation,
   useUserLoginMutation,
 } from '../screens/verifyAccount/operations.generated';
-import { useAccountContext } from 'context/AccountContext';
+import { useSignerContext } from 'context/SignerContext';
 import { useChannelContext } from 'context/ChannelContext';
 
 type SignatureMessage = {
@@ -20,7 +20,7 @@ type SignatureMessage = {
 export class LoginError extends Error {}
 
 export const useAuthenticate = () => {
-  const { address, signMessage } = useAccountContext();
+  const { address, signMessage } = useSignerContext();
   const [generateNonce] = useNonceGenerateMutation();
   const [loginUser] = useUserLoginMutation();
   const { chainId } = useChannelContext();

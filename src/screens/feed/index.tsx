@@ -45,7 +45,6 @@ const NotificationFeed = styled(Flex)`
     border-bottom: ${({ theme }) => `1px solid ${theme.w.colors.border.main}}`};
   }
   min-height: 300px;
-  max-height: 400px;
   overflow-y: auto;
   overflow-x: hidden;
   width: calc(100% + 18px);

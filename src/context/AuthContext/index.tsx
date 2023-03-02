@@ -11,11 +11,17 @@ import { useChannelContext } from '../ChannelContext';
 import { usePrevious } from '../../hooks/usePrevious';
 import { Routes, useRouterContext } from '../RouterContext';
 import { useAuthenticate } from '../../hooks/useAuthenticate';
-import { useAccountContext, EthTypedData } from '../AccountContext';
+import { useSignerContext, EthTypedData } from '../SignerContext';
 import { isMainnnet } from '../../global/helpers';
+import { getApolloClient } from '../../services/apolloClient';
+import { UserSubscribeDocument } from '../../screens/subscribe/operations.generated';
+import {
+  ChannelsDiscoveryDocument,
+  GetUserSubscriptionsDocument,
+} from '../../screens/settings/operations.generated';
 import useLoadAuthFromStorage from './useLoadAuthFromStorage';
-import analytics from 'services/analytics';
 import authStorage from 'services/authStorage';
+import analytics from 'services/analytics';
 
 export type AuthInfo = {
   subscribe(channelAddress?: string): void;
@@ -61,7 +67,7 @@ const AuthProvider = ({
 }) => {
   const { setRoute } = useRouterContext();
   const { channelAddress, chainId } = useChannelContext();
-  const { signTypedData, refetchSigner, address, isConnected, disconnect } = useAccountContext();
+  const { signTypedData, refetchSigner, address, isConnected, disconnect } = useSignerContext();
   const { login: _login } = useAuthenticate();
 
   const [isSubscribed, setIsSubscribed] = useState<boolean>();
@@ -154,6 +160,9 @@ const AuthProvider = ({
   useEffect(() => {
     if (prevAddress && prevAddress !== address) {
       _resetLoginState();
+      const client = getApolloClient({ endpoint: '' });
+      // refetch local queries that are dependant on address
+      client.refetchQueries({ include: [ChannelsDiscoveryDocument, GetUserSubscriptionsDocument] });
       setIsOnboarding(false);
     }
   }, [address]);

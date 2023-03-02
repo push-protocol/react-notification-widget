@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   useUnsubscribeMutation,
   useGetUserSubscriptionsQuery,
@@ -27,7 +27,9 @@ const PassportTab = () => {
   const { unsubscribe: signUnsubscribeMsg, logout, discordToken } = useAuthContext();
 
   const [unsubscribe] = useUnsubscribeMutation({ refetchQueries: [GetUserSubscriptionsDocument] });
-  const { data: userSubsData } = useGetUserSubscriptionsQuery();
+  const { data: userSubsData } = useGetUserSubscriptionsQuery({
+    skip: !isSubscribeOnlyMode,
+  });
 
   const appConfig = Web2Apps.map((app) => ({
     app,

@@ -19,9 +19,9 @@ export type CustomSigner = {
   signTypedData?: (args: EthTypedData) => Promise<Signature | undefined>;
 };
 
-export type AccountContextProps = PropsWithChildren<CustomSigner>;
+export type SignerContextProps = PropsWithChildren<CustomSigner>;
 
-type AccountContextT = {
+type SignerContextT = {
   isConnected: boolean;
   disconnect: () => void;
   refetchSigner: () => undefined | ReturnType<ReturnType<typeof useSigner>['refetch']>;
@@ -31,9 +31,9 @@ type AccountContextT = {
   chainId?: number;
 };
 
-const AccountContext = createContext<AccountContextT>({} as AccountContextT);
+const SignerContext = createContext<SignerContextT>({} as SignerContextT);
 
-const AccountProvider = (props: AccountContextProps) => {
+const SignerProvider = (props: SignerContextProps) => {
   const { isConnected: wagmiConnected, address: wagmiAddress } = useAccount();
   const { disconnect: wagmiDisconnect } = useDisconnect();
   const { chain } = useNetwork();
@@ -130,7 +130,7 @@ const AccountProvider = (props: AccountContextProps) => {
   };
 
   return (
-    <AccountContext.Provider
+    <SignerContext.Provider
       value={{
         disconnect,
         refetchSigner,
@@ -142,12 +142,12 @@ const AccountProvider = (props: AccountContextProps) => {
       }}
     >
       {props.children}
-    </AccountContext.Provider>
+    </SignerContext.Provider>
   );
 };
 
-function useAccountContext() {
-  return useContext(AccountContext);
+function useSignerContext() {
+  return useContext(SignerContext);
 }
 
-export { AccountProvider, useAccountContext };
+export { SignerProvider, useSignerContext };

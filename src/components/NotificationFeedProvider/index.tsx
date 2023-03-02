@@ -5,13 +5,13 @@ import { providers } from 'ethers';
 import { ApolloProvider } from '../ApolloProvider';
 import { CustomTheme, makeTheme } from '../../theme';
 import useWagmiClient from './useWagmiClient';
+import { SignerProvider, CustomSigner } from 'context/SignerContext';
 import analytics from 'services/analytics';
 import { EnvironmentProvider, WidgetMode } from 'context/EnvironmentContext';
 import { AuthProvider } from 'context/AuthContext';
 import { RouterProvider } from 'context/RouterContext';
 import { ChannelProvider } from 'context/ChannelContext';
 import { UserProvider } from 'context/UserContext';
-import { AccountProvider, CustomSigner } from 'context/AccountContext';
 
 export type ExternalProvider =
   | providers.BaseProvider
@@ -59,11 +59,11 @@ const NotificationFeedProvider = ({
           <ApolloProvider>
             <RouterProvider>
               <ChannelProvider partnerKey={partnerKey}>
-                <AccountProvider {...customSigner}>
+                <SignerProvider {...customSigner}>
                   <AuthProvider partnerKey={partnerKey} discordToken={discordToken}>
                     <UserProvider isOpen={isOpen}>{children}</UserProvider>
                   </AuthProvider>
-                </AccountProvider>
+                </SignerProvider>
               </ChannelProvider>
             </RouterProvider>
           </ApolloProvider>

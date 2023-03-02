@@ -8,7 +8,7 @@ import ConnectWalletButtons from './components/ConnectWalletButtons';
 import analytics from 'services/analytics';
 import { WHEREVER_FAQ } from 'global/const';
 import { UserSubscribeSource } from 'global/types.generated';
-import { useAccountContext } from 'context/AccountContext';
+import { useSignerContext } from 'context/SignerContext';
 import { Routes, useRouterContext } from 'context/RouterContext';
 import { useChannelContext } from 'context/ChannelContext';
 import { useAuthContext } from 'context/AuthContext';
@@ -38,7 +38,7 @@ const SubscribeDescription = styled.div`
 export const Subscribe = () => {
   const { isSubscribeOnlyMode } = useEnvironment();
   const { discordToken } = useAuthContext();
-  const { isConnected } = useAccountContext();
+  const { isConnected } = useSignerContext();
   const [loadingMsg, setLoadingMsg] = useState('');
 
   const {

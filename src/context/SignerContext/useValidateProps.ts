@@ -1,13 +1,13 @@
 import { useEffect, useMemo } from 'react';
 import { utils } from 'ethers';
-import { CustomSigner, AccountContextProps } from './index';
+import { CustomSigner, SignerContextProps } from './index';
 
 const logMissingProp = (prop: keyof CustomSigner) =>
   console.error(
     `Wherever: customSigner.${prop} is undefined and must be provided when using a custom signer`
   );
 
-const useValidateProps = (props: AccountContextProps) => {
+const useValidateProps = (props: SignerContextProps) => {
   const isCustomSigner = useMemo(
     () => Boolean(props.address || props.signMessage || props.signTypedData || props.chainId),
     [props]

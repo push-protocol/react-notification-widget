@@ -11,7 +11,7 @@ import { useUpdateLastReadMutation } from './operations.generated';
 import analytics from 'services/analytics';
 import { WIDGET_VERSION } from 'global/const';
 import { useAuthContext } from 'context/AuthContext';
-import { useAccountContext } from 'context/AccountContext';
+import { useSignerContext } from 'context/SignerContext';
 import { useChannelContext } from 'context/ChannelContext';
 import { useUserContext } from 'context/UserContext';
 import { Routes, useRouterContext } from 'context/RouterContext';
@@ -37,7 +37,7 @@ const NotificationFeed = (props: NotificationFeedProps): JSX.Element => {
   const { children, onNotificationClick } = props;
 
   const { feedOpen, setFeedOpen } = useUserContext();
-  const { isConnected, address } = useAccountContext();
+  const { isConnected, address } = useSignerContext();
   const unreadCount = useUnreadCount();
   const { isLoggedIn } = useAuthContext();
   const { channelAddress, name } = useChannelContext();

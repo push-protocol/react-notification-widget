@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useChannelContext } from 'context/ChannelContext';
-import { useAccountContext } from 'context/AccountContext';
+import { useSignerContext } from 'context/SignerContext';
 
 const useIsWrongNetwork = () => {
-  const { chainId: walletChain } = useAccountContext();
+  const { chainId: walletChain } = useSignerContext();
   const { chainId: channelChain } = useChannelContext();
 
   const [isWrongNetwork, setIsWrongNetwork] = useState(false);

@@ -47,7 +47,7 @@ const PoweredBy = styled(Flex)<{ hidden: boolean }>`
 
 const ChildrenContainer = styled.div<LayoutProps>(({ theme, maxHeight }) => ({
   height: `calc(100% - ${POWERED_BY_HEIGHT} - 8px)`,
-  maxHeight: maxHeight?.desktop || 600,
+  maxHeight: maxHeight?.desktop || 500,
   overflowY: 'auto',
   '-ms-overflow-style': 'none',
   'scrollbar-width': 'none',
