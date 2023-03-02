@@ -1,32 +1,27 @@
 import React, { useState } from 'react';
-import { PersonFill as PersonIcon } from '@styled-icons/octicons/PersonFill';
-import Flex from '../../../components/layout/Flex';
-import Text from '../../../components/Text';
-import Dropdown from '../../../components/Dropdown';
-import Preferences from '../../../components/Preferences';
-import ConnectApps from '../../../components/ConnectApps';
-import Button from '../../../components/Button';
-import WrongNetworkError from '../../../components/Errors/WrongNetworkError';
-import { Web2Apps } from '../../../context/UserContext/const';
-import { MessagingApp } from '../../../global/types.generated';
 import {
   useUnsubscribeMutation,
   useGetUserSubscriptionsQuery,
   GetUserSubscriptionsDocument,
 } from '../operations.generated';
-import { useAuthContext } from '../../../context/AuthContext';
-import { useEnvironment } from '../../../context/EnvironmentContext';
-import { useUserContext } from '../../../context/UserContext';
-import { useChannelContext } from '../../../context/ChannelContext';
-import useIsWrongNetwork from '../../../hooks/useIsWrongNetwork';
+import Flex from 'components/layout/Flex';
+import Text from 'components/Text';
+import Dropdown from 'components/Dropdown';
+import Preferences from 'components/Preferences';
+import ConnectApps from 'components/ConnectApps';
+import Button from 'components/Button';
+import { Web2Apps } from 'context/UserContext/const';
+import { MessagingApp } from 'global/types.generated';
+import { useAuthContext } from 'context/AuthContext';
+import { useEnvironment } from 'context/EnvironmentContext';
+import { useUserContext } from 'context/UserContext';
+import { useChannelContext } from 'context/ChannelContext';
 
 const PassportTab = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [accountMenuOpen, setAccountMenuOpen] = useState(false);
   const [openChannel, setOpenChannel] = useState(-1);
   const { isSubscribeOnlyMode } = useEnvironment();
   const { userCommsChannels } = useUserContext();
-  const isWrongNetwork = useIsWrongNetwork();
 
   const { icon, discordGuildUrl, messageCategories, name, chainId } = useChannelContext();
   const { unsubscribe: signUnsubscribeMsg, logout, discordToken } = useAuthContext();
