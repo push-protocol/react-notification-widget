@@ -7,6 +7,7 @@ import {
   GetUserSubscriptionsDocument,
 } from '../operations.generated';
 import { useChannelContext } from '../../../context/ChannelContext';
+import analytics from '../../../services/analytics';
 
 const useUserEpnsSubscriptions = () => {
   const { userAddress } = useUserContext();
@@ -25,6 +26,10 @@ const useUserEpnsSubscriptions = () => {
 
     try {
       await subscribe(address);
+      analytics.track('channel subscribe successful', {
+        channelAddress: address,
+        source: 'passport discovery',
+      });
       await subToChannel({ variables: { input: { channelAddress: address, chainId } } });
       setSubscriptions((oldSubs) => [...oldSubs, address.toLowerCase()]);
     } finally {

@@ -11,7 +11,8 @@ import { useChannelContext } from 'context/ChannelContext';
 
 const PreferencesContainer = styled.div<{ hideBorder: boolean }>`
   width: 100%;
-  background: ${({ theme }) => mode(theme.w.colors.dark[10], undefined)};
+  background: ${({ theme, hideBorder }) =>
+    hideBorder ? null : mode(theme.w.colors.dark[10], undefined)};
   border-radius: ${({ theme }) => theme.w.borderRadius.md};
   padding: ${({ hideBorder }) => (hideBorder ? 0 : '16px 8px 8px 0')};
   box-sizing: border-box;

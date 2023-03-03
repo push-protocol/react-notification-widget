@@ -6,7 +6,7 @@ import { SettingsTabNames } from '../types';
 
 const TabButton = styled.div<{ selected?: boolean }>`
   cursor: pointer;
-  padding-bottom: 16px;
+  padding-bottom: 12px;
   margin-bottom: 16px;
   margin-top: 16px;
   ${({ theme, selected }) => ({
@@ -32,13 +32,17 @@ const SettingTabs = (props: PropsT) => {
         onClick={() => props.onTabSwitch(SettingsTabNames.Passport)}
         selected={props.selectedTab === SettingsTabNames.Passport}
       >
-        <Text>My Passport</Text>
+        <Text size={'lg'}>
+          <strong>My Passport</strong>
+        </Text>
       </TabButton>
       <TabButton
         onClick={() => props.onTabSwitch(SettingsTabNames.Discover)}
         selected={props.selectedTab === SettingsTabNames.Discover}
       >
-        <Text>Discover</Text>
+        <Text size={'lg'}>
+          <strong>Discover</strong>
+        </Text>
       </TabButton>
     </Flex>
   );

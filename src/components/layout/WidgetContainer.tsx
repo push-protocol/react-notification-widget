@@ -34,6 +34,10 @@ const LayoutContainer = styled.div<LayoutProps>(({ theme, width }) => ({
   '&::-webkit-scrollbar': {
     display: 'none',
   },
+  // ⬇ solves chakra related css issues
+  '& img': { maxWidth: 'unset' },
+  '& *': { boxSizing: 'content-box' },
+  '& button': { boxSizing: 'border-box' },
 }));
 
 const PoweredBy = styled(Flex)<{ hidden: boolean }>`

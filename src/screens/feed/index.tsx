@@ -1,5 +1,5 @@
 import React, { useMemo, useState, useRef } from 'react';
-import styled, { keyframes, css } from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import InfiniteScroll from 'react-infinite-scroller';
 import FeedNavigation, { NavigationTabs } from '../../screens/feed/components/FeedNavigation';
 import { useEnvironment } from '../../context/EnvironmentContext';
@@ -29,12 +29,14 @@ const animateIn = keyframes`
   }
 `;
 
-const NotificationAnimation = styled.div<{ delay: number }>`
+const NotificationAnimation = styled.div.attrs<{ delay: number }>((props) => ({
+  style: {
+    animationDuration: `${props.delay * 0.1}s`,
+  },
+}))<{ delay: number }>`
   position: relative;
-  animation: ${({ delay }) =>
-    css`
-      ${animateIn} ${delay * 0.1}s ease-in
-    `};
+  animation-name: ${animateIn};
+  animation-timing-function: ease-in;
 `;
 
 const NotificationFeed = styled(Flex)`
@@ -45,6 +47,8 @@ const NotificationFeed = styled(Flex)`
     border-bottom: ${({ theme }) => `1px solid ${theme.w.colors.border.main}}`};
   }
   min-height: 300px;
+  // in order for infinite scroll to work, a max-height is required here
+  max-height: 1000px;
   overflow-y: auto;
   overflow-x: hidden;
   width: calc(100% + 18px);
@@ -112,7 +116,7 @@ export const Feed = ({ onNotificationClick }: NotificationClickProp) => {
 
   const notificationsToShow = useMemo(() => {
     return tabNotifs.slice(0, page * NOTIFS_PER_PAGE + NOTIFS_PER_PAGE);
-  }, [activeTab, page, tabNotifs]);
+  }, [page, tabNotifs]);
 
   const handleTabSwitch = (tab: NavigationTabs) => {
     analytics.track('notifications tab switch', { tab });

@@ -121,6 +121,7 @@ const ButtonWrapper = styled.button<ButtonProps>`
     };
     transition: .1s background ease, .1s transform ease;
     border-radius: ${theme.w.borderRadius[borderRadius]};
+    font-family: ${theme.w.fontFamily};
     cursor: pointer;
     border: none;
     font-weight: 600;

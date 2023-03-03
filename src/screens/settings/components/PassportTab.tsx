@@ -4,6 +4,7 @@ import {
   useGetUserSubscriptionsQuery,
   GetUserSubscriptionsDocument,
 } from '../operations.generated';
+import analytics from '../../../services/analytics';
 import Flex from 'components/layout/Flex';
 import Text from 'components/Text';
 import Dropdown from 'components/Dropdown';
@@ -30,6 +31,10 @@ const PassportTab = () => {
   const { data: userSubsData } = useGetUserSubscriptionsQuery({
     skip: !isSubscribeOnlyMode,
   });
+
+  useEffect(() => {
+    analytics.track('MyPassport tab loaded');
+  }, []);
 
   const appConfig = Web2Apps.map((app) => ({
     app,

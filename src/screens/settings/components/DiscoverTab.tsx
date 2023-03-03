@@ -1,5 +1,8 @@
 import styled, { useTheme } from 'styled-components';
+import { useEffect, useState } from 'react';
 import { useChannelsDiscoveryQuery, ChannelsDiscoveryQuery } from '../operations.generated';
+import analytics from '../../../services/analytics';
+import Link from '../../../components/Link';
 import { Users } from 'components/icons';
 import Spinner from 'components/Spinner';
 import Flex from 'components/layout/Flex';
@@ -8,9 +11,9 @@ import Button from 'components/Button';
 import Text from 'components/Text';
 
 const ChannelImg = styled.img`
-  width: 40px;
-  height: 40px;
-  border-radius: 15px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
   // chakra sets a max width, unset it here
   max-width: unset;
 `;
@@ -26,6 +29,12 @@ const DiscoverTab = ({ addSubscription, subscriptions, addSubscriptionLoading }:
     w: { colors },
   } = useTheme();
 
+  const [fullDescriptionIndex, setFullDescriptionIndex] = useState(-1);
+
+  useEffect(() => {
+    analytics.track('PassportDiscovery tab loaded');
+  }, []);
+
   const { data, loading } = useChannelsDiscoveryQuery();
 
   if (loading) {
@@ -40,9 +49,14 @@ const DiscoverTab = ({ addSubscription, subscriptions, addSubscriptionLoading }:
 
   return (
     <Flex direction={'column'} gap={2}>
-      {channels.map((channel) => {
+      {channels.map((channel, i) => {
         const subCount = getSubCount(channel.subscriberCount);
         const subCountText = subCount?.thousands ? `${subCount.count}K` : '< 1K';
+
+        const isLargeDesc = (channel.description?.length || 0) > 100;
+        const descText = isLargeDesc
+          ? `${channel.description?.slice(0, 85)}...`
+          : channel.description;
 
         return (
           <Flex
@@ -58,19 +72,26 @@ const DiscoverTab = ({ addSubscription, subscriptions, addSubscriptionLoading }:
             bg={mode(colors.light[10], colors.dark[10])}
           >
             {channel.icon ? (
-              <Flex mr={1} width={45}>
+              <Flex mr={1}>
                 <ChannelImg src={channel.icon} />
               </Flex>
             ) : (
-              <Flex width={40} height={40} alignItems={'center'} justifyContent={'center'}>
+              <Flex width={60} height={60} alignItems={'center'} justifyContent={'center'}>
                 🏛
               </Flex>
             )}
-            <Flex style={{ flexGrow: 1 }} direction={'column'}>
-              <Text>
+            <Flex style={{ flexGrow: 1, display: 'inline-flex' }} direction={'column'}>
+              <Text size={'lg'}>
                 <strong>{channel.name}</strong>
               </Text>
-              <Text>{channel.description}</Text>
+              <Text>
+                {fullDescriptionIndex === i ? channel.description : descText}{' '}
+                {isLargeDesc && fullDescriptionIndex !== i && (
+                  <Link display={'inline-block'} onClick={() => setFullDescriptionIndex(i)}>
+                    Show more
+                  </Link>
+                )}
+              </Text>
             </Flex>
             <Flex direction={'column'} alignItems={'center'}>
               <Flex alignItems={'center'} gap={0.5}>
@@ -85,7 +106,13 @@ const DiscoverTab = ({ addSubscription, subscriptions, addSubscriptionLoading }:
               ) : (
                 <Button
                   isLoading={channel.address.toLowerCase() === addSubscriptionLoading}
-                  onClick={() => addSubscription(channel.address)}
+                  onClick={() => {
+                    analytics.track('channel subscribe clicked', {
+                      channelAddress: channel.address,
+                      source: 'passport discovery',
+                    });
+                    addSubscription(channel.address);
+                  }}
                 >
                   Subscribe
                 </Button>
