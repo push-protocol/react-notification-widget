@@ -51,7 +51,7 @@ export const Subscribe = () => {
   } = useAuthContext();
 
   const [subscribeUser, { loading: subscribeLoading }] = useUserSubscribeMutation({
-    variables: { source: discordToken ? UserSubscribeSource.Discord : undefined },
+    variables: { input: { source: discordToken ? UserSubscribeSource.Discord : undefined } },
   });
 
   const { setRoute } = useRouterContext();

@@ -1,13 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Web2AppLower, Web2Apps } from '../../../context/UserContext/const';
-import { MessagingApp } from '../../../global/types.generated';
-import { useChannelContext } from '../../../context/ChannelContext';
-import { useAuthContext } from '../../../context/AuthContext';
-import useUpdatePreference from '../../../components/Preferences/useUpdatePreference';
-import { useEnvironment } from '../../../context/EnvironmentContext';
-import Notice from '../../../components/Notice';
-import { useUserPreferencesUpdateMutation } from '../../../components/Preferences/operations.generated';
+import { Web2Apps } from 'context/UserContext/const';
+import { MessagingApp } from 'global/types.generated';
+import { useChannelContext } from 'context/ChannelContext';
+import { useAuthContext } from 'context/AuthContext';
+import { useEnvironment } from 'context/EnvironmentContext';
+import Notice from 'components/Notice';
+import { useUserPreferencesUpdateMutation } from 'components/Preferences/operations.generated';
 import { Routes, useRouterContext } from 'context/RouterContext';
 import { useUserContext } from 'context/UserContext';
 import Flex from 'components/layout/Flex';
@@ -69,7 +68,7 @@ export const SelectCategories = () => {
         <PageTitle mb={2}>What should we notify you about?</PageTitle>
       </Header>
 
-      <Preferences appConfig={[]} />
+      <Preferences messageCategories={messageCategories} appConfig={[]} />
 
       <Flex mb={2} mt={2} width={'100%'}>
         <Button size={'lg'} width={'100%'} onClick={handleGoNext} disabled={goNextDisabled}>

@@ -34,8 +34,11 @@ const lightTheme: CustomTheme = {
 };
 
 const defaultTheme = {
-  fontFamily: '"Inter var", sans-serif',
+  fontFamily: 'Mulish, sans-serif',
+  buttonTextColor: '#0D0B19',
   bellColor: '#968c8c',
+  primaryColor: '#C8FF3E',
+  backgroundColor: '#0D0B19',
 };
 
 const keys = {

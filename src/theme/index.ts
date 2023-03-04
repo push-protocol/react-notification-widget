@@ -59,6 +59,7 @@ declare module 'styled-components' {
           300: string;
           400: string;
           500: string;
+          600: string;
         };
         light: {
           10: string;
@@ -172,6 +173,7 @@ const defaultTheme: DefaultTheme['w'] = {
       300: '#565E6E',
       400: '#4D5565',
       500: '#424A5A',
+      600: '#333844',
     },
     bell: {
       color: '#FCFCFC',

@@ -12,7 +12,7 @@ import Preferences from 'components/Preferences';
 import ConnectApps from 'components/ConnectApps';
 import Button from 'components/Button';
 import { Web2Apps } from 'context/UserContext/const';
-import { MessagingApp } from 'global/types.generated';
+import { MessagingApp, UserSubscriptionSource } from 'global/types.generated';
 import { useAuthContext } from 'context/AuthContext';
 import { useEnvironment } from 'context/EnvironmentContext';
 import { useUserContext } from 'context/UserContext';
@@ -23,8 +23,9 @@ const PassportTab = () => {
   const [openChannel, setOpenChannel] = useState(-1);
   const { isSubscribeOnlyMode } = useEnvironment();
   const { userCommsChannels } = useUserContext();
+  const { icon, discordGuildUrl, messageCategories, name, chainId, channelAddress } =
+    useChannelContext();
 
-  const { icon, discordGuildUrl, messageCategories, name, chainId } = useChannelContext();
   const { unsubscribe: signUnsubscribeMsg, logout, discordToken } = useAuthContext();
 
   const [unsubscribe] = useUnsubscribeMutation({ refetchQueries: [GetUserSubscriptionsDocument] });
@@ -82,6 +83,7 @@ const PassportTab = () => {
           >
             <Flex direction={'column'} width={'100%'} gap={1}>
               <Preferences
+                messageCategories={messageCategories}
                 hideChannelInfo
                 hideDescriptions
                 appConfig={appConfig}
@@ -92,29 +94,53 @@ const PassportTab = () => {
               </Button>
             </Flex>
           </Dropdown>
-          {userSubsData?.userSubscriptions.map((subscription, i) => (
-            <Dropdown
-              key={subscription.address}
-              icon={subscription.icon}
-              title={subscription.name}
-              isOpen={openChannel === i + 1}
-              toggleOpen={() => setOpenChannel(openChannel === i + 1 ? -1 : i + 1)}
-            >
-              <Flex direction={'column'} width={'100%'} gap={1}>
-                <Button
-                  isLoading={isLoading}
-                  onClick={() => handleUnsubscribe(subscription.address)}
-                  variant={'gray'}
-                >
-                  Unsubscribe
-                </Button>
-              </Flex>
-            </Dropdown>
-          ))}
+          {userSubsData?.userSubscriptions
+            .filter((sub) => sub.address.toLowerCase() !== channelAddress.toLowerCase())
+            .sort((subA, subB) => (subB.commsChannelTags ? 1 : -1))
+            .map((subscription, i) => (
+              <Dropdown
+                key={subscription.address}
+                icon={subscription.icon}
+                title={subscription.name}
+                isOpen={openChannel === i + 1}
+                toggleOpen={() => setOpenChannel(openChannel === i + 1 ? -1 : i + 1)}
+              >
+                <Flex direction={'column'} width={'100%'} gap={1}>
+                  {subscription.source === UserSubscriptionSource.Wherever &&
+                  subscription.commsChannelTags ? (
+                    <>
+                      <Preferences
+                        messageCategories={subscription.commsChannelTags || []}
+                        hideChannelInfo
+                        hideDescriptions
+                        appConfig={appConfig}
+                        onDisabledAppClick={setAppOpen}
+                      />
+                      <Button
+                        isLoading={isLoading}
+                        onClick={() => handleUnsubscribe()}
+                        variant={'gray'}
+                      >
+                        Unsubscribe
+                      </Button>
+                    </>
+                  ) : (
+                    <Button
+                      isLoading={isLoading}
+                      onClick={() => handleUnsubscribe(subscription.address)}
+                      variant={'gray'}
+                    >
+                      Unsubscribe
+                    </Button>
+                  )}
+                </Flex>
+              </Dropdown>
+            ))}
         </>
       ) : (
         !!messageCategories.length && (
           <Preferences
+            messageCategories={messageCategories}
             hideChannelInfo
             hideDescriptions
             appConfig={appConfig}

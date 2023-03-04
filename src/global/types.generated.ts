@@ -99,6 +99,17 @@ export type CommsChannelAnalyticsSubscribersArgs = {
   range: AnalyticsRangeInput;
 };
 
+export type CommsChannelDiscovered = {
+  __typename?: 'CommsChannelDiscovered';
+  address: Scalars['String'];
+  description?: Maybe<Scalars['String']>;
+  icon?: Maybe<Scalars['String']>;
+  id: Scalars['Float'];
+  name: Scalars['String'];
+  subscriberCount?: Maybe<Scalars['Float']>;
+  url?: Maybe<Scalars['String']>;
+};
+
 export type CommsChannelStats = {
   __typename?: 'CommsChannelStats';
   chainId: Scalars['Int'];
@@ -342,7 +353,6 @@ export type Mutation = {
   userLogin: UserLoginPayload;
   userPreferencesUpdate?: Maybe<UserPreference>;
   userSubscribeToChannel: User;
-  userSubscribeToDiscoveredChannel: UserSubscription;
   userUnsubscribeFromChannel: User;
   userUpdateLastReadAt: User;
   workflowCreate: Workflow;
@@ -456,11 +466,6 @@ export type MutationUserSubscribeToChannelArgs = {
 };
 
 
-export type MutationUserSubscribeToDiscoveredChannelArgs = {
-  input: UserSubscribeToDiscoveredChannelInput;
-};
-
-
 export type MutationUserUnsubscribeFromChannelArgs = {
   input?: InputMaybe<UserUnsubscribeFromChannelInput>;
 };
@@ -527,7 +532,7 @@ export type Query = {
   __typename?: 'Query';
   channelsForUser: Array<ChannelForUser>;
   commsChannel: CommsChannel;
-  commsChannelDiscover: Array<UserDiscoverChannel>;
+  commsChannelDiscover: Array<CommsChannelDiscovered>;
   commsChannelTags: Array<CommsChannelTag>;
   commsChannelUsers: Array<CommsChannelsOnUsers>;
   incomingWebhooks: Array<IncomingWebhook>;
@@ -650,17 +655,6 @@ export type UserDiscordVerifyInput = {
   token: Scalars['String'];
 };
 
-export type UserDiscoverChannel = {
-  __typename?: 'UserDiscoverChannel';
-  address: Scalars['String'];
-  description?: Maybe<Scalars['String']>;
-  icon?: Maybe<Scalars['String']>;
-  id: Scalars['Float'];
-  name: Scalars['String'];
-  subscriberCount?: Maybe<Scalars['Float']>;
-  url?: Maybe<Scalars['String']>;
-};
-
 export type UserEmailUpdateInput = {
   email: Scalars['String'];
 };
@@ -706,10 +700,12 @@ export type UserPreferenceUpdateInput = {
 };
 
 export enum UserSubscribeSource {
-  Discord = 'Discord'
+  Discord = 'Discord',
+  PassportDiscovery = 'PASSPORT_DISCOVERY'
 }
 
 export type UserSubscribeToChannelInput = {
+  channel?: InputMaybe<UserSubscribeToDiscoveredChannelInput>;
   source?: InputMaybe<UserSubscribeSource>;
 };
 
@@ -722,17 +718,11 @@ export type UserSubscription = {
   __typename?: 'UserSubscription';
   address: Scalars['String'];
   chainId: Scalars['Float'];
-  commsChannelTags?: Maybe<Array<UserSubscriptionChannelTag>>;
+  commsChannelTags?: Maybe<Array<CommsChannelTag>>;
   icon?: Maybe<Scalars['String']>;
   id: Scalars['String'];
   name: Scalars['String'];
   source: UserSubscriptionSource;
-};
-
-export type UserSubscriptionChannelTag = {
-  __typename?: 'UserSubscriptionChannelTag';
-  name: Scalars['String'];
-  userPreferences: Array<UserPreference>;
 };
 
 export enum UserSubscriptionSource {

@@ -2,12 +2,11 @@ import * as epns from '@epnsproject/sdk-restapi';
 import { useState, useEffect } from 'react';
 import { useUserContext } from '../../../context/UserContext';
 import { useAuthContext } from '../../../context/AuthContext';
-import {
-  useSubscribeToDiscoveredChannelMutation,
-  GetUserSubscriptionsDocument,
-} from '../operations.generated';
+import { GetUserSubscriptionsDocument } from '../operations.generated';
 import { useChannelContext } from '../../../context/ChannelContext';
 import analytics from '../../../services/analytics';
+import { useUserSubscribeMutation } from '../../subscribe/operations.generated';
+import { UserSubscribeSource } from '../../../global/types.generated';
 
 const useUserEpnsSubscriptions = () => {
   const { userAddress } = useUserContext();
@@ -17,12 +16,12 @@ const useUserEpnsSubscriptions = () => {
   const [subscriptions, setSubscriptions] = useState<string[]>([]);
   const [addSubscriptionLoading, setAddSubscriptionLoading] = useState<string>();
 
-  const [subToChannel] = useSubscribeToDiscoveredChannelMutation({
+  const [subToChannel] = useUserSubscribeMutation({
     refetchQueries: [GetUserSubscriptionsDocument],
   });
 
   const addSubscription = async (address: string) => {
-    setAddSubscriptionLoading(address);
+    setAddSubscriptionLoading(address.toLowerCase());
 
     try {
       await subscribe(address);
@@ -30,7 +29,17 @@ const useUserEpnsSubscriptions = () => {
         channelAddress: address,
         source: 'passport discovery',
       });
-      await subToChannel({ variables: { input: { channelAddress: address, chainId } } });
+      await subToChannel({
+        variables: {
+          input: {
+            source: UserSubscribeSource.PassportDiscovery,
+            channel: {
+              channelAddress: address,
+              chainId,
+            },
+          },
+        },
+      });
       setSubscriptions((oldSubs) => [...oldSubs, address.toLowerCase()]);
     } finally {
       setAddSubscriptionLoading(undefined);

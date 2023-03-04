@@ -1,5 +1,5 @@
-mutation UserSubscribe($source: UserSubscribeSource) {
-    userSubscribeToChannel(input: {source: $source}) {
+mutation UserSubscribe($input: UserSubscribeToChannelInput!) {
+    userSubscribeToChannel(input: $input) {
         ...userInfo
     }
 }

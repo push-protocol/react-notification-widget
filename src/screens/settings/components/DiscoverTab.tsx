@@ -102,7 +102,7 @@ const DiscoverTab = ({ addSubscription, subscriptions, addSubscriptionLoading }:
               </Flex>
 
               {subscriptions.includes(channel.address.toLowerCase()) ? (
-                <Button disabled>Subscribed✓</Button>
+                <Button disabled>Subscribed</Button>
               ) : (
                 <Button
                   isLoading={channel.address.toLowerCase() === addSubscriptionLoading}

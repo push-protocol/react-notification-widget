@@ -1,4 +1,5 @@
 import React from 'react';
+import { SettingsTabNames } from '../settings/types';
 import { useChannelContext } from 'context/ChannelContext';
 import { Routes, useRouterContext } from 'context/RouterContext';
 import Button from 'components/Button';
@@ -12,7 +13,7 @@ export const SubscriptionFlowEnded = () => {
   const { setRoute } = useRouterContext();
 
   const handleViewSettings = () => {
-    setRoute(Routes.Settings);
+    setRoute(Routes.Settings, { activeTab: SettingsTabNames.Discover });
   };
 
   return (
@@ -23,7 +24,8 @@ export const SubscriptionFlowEnded = () => {
         </Text>
         <Text p={0.5} lineHeight={1.5} mb={5} size={'lg'} align={'center'}>
           <br />
-          Thanks for subscribing! Change your preferences at any time by visiting
+          Thanks for subscribing! Change the preferences in your ✨&nbsp;Communication Passport
+          ✨&nbsp;at any time by visiting
           <Link
             fontSize={'lg'}
             display={'inline-block'}
@@ -33,7 +35,7 @@ export const SubscriptionFlowEnded = () => {
           </Link>
         </Text>
         <Button onClick={handleViewSettings} width={'80%'}>
-          View Preferences
+          View Passport
         </Button>
       </Flex>
     </Screen>

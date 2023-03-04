@@ -11,11 +11,11 @@ import useUserEpnsSubscriptions from './hooks/useUserEpnsSubscriptions';
 import Flex from 'components/layout/Flex';
 import { Screen } from 'components/layout/Screen';
 
-export const Settings = () => {
+export const Settings = (props: { activeTab?: SettingsTabNames }) => {
   const { userAddress } = useUserContext();
   const { isSubscribeOnlyMode } = useEnvironment();
 
-  const [activeTab, setActiveTab] = useState(SettingsTabNames.Passport);
+  const [activeTab, setActiveTab] = useState(props.activeTab || SettingsTabNames.Passport);
   const subData = useUserEpnsSubscriptions();
 
   const tabMap = useMemo(

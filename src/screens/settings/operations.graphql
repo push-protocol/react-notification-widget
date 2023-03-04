@@ -4,13 +4,6 @@ mutation Unsubscribe($input: UserUnsubscribeFromChannelInput) {
     }
 }
 
-mutation SubscribeToDiscoveredChannel($input: UserSubscribeToDiscoveredChannelInput!) {
-    userSubscribeToDiscoveredChannel(input: $input) {
-        id
-        address
-    }
-}
-
 query GetUserSubscriptions {
     userSubscriptions {
         name
@@ -19,15 +12,9 @@ query GetUserSubscriptions {
         icon
         source
         commsChannelTags {
+            id
             name
-            userPreferences {
-              id
-            commsChannelTagId
-                discord
-                email
-                enabled
-                telegram
-            }
+            description
         }
     }
 }

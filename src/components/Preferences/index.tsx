@@ -5,9 +5,9 @@ import PreferencesHeader from '../Preferences/components/PreferencesHeader';
 import PreferenceCategoryItem from '../Preferences/components/PreferenceCategoryItem';
 import Flex from '../layout/Flex';
 import { useEnvironment } from '../../context/EnvironmentContext';
+import { PartnerInfoQuery } from '../../context/ChannelContext/operations.generated';
 import { MessagingApp } from 'global/types.generated';
 import { useUserContext } from 'context/UserContext';
-import { useChannelContext } from 'context/ChannelContext';
 
 const PreferencesContainer = styled.div<{ hideBorder: boolean }>`
   width: 100%;
@@ -28,13 +28,13 @@ type PropsT = {
   hideDescriptions?: boolean;
   hideToggles?: boolean;
   appConfig: MessagingAppConfig[];
+  messageCategories: Omit<PartnerInfoQuery['partnerInfo']['messageCategories'][0], '__typename'>[];
   onDisabledAppClick?: (app: MessagingApp) => void;
 };
 
-const Preferences = (props: PropsT) => {
+const Preferences = ({ messageCategories, ...props }: PropsT) => {
   const { user } = useUserContext();
   const { isSubscribeOnlyMode } = useEnvironment();
-  const { messageCategories } = useChannelContext();
 
   return (
     <PreferencesContainer hideBorder={isSubscribeOnlyMode}>

@@ -52,8 +52,8 @@ const variantStyles = (variant = 'primary', theme: DefaultTheme): any =>
       color: ${mode(theme.w.colors.light[80], theme.w.colors.dark[80])};
 
       &:hover {
-        background: ${mode(theme.w.colors.gray[300], theme.w.colors.dark[30])};
-        border-color: ${theme.w.colors.gray[300]};
+        background: ${mode(theme.w.colors.gray[400], theme.w.colors.dark[30])};
+        border-color: ${mode(theme.w.colors.gray[400], theme.w.colors.dark[30])};
       }
       ${disabledState(theme)}
     `,

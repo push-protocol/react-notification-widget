@@ -6,7 +6,7 @@ import * as ApolloReactCommon from '@apollo/client';
 import * as ApolloReactHooks from '@apollo/client';
 const defaultOptions = {} as const;
 export type UserSubscribeMutationVariables = Types.Exact<{
-  source?: Types.InputMaybe<Types.UserSubscribeSource>;
+  input: Types.UserSubscribeToChannelInput;
 }>;
 
 
@@ -14,8 +14,8 @@ export type UserSubscribeMutation = { __typename?: 'Mutation', userSubscribeToCh
 
 
 export const UserSubscribeDocument = gql`
-    mutation UserSubscribe($source: UserSubscribeSource) {
-  userSubscribeToChannel(input: {source: $source}) {
+    mutation UserSubscribe($input: UserSubscribeToChannelInput!) {
+  userSubscribeToChannel(input: $input) {
     ...userInfo
   }
 }
@@ -35,7 +35,7 @@ export type UserSubscribeMutationFn = ApolloReactCommon.MutationFunction<UserSub
  * @example
  * const [userSubscribeMutation, { data, loading, error }] = useUserSubscribeMutation({
  *   variables: {
- *      source: // value for 'source'
+ *      input: // value for 'input'
  *   },
  * });
  */
