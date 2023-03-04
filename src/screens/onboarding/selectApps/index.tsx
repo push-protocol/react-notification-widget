@@ -71,7 +71,7 @@ export const SelectApps = () => {
         </Text>
       </Header>
 
-      <Preferences hideDescriptions appConfig={appConfig} />
+      <Preferences messageCategories={messageCategories} hideDescriptions appConfig={appConfig} />
 
       <Flex mb={2} mt={2} gap={1} width={'100%'}>
         <Button
