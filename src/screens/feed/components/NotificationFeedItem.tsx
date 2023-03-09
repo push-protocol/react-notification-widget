@@ -30,6 +30,7 @@ const Container = styled(Flex)<{ clickable: boolean; theme: DefaultTheme }>`
   padding: 12px;
   border-radius: ${({ theme }) => theme.w.borderRadius.md};
   transition: all 0.2s ease-in-out;
+
   &:hover {
     background: ${({ theme, clickable }) =>
       clickable ? mode(theme.w.colors.light[10], theme.w.colors.dark[10]) : undefined};
@@ -65,6 +66,7 @@ const UnreadNotification = styled.div`
   left: -10px;
   background: ${({ theme }) => theme.w.colors.primary.light};
   cursor: pointer;
+
   &:active {
     background: ${({ theme }) => changeColorShade(theme.w.colors.primary.light, -20)};
   }
@@ -77,9 +79,10 @@ const Message = styled(Text)`
   a {
     color: ${({ theme }) => theme.w.colors.primary.main};
   }
+
   // a sort of global css reset for the markdown rendered HTML
   // prettier-ignore
-  p, h1, h2, h3, h4, h5, h6, ol, ul{
+  p, h1, h2, h3, h4, h5, h6, ol, ul {
     padding: 0;
     margin: 0;
   }
@@ -87,7 +90,7 @@ const Message = styled(Text)`
   // turn markdown rendered headings to normal p size
   // prettier-ignore
   h1, h2, h3, h4, h5, h6 {
-   font-size: ${textSizes.md}px;  
+    font-size: ${textSizes.md}px;
   }
 
   ol,
@@ -95,6 +98,11 @@ const Message = styled(Text)`
     line-height: 22px;
     white-space: normal;
     list-style-position: inside;
+
+    li > ul,
+    li > ol {
+      padding-left: 10px;
+    }
   }
 `;
 
