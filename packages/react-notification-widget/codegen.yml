@@ -1,0 +1,33 @@
+overwrite: true
+schema: "http://localhost:4001/graphql"
+documents:
+  - "packages/react-notification-widget/src/**/*.graphql"
+generates:
+  src/global/types.generated.ts:
+    plugins:
+      - typescript
+  packages/react-notification-widget/src/:
+    preset: near-operation-file
+    presetConfig:
+      extension: .generated.tsx
+      baseTypesPath: global/types.generated.ts
+    plugins:
+      - typescript-operations
+      - typescript-react-apollo
+    config:
+      gqlImport: "@apollo/client#gql"
+      withHooks: true
+      withComponent: false
+      withHOC: false
+      apolloReactCommonImportFrom: "@apollo/client"
+      apolloReactComponentsImportFrom: "@apollo/client"
+      apolloReactHocImportFrom: "@apollo/client"
+      apolloReactHooksImportFrom: "@apollo/client"
+
+  packages/react-notification-widget/schema.graphql:
+    plugins:
+      - schema-ast
+
+  packages/react-notification-widget/schema.json:
+    plugins:
+      - introspection

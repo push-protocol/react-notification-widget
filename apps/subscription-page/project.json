@@ -1,0 +1,100 @@
+{
+  "name": "subscription-page",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/subscription-page/src",
+  "projectType": "application",
+  "targets": {
+    "type-check": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          {
+            "command": "tsc --noEmit -p apps/subscription-page/tsconfig.json"
+          }
+        ]
+      }
+    },
+    "codegen": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          {
+            "command": "graphql-codegen --config apps/subscription-page/codegen.yml"
+          }
+        ]
+      }
+    },
+    "build": {
+      "executor": "@nrwl/vite:build",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "defaultConfiguration": "production",
+      "options": {
+        "outputPath": "dist/apps/subscription-page"
+      },
+      "configurations": {
+        "development": {
+          "mode": "development"
+        },
+        "production": {
+          "mode": "production"
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/vite:dev-server",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "subscription-page:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "subscription-page:build:development",
+          "hmr": true
+        },
+        "production": {
+          "buildTarget": "subscription-page:build:production",
+          "hmr": false
+        }
+      }
+    },
+    "preview": {
+      "executor": "@nrwl/vite:preview-server",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "subscription-page:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "subscription-page:build:development"
+        },
+        "production": {
+          "buildTarget": "subscription-page:build:production"
+        }
+      }
+    },
+    "test": {
+      "executor": "@nrwl/vite:test",
+      "outputs": [
+        "coverage/apps/subscription-page"
+      ],
+      "options": {
+        "passWithNoTests": true,
+        "reportsDirectory": "../../coverage/apps/subscription-page"
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": [
+        "{options.outputFile}"
+      ],
+      "options": {
+        "lintFilePatterns": [
+          "apps/subscription-page/**/*.{ts,tsx,js,jsx}"
+        ]
+      }
+    }
+  },
+  "tags": []
+}
