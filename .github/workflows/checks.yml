@@ -15,7 +15,7 @@ jobs:
           cache: 'yarn'
 
       - name: Install deps (for eslint plugins)
-        run: yarn install --frozen-lockfile
+        run: yarn install
 
       - name: ESLint
         run: npx nx affected --base=origin/staging --head=$PR_BRANCH_NAME --target=lint --parallel=3
