@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-import { Connector, useConnect } from "wagmi";
-import Button from "components/Button";
-import analytics from "services/analytics";
-import Flex from "components/layout/Flex";
-import Text from "components/Text";
+import React, { useState } from 'react';
+import { Connector, useConnect } from 'wagmi';
+import Button from 'components/Button';
+import analytics from 'services/analytics';
+import Flex from 'components/layout/Flex';
+import Text from 'components/Text';
 
-const ALLOWED_WALLETS = ["metaMask", "walletConnect", "coinbaseWallet"];
+const ALLOWED_WALLETS = ['metaMask', 'walletConnect', 'coinbaseWallet'];
 
 const isMobile = function () {
   let check = false;
@@ -32,23 +32,20 @@ type PropsT = {
 
 const ConnectWalletButtons = (props: PropsT) => {
   const { connect, connectors, isLoading } = useConnect({
-    onSuccess: () => setTimeout(props?.onConnect || "", 2000),
+    onSuccess: () => setTimeout(props?.onConnect || '', 2000),
   });
-  const [selectedWallet, setSelectedWallet] = useState("");
+  const [selectedWallet, setSelectedWallet] = useState('');
 
   const connectWallet = async (connector: Connector) => {
-    analytics.track("wallet connect clicked", { wallet: connector.id });
+    analytics.track('wallet connect clicked', { wallet: connector.id });
     setSelectedWallet(connector.id);
 
-    if (connector.id === "metaMask" && isMobile()) {
+    if (connector.id === 'metaMask' && isMobile()) {
       if (connector.ready) {
         return connect({ connector });
       }
 
-      window.open(
-        `https://metamask.app.link/dapp/${window.location.href}`,
-        "_blank"
-      );
+      window.open(`https://metamask.app.link/dapp/${window.location.href}`, '_blank');
       return;
     }
 
@@ -56,8 +53,8 @@ const ConnectWalletButtons = (props: PropsT) => {
   };
 
   return (
-    <Flex alignItems={"center"} direction={"column"} gap={1.5}>
-      <Text mb={1} size={"sm"} align={"center"}>
+    <Flex alignItems={'center'} direction={'column'} gap={1.5}>
+      <Text mb={1} size={'sm'} align={'center'}>
         <strong>Connect your wallet to continue</strong>
       </Text>
       {connectors

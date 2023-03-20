@@ -1,8 +1,8 @@
-import React from "react";
-import { IconProps } from "../types";
+import React from 'react';
+import { IconProps } from '../types';
 
 export const Boxes = ({ className, color }: IconProps & { color?: string }) => {
-  const fillColor = color || "white";
+  const fillColor = color || 'white';
 
   return (
     <svg

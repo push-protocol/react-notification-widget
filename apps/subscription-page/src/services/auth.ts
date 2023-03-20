@@ -1,13 +1,13 @@
-import "@rainbow-me/rainbowkit/styles.css";
-import { mainnet, goerli, configureChains, createClient } from "wagmi";
-import { alchemyProvider } from "wagmi/providers/alchemy";
-import { WalletConnectConnector } from "wagmi/connectors/walletConnect";
-import { MetaMaskConnector } from "wagmi/connectors/metaMask";
-import { CoinbaseWalletConnector } from "wagmi/connectors/coinbaseWallet";
+import '@rainbow-me/rainbowkit/styles.css';
+import { mainnet, goerli, configureChains, createClient } from 'wagmi';
+import { alchemyProvider } from 'wagmi/providers/alchemy';
+import { WalletConnectConnector } from 'wagmi/connectors/walletConnect';
+import { MetaMaskConnector } from 'wagmi/connectors/metaMask';
+import { CoinbaseWalletConnector } from 'wagmi/connectors/coinbaseWallet';
 
 const { chains, provider } = configureChains(
   [mainnet, goerli],
-  [alchemyProvider({ apiKey: import.meta.env.VITE_ALCHEMY_KEY || "" })]
+  [alchemyProvider({ apiKey: import.meta.env.VITE_ALCHEMY_KEY || '' })]
 );
 
 const wagmiClient = createClient({
@@ -24,7 +24,7 @@ const wagmiClient = createClient({
       chains,
     }),
     new CoinbaseWalletConnector({
-      options: { appName: "Wherever" },
+      options: { appName: 'Wherever' },
     }),
   ],
   provider,

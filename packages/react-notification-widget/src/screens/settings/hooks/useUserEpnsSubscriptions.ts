@@ -1,12 +1,12 @@
-import * as epns from "@epnsproject/sdk-restapi";
-import { useState, useEffect } from "react";
-import { useUserContext } from "../../../context/UserContext";
-import { useAuthContext } from "../../../context/AuthContext";
-import { GetUserSubscriptionsDocument } from "../operations.generated";
-import { useChannelContext } from "../../../context/ChannelContext";
-import analytics from "../../../services/analytics";
-import { useUserSubscribeMutation } from "../../subscribe/operations.generated";
-import { UserSubscribeSource } from "../../../global/types.generated";
+import * as epns from '@epnsproject/sdk-restapi';
+import { useState, useEffect } from 'react';
+import { useUserContext } from '../../../context/UserContext';
+import { useAuthContext } from '../../../context/AuthContext';
+import { GetUserSubscriptionsDocument } from '../operations.generated';
+import { useChannelContext } from '../../../context/ChannelContext';
+import analytics from '../../../services/analytics';
+import { useUserSubscribeMutation } from '../../subscribe/operations.generated';
+import { UserSubscribeSource } from '../../../global/types.generated';
 
 const useUserEpnsSubscriptions = () => {
   const { userAddress } = useUserContext();
@@ -14,8 +14,7 @@ const useUserEpnsSubscriptions = () => {
   const { chainId } = useChannelContext();
 
   const [subscriptions, setSubscriptions] = useState<string[]>([]);
-  const [addSubscriptionLoading, setAddSubscriptionLoading] =
-    useState<string>();
+  const [addSubscriptionLoading, setAddSubscriptionLoading] = useState<string>();
 
   const [subToChannel] = useUserSubscribeMutation({
     refetchQueries: [GetUserSubscriptionsDocument],
@@ -26,9 +25,9 @@ const useUserEpnsSubscriptions = () => {
 
     try {
       await subscribe(address);
-      analytics.track("channel subscribe successful", {
+      analytics.track('channel subscribe successful', {
         channelAddress: address,
-        source: "passport discovery",
+        source: 'passport discovery',
       });
       await subToChannel({
         variables: {
@@ -56,9 +55,7 @@ const useUserEpnsSubscriptions = () => {
       const resp = await epns.user.getSubscriptions({
         user: `eip155:1:${userAddress}`,
       });
-      const channelAddresses = resp.map((r: { channel: string }) =>
-        r.channel.toLowerCase()
-      );
+      const channelAddresses = resp.map((r: { channel: string }) => r.channel.toLowerCase());
 
       setSubscriptions(channelAddresses);
     };

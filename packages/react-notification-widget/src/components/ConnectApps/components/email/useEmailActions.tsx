@@ -1,20 +1,20 @@
-import { useState } from "react";
+import { useState } from 'react';
 import {
   useDeleteChannelMutation,
   useSaveUserEmailMutation,
   useValidateUserEmailMutation,
-} from "../../operations.generated";
-import analytics from "services/analytics";
-import { MessagingApp } from "global/types.generated";
-import { useUserContext } from "context/UserContext";
-import { UserCommunicationChannelsDocument } from "context/UserContext/operations.generated";
-import { useAuthContext } from "context/AuthContext";
-import { useEnvironment } from "context/EnvironmentContext";
+} from '../../operations.generated';
+import analytics from 'services/analytics';
+import { MessagingApp } from 'global/types.generated';
+import { useUserContext } from 'context/UserContext';
+import { UserCommunicationChannelsDocument } from 'context/UserContext/operations.generated';
+import { useAuthContext } from 'context/AuthContext';
+import { useEnvironment } from 'context/EnvironmentContext';
 
 export enum ConnectEmailViews {
-  Edit = "Edit",
-  Verify = "Verify",
-  Connected = "Connected",
+  Edit = 'Edit',
+  Verify = 'Verify',
+  Connected = 'Connected',
 }
 
 const useEmailActions = () => {
@@ -23,12 +23,10 @@ const useEmailActions = () => {
   const { userCommsChannels } = useUserContext();
 
   const [connectEmailView, setConnectEmailView] = useState(
-    !userCommsChannels?.email?.exists
-      ? ConnectEmailViews.Edit
-      : ConnectEmailViews.Connected
+    !userCommsChannels?.email?.exists ? ConnectEmailViews.Edit : ConnectEmailViews.Connected
   );
 
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState('');
 
   const [saveEmail, { loading: saveLoading }] = useSaveUserEmailMutation({
     variables: {
@@ -45,15 +43,14 @@ const useEmailActions = () => {
     },
   });
 
-  const [validateEmail, { loading: verifyLoading }] =
-    useValidateUserEmailMutation({
-      refetchQueries: [UserCommunicationChannelsDocument],
-    });
+  const [validateEmail, { loading: verifyLoading }] = useValidateUserEmailMutation({
+    refetchQueries: [UserCommunicationChannelsDocument],
+  });
 
   const handleSave = async () => {
     login(async () => {
       await saveEmail();
-      analytics.track("email saved");
+      analytics.track('email saved');
       setConnectEmailView(ConnectEmailViews.Verify);
     });
   };
@@ -68,7 +65,7 @@ const useEmailActions = () => {
           },
         },
       });
-      analytics.track("email verified");
+      analytics.track('email verified');
 
       setConnectEmailView(ConnectEmailViews.Connected);
 
@@ -83,9 +80,9 @@ const useEmailActions = () => {
       const response = await deleteEmail();
 
       if (response?.data?.userCommunicationsChannelDelete?.success) {
-        analytics.track("email deleted");
+        analytics.track('email deleted');
         setConnectEmailView(ConnectEmailViews.Edit);
-        setEmail("");
+        setEmail('');
       }
     });
   };
@@ -102,7 +99,7 @@ const useEmailActions = () => {
     email,
     setEmail,
     isConnected: userCommsChannels?.email?.exists,
-    hint: userCommsChannels?.email?.hint || "",
+    hint: userCommsChannels?.email?.hint || '',
   };
 };
 

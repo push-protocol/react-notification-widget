@@ -1,6 +1,6 @@
-import { useEffect, useMemo } from "react";
-import { utils } from "ethers";
-import { CustomSigner, SignerContextProps } from "./index";
+import { useEffect, useMemo } from 'react';
+import { utils } from 'ethers';
+import { CustomSigner, SignerContextProps } from './index';
 
 const logMissingProp = (prop: keyof CustomSigner) =>
   console.error(
@@ -9,13 +9,7 @@ const logMissingProp = (prop: keyof CustomSigner) =>
 
 const useValidateProps = (props: SignerContextProps) => {
   const isCustomSigner = useMemo(
-    () =>
-      Boolean(
-        props.address ||
-          props.signMessage ||
-          props.signTypedData ||
-          props.chainId
-      ),
+    () => Boolean(props.address || props.signMessage || props.signTypedData || props.chainId),
     [props]
   );
 
@@ -24,12 +18,7 @@ const useValidateProps = (props: SignerContextProps) => {
       return;
     }
 
-    const keys = [
-      "address",
-      "signMessage",
-      "chainId",
-      "signTypedData",
-    ] as const;
+    const keys = ['address', 'signMessage', 'chainId', 'signTypedData'] as const;
 
     keys.forEach((key) => {
       if (!props[key]) logMissingProp(key);

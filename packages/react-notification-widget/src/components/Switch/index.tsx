@@ -1,6 +1,6 @@
-import React, { useMemo } from "react";
-import styled from "styled-components";
-import { mode } from "../../theme";
+import React, { useMemo } from 'react';
+import styled from 'styled-components';
+import { mode } from '../../theme';
 
 const SwitchInputWrapper = styled.div`
   position: relative;
@@ -17,20 +17,18 @@ const SwitchInputLabel = styled.label`
   width: 100%;
   height: 6px;
   border-radius: 15px;
-  background: ${({ theme }) =>
-    mode(theme.w.colors.light[10], theme.w.colors.dark[10])};
+  background: ${({ theme }) => mode(theme.w.colors.light[10], theme.w.colors.dark[10])};
   transition: 0.2s;
   cursor: pointer;
   &::after {
-    content: "";
+    content: '';
     display: block;
     border-radius: 50%;
     width: 16px;
     height: 16px;
     margin-top: -5px;
     margin-left: -2px;
-    background: ${({ theme }) =>
-      mode(theme.w.colors.light[50], theme.w.colors.dark[50])};
+    background: ${({ theme }) => mode(theme.w.colors.light[50], theme.w.colors.dark[50])};
     box-shadow: 1px 3px 3px 1px rgba(0, 0, 0, 0.2);
     transition: 0.2s;
   }
@@ -44,8 +42,7 @@ const Input = styled.input`
   width: 100%;
   height: 100%;
   &:checked + ${SwitchInputLabel} {
-    background: ${({ theme }) =>
-      mode(theme.w.colors.light[30], theme.w.colors.dark[30])};
+    background: ${({ theme }) => mode(theme.w.colors.light[30], theme.w.colors.dark[30])};
     &::after {
       margin-left: 16px;
       background: ${({ theme }) => theme.w.colors.primary.main};

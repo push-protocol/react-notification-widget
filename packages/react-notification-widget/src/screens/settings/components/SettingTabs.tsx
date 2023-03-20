@@ -1,8 +1,8 @@
-import React from "react";
-import styled from "styled-components";
-import Flex from "../../../components/layout/Flex";
-import Text from "../../../components/Text";
-import { SettingsTabNames } from "../types";
+import React from 'react';
+import styled from 'styled-components';
+import Flex from '../../../components/layout/Flex';
+import Text from '../../../components/Text';
+import { SettingsTabNames } from '../types';
 
 const TabButton = styled.div<{ selected?: boolean }>`
   cursor: pointer;
@@ -10,16 +10,12 @@ const TabButton = styled.div<{ selected?: boolean }>`
   margin-bottom: 16px;
   margin-top: 16px;
   ${({ theme, selected }) => ({
-    borderBottom: selected
-      ? `2px solid ${theme.w.colors.primary.main}`
-      : "2px solid transparent",
+    borderBottom: selected ? `2px solid ${theme.w.colors.primary.main}` : '2px solid transparent',
   })}
 
   ${Text} {
     ${({ theme, selected }) => ({
-      color: selected
-        ? theme.w.colors.text.primary
-        : theme.w.colors.text.secondary,
+      color: selected ? theme.w.colors.text.primary : theme.w.colors.text.secondary,
     })}
   }
 `;
@@ -36,7 +32,7 @@ const SettingTabs = (props: PropsT) => {
         onClick={() => props.onTabSwitch(SettingsTabNames.Passport)}
         selected={props.selectedTab === SettingsTabNames.Passport}
       >
-        <Text size={"lg"}>
+        <Text size={'lg'}>
           <strong>My Passport</strong>
         </Text>
       </TabButton>
@@ -44,7 +40,7 @@ const SettingTabs = (props: PropsT) => {
         onClick={() => props.onTabSwitch(SettingsTabNames.Discover)}
         selected={props.selectedTab === SettingsTabNames.Discover}
       >
-        <Text size={"lg"}>
+        <Text size={'lg'}>
           <strong>Discover</strong>
         </Text>
       </TabButton>

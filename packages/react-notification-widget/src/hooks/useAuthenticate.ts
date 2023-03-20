@@ -1,10 +1,10 @@
-import { SiweMessage } from "siwe";
+import { SiweMessage } from 'siwe';
 import {
   useNonceGenerateMutation,
   useUserLoginMutation,
-} from "../screens/verifyAccount/operations.generated";
-import { useSignerContext } from "context/SignerContext";
-import { useChannelContext } from "context/ChannelContext";
+} from '../screens/verifyAccount/operations.generated';
+import { useSignerContext } from 'context/SignerContext';
+import { useChannelContext } from 'context/ChannelContext';
 
 type SignatureMessage = {
   domain: string;
@@ -46,16 +46,13 @@ export const useAuthenticate = () => {
     }
   };
 
-  const getSignature = async (
-    nonce: string
-  ): Promise<[SignatureMessage, string]> => {
+  const getSignature = async (nonce: string): Promise<[SignatureMessage, string]> => {
     const msg: SignatureMessage = {
       domain: window.location.host,
       address: address as string,
-      statement:
-        "Verify you are the owner of this wallet to receive notifications.",
+      statement: 'Verify you are the owner of this wallet to receive notifications.',
       uri: window.location.origin,
-      version: "1",
+      version: '1',
       chainId,
       nonce,
       issuedAt: new Date().toISOString(),
@@ -70,11 +67,7 @@ export const useAuthenticate = () => {
     }
   };
 
-  const attemptLogin = async (
-    msg: SignatureMessage,
-    signature: string,
-    channelAddress: string
-  ) => {
+  const attemptLogin = async (msg: SignatureMessage, signature: string, channelAddress: string) => {
     const response = await loginUser({
       variables: {
         input: {

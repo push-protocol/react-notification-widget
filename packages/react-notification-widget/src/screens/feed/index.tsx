@@ -1,22 +1,20 @@
-import React, { useMemo, useState, useRef } from "react";
-import styled, { keyframes } from "styled-components";
-import InfiniteScroll from "react-infinite-scroller";
-import FeedNavigation, {
-  NavigationTabs,
-} from "../../screens/feed/components/FeedNavigation";
-import { useEnvironment } from "../../context/EnvironmentContext";
-import EmptyState from "./components/EmptyState";
-import NotificationFeedItem from "./components/NotificationFeedItem";
-import analytics from "services/analytics";
-import { useUserContext } from "context/UserContext";
-import { useChannelContext } from "context/ChannelContext";
-import { Notification } from "context/UserContext/types";
-import { Routes, useRouterContext } from "context/RouterContext";
-import { Screen } from "components/layout/Screen";
-import { Settings } from "components/icons";
-import { NotificationClickProp } from "components/types";
-import Flex from "components/layout/Flex";
-import Spinner from "components/Spinner";
+import React, { useMemo, useState, useRef } from 'react';
+import styled, { keyframes } from 'styled-components';
+import InfiniteScroll from 'react-infinite-scroller';
+import FeedNavigation, { NavigationTabs } from '../../screens/feed/components/FeedNavigation';
+import { useEnvironment } from '../../context/EnvironmentContext';
+import EmptyState from './components/EmptyState';
+import NotificationFeedItem from './components/NotificationFeedItem';
+import analytics from 'services/analytics';
+import { useUserContext } from 'context/UserContext';
+import { useChannelContext } from 'context/ChannelContext';
+import { Notification } from 'context/UserContext/types';
+import { Routes, useRouterContext } from 'context/RouterContext';
+import { Screen } from 'components/layout/Screen';
+import { Settings } from 'components/icons';
+import { NotificationClickProp } from 'components/types';
+import Flex from 'components/layout/Flex';
+import Spinner from 'components/Spinner';
 
 const NOTIFS_PER_PAGE = 10;
 
@@ -121,7 +119,7 @@ export const Feed = ({ onNotificationClick }: NotificationClickProp) => {
   }, [page, tabNotifs]);
 
   const handleTabSwitch = (tab: NavigationTabs) => {
-    analytics.track("notifications tab switch", { tab });
+    analytics.track('notifications tab switch', { tab });
 
     if (feedRef.current?.scrollTop) {
       feedRef.current.scrollTop = 0;
@@ -133,7 +131,7 @@ export const Feed = ({ onNotificationClick }: NotificationClickProp) => {
 
   return (
     <Screen
-      title={"Notifications"}
+      title={'Notifications'}
       navbarActionComponent={
         <SettingsIcon onClick={handleViewSettings}>
           <Settings />
@@ -144,20 +142,10 @@ export const Feed = ({ onNotificationClick }: NotificationClickProp) => {
         <FeedNavigation activeTab={activeTab} setActiveTab={handleTabSwitch} />
       )}
 
-      <NotificationFeed
-        ref={feedRef}
-        width={"100%"}
-        direction={"column"}
-        gap={2}
-      >
+      <NotificationFeed ref={feedRef} width={'100%'} direction={'column'} gap={2}>
         <EmptyState show={!isLoading && !notificationsToShow?.length} />
         {isLoading ? (
-          <Flex
-            height={150}
-            justifyContent={"center"}
-            alignItems={"center"}
-            pb={3}
-          >
+          <Flex height={150} justifyContent={'center'} alignItems={'center'} pb={3}>
             <Spinner />
           </Flex>
         ) : (
@@ -174,9 +162,7 @@ export const Feed = ({ onNotificationClick }: NotificationClickProp) => {
                 <NotificationFeedItem
                   onNotificationClick={onNotificationClick}
                   notification={notification}
-                  showSenderDetails={
-                    isSubscribeOnlyMode || activeTab === NavigationTabs.Other
-                  }
+                  showSenderDetails={isSubscribeOnlyMode || activeTab === NavigationTabs.Other}
                 />
               </NotificationAnimation>
             ))}

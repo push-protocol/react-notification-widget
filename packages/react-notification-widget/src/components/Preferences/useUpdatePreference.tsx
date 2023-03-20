@@ -1,17 +1,14 @@
-import { useUserPreferencesUpdateMutation } from "./operations.generated";
-import { UserPreference } from "global/types.generated";
-import {
-  GetUserDocument,
-  GetUserQuery,
-} from "context/UserContext/operations.generated";
-import { Web2AppLower } from "context/UserContext/const";
+import { useUserPreferencesUpdateMutation } from './operations.generated';
+import { UserPreference } from 'global/types.generated';
+import { GetUserDocument, GetUserQuery } from 'context/UserContext/operations.generated';
+import { Web2AppLower } from 'context/UserContext/const';
 
 const useUpdatePreference = () => {
   const [updateUserPreferences] = useUserPreferencesUpdateMutation();
 
   const updatePreference = (
     categoryId: string,
-    appOrEnabled: Web2AppLower | "enabled",
+    appOrEnabled: Web2AppLower | 'enabled',
     pref?: Partial<UserPreference>
   ) => {
     const updatedPref = { ...pref, [appOrEnabled]: !pref?.[appOrEnabled] };
@@ -28,8 +25,8 @@ const useUpdatePreference = () => {
     updateUserPreferences({
       optimisticResponse: {
         userPreferencesUpdate: {
-          __typename: "UserPreference",
-          id: updatedPref.id || "temp-id",
+          __typename: 'UserPreference',
+          id: updatedPref.id || 'temp-id',
           ...update,
         },
       },

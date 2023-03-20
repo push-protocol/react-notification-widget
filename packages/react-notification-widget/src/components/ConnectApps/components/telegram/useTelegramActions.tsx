@@ -1,41 +1,37 @@
-import { useEffect } from "react";
+import { useEffect } from 'react';
 import {
   useDeleteChannelMutation,
   useGetTelegramVerificationLinkMutation,
-} from "../../operations.generated";
-import analytics from "services/analytics";
-import { MessagingApp } from "global/types.generated";
-import { useUserContext } from "context/UserContext";
-import { UserCommunicationChannelsDocument } from "context/UserContext/operations.generated";
-import { useAuthContext } from "context/AuthContext";
+} from '../../operations.generated';
+import analytics from 'services/analytics';
+import { MessagingApp } from 'global/types.generated';
+import { useUserContext } from 'context/UserContext';
+import { UserCommunicationChannelsDocument } from 'context/UserContext/operations.generated';
+import { useAuthContext } from 'context/AuthContext';
 
 const useTelegramActions = () => {
   const { login, isOnboarding } = useAuthContext();
-  const {
-    setUserCommsChannelsPollInterval,
-    userCommsChannels,
-    userCommsChannelsPollInterval,
-  } = useUserContext();
+  const { setUserCommsChannelsPollInterval, userCommsChannels, userCommsChannelsPollInterval } =
+    useUserContext();
 
   const [getTelegramLink, { loading: telegramLoading, data: telegramUrlData }] =
     useGetTelegramVerificationLinkMutation();
 
-  const [deleteTelegramIntegration, { loading: deleteLoading }] =
-    useDeleteChannelMutation({
-      refetchQueries: [UserCommunicationChannelsDocument],
-      variables: {
-        input: {
-          app: MessagingApp.Telegram,
-        },
+  const [deleteTelegramIntegration, { loading: deleteLoading }] = useDeleteChannelMutation({
+    refetchQueries: [UserCommunicationChannelsDocument],
+    variables: {
+      input: {
+        app: MessagingApp.Telegram,
       },
-    });
+    },
+  });
 
   const handleRemoveTelegramIntegration = async () => {
     login(async () => {
       const response = await deleteTelegramIntegration();
 
       if (response?.data?.userCommunicationsChannelDelete?.success) {
-        analytics.track("telegram integration removed");
+        analytics.track('telegram integration removed');
         await getTelegramLink();
       }
     });
@@ -44,53 +40,44 @@ const useTelegramActions = () => {
   const handleGenerateUrl = async () => {
     login(async () => {
       await getTelegramLink();
-      analytics.track("telegram url generated");
+      analytics.track('telegram url generated');
     });
   };
 
   const handleOpenTG = async () => {
-    analytics.track("open telegram clicked");
+    analytics.track('open telegram clicked');
     setUserCommsChannelsPollInterval(4000);
     window.open(
       telegramUrlData?.telegramVerificationLinkGenerate?.link,
-      "_blank",
-      "noopener,noreferrer"
+      '_blank',
+      'noopener,noreferrer'
     );
   };
 
   // poll during onboarding incase user is manually messaging the bot
   useEffect(() => {
-    if (
-      isOnboarding &&
-      !userCommsChannelsPollInterval &&
-      !userCommsChannels?.telegram.exists
-    ) {
+    if (isOnboarding && !userCommsChannelsPollInterval && !userCommsChannels?.telegram.exists) {
       setUserCommsChannelsPollInterval(4000);
     }
   }, [isOnboarding, userCommsChannelsPollInterval]);
 
   useEffect(() => {
     if (userCommsChannelsPollInterval && userCommsChannels?.telegram?.exists) {
-      analytics.track("telegram connected successfully");
+      analytics.track('telegram connected successfully');
 
       setUserCommsChannelsPollInterval(0);
     }
-  }, [
-    setUserCommsChannelsPollInterval,
-    userCommsChannels,
-    userCommsChannelsPollInterval,
-  ]);
+  }, [setUserCommsChannelsPollInterval, userCommsChannels, userCommsChannelsPollInterval]);
 
   return {
     telegramLoading,
     deleteLoading,
-    telegramVerificationUrl:
-      telegramUrlData?.telegramVerificationLinkGenerate?.link,
+    telegramVerificationUrl: telegramUrlData?.telegramVerificationLinkGenerate?.link,
     handleGenerateUrl,
     handleOpenTG,
     handleRemoveTelegramIntegration,
     isConnected: userCommsChannels?.telegram?.exists,
-    hint: userCommsChannels?.telegram?.hint || "",
+    hint: userCommsChannels?.telegram?.hint || '',
   };
 };
 

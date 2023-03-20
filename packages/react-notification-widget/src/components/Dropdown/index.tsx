@@ -1,20 +1,18 @@
-import React, { ReactNode, useEffect, useRef } from "react";
-import styled, { useTheme } from "styled-components";
-import Spinner from "../Spinner";
-import Flex from "../layout/Flex";
-import Text from "../Text";
-import { ArrowRight } from "../icons";
-import { mode } from "../../theme";
+import React, { ReactNode, useEffect, useRef } from 'react';
+import styled, { useTheme } from 'styled-components';
+import Spinner from '../Spinner';
+import Flex from '../layout/Flex';
+import Text from '../Text';
+import { ArrowRight } from '../icons';
+import { mode } from '../../theme';
 
 const Container = styled(Flex)<{ open?: boolean }>`
   width: 100%;
   border-radius: ${({ theme }) => theme.w.borderRadius.md};
   background: ${({ theme, open }) =>
-    open
-      ? mode(theme.w.colors.dark["10"], theme.w.colors.light["10"])
-      : "unset"};
+    open ? mode(theme.w.colors.dark['10'], theme.w.colors.light['10']) : 'unset'};
   border: ${({ theme, open }) =>
-    open ? `1px solid ${theme.w.colors.light["10"]}` : "1px solid transparent"};
+    open ? `1px solid ${theme.w.colors.light['10']}` : '1px solid transparent'};
   transition: all 0.2s ease-in-out;
 `;
 
@@ -28,8 +26,7 @@ const DropdownHeader = styled(Flex)`
   justify-content: space-between;
 
   :hover {
-    background: ${({ theme }) =>
-      mode(theme.w.colors.light["10"], theme.w.colors.dark["10"])};
+    background: ${({ theme }) => mode(theme.w.colors.light['10'], theme.w.colors.dark['10'])};
   }
 `;
 
@@ -58,11 +55,10 @@ const IconContainer = styled(Flex)`
 
 const Content = styled(Flex)<{ open?: boolean }>`
   overflow: hidden;
-  transition: opacity 0.3s ease-out, max-height 0.4s ease-out,
-    padding 0.2s linear;
+  transition: opacity 0.3s ease-out, max-height 0.4s ease-out, padding 0.2s linear;
   ${({ open }) =>
     open
-      ? { maxHeight: 500, padding: "8px 8px 12px 8px", opacity: 1 }
+      ? { maxHeight: 500, padding: '8px 8px 12px 8px', opacity: 1 }
       : { maxHeight: 0, opacity: 0, padding: 0 }}
 `;
 
@@ -93,9 +89,9 @@ const Dropdown = ({
     const timer = setTimeout(() => {
       if (isOpen && ref?.current) {
         ref?.current.scrollIntoView({
-          behavior: "smooth",
-          block: "nearest",
-          inline: "nearest",
+          behavior: 'smooth',
+          block: 'nearest',
+          inline: 'nearest',
         });
       }
     }, 200); // Needed because of app dropdown animation
@@ -104,23 +100,18 @@ const Dropdown = ({
   }, [isOpen]);
 
   return (
-    <Container direction={"column"} open={isOpen}>
-      <DropdownHeader alignItems={"center"} onClick={toggleOpen}>
+    <Container direction={'column'} open={isOpen}>
+      <DropdownHeader alignItems={'center'} onClick={toggleOpen}>
         <HeaderInfo gap={1}>
           <DropdownIcon open={isOpen}>
             <ArrowRight />
           </DropdownIcon>
-          {typeof icon === "string" ? (
-            <img
-              src={icon}
-              width={24}
-              height={24}
-              style={{ borderRadius: 25 }}
-            />
+          {typeof icon === 'string' ? (
+            <img src={icon} width={24} height={24} style={{ borderRadius: 25 }} />
           ) : (
             <IconContainer>{icon}</IconContainer>
           )}
-          <Text size={"lg"} weight={600}>
+          <Text size={'lg'} weight={600}>
             {title}
           </Text>
         </HeaderInfo>
@@ -128,7 +119,7 @@ const Dropdown = ({
           <Spinner size={18} />
         ) : (
           isConnected && (
-            <Text size={"sm"} color={theme.w.colors.success.main} weight={600}>
+            <Text size={'sm'} color={theme.w.colors.success.main} weight={600}>
               • CONNECTED
             </Text>
           )

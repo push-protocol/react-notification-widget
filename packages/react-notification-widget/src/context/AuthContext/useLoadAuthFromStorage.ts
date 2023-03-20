@@ -1,6 +1,6 @@
-import { useEffect } from "react";
-import authStorage from "services/authStorage";
-import { LOCALSTORAGE_PREFIX } from "global/const";
+import { useEffect } from 'react';
+import authStorage from 'services/authStorage';
+import { LOCALSTORAGE_PREFIX } from 'global/const';
 
 type ArgsT = {
   setLoggedInAddress: (addr: string) => void;
@@ -23,7 +23,7 @@ const useLoadAuthFromStorage = ({
     if (savedPk !== partnerKey) {
       authStorage.clearAllKeys();
       setIsLoggedIn(false);
-      setLoggedInAddress("");
+      setLoggedInAddress('');
 
       return;
     }

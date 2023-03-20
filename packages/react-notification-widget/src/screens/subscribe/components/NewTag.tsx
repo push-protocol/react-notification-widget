@@ -1,6 +1,6 @@
-import React from "react";
-import styled, { useTheme } from "styled-components";
-import Text from "components/Text";
+import React from 'react';
+import styled, { useTheme } from 'styled-components';
+import Text from 'components/Text';
 
 const Container = styled.div`
   border-radius: 3px;

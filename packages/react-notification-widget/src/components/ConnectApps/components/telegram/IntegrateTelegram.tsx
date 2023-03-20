@@ -1,10 +1,10 @@
-import React from "react";
-import styled from "styled-components";
-import Flex from "../../../layout/Flex";
-import Button from "../../../Button";
-import Text from "../../../Text";
-import { Wallet } from "../../../icons";
-import { TelegramSquare } from "../../../icons/pack/TelegramSquare";
+import React from 'react';
+import styled from 'styled-components';
+import Flex from '../../../layout/Flex';
+import Button from '../../../Button';
+import Text from '../../../Text';
+import { Wallet } from '../../../icons';
+import { TelegramSquare } from '../../../icons/pack/TelegramSquare';
 
 type IntegrateTelegramProps = {
   url?: string;
@@ -37,8 +37,8 @@ const IntegrateTelegram = ({
   isDisabled,
 }: IntegrateTelegramProps) => {
   return (
-    <Flex direction={"column"} width={"100%"} gap={2}>
-      <Flex gap={2} alignItems={"center"}>
+    <Flex direction={'column'} width={'100%'} gap={2}>
+      <Flex gap={2} alignItems={'center'}>
         <IconContainer>
           <Wallet />
           <TelegramIconContainer>
@@ -48,21 +48,19 @@ const IntegrateTelegram = ({
         {url ? (
           <Text>
             To connect, click the button or message @whereverLabsBot with &quot;
-            <strong>/start {url.split("start=")[1]}</strong>&quot;
+            <strong>/start {url.split('start=')[1]}</strong>&quot;
           </Text>
         ) : (
-          <Text>
-            Generate URL to link your wallet to your Telegram account.
-          </Text>
+          <Text>Generate URL to link your wallet to your Telegram account.</Text>
         )}
       </Flex>
-      <Flex justifyContent={"end"} width={"100%"}>
+      <Flex justifyContent={'end'} width={'100%'}>
         <Button
           onClick={url ? onOpenTg : onGenerateUrl}
           disabled={isDisabled}
           isLoading={isLoading}
         >
-          {url ? "Open Telegram" : "Generate URL"}
+          {url ? 'Open Telegram' : 'Generate URL'}
         </Button>
       </Flex>
     </Flex>

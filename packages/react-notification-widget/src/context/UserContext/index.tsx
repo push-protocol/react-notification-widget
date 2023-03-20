@@ -1,31 +1,16 @@
-import React, {
-  createContext,
-  ReactNode,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
-import { useEnsName } from "wagmi";
-import { useEnvironment } from "../EnvironmentContext";
-import { useChannelContext } from "../ChannelContext";
-import { useAuthContext } from "../AuthContext";
-import { useSignerContext } from "../SignerContext";
-import { UserContext, Notification } from "./types";
-import fetchNotifications from "./fetchNotifications";
-import {
-  useUserCommunicationChannelsLazyQuery,
-  useGetUserLazyQuery,
-} from "./operations.generated";
+import React, { createContext, ReactNode, useContext, useEffect, useState } from 'react';
+import { useEnsName } from 'wagmi';
+import { useEnvironment } from '../EnvironmentContext';
+import { useChannelContext } from '../ChannelContext';
+import { useAuthContext } from '../AuthContext';
+import { useSignerContext } from '../SignerContext';
+import { UserContext, Notification } from './types';
+import fetchNotifications from './fetchNotifications';
+import { useUserCommunicationChannelsLazyQuery, useGetUserLazyQuery } from './operations.generated';
 
 const UserContexts = createContext<UserContext>({} as any);
 
-export const UserProvider = ({
-  children,
-  isOpen,
-}: {
-  children: ReactNode;
-  isOpen?: boolean;
-}) => {
+export const UserProvider = ({ children, isOpen }: { children: ReactNode; isOpen?: boolean }) => {
   const { isLoggedIn, loggedInAddress } = useAuthContext(); // requires the actual account that was used to sign the auth msg, not the connected wallet
   const { address: userAddress } = useSignerContext();
   const { data: userEns } = useEnsName({ address: userAddress });
@@ -36,12 +21,11 @@ export const UserProvider = ({
   const [isLoading, setIsLoading] = useState(false);
   const [polling, setPolling] = useState(false);
   const [notifications, setNotifications] = useState<Notification[]>([]);
-  const [userCommsChannelsPollInterval, setUserCommsChannelsPollInterval] =
-    useState(0);
+  const [userCommsChannelsPollInterval, setUserCommsChannelsPollInterval] = useState(0);
 
   const [fetchUser, { data: userData }] = useGetUserLazyQuery({
-    fetchPolicy: "network-only",
-    nextFetchPolicy: "cache-and-network", // important for account switches and cache updates
+    fetchPolicy: 'network-only',
+    nextFetchPolicy: 'cache-and-network', // important for account switches and cache updates
   });
 
   useEffect(() => {
@@ -52,7 +36,7 @@ export const UserProvider = ({
 
   const [fetchCommsChannels, { data }] = useUserCommunicationChannelsLazyQuery({
     pollInterval: userCommsChannelsPollInterval,
-    nextFetchPolicy: "network-only",
+    nextFetchPolicy: 'network-only',
   });
 
   useEffect(() => {
@@ -66,10 +50,7 @@ export const UserProvider = ({
 
     const timeout = setInterval(async () => {
       try {
-        const newNotifs = await fetchNotifications(
-          `eip155:${chainId}:${userAddress}`,
-          chainId
-        );
+        const newNotifs = await fetchNotifications(`eip155:${chainId}:${userAddress}`, chainId);
         setNotifications(newNotifs || notifications);
       } catch (e) {
         return;
@@ -89,10 +70,7 @@ export const UserProvider = ({
 
     const run = async () => {
       setIsLoading(true);
-      const notifs = await fetchNotifications(
-        `eip155:${chainId}:${userAddress}`,
-        chainId
-      );
+      const notifs = await fetchNotifications(`eip155:${chainId}:${userAddress}`, chainId);
       setNotifications(notifs || []);
       setIsLoading(false);
     };

@@ -1,8 +1,8 @@
-import React from "react";
-import styled, { keyframes, css, useTheme } from "styled-components";
-import { mode } from "../../../theme";
-import { Bell } from "../../icons";
-import CrossedOutBell from "./CrossedOutBell";
+import React from 'react';
+import styled, { keyframes, css, useTheme } from 'styled-components';
+import { mode } from '../../../theme';
+import { Bell } from '../../icons';
+import CrossedOutBell from './CrossedOutBell';
 
 type PropsT = {
   onClick: () => void;
@@ -62,11 +62,7 @@ const PreferenceBell = (props: PropsT) => {
 
   return (
     <BellIconContainer selected={props.selected} onClick={handleClick}>
-      {props.selected ? (
-        <Bell color={w.colors.text.primary} />
-      ) : (
-        <CrossedOutBell />
-      )}
+      {props.selected ? <Bell color={w.colors.text.primary} /> : <CrossedOutBell />}
     </BellIconContainer>
   );
 };

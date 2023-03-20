@@ -1,5 +1,5 @@
-import React from "react";
-import { IconProps } from "../types";
+import React from 'react';
+import { IconProps } from '../types';
 
 export const Check = ({ className }: IconProps) => {
   return (
@@ -14,7 +14,7 @@ export const Check = ({ className }: IconProps) => {
         d="M2 8.5L7.97561 15.5L19.5 2"
         stroke="currentColor"
         strokeWidth="4"
-        fill={"transparent"}
+        fill={'transparent'}
         strokeLinecap="round"
         strokeLinejoin="round"
       />

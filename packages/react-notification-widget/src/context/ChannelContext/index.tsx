@@ -1,15 +1,6 @@
-import React, {
-  createContext,
-  ReactNode,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
-import { ApolloError } from "@apollo/client";
-import {
-  usePartnerInfoQuery,
-  PartnerInfoQuery,
-} from "../ChannelContext/operations.generated";
+import React, { createContext, ReactNode, useContext, useEffect, useState } from 'react';
+import { ApolloError } from '@apollo/client';
+import { usePartnerInfoQuery, PartnerInfoQuery } from '../ChannelContext/operations.generated';
 
 export type ChannelInfo = {
   icon: string;
@@ -17,15 +8,15 @@ export type ChannelInfo = {
   slug: string;
   channelAddress: string;
   chainId: number;
-  messageCategories: PartnerInfoQuery["partnerInfo"]["messageCategories"];
+  messageCategories: PartnerInfoQuery['partnerInfo']['messageCategories'];
   discordGuildUrl?: string | null;
 };
 
 const emptyChannel = {
-  channelAddress: "",
-  icon: "",
-  name: "",
-  slug: "",
+  channelAddress: '',
+  icon: '',
+  name: '',
+  slug: '',
   chainId: 0,
   messageCategories: [],
   preferences: [],
@@ -33,9 +24,9 @@ const emptyChannel = {
   userChannels: [],
 };
 
-const ChannelContext = createContext<
-  ChannelInfo & { loading?: boolean; error?: ApolloError }
->({} as ChannelInfo);
+const ChannelContext = createContext<ChannelInfo & { loading?: boolean; error?: ApolloError }>(
+  {} as ChannelInfo
+);
 
 const ChannelProvider = ({
   partnerKey,
@@ -68,9 +59,7 @@ const ChannelProvider = ({
   }, [data]);
 
   return (
-    <ChannelContext.Provider
-      value={{ ...(channel || emptyChannel), loading, error }}
-    >
+    <ChannelContext.Provider value={{ ...(channel || emptyChannel), loading, error }}>
       {children}
     </ChannelContext.Provider>
   );

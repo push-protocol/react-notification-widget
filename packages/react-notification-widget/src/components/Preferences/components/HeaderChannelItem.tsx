@@ -1,8 +1,8 @@
-import React, { ReactNode } from "react";
-import styled from "styled-components";
-import { PREFERENCES_WIDTH } from "../consts";
-import Text from "../../Text";
-import Flex from "../../layout/Flex";
+import React, { ReactNode } from 'react';
+import styled from 'styled-components';
+import { PREFERENCES_WIDTH } from '../consts';
+import Text from '../../Text';
+import Flex from '../../layout/Flex';
 
 const ChannelItem = styled(Flex)`
   height: 100%;
@@ -22,13 +22,9 @@ type PropsT = {
 
 const HeaderChannelItem = ({ icon, title }: PropsT) => {
   return (
-    <ChannelItem
-      direction={"column"}
-      alignItems={"center"}
-      justifyContent={"space-between"}
-    >
+    <ChannelItem direction={'column'} alignItems={'center'} justifyContent={'space-between'}>
       <IconContainer>{icon}</IconContainer>
-      <Text size={"sm"}>{title}</Text>
+      <Text size={'sm'}>{title}</Text>
     </ChannelItem>
   );
 };

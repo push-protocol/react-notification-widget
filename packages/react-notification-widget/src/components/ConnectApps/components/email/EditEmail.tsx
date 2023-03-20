@@ -1,8 +1,8 @@
-import { UserCommunicationChannel } from "global/types.generated";
-import TextInput from "../../../TextInput";
-import Flex from "../../../layout/Flex";
-import Button from "../../../Button";
-import isEmailValid from "../../../../helpers/functions/isEmailValid";
+import { UserCommunicationChannel } from 'global/types.generated';
+import TextInput from '../../../TextInput';
+import Flex from '../../../layout/Flex';
+import Button from '../../../Button';
+import isEmailValid from '../../../../helpers/functions/isEmailValid';
 
 type EditEmailProps = {
   value: string;
@@ -24,25 +24,19 @@ const EditEmail = ({
   isDisabled,
   isConnected,
 }: EditEmailProps) => (
-  <Flex
-    justifyContent={"center"}
-    alignItems={"center"}
-    direction={"column"}
-    width={"100%"}
-    gap={1}
-  >
+  <Flex justifyContent={'center'} alignItems={'center'} direction={'column'} width={'100%'} gap={1}>
     <TextInput
-      placeholder={"Enter your email..."}
+      placeholder={'Enter your email...'}
       value={value}
       onValueChange={(value) => onChange(value)}
     />
     <Flex
-      justifyContent={isConnected ? "space-between" : "end"}
-      alignItems={"center"}
-      width={"100%"}
+      justifyContent={isConnected ? 'space-between' : 'end'}
+      alignItems={'center'}
+      width={'100%'}
     >
       {isConnected && (
-        <Button variant="text" onClick={handleCancel} size={"md"}>
+        <Button variant="text" onClick={handleCancel} size={'md'}>
           Cancel
         </Button>
       )}

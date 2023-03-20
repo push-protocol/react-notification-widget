@@ -1,5 +1,5 @@
-import styled, { keyframes } from "styled-components";
-import { adjustColor } from "../utils";
+import styled, { keyframes } from 'styled-components';
+import { adjustColor } from '../utils';
 
 const spin = keyframes`
   0% {
@@ -27,12 +27,9 @@ const Spinner = styled.div<SpinnerProps>`
   height: ${({ size = 50 }) => `${size}px`};
   position: relative;
   text-indent: -9999em;
-  border-top: ${({ theme }) =>
-    `3px solid ${adjustColor(theme.w.colors.primary.light, 0.3)}`};
-  border-right: ${({ theme }) =>
-    `3px solid ${adjustColor(theme.w.colors.primary.light, 0.3)}`};
-  border-bottom: ${({ theme }) =>
-    `3px solid ${adjustColor(theme.w.colors.primary.light, 0.3)}`};
+  border-top: ${({ theme }) => `3px solid ${adjustColor(theme.w.colors.primary.light, 0.3)}`};
+  border-right: ${({ theme }) => `3px solid ${adjustColor(theme.w.colors.primary.light, 0.3)}`};
+  border-bottom: ${({ theme }) => `3px solid ${adjustColor(theme.w.colors.primary.light, 0.3)}`};
   border-left: ${({ theme }) => `3px solid ${theme.w.colors.primary.main}`};
   transform: translateZ(0);
   animation: ${spin} 1.1s infinite linear;

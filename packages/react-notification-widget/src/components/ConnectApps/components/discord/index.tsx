@@ -1,11 +1,11 @@
-import { useUserContext } from "context/UserContext";
-import { useAuthContext } from "context/AuthContext";
-import { Discord as DiscordIcon } from "../../../icons";
-import Dropdown from "../../../Dropdown";
-import ConnectedApp from "../ConnectedApp";
-import Flex from "../../../layout/Flex";
-import Text from "../../../Text";
-import useDiscordActions from "./useDiscordActions";
+import { useUserContext } from 'context/UserContext';
+import { useAuthContext } from 'context/AuthContext';
+import { Discord as DiscordIcon } from '../../../icons';
+import Dropdown from '../../../Dropdown';
+import ConnectedApp from '../ConnectedApp';
+import Flex from '../../../layout/Flex';
+import Text from '../../../Text';
+import useDiscordActions from './useDiscordActions';
 
 type DiscordChannelProps = {
   open: boolean;
@@ -22,7 +22,7 @@ export const DiscordConnector = ({ open, toggleOpen }: DiscordChannelProps) => {
 
   return (
     <Dropdown
-      title={"Discord"}
+      title={'Discord'}
       isLoading={verifyData.loading}
       icon={<DiscordIcon />}
       isConnected={isConnected}
@@ -32,20 +32,17 @@ export const DiscordConnector = ({ open, toggleOpen }: DiscordChannelProps) => {
       {isConnected ? (
         <ConnectedApp
           description={
-            hint
-              ? `You are receiving alerts to ${hint}`
-              : "Your Discord account is connected"
+            hint ? `You are receiving alerts to ${hint}` : 'Your Discord account is connected'
           }
           handleRemove={handleRemove}
           isLoading={deleteLoading}
           isDisabled={deleteLoading || isLoading}
         />
       ) : (
-        <Flex direction={"column"} width={"100%"} gap={2}>
+        <Flex direction={'column'} width={'100%'} gap={2}>
           <Text>
-            {verifyData.loading && "Verifying your account..."}
-            {verifyData.error &&
-              "Something went wrong. Please try to reconnect through Discord."}
+            {verifyData.loading && 'Verifying your account...'}
+            {verifyData.error && 'Something went wrong. Please try to reconnect through Discord.'}
           </Text>
         </Flex>
       )}

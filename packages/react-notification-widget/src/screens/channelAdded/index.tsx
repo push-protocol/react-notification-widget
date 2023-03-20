@@ -1,11 +1,11 @@
-import React from "react";
-import styled from "styled-components";
-import { Routes, useRouterContext } from "context/RouterContext";
-import { Screen } from "components/layout/Screen";
-import Button from "components/Button";
-import Text from "components/Text";
-import { Check } from "components/icons";
-import Flex from "components/layout/Flex";
+import React from 'react';
+import styled from 'styled-components';
+import { Routes, useRouterContext } from 'context/RouterContext';
+import { Screen } from 'components/layout/Screen';
+import Button from 'components/Button';
+import Text from 'components/Text';
+import { Check } from 'components/icons';
+import Flex from 'components/layout/Flex';
 
 const HeaderIconContainer = styled.div`
   height: 40px;
@@ -40,9 +40,9 @@ export const ChannelAdded = (props: PropsT) => {
   return (
     <Screen>
       <Flex
-        justifyContent={"center"}
-        alignItems={"center"}
-        direction={"column"}
+        justifyContent={'center'}
+        alignItems={'center'}
+        direction={'column'}
         gap={2}
         mb={8}
         mt={3}
@@ -52,15 +52,15 @@ export const ChannelAdded = (props: PropsT) => {
             <Check />
           </HeaderIcon>
         </HeaderIconContainer>
-        <Text size={"xl"} align={"center"} weight={700}>
+        <Text size={'xl'} align={'center'} weight={700}>
           You&apos;re all set!
         </Text>
-        <Text size={"md"} align={"center"} weight={700} mb={0.5}>
+        <Text size={'md'} align={'center'} weight={700} mb={0.5}>
           {props.channel && `${props.channel} was connected successfully`}
         </Text>
       </Flex>
-      <Flex width={"100%"} mb={3}>
-        <Button onClick={handleContinue} width={"100%"} p={1.5}>
+      <Flex width={'100%'} mb={3}>
+        <Button onClick={handleContinue} width={'100%'} p={1.5}>
           Continue
         </Button>
       </Flex>

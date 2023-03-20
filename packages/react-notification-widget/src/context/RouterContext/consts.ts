@@ -1,4 +1,4 @@
-import { ElementType } from "react";
+import { ElementType } from 'react';
 import {
   Subscribe,
   Settings,
@@ -9,18 +9,18 @@ import {
   SelectApps,
   SelectCategories,
   VerifyAccount,
-} from "../../screens";
+} from '../../screens';
 
 enum Routes {
-  Subscribe = "Subscribe",
-  Settings = "Settings",
-  ChannelAdded = "ChannelAdded",
-  SetupApps = "SetupApps",
-  SelectCategories = "SelectCategories",
-  SelectApps = "SelectApps",
-  NotificationsFeed = "NotificationsFeed",
-  SubscriptionFlowEnded = "SubscriptionFlowEnded",
-  VerifyAccount = "VerifyAccount",
+  Subscribe = 'Subscribe',
+  Settings = 'Settings',
+  ChannelAdded = 'ChannelAdded',
+  SetupApps = 'SetupApps',
+  SelectCategories = 'SelectCategories',
+  SelectApps = 'SelectApps',
+  NotificationsFeed = 'NotificationsFeed',
+  SubscriptionFlowEnded = 'SubscriptionFlowEnded',
+  VerifyAccount = 'VerifyAccount',
 }
 
 type Route = {

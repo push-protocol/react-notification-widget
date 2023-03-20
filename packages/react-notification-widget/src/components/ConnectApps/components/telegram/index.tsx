@@ -1,20 +1,17 @@
-import React from "react";
-import Dropdown from "../../../Dropdown";
-import ConnectedApp from "../ConnectedApp";
-import { Telegram as TelegramIcon } from "../../../icons";
-import IntegrateTelegram from "./IntegrateTelegram";
-import useTelegramActions from "./useTelegramActions";
-import { useAuthContext } from "context/AuthContext";
+import React from 'react';
+import Dropdown from '../../../Dropdown';
+import ConnectedApp from '../ConnectedApp';
+import { Telegram as TelegramIcon } from '../../../icons';
+import IntegrateTelegram from './IntegrateTelegram';
+import useTelegramActions from './useTelegramActions';
+import { useAuthContext } from 'context/AuthContext';
 
 type TelegramChannelProps = {
   open: boolean;
   toggleOpen: () => void;
 };
 
-export const TelegramConnector = ({
-  open,
-  toggleOpen,
-}: TelegramChannelProps) => {
+export const TelegramConnector = ({ open, toggleOpen }: TelegramChannelProps) => {
   const { isLoading } = useAuthContext();
 
   const {
@@ -30,7 +27,7 @@ export const TelegramConnector = ({
 
   return (
     <Dropdown
-      title={"Telegram"}
+      title={'Telegram'}
       icon={<TelegramIcon />}
       isConnected={isConnected}
       isOpen={open}
@@ -39,9 +36,7 @@ export const TelegramConnector = ({
       {isConnected ? (
         <ConnectedApp
           description={
-            hint
-              ? `You are receiving alerts to ${hint}`
-              : "You Telegram account is connected"
+            hint ? `You are receiving alerts to ${hint}` : 'You Telegram account is connected'
           }
           handleRemove={handleRemoveTelegramIntegration}
           isLoading={deleteLoading}

@@ -5,22 +5,22 @@ import React, {
   useContext,
   useEffect,
   useState,
-} from "react";
-import * as epns from "@epnsproject/sdk-restapi";
-import { useChannelContext } from "../ChannelContext";
-import { usePrevious } from "hooks/usePrevious";
-import { Routes, useRouterContext } from "../RouterContext";
-import { useAuthenticate } from "hooks/useAuthenticate";
-import { useSignerContext, EthTypedData } from "../SignerContext";
-import { isMainnnet } from "global/helpers";
-import { getApolloClient } from "services/apolloClient";
+} from 'react';
+import * as epns from '@epnsproject/sdk-restapi';
+import { useChannelContext } from '../ChannelContext';
+import { usePrevious } from 'hooks/usePrevious';
+import { Routes, useRouterContext } from '../RouterContext';
+import { useAuthenticate } from 'hooks/useAuthenticate';
+import { useSignerContext, EthTypedData } from '../SignerContext';
+import { isMainnnet } from 'global/helpers';
+import { getApolloClient } from 'services/apolloClient';
 import {
   ChannelsDiscoveryDocument,
   GetUserSubscriptionsDocument,
-} from "../../screens/settings/operations.generated";
-import useLoadAuthFromStorage from "./useLoadAuthFromStorage";
-import authStorage from "services/authStorage";
-import analytics from "services/analytics";
+} from '../../screens/settings/operations.generated';
+import useLoadAuthFromStorage from './useLoadAuthFromStorage';
+import authStorage from 'services/authStorage';
+import analytics from 'services/analytics';
 
 export type AuthInfo = {
   subscribe(channelAddress?: string): void;
@@ -43,20 +43,17 @@ const isUserSubscribed = async (args: {
   chainId: number;
 }): Promise<boolean> => {
   const { userAddress, channelAddress, chainId } = args;
-  const subbedChannels: { channel: string }[] =
-    await epns.user.getSubscriptions({
-      user: `eip155:${chainId}:${userAddress}`,
-      env: isMainnnet(chainId) ? undefined : "staging",
-    });
-  const subbedChannelsLower = subbedChannels.map((s) =>
-    s.channel.toLowerCase()
-  );
+  const subbedChannels: { channel: string }[] = await epns.user.getSubscriptions({
+    user: `eip155:${chainId}:${userAddress}`,
+    env: isMainnnet(chainId) ? undefined : 'staging',
+  });
+  const subbedChannelsLower = subbedChannels.map((s) => s.channel.toLowerCase());
   return subbedChannelsLower.indexOf(channelAddress.toLowerCase()) !== -1;
 };
 
-const AuthContext = createContext<
-  AuthInfo & { loading?: boolean; handleGetUserInfo?: () => void }
->({} as AuthInfo);
+const AuthContext = createContext<AuthInfo & { loading?: boolean; handleGetUserInfo?: () => void }>(
+  {} as AuthInfo
+);
 
 const AuthProvider = ({
   children,
@@ -69,8 +66,7 @@ const AuthProvider = ({
 }) => {
   const { setRoute } = useRouterContext();
   const { channelAddress, chainId } = useChannelContext();
-  const { signTypedData, refetchSigner, address, isConnected, disconnect } =
-    useSignerContext();
+  const { signTypedData, refetchSigner, address, isConnected, disconnect } = useSignerContext();
   const { login: _login } = useAuthenticate();
 
   const [isSubscribed, setIsSubscribed] = useState<boolean>();
@@ -111,13 +107,13 @@ const AuthProvider = ({
       return;
     }
 
-    analytics.track("backend login started");
+    analytics.track('backend login started');
     setIsLoading(true);
     setError(false);
 
     try {
       const result = await _login(channelAddress);
-      analytics.track("backend login successful");
+      analytics.track('backend login successful');
 
       if (address) {
         authStorage.saveAndSetTokensForAddress({ ...result, address });
@@ -142,7 +138,7 @@ const AuthProvider = ({
       await refetchSigner(); // must be refetched to instantiate with new wallet
     } else {
       setIsLoggedIn(false);
-      setLoggedInAddress("");
+      setLoggedInAddress('');
     }
   };
 
@@ -168,7 +164,7 @@ const AuthProvider = ({
   useEffect(() => {
     if (prevAddress && prevAddress !== address) {
       _resetLoginState();
-      const client = getApolloClient({ endpoint: "" });
+      const client = getApolloClient({ endpoint: '' });
       // refetch local queries that are dependant on address
       client.refetchQueries({
         include: [ChannelsDiscoveryDocument, GetUserSubscriptionsDocument],
@@ -177,17 +173,14 @@ const AuthProvider = ({
     }
   }, [address]);
 
-  const toggleSubscription = async (
-    action: "sub" | "unsub",
-    subbedChannel?: string
-  ) => {
+  const toggleSubscription = async (action: 'sub' | 'unsub', subbedChannel?: string) => {
     setIsLoading(true);
     const params = {
       signer: {
         _signTypedData: (
-          domain: EthTypedData["domain"],
-          types: EthTypedData["types"],
-          message: EthTypedData["message"]
+          domain: EthTypedData['domain'],
+          types: EthTypedData['types'],
+          message: EthTypedData['message']
         ) =>
           signTypedData({
             message,
@@ -198,29 +191,27 @@ const AuthProvider = ({
       } as any,
       channelAddress: `eip155:${chainId}:${subbedChannel || channelAddress}`,
       userAddress: `eip155:${chainId}:${address}`,
-      env: isMainnnet(chainId) ? undefined : "staging",
+      env: isMainnnet(chainId) ? undefined : 'staging',
     };
 
     const response =
-      action == "sub"
+      action == 'sub'
         ? await epns.channels.subscribe(params)
         : await epns.channels.unsubscribe(params);
 
     setIsLoading(false);
 
-    if (response.status == "success") {
+    if (response.status == 'success') {
       // if action is not related to logged in channel do nothing
       if (subbedChannel) return;
-      setIsSubscribed(action === "sub");
+      setIsSubscribed(action === 'sub');
     } else {
       throw `Wherever: error ${action}scribing to channel: ${response.message}`;
     }
   };
 
-  const subscribe = async (address?: string) =>
-    toggleSubscription("sub", address);
-  const unsubscribe = async (address?: string) =>
-    toggleSubscription("unsub", address);
+  const subscribe = async (address?: string) => toggleSubscription('sub', address);
+  const unsubscribe = async (address?: string) => toggleSubscription('unsub', address);
 
   return (
     <AuthContext.Provider

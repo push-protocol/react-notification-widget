@@ -1,10 +1,10 @@
-import React from "react";
-import styled from "styled-components";
-import useUnreadCount from "../../hooks/useUnreadCount";
-import { Bell } from "../icons";
-import { useEnvironment } from "context/EnvironmentContext";
-import { useAuthContext } from "context/AuthContext";
-import { useSignerContext } from "context/SignerContext";
+import React from 'react';
+import styled from 'styled-components';
+import useUnreadCount from '../../hooks/useUnreadCount';
+import { Bell } from '../icons';
+import { useEnvironment } from 'context/EnvironmentContext';
+import { useAuthContext } from 'context/AuthContext';
+import { useSignerContext } from 'context/SignerContext';
 
 const Container = styled.div`
   cursor: pointer;
@@ -16,8 +16,8 @@ const Container = styled.div`
 `;
 
 const BellContainer = styled.div<{ size?: number }>`
-  width: ${({ size }) => `${size || "24"}px`};
-  height: ${({ size }) => `${size || "24"}px`};
+  width: ${({ size }) => `${size || '24'}px`};
+  height: ${({ size }) => `${size || '24'}px`};
   display: flex;
   position: relative;
 `;
@@ -33,8 +33,7 @@ const NotificationDot = styled.div<{ size?: number }>`
     height: `${18 || size}px`,
     width: `${18 || size}px`,
   })}
-  color: ${({ theme }) =>
-    theme.w.colors.notificationDot?.text || theme.w.colors.light[80]};
+  color: ${({ theme }) => theme.w.colors.notificationDot?.text || theme.w.colors.light[80]};
   background-color: ${({ theme }) =>
     theme.w.colors.notificationDot?.background || theme.w.colors.error.main};
   top: -6px;
@@ -58,13 +57,9 @@ const NotificationBell = (props: NotificationBellProps & any) => {
       <BellContainer size={props.size}>
         <Bell />
         {!!unreadCount && !isSubscribeOnlyMode && (
-          <NotificationDot>
-            {unreadCount > 9 ? "9+" : unreadCount}
-          </NotificationDot>
+          <NotificationDot>{unreadCount > 9 ? '9+' : unreadCount}</NotificationDot>
         )}
-        {isConnected && isSubscribed === false && !authLoading && (
-          <NotificationDot size={12} />
-        )}
+        {isConnected && isSubscribed === false && !authLoading && <NotificationDot size={12} />}
       </BellContainer>
     </Container>
   );

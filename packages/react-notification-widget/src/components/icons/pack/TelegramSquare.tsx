@@ -1,5 +1,5 @@
-import React from "react";
-import { IconProps } from "../types";
+import React from 'react';
+import { IconProps } from '../types';
 
 export const TelegramSquare = ({ className }: IconProps) => {
   return (
@@ -10,13 +10,7 @@ export const TelegramSquare = ({ className }: IconProps) => {
       height="100%"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <rect
-        y="0.25"
-        width="14"
-        height="14"
-        rx="3"
-        fill="url(#paint0_linear_912_7532)"
-      />
+      <rect y="0.25" width="14" height="14" rx="3" fill="url(#paint0_linear_912_7532)" />
       <path
         d="M4.73828 7.76145L5.56877 10.0601C5.56877 10.0601 5.67261 10.2752 5.78379 10.2752C5.89497 10.2752 7.54866 8.55485 7.54866 8.55485L9.38762 5.00293L4.76791 7.16809L4.73828 7.76145Z"
         fill="#C8DAEA"

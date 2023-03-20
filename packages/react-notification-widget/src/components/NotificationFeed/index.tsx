@@ -1,47 +1,36 @@
-import React, {
-  cloneElement,
-  forwardRef,
-  ReactElement,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
-import { usePopper } from "react-popper";
-import ClickAwayListener from "react-click-away-listener";
-import styled, { useTheme } from "styled-components";
-import { Placement } from "@popperjs/core";
-import useWindowSize from "../../helpers/hooks/useWindowSize";
-import { NotificationClickProp } from "../types";
-import useUnreadCount from "../../hooks/useUnreadCount";
-import { WidgetContainer } from "../layout/WidgetContainer";
-import { useUpdateLastReadMutation } from "./operations.generated";
-import analytics from "services/analytics";
-import { WIDGET_VERSION } from "global/const";
-import { useAuthContext } from "context/AuthContext";
-import { useSignerContext } from "context/SignerContext";
-import { useChannelContext } from "context/ChannelContext";
-import { useUserContext } from "context/UserContext";
-import { Routes, useRouterContext } from "context/RouterContext";
+import React, { cloneElement, forwardRef, ReactElement, useEffect, useMemo, useState } from 'react';
+import { usePopper } from 'react-popper';
+import ClickAwayListener from 'react-click-away-listener';
+import styled, { useTheme } from 'styled-components';
+import { Placement } from '@popperjs/core';
+import useWindowSize from '../../helpers/hooks/useWindowSize';
+import { NotificationClickProp } from '../types';
+import useUnreadCount from '../../hooks/useUnreadCount';
+import { WidgetContainer } from '../layout/WidgetContainer';
+import { useUpdateLastReadMutation } from './operations.generated';
+import analytics from 'services/analytics';
+import { WIDGET_VERSION } from 'global/const';
+import { useAuthContext } from 'context/AuthContext';
+import { useSignerContext } from 'context/SignerContext';
+import { useChannelContext } from 'context/ChannelContext';
+import { useUserContext } from 'context/UserContext';
+import { Routes, useRouterContext } from 'context/RouterContext';
 
 const MobileContainer = styled.div<{ isOpen: boolean }>`
-  display: ${({ isOpen }) => (isOpen ? "block" : "none")};
+  display: ${({ isOpen }) => (isOpen ? 'block' : 'none')};
 `;
 
 // eslint-disable-next-line react/display-name
-const BellRef = forwardRef<HTMLDivElement, { children: ReactElement }>(
-  ({ children }, ref) => {
-    return <div ref={ref}>{children}</div>;
-  }
-);
+const BellRef = forwardRef<HTMLDivElement, { children: ReactElement }>(({ children }, ref) => {
+  return <div ref={ref}>{children}</div>;
+});
 
 export type NotificationFeedProps = NotificationClickProp & {
   gapFromBell?: number;
   placement?: Placement;
   width?: { desktop: number | string };
   maxHeight?: { desktop: number | string };
-  children:
-    | ((args: { unreadCount?: number; onClick: () => void }) => ReactElement)
-    | ReactElement;
+  children: ((args: { unreadCount?: number; onClick: () => void }) => ReactElement) | ReactElement;
 };
 
 const NotificationFeed = (props: NotificationFeedProps): JSX.Element => {
@@ -77,15 +66,13 @@ const NotificationFeed = (props: NotificationFeedProps): JSX.Element => {
 
   const currentScreenComponent = useMemo(() => {
     if (activeRoute.name === Routes.NotificationsFeed)
-      return (
-        <activeRoute.Component onNotificationClick={onNotificationClick} />
-      );
+      return <activeRoute.Component onNotificationClick={onNotificationClick} />;
 
     return <activeRoute.Component {...routeProps} />;
   }, [activeRoute, onNotificationClick]);
 
   const handleBellClick = () => {
-    analytics.track("bell clicked", { feedOpened: !feedOpen });
+    analytics.track('bell clicked', { feedOpened: !feedOpen });
 
     setFeedOpen(!feedOpen);
 
@@ -98,10 +85,10 @@ const NotificationFeed = (props: NotificationFeedProps): JSX.Element => {
   const [popperRef, setPopperRef] = useState<HTMLDivElement | null>(null);
 
   const { styles, attributes } = usePopper(referenceRef, popperRef, {
-    placement: props.placement || "bottom",
+    placement: props.placement || 'bottom',
     modifiers: [
       {
-        name: "offset",
+        name: 'offset',
         enabled: true,
         options: {
           offset: [0, props.gapFromBell],
@@ -111,7 +98,7 @@ const NotificationFeed = (props: NotificationFeedProps): JSX.Element => {
   });
 
   const bell =
-    typeof children === "function"
+    typeof children === 'function'
       ? children({ onClick: handleBellClick, unreadCount })
       : cloneElement(children, { onClick: handleBellClick });
 

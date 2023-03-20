@@ -1,11 +1,11 @@
-import { useAuthContext } from "context/AuthContext";
-import { Email as EmailIcon } from "../../../icons";
-import Dropdown from "../../../Dropdown";
-import ConnectedApp from "../ConnectedApp";
-import Flex from "../../../layout/Flex";
-import VerifyEmail from "./VerifyEmail";
-import EditEmail from "./EditEmail";
-import useEmailActions, { ConnectEmailViews } from "./useEmailActions";
+import { useAuthContext } from 'context/AuthContext';
+import { Email as EmailIcon } from '../../../icons';
+import Dropdown from '../../../Dropdown';
+import ConnectedApp from '../ConnectedApp';
+import Flex from '../../../layout/Flex';
+import VerifyEmail from './VerifyEmail';
+import EditEmail from './EditEmail';
+import useEmailActions, { ConnectEmailViews } from './useEmailActions';
 
 type EmailChannelProps = {
   open: boolean;
@@ -32,13 +32,13 @@ export const EmailConnector = ({ open, toggleOpen }: EmailChannelProps) => {
 
   return (
     <Dropdown
-      title={"Email"}
+      title={'Email'}
       icon={<EmailIcon />}
       isOpen={open}
       toggleOpen={toggleOpen}
       isConnected={!!isConnected}
     >
-      <Flex width={"100%"}>
+      <Flex width={'100%'}>
         {connectEmailView === ConnectEmailViews.Verify && (
           <VerifyEmail
             email={email}
@@ -53,9 +53,7 @@ export const EmailConnector = ({ open, toggleOpen }: EmailChannelProps) => {
             value={email}
             onChange={setEmail}
             handleSave={handleSave}
-            handleCancel={() =>
-              setConnectEmailView(ConnectEmailViews.Connected)
-            }
+            handleCancel={() => setConnectEmailView(ConnectEmailViews.Connected)}
             isLoading={saveLoading}
             isDisabled={saveLoading || isLoading}
             isConnected={isConnected}

@@ -1,15 +1,15 @@
-import { useEffect } from "react";
-import analytics from "services/analytics";
-import { MessagingApp } from "global/types.generated";
-import { useUserContext } from "context/UserContext";
-import { UserCommunicationChannelsDocument } from "context/UserContext/operations.generated";
-import { useAuthContext } from "context/AuthContext";
-import { useEnvironment } from "context/EnvironmentContext";
-import { useChannelContext } from "context/ChannelContext";
+import { useEffect } from 'react';
+import analytics from 'services/analytics';
+import { MessagingApp } from 'global/types.generated';
+import { useUserContext } from 'context/UserContext';
+import { UserCommunicationChannelsDocument } from 'context/UserContext/operations.generated';
+import { useAuthContext } from 'context/AuthContext';
+import { useEnvironment } from 'context/EnvironmentContext';
+import { useChannelContext } from 'context/ChannelContext';
 import {
   useDeleteChannelMutation,
   useVerifyUserDiscordMutation,
-} from "../../../ConnectApps/operations.generated";
+} from '../../../ConnectApps/operations.generated';
 
 const useDiscordActions = () => {
   const { isSubscribeOnlyMode } = useEnvironment();
@@ -39,7 +39,7 @@ const useDiscordActions = () => {
           },
         },
       });
-      analytics.track("discord verified");
+      analytics.track('discord verified');
 
       if (isSubscribeOnlyMode) return;
 
@@ -49,16 +49,12 @@ const useDiscordActions = () => {
 
   const handleOpenDiscord = async () => {
     if (discordGuildUrl) {
-      window.open(discordGuildUrl, "_blank", "noopener,noreferrer");
+      window.open(discordGuildUrl, '_blank', 'noopener,noreferrer');
     }
   };
 
   useEffect(() => {
-    if (
-      discordToken &&
-      userCommsChannels &&
-      !userCommsChannels.discord?.exists
-    ) {
+    if (discordToken && userCommsChannels && !userCommsChannels.discord?.exists) {
       handleVerify(discordToken);
     }
   }, [discordToken]);
@@ -68,7 +64,7 @@ const useDiscordActions = () => {
       const response = await deleteDiscord();
 
       if (response?.data?.userCommunicationsChannelDelete?.success) {
-        analytics.track("discord deleted");
+        analytics.track('discord deleted');
       }
     });
   };
@@ -79,7 +75,7 @@ const useDiscordActions = () => {
     handleVerify,
     verifyData,
     handleOpenDiscord,
-    hint: userCommsChannels?.discord?.hint || "",
+    hint: userCommsChannels?.discord?.hint || '',
   };
 };
 

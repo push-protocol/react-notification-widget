@@ -1,7 +1,7 @@
 overwrite: true
-schema: "http://localhost:4001/graphql"
+schema: 'http://localhost:4001/graphql'
 documents:
-  - "packages/react-notification-widget/src/**/*.graphql"
+  - 'packages/react-notification-widget/src/**/*.graphql'
 generates:
   src/global/types.generated.ts:
     plugins:
@@ -15,14 +15,14 @@ generates:
       - typescript-operations
       - typescript-react-apollo
     config:
-      gqlImport: "@apollo/client#gql"
+      gqlImport: '@apollo/client#gql'
       withHooks: true
       withComponent: false
       withHOC: false
-      apolloReactCommonImportFrom: "@apollo/client"
-      apolloReactComponentsImportFrom: "@apollo/client"
-      apolloReactHocImportFrom: "@apollo/client"
-      apolloReactHooksImportFrom: "@apollo/client"
+      apolloReactCommonImportFrom: '@apollo/client'
+      apolloReactComponentsImportFrom: '@apollo/client'
+      apolloReactHocImportFrom: '@apollo/client'
+      apolloReactHooksImportFrom: '@apollo/client'
 
   packages/react-notification-widget/schema.graphql:
     plugins:

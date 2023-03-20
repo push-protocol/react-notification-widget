@@ -1,5 +1,5 @@
-import React from "react";
-import { IconProps } from "../types";
+import React from 'react';
+import { IconProps } from '../types';
 
 export const Telegram = ({ className }: IconProps) => {
   return (
@@ -12,12 +12,12 @@ export const Telegram = ({ className }: IconProps) => {
     >
       <path
         d="M4 8.75534L5.60763 13.5513C5.60763 13.5513 5.80863 14 6.02385 14C6.23908 14 9.44022 10.4107 9.44022 10.4107L13 3L4.05736 7.51735L4 8.75534Z"
-        filter={"brightness(0.6)"}
+        filter={'brightness(0.6)'}
         fill="currentColor"
       />
       <path
         d="M6.33083 10L6.00569 13.5206C6.00569 13.5206 5.86959 14.5993 6.92817 13.5206C7.98675 12.4418 9 11.61 9 11.61"
-        filter={"brightness(0.8)"}
+        filter={'brightness(0.8)'}
         fill="currentColor"
       />
       <path
