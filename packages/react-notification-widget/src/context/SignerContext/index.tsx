@@ -1,7 +1,13 @@
-import React, { createContext, PropsWithChildren, useContext, useEffect, useState } from 'react';
-import { useAccount, useDisconnect, useNetwork, useSigner } from 'wagmi';
-import { utils } from 'ethers';
-import useValidateProps from './useValidateProps';
+import React, {
+  createContext,
+  PropsWithChildren,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
+import { useAccount, useDisconnect, useNetwork, useSigner } from "wagmi";
+import { utils } from "ethers";
+import useValidateProps from "./useValidateProps";
 
 type Signature = string;
 
@@ -24,7 +30,9 @@ export type SignerContextProps = PropsWithChildren<CustomSigner>;
 type SignerContextT = {
   isConnected: boolean;
   disconnect: () => void;
-  refetchSigner: () => undefined | ReturnType<ReturnType<typeof useSigner>['refetch']>;
+  refetchSigner: () =>
+    | undefined
+    | ReturnType<ReturnType<typeof useSigner>["refetch"]>;
   signMessage: (msgToSign: string) => Promise<Signature | undefined>;
   signTypedData: (args: EthTypedData) => Promise<Signature | undefined>;
   address?: `0x${string}`;
@@ -45,7 +53,8 @@ const SignerProvider = (props: SignerContextProps) => {
   const [refetchCounter, setRefetchCounter] = useState(0);
 
   useEffect(() => {
-    if (isCustomSigner || !wagmiConnected || signer || refetchCounter > 10) return;
+    if (isCustomSigner || !wagmiConnected || signer || refetchCounter > 10)
+      return;
 
     const timeout = setInterval(async () => {
       refetch();
@@ -55,9 +64,13 @@ const SignerProvider = (props: SignerContextProps) => {
     return () => clearInterval(timeout);
   }, [signer]);
 
-  const isConnected = isCustomSigner ? Boolean(props.address && props.chainId) : wagmiConnected;
+  const isConnected = isCustomSigner
+    ? Boolean(props.address && props.chainId)
+    : wagmiConnected;
   const chainId = isCustomSigner ? Number(props.chainId || 0) : chain?.id;
-  const address = isCustomSigner ? props.address && utils.getAddress(props.address) : wagmiAddress;
+  const address = isCustomSigner
+    ? props.address && utils.getAddress(props.address)
+    : wagmiAddress;
 
   const signMessage = async (msg: string): Promise<string | undefined> => {
     if (isCustomSigner) {
@@ -84,11 +97,13 @@ const SignerProvider = (props: SignerContextProps) => {
       args.types = {
         // added first so that it is replaced by spread if already included
         EIP712Domain: [
-          ...(domain.name ? [{ name: 'name', type: 'string' }] : []),
-          ...(domain.chainId ? [{ name: 'chainId', type: 'uint256' }] : []),
-          ...(domain.verifyingContract ? [{ name: 'verifyingContract', type: 'address' }] : []),
-          ...(domain.version ? [{ name: 'version', type: 'string' }] : []),
-          ...(domain.salt ? [{ name: 'salt', type: 'string' }] : []),
+          ...(domain.name ? [{ name: "name", type: "string" }] : []),
+          ...(domain.chainId ? [{ name: "chainId", type: "uint256" }] : []),
+          ...(domain.verifyingContract
+            ? [{ name: "verifyingContract", type: "address" }]
+            : []),
+          ...(domain.version ? [{ name: "version", type: "string" }] : []),
+          ...(domain.salt ? [{ name: "salt", type: "string" }] : []),
         ],
         ...types,
       };
@@ -103,7 +118,11 @@ const SignerProvider = (props: SignerContextProps) => {
 
     if (wagmiConnected) {
       const refetchedSigner = await refetch();
-      return (refetchedSigner.data as any)?._signTypedData(args.domain, args.types, args.message);
+      return (refetchedSigner.data as any)?._signTypedData(
+        args.domain,
+        args.types,
+        args.message
+      );
     }
   };
 

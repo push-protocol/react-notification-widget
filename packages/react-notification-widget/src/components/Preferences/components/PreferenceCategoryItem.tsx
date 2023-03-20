@@ -1,21 +1,21 @@
-import React from 'react';
-import styled from 'styled-components';
-import { PREFERENCES_WIDTH } from '../consts';
-import { MessagingAppConfig } from '../index';
-import useUpdatePreference from '../useUpdatePreference';
-import Flex from '../../layout/Flex';
-import Text from '../../Text';
-import Switch from '../../Switch';
-import PreferenceBell from '../../Preferences/components/PreferenceBell';
-import analytics from 'services/analytics';
-import { MessagingApp } from 'global/types.generated';
-import { PartnerInfoQuery } from 'context/ChannelContext/operations.generated';
-import { GetUserQuery } from 'context/UserContext/operations.generated';
-import { Web2AppLower } from 'context/UserContext/const';
+import React from "react";
+import styled from "styled-components";
+import { PREFERENCES_WIDTH } from "../consts";
+import { MessagingAppConfig } from "../index";
+import useUpdatePreference from "../useUpdatePreference";
+import Flex from "../../layout/Flex";
+import Text from "../../Text";
+import Switch from "../../Switch";
+import PreferenceBell from "../../Preferences/components/PreferenceBell";
+import analytics from "services/analytics";
+import { MessagingApp } from "global/types.generated";
+import { PartnerInfoQuery } from "context/ChannelContext/operations.generated";
+import { GetUserQuery } from "context/UserContext/operations.generated";
+import { Web2AppLower } from "context/UserContext/const";
 
 type PropsT = {
-  userPref?: GetUserQuery['user']['preferences'][0];
-  category: PartnerInfoQuery['partnerInfo']['messageCategories'][0];
+  userPref?: GetUserQuery["user"]["preferences"][0];
+  category: PartnerInfoQuery["partnerInfo"]["messageCategories"][0];
   hideDescriptions?: boolean;
   hideToggles?: boolean;
   appConfig: MessagingAppConfig[];
@@ -57,16 +57,16 @@ const PreferenceCategoryItem = ({
 }: PropsT) => {
   const updatePreference = useUpdatePreference();
 
-  const handlePrefClick = (pref: Web2AppLower | 'enabled') => {
+  const handlePrefClick = (pref: Web2AppLower | "enabled") => {
     updatePreference(category.id, pref, userPref);
 
     const analyticsData = { category: category.name, categoryId: category.id };
-    pref === 'enabled'
-      ? analytics.track('preference toggled', {
+    pref === "enabled"
+      ? analytics.track("preference toggled", {
           ...analyticsData,
-          newState: userPref?.enabled ? 'disabled' : 'enabled',
+          newState: userPref?.enabled ? "disabled" : "enabled",
         })
-      : analytics.track('preference destination updated', {
+      : analytics.track("preference destination updated", {
           ...analyticsData,
           app: pref,
           enabled: !userPref?.[pref],
@@ -77,22 +77,27 @@ const PreferenceCategoryItem = ({
   const noApps = !appConfig.length;
 
   const toggle = (
-    <SwitchContainer width={32} alignItems={'center'} pl={1} pr={1}>
-      <Switch checked={prefEnabled} onChange={() => handlePrefClick('enabled')} />
+    <SwitchContainer width={32} alignItems={"center"} pl={1} pr={1}>
+      <Switch
+        checked={prefEnabled}
+        onChange={() => handlePrefClick("enabled")}
+      />
     </SwitchContainer>
   );
 
   return (
-    <Flex alignItems={'center'} width={'100%'} mb={1}>
-      <CategoryContainer justifyContent={!appConfig.length ? 'space-between' : undefined}>
+    <Flex alignItems={"center"} width={"100%"} mb={1}>
+      <CategoryContainer
+        justifyContent={!appConfig.length ? "space-between" : undefined}
+      >
         {!hideToggles && hideDescriptions && toggle}
 
         <TitleContainer>
-          <Text size={'md'} color={!prefEnabled ? 'secondary' : undefined}>
+          <Text size={"md"} color={!prefEnabled ? "secondary" : undefined}>
             {category.name}
           </Text>
           {!hideDescriptions && (
-            <Text size={'sm'} color={'secondary'}>
+            <Text size={"sm"} color={"secondary"}>
               {category.description}
             </Text>
           )}
@@ -102,15 +107,18 @@ const PreferenceCategoryItem = ({
       </CategoryContainer>
 
       {prefEnabled && !noApps && (
-        <Flex width={PREFERENCES_WIDTH} gap={1} justifyContent={'end'}>
+        <Flex width={PREFERENCES_WIDTH} gap={1} justifyContent={"end"}>
           {appConfig.map(({ app, enabled }) => (
             <Flex
               key={`${app}${category.id}`}
               width={PREFERENCES_WIDTH / 3}
-              justifyContent={'center'}
+              justifyContent={"center"}
             >
               <PreferenceBell
-                selected={(enabled && userPref?.[app.toLowerCase() as Web2AppLower]) || false}
+                selected={
+                  (enabled && userPref?.[app.toLowerCase() as Web2AppLower]) ||
+                  false
+                }
                 onClick={() =>
                   enabled
                     ? handlePrefClick(app.toLowerCase() as Web2AppLower)

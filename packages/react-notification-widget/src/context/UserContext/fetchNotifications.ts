@@ -1,18 +1,20 @@
-import * as epns from '@epnsproject/sdk-restapi';
-import dayjs from 'dayjs';
-import { isMainnnet } from '../../global/helpers';
-import { EpnsNotificationRawResp, Notification } from './types';
+import * as epns from "@epnsproject/sdk-restapi";
+import dayjs from "dayjs";
+import { isMainnnet } from "../../global/helpers";
+import { EpnsNotificationRawResp, Notification } from "./types";
 
 const fetchNotifications = async (epnsUserAddress: string, chainId: number) => {
   const rawNotifs: EpnsNotificationRawResp[] = await epns.user
     .getFeeds({
       raw: true,
       user: epnsUserAddress,
-      env: isMainnnet(chainId) ? undefined : 'staging',
+      env: isMainnnet(chainId) ? undefined : "staging",
       page: 1,
       limit: 1000,
     })
-    .catch((e) => console.error('Failed to fetch EPNS notifications -', e?.message));
+    .catch((e) =>
+      console.error("Failed to fetch EPNS notifications -", e?.message)
+    );
 
   return rawNotifs?.map(epnsNotifToNotif);
 };
@@ -30,7 +32,7 @@ const epnsNotifToNotif = ({
   url: data.url,
   image: data.aimg,
   cta: data.acta,
-  timestamp: dayjs(new Date(epoch)).subtract(5.5, 'hours').toDate(), //TODO: revert when epns api is fixed
+  timestamp: dayjs(new Date(epoch)).subtract(5.5, "hours").toDate(), //TODO: revert when epns api is fixed
 });
 
 export default fetchNotifications;

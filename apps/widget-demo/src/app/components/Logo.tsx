@@ -1,7 +1,13 @@
-import React from 'react';
+import React from "react";
 
 const Logo = () => (
-  <svg width="261" height="93" viewBox="0 0 261 93" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <svg
+    width="261"
+    height="93"
+    viewBox="0 0 261 93"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
     <path
       d="M69.3677 2.13423L4.65171 42.0295C-1.48922 45.8066 0.518396 55.1313 7.66313 56.1345L40.8478 60.6198C42.8554 60.9149 44.6858 61.9182 45.9849 63.5116L67.1239 89.538C71.6705 95.0856 80.6457 91.8987 80.7048 84.7576L81 8.68509C81 2.7244 74.4457 -0.993652 69.3677 2.13423Z"
       stroke="url(#paint0_linear_0_1)"

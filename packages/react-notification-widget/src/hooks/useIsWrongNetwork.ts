@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
-import { useChannelContext } from 'context/ChannelContext';
-import { useSignerContext } from 'context/SignerContext';
+import { useState, useEffect } from "react";
+import { useChannelContext } from "context/ChannelContext";
+import { useSignerContext } from "context/SignerContext";
 
 const useIsWrongNetwork = () => {
   const { chainId: walletChain } = useSignerContext();

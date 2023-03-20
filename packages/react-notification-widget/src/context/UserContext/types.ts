@@ -1,4 +1,7 @@
-import { UserCommunicationChannelsQuery, GetUserQuery } from './operations.generated';
+import {
+  UserCommunicationChannelsQuery,
+  GetUserQuery,
+} from "./operations.generated";
 
 export type Notification = {
   title: string;
@@ -14,8 +17,8 @@ export type Notification = {
 
 export type UserContext = {
   notifications: Notification[];
-  user?: GetUserQuery['user'];
-  userCommsChannels?: UserCommunicationChannelsQuery['userCommunicationChannels'];
+  user?: GetUserQuery["user"];
+  userCommsChannels?: UserCommunicationChannelsQuery["userCommunicationChannels"];
   setUserCommsChannelsPollInterval: (interval: number) => void;
   userCommsChannelsPollInterval: number;
   isLoading: boolean;

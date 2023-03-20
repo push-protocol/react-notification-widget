@@ -1,22 +1,28 @@
-import React, { PropsWithChildren, ReactElement, useEffect, useState, useRef } from 'react';
-import styled from 'styled-components';
-import Text from '../Text';
-import Button from '../Button';
-import PageTitle from '../PageTitle';
-import useIsInViewport from '../../hooks/useIsInViewport';
-import Flex from './Flex';
-import analytics from 'services/analytics';
-import { useEnvironment } from 'context/EnvironmentContext';
-import { useRouterContext } from 'context/RouterContext';
-import { useUserContext } from 'context/UserContext';
+import React, {
+  PropsWithChildren,
+  ReactElement,
+  useEffect,
+  useState,
+  useRef,
+} from "react";
+import styled from "styled-components";
+import Text from "../Text";
+import Button from "../Button";
+import PageTitle from "../PageTitle";
+import useIsInViewport from "../../hooks/useIsInViewport";
+import Flex from "./Flex";
+import analytics from "services/analytics";
+import { useEnvironment } from "context/EnvironmentContext";
+import { useRouterContext } from "context/RouterContext";
+import { useUserContext } from "context/UserContext";
 
 const MobileCloseButton = styled(Button)(({ theme }) => ({
   [`@media (min-width: ${theme.w.breakpoints.mobile}px)`]: {
-    display: 'none',
+    display: "none",
   },
   width: 30,
   height: 30,
-  background: 'transparent',
+  background: "transparent",
   padding: 0,
 }));
 
@@ -32,7 +38,12 @@ type ScreenPropsT = PropsWithChildren<{
   navbarActionComponent?: ReactElement;
 }>;
 
-export const Screen = ({ title, navbarActionComponent, mb = 0, children }: ScreenPropsT) => {
+export const Screen = ({
+  title,
+  navbarActionComponent,
+  mb = 0,
+  children,
+}: ScreenPropsT) => {
   const { activeRoute } = useRouterContext();
   const { setFeedOpen } = useUserContext();
   const { isSubscribeOnlyMode } = useEnvironment();
@@ -54,19 +65,27 @@ export const Screen = ({ title, navbarActionComponent, mb = 0, children }: Scree
   return (
     <Flex
       ref={screenRef as any}
-      direction={'column'}
-      alignItems={'center'}
-      width={'100%'}
-      height={'100%'}
+      direction={"column"}
+      alignItems={"center"}
+      width={"100%"}
+      height={"100%"}
       mb={mb}
     >
       <TitleBar mb={title || navbarActionComponent ? 2 : 0}>
         <PageTitle>{title}</PageTitle>
-        <Flex style={{ flexBasis: 1, zIndex: 20 }} alignItems={'center'} gap={1} mr={1}>
+        <Flex
+          style={{ flexBasis: 1, zIndex: 20 }}
+          alignItems={"center"}
+          gap={1}
+          mr={1}
+        >
           {navbarActionComponent}
           {!isSubscribeOnlyMode && (
-            <MobileCloseButton onClick={() => setFeedOpen(false)} variant={'text'}>
-              <Text weight={400} size={'xl'}>
+            <MobileCloseButton
+              onClick={() => setFeedOpen(false)}
+              variant={"text"}
+            >
+              <Text weight={400} size={"xl"}>
                 X
               </Text>
             </MobileCloseButton>

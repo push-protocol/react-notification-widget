@@ -1,9 +1,9 @@
-import React from 'react';
-import styled, { useTheme, keyframes } from 'styled-components';
-import { Bell } from 'components/icons';
-import Flex from 'components/layout/Flex';
-import { useUserContext } from 'context/UserContext';
-import { Routes, useRouterContext } from 'context/RouterContext';
+import React from "react";
+import styled, { useTheme, keyframes } from "styled-components";
+import { Bell } from "components/icons";
+import Flex from "components/layout/Flex";
+import { useUserContext } from "context/UserContext";
+import { Routes, useRouterContext } from "context/RouterContext";
 
 const spin = keyframes`
   0% {

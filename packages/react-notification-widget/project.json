@@ -30,7 +30,9 @@
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["packages/react-notification-widget/**/*.{ts,tsx,js,jsx}"]
+        "lintFilePatterns": [
+          "packages/react-notification-widget/**/*.{ts,tsx,js,jsx}"
+        ]
       }
     },
     "build": {

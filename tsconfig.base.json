@@ -15,7 +15,9 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@wherever/react-notification-widget": ["packages/react-notification-widget/src/index.ts"]
+      "@wherever/react-notification-widget": [
+        "packages/react-notification-widget/src/index.ts"
+      ]
     }
   },
   "exclude": ["node_modules", "tmp"]

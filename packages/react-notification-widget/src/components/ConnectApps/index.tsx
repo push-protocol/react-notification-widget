@@ -1,9 +1,9 @@
-import { ReactElement } from 'react';
-import { MessagingApp } from '../../global/types.generated';
-import Flex, { FlexProps } from '../layout/Flex';
-import { DiscordConnector } from './components/discord';
-import { EmailConnector } from './components/email';
-import { TelegramConnector } from './components/telegram';
+import { ReactElement } from "react";
+import { MessagingApp } from "../../global/types.generated";
+import Flex, { FlexProps } from "../layout/Flex";
+import { DiscordConnector } from "./components/discord";
+import { EmailConnector } from "./components/email";
+import { TelegramConnector } from "./components/telegram";
 
 const ConnectApps = ({
   apps,
@@ -44,7 +44,7 @@ const ConnectApps = ({
   };
 
   return (
-    <Flex gap={1} width={'100%'} direction={'column'} {...flexProps}>
+    <Flex gap={1} width={"100%"} direction={"column"} {...flexProps}>
       {apps.map((app) => appConnectors[app])}
     </Flex>
   );

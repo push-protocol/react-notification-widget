@@ -1,5 +1,5 @@
-import React, { createContext, useContext, ReactNode, useState } from 'react';
-import { Routes, RouteConfig, Route } from './consts';
+import React, { createContext, useContext, ReactNode, useState } from "react";
+import { Routes, RouteConfig, Route } from "./consts";
 
 type RouteProps = Record<string, any>;
 

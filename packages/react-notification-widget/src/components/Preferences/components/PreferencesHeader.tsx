@@ -1,11 +1,11 @@
-import React from 'react';
-import styled from 'styled-components';
-import { PREFERENCES_WIDTH } from '../consts';
-import { MessagingAppConfig } from '../index';
-import Text from '../../Text';
-import HeaderChannelItem from '../../Preferences/components/HeaderChannelItem';
-import { useChannelContext } from 'context/ChannelContext';
-import { MessagingAppInfo } from 'context/UserContext/const';
+import React from "react";
+import styled from "styled-components";
+import { PREFERENCES_WIDTH } from "../consts";
+import { MessagingAppConfig } from "../index";
+import Text from "../../Text";
+import HeaderChannelItem from "../../Preferences/components/HeaderChannelItem";
+import { useChannelContext } from "context/ChannelContext";
+import { MessagingAppInfo } from "context/UserContext/const";
 
 const HeaderContainer = styled.div`
   display: flex;
@@ -64,7 +64,7 @@ const PreferencesHeader = ({
         {!hideChannelInfo && (
           <>
             <ChannelIconContainer>
-              <Image src={icon} alt={'channel icon'} />
+              <Image src={icon} alt={"channel icon"} />
             </ChannelIconContainer>
             <Text>{name}</Text>
           </>

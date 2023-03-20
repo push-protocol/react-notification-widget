@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import { Margins, Paddings } from '../types';
+import styled from "styled-components";
+import { Margins, Paddings } from "../types";
 
 const CheckBoxWrapper = styled.div`
   position: relative;
@@ -18,7 +18,7 @@ const CheckBoxLabel = styled.label`
   cursor: pointer;
 
   &::after {
-    content: '';
+    content: "";
     display: block;
     border-radius: 50%;
     width: 20px;
@@ -39,7 +39,7 @@ const CheckBox = styled.input<{ disabled?: boolean }>`
     background: ${({ theme }) => theme.w.colors.primary.dark};
 
     &::after {
-      content: '';
+      content: "";
       display: block;
       border-radius: 50%;
       width: 20px;

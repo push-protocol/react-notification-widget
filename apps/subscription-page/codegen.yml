@@ -1,7 +1,7 @@
 overwrite: true
-schema: 'http://localhost:4001/graphql'
+schema: "http://localhost:4001/graphql"
 documents:
-  - 'apps/subscription-page/src/**/*.graphql'
+  - "apps/subscription-page/src/**/*.graphql"
 generates:
   apps/subscription-page/src/global/fragmentTypes.generated.ts:
     plugins:
@@ -18,14 +18,14 @@ generates:
       - typescript-operations
       - typescript-react-apollo
     config:
-      gqlImport: '@apollo/client#gql'
+      gqlImport: "@apollo/client#gql"
       withHooks: true
       withComponent: false
       withHOC: false
-      apolloReactCommonImportFrom: '@apollo/client'
-      apolloReactComponentsImportFrom: '@apollo/client'
-      apolloReactHocImportFrom: '@apollo/client'
-      apolloReactHooksImportFrom: '@apollo/client'
+      apolloReactCommonImportFrom: "@apollo/client"
+      apolloReactComponentsImportFrom: "@apollo/client"
+      apolloReactHocImportFrom: "@apollo/client"
+      apolloReactHooksImportFrom: "@apollo/client"
 
   apps/subscription-page/schema.json:
     plugins:

@@ -1,19 +1,19 @@
-import React from 'react';
-import styled from 'styled-components';
-import { Web2Apps } from 'context/UserContext/const';
-import { MessagingApp } from 'global/types.generated';
-import { useChannelContext } from 'context/ChannelContext';
-import { useAuthContext } from 'context/AuthContext';
-import { useEnvironment } from 'context/EnvironmentContext';
-import Notice from 'components/Notice';
-import { useUserPreferencesUpdateMutation } from 'components/Preferences/operations.generated';
-import { Routes, useRouterContext } from 'context/RouterContext';
-import { useUserContext } from 'context/UserContext';
-import Flex from 'components/layout/Flex';
-import { Screen } from 'components/layout/Screen';
-import PageTitle from 'components/PageTitle';
-import Button from 'components/Button';
-import Preferences from 'components/Preferences';
+import React from "react";
+import styled from "styled-components";
+import { Web2Apps } from "context/UserContext/const";
+import { MessagingApp } from "global/types.generated";
+import { useChannelContext } from "context/ChannelContext";
+import { useAuthContext } from "context/AuthContext";
+import { useEnvironment } from "context/EnvironmentContext";
+import Notice from "components/Notice";
+import { useUserPreferencesUpdateMutation } from "components/Preferences/operations.generated";
+import { Routes, useRouterContext } from "context/RouterContext";
+import { useUserContext } from "context/UserContext";
+import Flex from "components/layout/Flex";
+import { Screen } from "components/layout/Screen";
+import PageTitle from "components/PageTitle";
+import Button from "components/Button";
+import Preferences from "components/Preferences";
 
 const Header = styled.div`
   text-align: center;
@@ -70,13 +70,18 @@ export const SelectCategories = () => {
 
       <Preferences messageCategories={messageCategories} appConfig={[]} />
 
-      <Flex mb={2} mt={2} width={'100%'}>
-        <Button size={'lg'} width={'100%'} onClick={handleGoNext} disabled={goNextDisabled}>
+      <Flex mb={2} mt={2} width={"100%"}>
+        <Button
+          size={"lg"}
+          width={"100%"}
+          onClick={handleGoNext}
+          disabled={goNextDisabled}
+        >
           Next
         </Button>
       </Flex>
       {isSubscribeOnlyMode && (
-        <Notice mb={1} text={'You can update your preferences at any time'} />
+        <Notice mb={1} text={"You can update your preferences at any time"} />
       )}
     </Screen>
   );

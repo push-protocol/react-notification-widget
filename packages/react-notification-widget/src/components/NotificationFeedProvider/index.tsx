@@ -1,17 +1,17 @@
-import React, { PropsWithChildren, useEffect } from 'react';
-import { WagmiConfig } from 'wagmi';
-import { ThemeProvider } from 'styled-components';
-import { providers } from 'ethers';
-import { ApolloProvider } from '../ApolloProvider';
-import { CustomTheme, makeTheme } from '../../theme';
-import useWagmiClient from './useWagmiClient';
-import { SignerProvider, CustomSigner } from 'context/SignerContext';
-import analytics from 'services/analytics';
-import { EnvironmentProvider, WidgetMode } from 'context/EnvironmentContext';
-import { AuthProvider } from 'context/AuthContext';
-import { RouterProvider } from 'context/RouterContext';
-import { ChannelProvider } from 'context/ChannelContext';
-import { UserProvider } from 'context/UserContext';
+import React, { PropsWithChildren, useEffect } from "react";
+import { WagmiConfig } from "wagmi";
+import { ThemeProvider } from "styled-components";
+import { providers } from "ethers";
+import { ApolloProvider } from "../ApolloProvider";
+import { CustomTheme, makeTheme } from "../../theme";
+import useWagmiClient from "./useWagmiClient";
+import { SignerProvider, CustomSigner } from "context/SignerContext";
+import analytics from "services/analytics";
+import { EnvironmentProvider, WidgetMode } from "context/EnvironmentContext";
+import { AuthProvider } from "context/AuthContext";
+import { RouterProvider } from "context/RouterContext";
+import { ChannelProvider } from "context/ChannelContext";
+import { UserProvider } from "context/UserContext";
 
 export type ExternalProvider =
   | providers.BaseProvider
@@ -43,7 +43,9 @@ const NotificationFeedProvider = ({
   const wagmiClient = useWagmiClient(provider);
 
   if (mode === WidgetMode.Default && !customSigner && !provider) {
-    console.error('Wherever: at least 1 of "provider" or "customSigner" props must be provided');
+    console.error(
+      'Wherever: at least 1 of "provider" or "customSigner" props must be provided'
+    );
   }
 
   useEffect(() => {
@@ -60,7 +62,10 @@ const NotificationFeedProvider = ({
             <RouterProvider>
               <ChannelProvider partnerKey={partnerKey}>
                 <SignerProvider {...customSigner}>
-                  <AuthProvider partnerKey={partnerKey} discordToken={discordToken}>
+                  <AuthProvider
+                    partnerKey={partnerKey}
+                    discordToken={discordToken}
+                  >
                     <UserProvider isOpen={isOpen}>{children}</UserProvider>
                   </AuthProvider>
                 </SignerProvider>

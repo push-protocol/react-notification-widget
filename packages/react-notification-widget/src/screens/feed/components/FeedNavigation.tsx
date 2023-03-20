@@ -1,10 +1,10 @@
-import React from 'react';
-import styled, { useTheme } from 'styled-components';
-import { mode } from '../../../theme';
-import { useChannelContext } from 'context/ChannelContext';
-import Flex from 'components/layout/Flex';
-import Text from 'components/Text';
-import { Boxes } from 'components/icons';
+import React from "react";
+import styled, { useTheme } from "styled-components";
+import { mode } from "../../../theme";
+import { useChannelContext } from "context/ChannelContext";
+import Flex from "components/layout/Flex";
+import Text from "components/Text";
+import { Boxes } from "components/icons";
 
 const NavigationItem = styled.div<{ isActive?: boolean }>`
   height: 36px;
@@ -51,7 +51,7 @@ const FeedNavigation = ({ activeTab, setActiveTab }: FeedNavigationProps) => {
   const theme = useTheme();
 
   return (
-    <Flex width={'100%'} mb={1} gap={1.5}>
+    <Flex width={"100%"} mb={1} gap={1.5}>
       <NavigationItem
         isActive={activeTab === NavigationTabs.App}
         onClick={() => {

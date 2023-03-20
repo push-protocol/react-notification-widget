@@ -1,6 +1,6 @@
-import React from 'react';
-import styled from 'styled-components';
-import { VideoSources, videoSourcesInfo } from './consts';
+import React from "react";
+import styled from "styled-components";
+import { VideoSources, videoSourcesInfo } from "./consts";
 
 const Container = styled.div`
   position: relative;
@@ -30,21 +30,23 @@ export const isVideoUrl = (url?: string) => {
   return (
     url.match(videoSourcesInfo[VideoSources.YOUTUBE].idRegex) ||
     url.match(videoSourcesInfo[VideoSources.VIMEO].idRegex) ||
-    url.endsWith('mp4')
+    url.endsWith("mp4")
   );
 };
 
 const getVideoId = (url: string, source: VideoSources) => {
   const match = url.match(videoSourcesInfo[source].idRegex);
-  return match?.[1] || '';
+  return match?.[1] || "";
 };
 
 const buildUrl = (url: string) => {
-  if (url.endsWith('mp4')) {
+  if (url.endsWith("mp4")) {
     return url;
   }
 
-  const source: VideoSources = url.match(videoSourcesInfo[VideoSources.YOUTUBE].idRegex)
+  const source: VideoSources = url.match(
+    videoSourcesInfo[VideoSources.YOUTUBE].idRegex
+  )
     ? VideoSources.YOUTUBE
     : VideoSources.VIMEO;
 
@@ -54,12 +56,12 @@ const buildUrl = (url: string) => {
 const VideoPlayer = ({ url }: { url: string }) => (
   <Container>
     <iframe
-      loading={'lazy'}
-      height={'180px'}
+      loading={"lazy"}
+      height={"180px"}
       src={buildUrl(url)}
-      frameBorder={'0'}
-      allow={'fullscreen; picture-in-picture'}
-      title={'Embedded video'}
+      frameBorder={"0"}
+      allow={"fullscreen; picture-in-picture"}
+      title={"Embedded video"}
     />
   </Container>
 );

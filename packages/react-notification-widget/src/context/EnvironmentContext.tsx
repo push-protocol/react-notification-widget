@@ -1,10 +1,10 @@
-import React, { createContext, useContext } from 'react';
-import { ENV } from '../global/const';
+import React, { createContext, useContext } from "react";
+import { ENV } from "../global/const";
 
-export type EnvType = 'production' | 'staging' | string;
+export type EnvType = "production" | "staging" | string;
 export enum WidgetMode {
-  Default = 'Default',
-  SubscribeOnly = 'SubscribeOnly',
+  Default = "Default",
+  SubscribeOnly = "SubscribeOnly",
 }
 
 export type EnvironmentContextType = {
@@ -26,15 +26,15 @@ export const EnvironmentProvider = ({
   mode?: WidgetMode;
 }) => {
   const gqlEndpointMap: { [key in EnvType]: string } = {
-    development: 'http://localhost:4001/graphql',
-    staging: 'https://staging-api.wherever.im/graphql',
-    production: 'https://api.wherever.im/graphql',
+    development: "http://localhost:4001/graphql",
+    staging: "https://staging-api.wherever.im/graphql",
+    production: "https://api.wherever.im/graphql",
   };
 
   const epnsEnvMap: { [key in EnvType]: string } = {
-    development: 'staging',
-    staging: 'staging',
-    production: 'prod',
+    development: "staging",
+    staging: "staging",
+    production: "prod",
   };
 
   const whereverEnv = ENV as string;

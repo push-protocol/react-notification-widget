@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 const BackgroundLogo = () => (
   <svg
@@ -8,9 +8,20 @@ const BackgroundLogo = () => (
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
   >
-    <rect x="-196" width="765" height="765" fill="url(#pattern0)" fillOpacity="0.1" />
+    <rect
+      x="-196"
+      width="765"
+      height="765"
+      fill="url(#pattern0)"
+      fillOpacity="0.1"
+    />
     <defs>
-      <pattern id="pattern0" patternContentUnits="objectBoundingBox" width="1" height="1">
+      <pattern
+        id="pattern0"
+        patternContentUnits="objectBoundingBox"
+        width="1"
+        height="1"
+      >
         <use xlinkHref="#image0_1_42" transform="scale(0.0025)" />
       </pattern>
       <image

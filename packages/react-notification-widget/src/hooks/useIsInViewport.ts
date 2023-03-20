@@ -1,10 +1,13 @@
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect } from "react";
 
 function useIsInViewport(ref: any) {
   const [isIntersecting, setIsIntersecting] = useState(false);
 
   const observer = useMemo(
-    () => new IntersectionObserver(([entry]) => setIsIntersecting(entry.isIntersecting)),
+    () =>
+      new IntersectionObserver(([entry]) =>
+        setIsIntersecting(entry.isIntersecting)
+      ),
     []
   );
 
