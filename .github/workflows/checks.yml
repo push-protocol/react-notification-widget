@@ -19,13 +19,11 @@ jobs:
       - name: Install deps (for eslint plugins)
         run: yarn install
 
-      - name: Install NX for CI
-        id: 'setSHAs'
-        uses: nrwl/nx-set-shas@v3
-
-      - run: |
-          echo "BASE: ${{ steps.setSHAs.outputs.base }}"
-          echo "HEAD: ${{ steps.setSHAs.outputs.head }}"
+      - name: Nrwl Nx
+        uses: MansaGroup/nrwl-nx-action@v3.2.2
+        with:
+          targets: lint,type-check
+          affected: 'true'
 
       - name: Changed files
         run: npx nx format:check
