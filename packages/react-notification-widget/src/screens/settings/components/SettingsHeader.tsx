@@ -1,14 +1,10 @@
-import React from 'react';
-import styled from 'styled-components';
-import { useEnsName } from 'wagmi';
-import { useUserContext } from '../../../context/UserContext';
-import trimString from '../../../helpers/functions/trimString';
-import formatAddress from '../../../helpers/functions/formatAddress';
-import { useChannelContext } from 'context/ChannelContext';
-import { useEnvironment } from 'context/EnvironmentContext';
-import Text from 'components/Text';
-import PageTitle from 'components/PageTitle';
-import Flex from 'components/layout/Flex';
+import React from "react";
+import styled from "styled-components";
+import { useUserContext } from "../../../context/UserContext";
+import formatAddress from "../../../helpers/functions/formatAddress";
+import { useEnvironment } from "context/EnvironmentContext";
+import PageTitle from "components/PageTitle";
+import Flex from "components/layout/Flex";
 
 const HeaderIconContainer = styled.div<{ size?: number }>`
   height: ${({ size }) => size || 40}px;
@@ -34,12 +30,14 @@ const SettingsHeader = ({ icon }: { icon: string }) => {
   const { isSubscribeOnlyMode } = useEnvironment();
 
   return (
-    <Flex justifyContent={'center'} alignItems={'center'} direction={'column'}>
+    <Flex justifyContent={"center"} alignItems={"center"} direction={"column"}>
       <HeaderIconContainer size={58}>
-        <HeaderImage src={icon} alt={'channel icon'} />
+        <HeaderImage src={icon} alt={"channel icon"} />
       </HeaderIconContainer>
-      <PageTitle mb={1} align={'center'}>
-        {isSubscribeOnlyMode ? userEns || formatAddress(userAddress) : 'Notification Settings'}
+      <PageTitle mb={1} align={"center"}>
+        {isSubscribeOnlyMode
+          ? userEns || formatAddress(userAddress)
+          : "Notification Settings"}
       </PageTitle>
     </Flex>
   );

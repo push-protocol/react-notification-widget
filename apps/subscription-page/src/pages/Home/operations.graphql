@@ -1,7 +1,7 @@
 query GetPartnerInfo($input: PartnerInfoInput!) {
-    partnerInfo(input: $input) {
-      id
-      name
-      partnerApiKey
-    }
+  partnerInfo(input: $input) {
+    id
+    name
+    partnerApiKey
+  }
 }

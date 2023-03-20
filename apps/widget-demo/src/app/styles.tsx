@@ -1,6 +1,5 @@
-import React from 'react';
-import styled from 'styled-components';
-import { Coordinates } from './components/FloatingSettings';
+import styled from "styled-components";
+import { Coordinates } from "./components/FloatingSettings";
 
 const Text = styled.p`
   font-family: Roboto, serif;
@@ -22,7 +21,8 @@ const WidgetBellWrapper = styled.div`
   width: 52px;
   border-radius: 15px;
   background: #102544;
-  box-shadow: rgba(206, 193, 193, 0.1) 0px 0px 0px 1px, rgba(192, 179, 179, 0.2) 0px 5px 10px,
+  box-shadow: rgba(206, 193, 193, 0.1) 0px 0px 0px 1px,
+    rgba(192, 179, 179, 0.2) 0px 5px 10px,
     rgba(210, 195, 195, 0.4) 0px 15px 40px;
   display: flex;
   align-items: center;
@@ -51,13 +51,13 @@ const WidgetContainer = styled.div<Coordinates>`
   position: absolute;
   z-index: 10;
   top: ${({ top }) => `${top}px`};
-  left: ${({ left }) => (typeof left === 'string' ? left : `${left}px`)};
+  left: ${({ left }) => (typeof left === "string" ? left : `${left}px`)};
   @media (max-width: 450px) {
     width: 100%;
     justify-content: center;
     top: 150px;
     left: 0;
-  } ;
+  }
 `;
 
 const BackgroundLogoContainer = styled.div`

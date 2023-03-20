@@ -1,19 +1,24 @@
-import styled, { css, DefaultTheme } from 'styled-components';
-import { ButtonHTMLAttributes, PropsWithChildren } from 'react';
-import { Margins, Paddings } from '../types';
-import { genSpaces, valToPx, adjustColor, conditionalRenderProp } from '../utils';
-import Spinner from '../Spinner';
-import { mode } from '../../theme';
-import Flex from '../layout/Flex';
+import styled, { css, DefaultTheme } from "styled-components";
+import { ButtonHTMLAttributes, PropsWithChildren } from "react";
+import { Margins, Paddings } from "../types";
+import {
+  genSpaces,
+  valToPx,
+  adjustColor,
+  conditionalRenderProp,
+} from "../utils";
+import Spinner from "../Spinner";
+import { mode } from "../../theme";
+import Flex from "../layout/Flex";
 
 const fontSizes = {
-  sm: '12px',
-  md: '14px',
-  lg: '16px',
+  sm: "12px",
+  md: "14px",
+  lg: "16px",
 };
 
-type ButtonVariant = 'gray' | 'primary' | 'outlined' | 'danger' | 'text';
-type ButtonSize = 'sm' | 'md' | 'lg';
+type ButtonVariant = "gray" | "primary" | "outlined" | "danger" | "text";
+type ButtonSize = "sm" | "md" | "lg";
 
 type ButtonProps = PropsWithChildren<
   {
@@ -23,12 +28,12 @@ type ButtonProps = PropsWithChildren<
     height?: string | number;
     width?: string | number;
     isLoading?: boolean;
-    borderRadius?: keyof DefaultTheme['w']['borderRadius'];
+    borderRadius?: keyof DefaultTheme["w"]["borderRadius"];
   } & Margins &
     Paddings
 >;
 
-const disabledState = (theme: DefaultTheme): any => css`
+const disabledState = (theme: DefaultTheme) => css`
   &:disabled {
     transform: unset;
     background: ${mode(theme.w.colors.light[10], theme.w.colors.dark[10])};
@@ -37,7 +42,7 @@ const disabledState = (theme: DefaultTheme): any => css`
   }
 `;
 
-const variantStyles = (variant = 'primary', theme: DefaultTheme): any =>
+const variantStyles = (variant = "primary", theme: DefaultTheme) =>
   ({
     primary: css`
       background: ${theme.w.colors.primary.main};
@@ -55,7 +60,10 @@ const variantStyles = (variant = 'primary', theme: DefaultTheme): any =>
 
       &:hover {
         background: ${mode(theme.w.colors.gray[400], theme.w.colors.dark[30])};
-        border-color: ${mode(theme.w.colors.gray[400], theme.w.colors.dark[30])};
+        border-color: ${mode(
+          theme.w.colors.gray[400],
+          theme.w.colors.dark[30]
+        )};
       }
 
       ${disabledState(theme)}
@@ -92,21 +100,21 @@ const variantStyles = (variant = 'primary', theme: DefaultTheme): any =>
     `,
   }[variant]);
 
-const buttonSizeStyles = (size = 'sm', theme: DefaultTheme): any =>
+const buttonSizeStyles = (size = "sm", theme: DefaultTheme) =>
   ({
     sm: css`
-      font-size: ${fontSizes['sm']};
-      border-radius: ${theme.w.borderRadius['xs']};
+      font-size: ${fontSizes["sm"]};
+      border-radius: ${theme.w.borderRadius["xs"]};
       min-height: 34px;
     `,
     md: css`
-      font-size: ${fontSizes['md']};
-      border-radius: ${theme.w.borderRadius['xs']};
+      font-size: ${fontSizes["md"]};
+      border-radius: ${theme.w.borderRadius["xs"]};
       min-height: 36px;
     `,
     lg: css`
-      font-size: ${fontSizes['lg']};
-      border-radius: ${theme.w.borderRadius['sm']};
+      font-size: ${fontSizes["lg"]};
+      border-radius: ${theme.w.borderRadius["sm"]};
       min-height: 40px;
     `,
   }[size]);
@@ -114,12 +122,12 @@ const buttonSizeStyles = (size = 'sm', theme: DefaultTheme): any =>
 const ButtonWrapper = styled.button<ButtonProps>`
   ${({
     theme,
-    variant = 'primary',
-    size = 'md',
+    variant = "primary",
+    size = "md",
     width,
     height,
     textColor,
-    borderRadius = 'md',
+    borderRadius = "md",
     ...rest
   }) => `
     &:active {
@@ -136,21 +144,23 @@ const ButtonWrapper = styled.button<ButtonProps>`
     gap: 8px;
     justify-content: center;
     color: ${textColor || theme.w.colors.button.text};
-    ${conditionalRenderProp('width', valToPx(width))};
-    ${conditionalRenderProp('height', valToPx(height))};
+    ${conditionalRenderProp("width", valToPx(width))};
+    ${conditionalRenderProp("height", valToPx(height))};
     ${genSpaces(theme, { pl: 2, pr: 2, pt: 1, pb: 1, ...rest })}
-    ${variantStyles(variant, theme).join('')}
-    ${buttonSizeStyles(size, theme).join('')}
+    ${variantStyles(variant, theme)?.join("")}
+    ${buttonSizeStyles(size, theme)?.join("")}
   `};
 `;
 
-const Button = (props: ButtonProps & ButtonHTMLAttributes<any>) => {
+const Button = (
+  props: ButtonProps & ButtonHTMLAttributes<HTMLButtonElement>
+) => {
   const { children, ...rest } = props;
   return (
     <ButtonWrapper disabled={rest.isLoading || rest.disabled} {...rest}>
       {children}
       {rest.isLoading && (
-        <Flex ml={1} style={{ overflow: 'hidden' }}>
+        <Flex ml={1} style={{ overflow: "hidden" }}>
           <Spinner size={10} />
         </Flex>
       )}

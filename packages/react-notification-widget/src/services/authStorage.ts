@@ -1,9 +1,9 @@
-import { LOCALSTORAGE_PREFIX } from '../global/const';
+import { LOCALSTORAGE_PREFIX } from "global/const";
 
 const LOCALSTORAGE_AUTH_STORAGE_KEY = `${LOCALSTORAGE_PREFIX}auth`;
 const LOCALSTORAGE_USER_TOKENS_KEY = `${LOCALSTORAGE_PREFIX}userTokens`;
 
-type AuthStoreKeys = 'address' | 'token' | 'refreshToken';
+type AuthStoreKeys = "address" | "token" | "refreshToken";
 
 class AuthStorage {
   setAuth(value: Record<AuthStoreKeys, string | undefined>): void {
@@ -11,32 +11,25 @@ class AuthStorage {
   }
 
   getAuth(): { [s in AuthStoreKeys]: string | undefined } {
-    return JSON.parse(localStorage.getItem(LOCALSTORAGE_AUTH_STORAGE_KEY) || '{}');
+    return JSON.parse(
+      localStorage.getItem(LOCALSTORAGE_AUTH_STORAGE_KEY) || "{}"
+    );
   }
 
-  private addUserAccountToken(args: {
+  getUserSavedTokens(): Record<
+    string,
+    { token: string; refreshToken: string }
+  > {
+    return JSON.parse(
+      localStorage.getItem(LOCALSTORAGE_USER_TOKENS_KEY) || "{}"
+    );
+  }
+
+  saveAndSetTokensForAddress(args: {
     token: string;
     refreshToken: string;
     address: string;
-  }): void {
-    const { address, token, refreshToken } = args;
-
-    const updatedTokens = {
-      ...this.getUserSavedTokens(),
-      [address]: {
-        token,
-        refreshToken,
-      },
-    };
-
-    localStorage.setItem(LOCALSTORAGE_USER_TOKENS_KEY, JSON.stringify(updatedTokens));
-  }
-
-  getUserSavedTokens(): Record<string, { token: string; refreshToken: string }> {
-    return JSON.parse(localStorage.getItem(LOCALSTORAGE_USER_TOKENS_KEY) || '{}');
-  }
-
-  saveAndSetTokensForAddress(args: { token: string; refreshToken: string; address: string }) {
+  }) {
     this.addUserAccountToken(args);
     this.setAuth(args);
   }
@@ -65,7 +58,10 @@ class AuthStorage {
         [activeAuth.address]: undefined,
       };
 
-      localStorage.setItem(LOCALSTORAGE_USER_TOKENS_KEY, JSON.stringify(updatedTokens));
+      localStorage.setItem(
+        LOCALSTORAGE_USER_TOKENS_KEY,
+        JSON.stringify(updatedTokens)
+      );
     }
 
     this.setAuth({
@@ -79,6 +75,27 @@ class AuthStorage {
     this.removeActiveAddressTokens();
     localStorage.setItem(LOCALSTORAGE_USER_TOKENS_KEY, JSON.stringify({}));
   };
+
+  private addUserAccountToken(args: {
+    token: string;
+    refreshToken: string;
+    address: string;
+  }): void {
+    const { address, token, refreshToken } = args;
+
+    const updatedTokens = {
+      ...this.getUserSavedTokens(),
+      [address]: {
+        token,
+        refreshToken,
+      },
+    };
+
+    localStorage.setItem(
+      LOCALSTORAGE_USER_TOKENS_KEY,
+      JSON.stringify(updatedTokens)
+    );
+  }
 }
 
 const authStorage = new AuthStorage();

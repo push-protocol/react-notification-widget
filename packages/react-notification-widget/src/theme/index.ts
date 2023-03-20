@@ -1,6 +1,6 @@
-import { DefaultTheme } from 'styled-components';
-import { LOCALSTORAGE_THEME_MODE_KEY } from '../global/const';
-import { changeColorShade, adjustColor } from '../components/utils';
+import { DefaultTheme } from "styled-components";
+import { LOCALSTORAGE_THEME_MODE_KEY } from "../global/const";
+import { changeColorShade, adjustColor } from "../components/utils";
 
 type MainColor = {
   light: string;
@@ -8,12 +8,12 @@ type MainColor = {
   dark: string;
 };
 
-declare module 'styled-components' {
+declare module "styled-components" {
   export interface DefaultTheme {
     // theme is applied normally, under a "w" key to guard it, so that other apps using
     // styled-components will not have type conflicts
     w: {
-      mode: 'dark' | 'light';
+      mode: "dark" | "light";
       uppercasePageTitles: boolean;
       spacing: (units: number) => number;
       fontFamily?: string;
@@ -92,8 +92,8 @@ declare module 'styled-components' {
 }
 
 export enum ThemeMode {
-  Light = 'light',
-  Dark = 'dark',
+  Light = "light",
+  Dark = "dark",
 }
 
 export type CustomTheme = {
@@ -104,7 +104,7 @@ export type CustomTheme = {
   mode?: ThemeMode;
   primaryColor?: string;
   secondaryColor?: string;
-  borderRadius?: 'none' | 'sm' | 'md' | 'lg';
+  borderRadius?: "none" | "sm" | "md" | "lg";
   backgroundColor?: string;
   fontFamily?: string;
   bellColor?: string;
@@ -114,81 +114,89 @@ export type CustomTheme = {
   uppercasePageTitles?: boolean;
 };
 
-const br = (xs: string, sm: string, md: string, lg: string) => ({ xs, sm, md, lg });
+const br = (xs: string, sm: string, md: string, lg: string) => ({
+  xs,
+  sm,
+  md,
+  lg,
+});
 
-const defaultTheme: DefaultTheme['w'] = {
-  mode: 'dark',
+const defaultTheme: DefaultTheme["w"] = {
+  mode: "dark",
   uppercasePageTitles: false,
   spacing: (units) => units * 8,
-  borderRadius: br('4px', '6px', '8px', '12px'),
-  fontSize: { sm: '12px', md: '14px', lg: '16px', xl: '18px' },
-  fontFamily: 'inherit',
+  borderRadius: br("4px", "6px", "8px", "12px"),
+  fontSize: { sm: "12px", md: "14px", lg: "16px", xl: "18px" },
+  fontFamily: "inherit",
   breakpoints: {
     mobile: 600,
   },
   colors: {
     button: {
-      text: '#ffffff',
+      text: "#ffffff",
     },
     text: {
-      primary: 'rgba(255,255,255,0.9)',
-      secondary: '#bfbfbf',
+      primary: "rgba(255,255,255,0.9)",
+      secondary: "#bfbfbf",
     },
     bg: {
-      main: '#242C3C',
+      main: "#242C3C",
     },
     primary: {
-      dark: '',
-      main: '#3E64F0',
-      light: '#5278FF',
+      dark: "",
+      main: "#3E64F0",
+      light: "#5278FF",
     },
     secondary: {
-      dark: '',
-      main: '#C23EF0',
-      light: '',
+      dark: "",
+      main: "#C23EF0",
+      light: "",
     },
     border: {
-      main: '#353943',
+      main: "#353943",
     },
     light: {
-      10: 'rgba(255, 255, 255, 0.1)',
-      30: 'rgba(255, 255, 255, 0.3)',
-      50: 'rgba(255, 255, 255, 0.5)',
-      70: 'rgba(255, 255, 255, 0.7)',
-      80: 'rgba(255, 255, 255, 0.8)',
-      100: 'rgb(255,255,255)',
+      10: "rgba(255, 255, 255, 0.1)",
+      30: "rgba(255, 255, 255, 0.3)",
+      50: "rgba(255, 255, 255, 0.5)",
+      70: "rgba(255, 255, 255, 0.7)",
+      80: "rgba(255, 255, 255, 0.8)",
+      100: "rgb(255,255,255)",
     },
     dark: {
-      10: 'rgba(0, 0, 0, 0.1)',
-      30: 'rgba(0, 0, 0, 0.3)',
-      50: 'rgba(0, 0, 0, 0.5)',
-      70: 'rgba(0, 0, 0, 0.7)',
-      80: 'rgba(0, 0, 0, 0.8)',
-      100: 'rgba(0, 0, 0, 1)',
+      10: "rgba(0, 0, 0, 0.1)",
+      30: "rgba(0, 0, 0, 0.3)",
+      50: "rgba(0, 0, 0, 0.5)",
+      70: "rgba(0, 0, 0, 0.7)",
+      80: "rgba(0, 0, 0, 0.8)",
+      100: "rgba(0, 0, 0, 1)",
     },
     gray: {
-      50: '#B1BCCE',
-      100: '#646F82',
-      200: '#576274',
-      300: '#565E6E',
-      400: '#4D5565',
-      500: '#424A5A',
-      600: '#333844',
+      50: "#B1BCCE",
+      100: "#646F82",
+      200: "#576274",
+      300: "#565E6E",
+      400: "#4D5565",
+      500: "#424A5A",
+      600: "#333844",
     },
     bell: {
-      color: '#FCFCFC',
+      color: "#FCFCFC",
     },
     error: {
-      main: '#FF0000',
+      main: "#FF0000",
     },
     success: {
-      main: '#3ba417',
+      main: "#3ba417",
     },
   },
 };
 
 export const makeTheme = (customTheme?: CustomTheme): DefaultTheme => {
-  localStorage.setItem(LOCALSTORAGE_THEME_MODE_KEY, customTheme?.mode || defaultTheme.mode);
+  localStorage.setItem(
+    LOCALSTORAGE_THEME_MODE_KEY,
+    customTheme?.mode || defaultTheme.mode
+  );
 
   if (!customTheme) {
     return { w: defaultTheme };
@@ -222,10 +230,10 @@ export const makeTheme = (customTheme?: CustomTheme): DefaultTheme => {
           }),
         },
         primary: {
-          ...getMainColor('primary', customTheme.primaryColor),
+          ...getMainColor("primary", customTheme.primaryColor),
         },
         secondary: {
-          ...getMainColor('secondary', customTheme.secondaryColor),
+          ...getMainColor("secondary", customTheme.secondaryColor),
         },
         bell: {
           ...defaultTheme.colors.bell,
@@ -240,9 +248,9 @@ export const makeTheme = (customTheme?: CustomTheme): DefaultTheme => {
 };
 
 const getMainColor = (
-  colorKey: 'primary' | 'secondary',
+  colorKey: "primary" | "secondary",
   color?: string
-): DefaultTheme['w']['colors']['primary'] => {
+): DefaultTheme["w"]["colors"]["primary"] => {
   if (!color) return defaultTheme.colors[colorKey];
 
   return {
@@ -252,14 +260,14 @@ const getMainColor = (
   };
 };
 
-const getBorderRadius = (customBr: CustomTheme['borderRadius']) => {
+const getBorderRadius = (customBr: CustomTheme["borderRadius"]) => {
   if (!customBr) return defaultTheme.borderRadius;
 
-  const brMaps: Record<string, DefaultTheme['w']['borderRadius']> = {
-    none: br('0', '0', '0', '0'),
+  const brMaps: Record<string, DefaultTheme["w"]["borderRadius"]> = {
+    none: br("0", "0", "0", "0"),
     sm: defaultTheme.borderRadius,
-    md: br('8px', '10px', '12px', '16px'),
-    lg: br('12px', '14px', '16px', '20px'),
+    md: br("8px", "10px", "12px", "16px"),
+    lg: br("12px", "14px", "16px", "20px"),
   };
 
   return brMaps[customBr];
@@ -268,7 +276,7 @@ const getBorderRadius = (customBr: CustomTheme['borderRadius']) => {
 export const mode = (dark: any, light: any) => {
   const mode = localStorage.getItem(LOCALSTORAGE_THEME_MODE_KEY);
 
-  return mode === 'dark' ? dark : light;
+  return mode === "dark" ? dark : light;
 };
 
 export default defaultTheme;

@@ -1,12 +1,12 @@
-import React from 'react';
-import styled from 'styled-components';
-import { useEnsName } from 'wagmi';
-import formatAddress from '../../../helpers/functions/formatAddress';
-import { UserWalletIcon } from './UserWalletIcon';
-import { useSignerContext } from 'context/SignerContext';
-import { useChannelContext } from 'context/ChannelContext';
-import { Dots, OpenLink } from 'components/icons';
-import Text from 'components/Text';
+import React from "react";
+import styled from "styled-components";
+import { useEnsName } from "wagmi";
+import formatAddress from "../../../helpers/functions/formatAddress";
+import { UserWalletIcon } from "./UserWalletIcon";
+import { useSignerContext } from "context/SignerContext";
+import { useChannelContext } from "context/ChannelContext";
+import { Dots, OpenLink } from "components/icons";
+import Text from "components/Text";
 
 const Container = styled.div`
   display: flex;
@@ -76,17 +76,21 @@ const SeparatorIcon = styled.div`
 `;
 
 const chainIdsToBlockExplorer: Record<number, string> = {
-  1: 'https://etherscan.io',
-  5: 'https://goerli.etherscan.io',
+  1: "https://etherscan.io",
+  5: "https://goerli.etherscan.io",
 };
 
 const ChannelToUserIcons = () => {
   const { channelAddress, icon } = useChannelContext();
   const { address, chainId } = useSignerContext();
 
-  const blockExplorerUrl = `${chainIdsToBlockExplorer[chainId || 1]}/address/${channelAddress}`;
+  const blockExplorerUrl = `${
+    chainIdsToBlockExplorer[chainId || 1]
+  }/address/${channelAddress}`;
 
-  const { data: channelEns } = useEnsName({ address: channelAddress as `0x${string}` });
+  const { data: channelEns } = useEnsName({
+    address: channelAddress as `0x${string}`,
+  });
   const { data: userEns } = useEnsName({ address });
 
   return (
@@ -95,8 +99,8 @@ const ChannelToUserIcons = () => {
         <FromWalletIcon>
           <img src={icon} alt="channel icon" />
         </FromWalletIcon>
-        <WalletText href={blockExplorerUrl} target={'_blank'} rel={'noopener'}>
-          <Text size={'sm'}>{channelEns || formatAddress(channelAddress)}</Text>
+        <WalletText href={blockExplorerUrl} target={"_blank"} rel={"noopener"}>
+          <Text size={"sm"}>{channelEns || formatAddress(channelAddress)}</Text>
           <OpenEtherscanLinkContainer>
             <OpenLink />
           </OpenEtherscanLinkContainer>
@@ -112,7 +116,9 @@ const ChannelToUserIcons = () => {
           <UserWalletIcon />
         </WalletIcon>
         <WalletText>
-          <Text size={'sm'}>{!address ? 'Your wallet' : userEns || formatAddress(address)}</Text>
+          <Text size={"sm"}>
+            {!address ? "Your wallet" : userEns || formatAddress(address)}
+          </Text>
         </WalletText>
       </WalletContainer>
     </Container>

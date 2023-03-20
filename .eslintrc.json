@@ -1,8 +1,5 @@
 {
   "root": true,
-  "ignorePatterns": [
-    "**/*"
-  ],
   "plugins": [
     "@nrwl/nx"
   ],
@@ -13,6 +10,13 @@
         "*.tsx",
         "*.js",
         "*.jsx"
+      ],
+      "extends": [
+        "plugin:prettier/recommended",
+        "eslint:recommended",
+        "plugin:react/recommended",
+        "plugin:@typescript-eslint/recommended",
+        "prettier"
       ],
       "rules": {
         "@nrwl/nx/enforce-module-boundaries": [
@@ -55,9 +59,11 @@
         ],
         "import/named": "off",
         "import/namespace": "off",
-        "import/order": "error",
+        "import/order": "off",
         "react/prop-types": "off",
         "react/react-in-jsx-scope": "off",
+        "jsx-a11y/accessible-emoji": "off",
+        "jsx-a11y/alt-text": "off",
         "prettier/prettier": [
           "error",
           {
@@ -70,14 +76,7 @@
         "react-hooks/exhaustive-deps": "warn",
         "no-use-before-define": "off",
         "@typescript-eslint/no-var-requires": "off"
-      },
-      "extends": [
-        "plugin:prettier/recommended",
-        "eslint:recommended",
-        "plugin:react/recommended",
-        "plugin:@typescript-eslint/recommended",
-        "prettier"
-      ]
+      }
     },
     {
       "files": [
@@ -113,4 +112,3 @@
     }
   ]
 }
-

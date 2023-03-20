@@ -1,6 +1,6 @@
 mutation UpdateLastRead {
-    userUpdateLastReadAt {
-        id
-        lastReadAt
-    }
+  userUpdateLastReadAt {
+    id
+    lastReadAt
+  }
 }
