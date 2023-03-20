@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 import { Margins, Paddings } from '../types';
 
@@ -17,6 +16,7 @@ const CheckBoxLabel = styled.label`
   border-radius: 15px;
   background: #bebebe;
   cursor: pointer;
+
   &::after {
     content: '';
     display: block;
@@ -34,8 +34,10 @@ const CheckBox = styled.input<{ disabled?: boolean }>`
   border-radius: 15px;
   width: 42px;
   height: 26px;
+
   &:checked + ${CheckBoxLabel} {
     background: ${({ theme }) => theme.w.colors.primary.dark};
+
     &::after {
       content: '';
       display: block;
@@ -46,6 +48,7 @@ const CheckBox = styled.input<{ disabled?: boolean }>`
       transition: 0.2s;
     }
   }
+
   &:disabled + ${CheckBoxLabel} {
     cursor: default;
   }

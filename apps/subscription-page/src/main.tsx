@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import ReactDOM from 'react-dom/client';
+import { useEffect, StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
 import './index.css';
 import { WagmiConfig } from 'wagmi';
 import { darkTheme, RainbowKitProvider } from '@rainbow-me/rainbowkit';
@@ -9,17 +9,17 @@ import { ApolloProvider } from '@apollo/client';
 import posthog from 'posthog-js';
 import { PostHogProvider } from 'posthog-js/react';
 import LogRocket from 'logrocket';
-import { chains, wagmiClient } from 'services/auth';
-import apolloClient from 'services/apollo';
-import { IS_PROD } from 'global/consts';
+import { chains, wagmiClient } from './services/auth';
+import apolloClient from './services/apollo';
+import { IS_PROD } from './global/consts';
 import { theme } from './theme';
 import Router from './Router';
 
-const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
+const root = createRoot(document.getElementById('root') as HTMLElement);
 
 if (IS_PROD) {
-  posthog.init(process.env.REACT_APP_PUBLIC_POSTHOG_KEY!, {
-    api_host: process.env.REACT_APP_PUBLIC_POSTHOG_HOST,
+  posthog.init(import.meta.env.VITE_PUBLIC_POSTHOG_KEY!, {
+    api_host: import.meta.env.VITE_PUBLIC_POSTHOG_HOST,
   });
   LogRocket.init('fn8k6v/prod-app-gqiry');
 }
@@ -36,7 +36,7 @@ function ForceDarkMode(props: { children: JSX.Element }) {
 }
 
 root.render(
-  <React.StrictMode>
+  <StrictMode>
     <PostHogProvider client={posthog}>
       <WagmiConfig client={wagmiClient}>
         <RainbowKitProvider theme={darkTheme({ borderRadius: 'large' })} chains={chains}>
@@ -52,5 +52,5 @@ root.render(
         </RainbowKitProvider>
       </WagmiConfig>
     </PostHogProvider>
-  </React.StrictMode>
+  </StrictMode>
 );

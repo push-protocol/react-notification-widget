@@ -5,6 +5,32 @@
       "node",
       "vite/client"
     ],
+    "paths": {
+      "context/*": [
+        "context/*"
+      ],
+      "components/*": [
+        "components/*"
+      ],
+      "global/*": [
+        "global/*"
+      ],
+      "helpers/*": [
+        "helpers/*"
+      ],
+      "hooks/*": [
+        "hooks/*"
+      ],
+      "screen/*": [
+        "screen/*"
+      ],
+      "services/*": [
+        "services/*"
+      ],
+      "theme/*": [
+        "theme/*"
+      ]
+    },
     "baseUrl": "src",
     "declarationDir": "../../dist/types",
     "declaration": true,

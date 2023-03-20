@@ -1,43 +1,46 @@
 /// <reference types="vitest" />
-import { defineConfig } from 'vite';
+import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
 import viteTsConfigPaths from 'vite-tsconfig-paths';
+import inject from '@rollup/plugin-inject';
+import { nodePolyfills } from 'vite-plugin-node-polyfills';
 
-export default defineConfig({
-  cacheDir: '../../node_modules/.vite/subscription-page',
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+export default defineConfig(({ mode }) => {
+  const env = loadEnv(mode, __dirname, '');
 
-  server: {
-    port: 4200,
-    host: 'localhost',
-  },
+  return {
+    cacheDir: '../../node_modules/.vite/subscription-page',
 
-  preview: {
-    port: 4300,
-    host: 'localhost',
-  },
-
-  plugins: [
-    react(),
-    viteTsConfigPaths({
-      root: '../../',
-    }),
-  ],
-
-  // Uncomment this if you are using workers.
-  // worker: {
-  //  plugins: [
-  //    viteTsConfigPaths({
-  //      root: '../../',
-  //    }),
-  //  ],
-  // },
-
-  test: {
-    globals: true,
-    cache: {
-      dir: '../../node_modules/.vitest',
+    server: {
+      port: 4200,
+      host: 'localhost',
     },
-    environment: 'jsdom',
-    include: ['src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
-  },
+
+    plugins: [
+      react(),
+      viteTsConfigPaths({
+        root: '../../',
+      }),
+      nodePolyfills({
+        protocolImports: true,
+      }),
+    ],
+
+    build: {
+      rollupOptions: {
+        plugins: [inject({ Buffer: ['Buffer', 'Buffer'] })],
+      },
+    },
+
+    test: {
+      globals: true,
+      cache: {
+        dir: '../../node_modules/.vitest',
+      },
+      environment: 'jsdom',
+      include: ['src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
+    },
+  };
 });

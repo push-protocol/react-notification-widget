@@ -7,7 +7,7 @@ import { CoinbaseWalletConnector } from 'wagmi/connectors/coinbaseWallet';
 
 const { chains, provider } = configureChains(
   [mainnet, goerli],
-  [alchemyProvider({ apiKey: process.env.REACT_APP_ALCHEMY_KEY || '' })]
+  [alchemyProvider({ apiKey: import.meta.env.VITE_ALCHEMY_KEY || '' })]
 );
 
 const wagmiClient = createClient({

@@ -1,7 +1,7 @@
 import { ApolloClient, InMemoryCache } from '@apollo/client';
 
 const apolloClient = new ApolloClient({
-  uri: process.env.REACT_APP_GQL_ENDPOINT,
+  uri: import.meta.env.VITE_GQL_ENDPOINT,
   cache: new InMemoryCache(),
 });
 

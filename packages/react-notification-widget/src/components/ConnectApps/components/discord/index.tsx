@@ -1,12 +1,11 @@
-import React from 'react';
+import { useUserContext } from 'context/UserContext';
+import { useAuthContext } from 'context/AuthContext';
 import { Discord as DiscordIcon } from '../../../icons';
 import Dropdown from '../../../Dropdown';
 import ConnectedApp from '../ConnectedApp';
 import Flex from '../../../layout/Flex';
 import Text from '../../../Text';
 import useDiscordActions from './useDiscordActions';
-import { useUserContext } from 'context/UserContext';
-import { useAuthContext } from 'context/AuthContext';
 
 type DiscordChannelProps = {
   open: boolean;

@@ -1,9 +1,9 @@
 import { ApolloProvider as Apollo } from '@apollo/client';
-import React, { useMemo } from 'react';
+import { ReactNode, useMemo } from 'react';
 import { getApolloClient } from 'services/apolloClient';
 import { useEnvironment } from 'context/EnvironmentContext';
 
-export const ApolloProvider = ({ children }: { children: React.ReactNode }) => {
+export const ApolloProvider = ({ children }: { children: ReactNode }) => {
   const { gqlEndpoint } = useEnvironment();
 
   const apolloClient = useMemo(() => {

@@ -1,5 +1,5 @@
 import styled, { css, DefaultTheme } from 'styled-components';
-import React, { ButtonHTMLAttributes, PropsWithChildren } from 'react';
+import { ButtonHTMLAttributes, PropsWithChildren } from 'react';
 import { Margins, Paddings } from '../types';
 import { genSpaces, valToPx, adjustColor, conditionalRenderProp } from '../utils';
 import Spinner from '../Spinner';
@@ -41,10 +41,12 @@ const variantStyles = (variant = 'primary', theme: DefaultTheme): any =>
   ({
     primary: css`
       background: ${theme.w.colors.primary.main};
+
       &:hover {
         background: ${adjustColor(theme.w.colors.primary.main, 0.8)};
         border-color: ${adjustColor(theme.w.colors.primary.main, 0.8)};
       }
+
       ${disabledState(theme)}
     `,
     gray: css`
@@ -55,12 +57,14 @@ const variantStyles = (variant = 'primary', theme: DefaultTheme): any =>
         background: ${mode(theme.w.colors.gray[400], theme.w.colors.dark[30])};
         border-color: ${mode(theme.w.colors.gray[400], theme.w.colors.dark[30])};
       }
+
       ${disabledState(theme)}
     `,
     outlined: css`
       background-color: transparent;
       border: 2px solid ${theme.w.colors.primary.main};
       color: ${theme.w.colors.primary.main};
+
       &:disabled {
         transform: unset;
         border-color: ${adjustColor(theme.w.colors.primary.main, 0.5)};
@@ -70,10 +74,12 @@ const variantStyles = (variant = 'primary', theme: DefaultTheme): any =>
     `,
     danger: css`
       background: ${theme.w.colors.error.main};
+
       &:hover {
         background: ${adjustColor(theme.w.colors.error.main, 0.8)};
         border-color: ${adjustColor(theme.w.colors.error.main, 0.8)};
       }
+
       ${disabledState(theme)}
     `,
     text: css`

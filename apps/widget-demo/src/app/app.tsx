@@ -1,16 +1,15 @@
-import * as process from 'process';
-import React, { useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 
-import * as S from './styles';
-import FloatingSettings, { Coordinates } from './components/FloatingSettings';
-import Logo from './components/Logo';
-import BackgroundLogo from './components/BackgroundLogo';
 import {
   NotificationBell,
   NotificationFeed,
   NotificationFeedProvider,
   WidgetMode,
 } from '@wherever/react-notification-widget';
+import * as S from './styles';
+import FloatingSettings, { Coordinates } from './components/FloatingSettings';
+import Logo from './components/Logo';
+import BackgroundLogo from './components/BackgroundLogo';
 
 const defaultTheme = {
   fontFamily: 'Mulish, sans-serif',
@@ -33,8 +32,7 @@ const keys = {
   },
 };
 
-const DEFAULT_PARTNER_KEY =
-  process.env.NODE_ENV === 'production' ? keys.prod.wTest : keys.staging.myLocal;
+const DEFAULT_PARTNER_KEY = import.meta.env.PROD ? keys.prod.wTest : keys.staging.myLocal;
 
 const App = () => {
   const [partnerKey, setPartnerKey] = useState(DEFAULT_PARTNER_KEY);

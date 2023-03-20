@@ -8,17 +8,17 @@ jobs:
   checks:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-node@v3
-      with:
-        node-version: 16
-        cache: 'yarn'
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'yarn'
 
-    - name: Install deps (for eslint plugins)
-      run: yarn install --frozen-lockfile
+      - name: Install deps (for eslint plugins)
+        run: yarn install --frozen-lockfile
 
-    - name: ESLint
-      run: yarn eslint '*/**/*.{js,ts,tsx}' --quiet
+      - name: ESLint
+        run: npx nx affected --target=lint --parallel=3
 
-    - name: Test compiliation
-      run: yarn tsc --noEmit
+      - name: Test compilation
+        run: npx nx affected --target=type-check --parallel=3

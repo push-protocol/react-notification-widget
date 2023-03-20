@@ -5,7 +5,7 @@ import pkg from '../../package.json';
 
 export const LOCALSTORAGE_PREFIX = 'wherever.';
 
-export const ENV = process.env.NODE_ENV;
+export const ENV = import.meta.env.MODE;
 
 export const LOCALSTORAGE_THEME_MODE_KEY = `${LOCALSTORAGE_PREFIX}themeMode`;
 

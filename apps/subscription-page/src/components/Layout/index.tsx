@@ -1,6 +1,6 @@
 import { Outlet } from 'react-router-dom';
 import { Flex } from '@chakra-ui/react';
-import { Footer } from 'components';
+import { Footer } from '../Footer';
 
 export const Layout = () => {
   return (

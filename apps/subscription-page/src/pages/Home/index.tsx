@@ -3,13 +3,14 @@ import { Center, Flex } from '@chakra-ui/react';
 import LogRocket from 'logrocket';
 import { useEffect } from 'react';
 import { usePostHog } from 'posthog-js/react';
-import { Loader, NotFound } from 'components';
-import { useGetPartnerInfoQuery } from './operations.generated';
 import {
   NotificationFeedProvider,
   NotificationFeed,
   WidgetMode,
 } from '@wherever/react-notification-widget';
+import { Loader, NotFound } from '../../components';
+import { IS_PROD } from '../../global/consts';
+import { useGetPartnerInfoQuery } from './operations.generated';
 
 const theme = {
   fontFamily: 'Mulish, sans-serif',
@@ -27,7 +28,7 @@ export const Home = () => {
   const partnerKey = searchParams.get('partnerKey') || '';
 
   useEffect(() => {
-    if (slug) {
+    if (slug && IS_PROD) {
       LogRocket.track('channel slug', { slug });
       posthog?.group('channel slug', slug); // paid feature, will work when upgrading.
     }
@@ -37,6 +38,7 @@ export const Home = () => {
     skip: !slug || !!partnerKey.length,
     variables: { input: { slug } },
   });
+  console.log(loading, data);
 
   if (!data?.partnerInfo.partnerApiKey && !partnerKey) {
     return (
@@ -53,7 +55,7 @@ export const Home = () => {
         <NotificationFeedProvider
           isOpen
           theme={theme}
-          disableAnalytics={process.env.REACT_APP_VERCEL_ENV !== 'production'}
+          disableAnalytics={import.meta.env.REACT_APP_VERCEL_ENV !== 'production'}
           mode={WidgetMode.SubscribeOnly}
           partnerKey={data?.partnerInfo.partnerApiKey || partnerKey}
           discordToken={discordToken}

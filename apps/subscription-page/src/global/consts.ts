@@ -1,4 +1,4 @@
-export const IS_PROD = process.env.REACT_APP_VERCEL_ENV === 'production';
+export const IS_PROD = import.meta.env.PROD;
 
 export const STUDIO_URL = IS_PROD
   ? 'https://studio.wherever.to'

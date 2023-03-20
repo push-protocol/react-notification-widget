@@ -1,8 +1,4 @@
 import { useEffect } from 'react';
-import {
-  useDeleteChannelMutation,
-  useVerifyUserDiscordMutation,
-} from '../../../ConnectApps/operations.generated';
 import analytics from 'services/analytics';
 import { MessagingApp } from 'global/types.generated';
 import { useUserContext } from 'context/UserContext';
@@ -10,6 +6,10 @@ import { UserCommunicationChannelsDocument } from 'context/UserContext/operation
 import { useAuthContext } from 'context/AuthContext';
 import { useEnvironment } from 'context/EnvironmentContext';
 import { useChannelContext } from 'context/ChannelContext';
+import {
+  useDeleteChannelMutation,
+  useVerifyUserDiscordMutation,
+} from '../../../ConnectApps/operations.generated';
 
 const useDiscordActions = () => {
   const { isSubscribeOnlyMode } = useEnvironment();

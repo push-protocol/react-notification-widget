@@ -40,7 +40,7 @@
     "prepublishOnly": "yarn build:pkg",
     "publish:local": "YARN_VERSION_GIT_TAG='' yarn publish --registry=\"http://localhost:4873\"",
     "_build": "yarn type-check && vite build --config vite.config.demo.ts",
-    "_build:pkg": "yarn type-check && vite build --config vite.config.pkg.ts"
+    "_build:pkg": "yarn type-check && vite build --config vite.config.ts"
   },
   "exports": {
     ".": {
