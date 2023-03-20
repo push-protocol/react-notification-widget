@@ -9,16 +9,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v3
         with:
           node-version: 16
           cache: 'yarn'
+      - uses: nrwl/nx-set-shas@v3
 
       - name: Install deps (for eslint plugins)
         run: yarn install
 
+      - name: Changed files
+        run: npx nx format:check
+
       - name: ESLint
-        run: npx nx affected --base=origin/staging --head=$PR_BRANCH_NAME --target=lint --parallel=3
+        run: npx nx affected --base=origin/staging --target=lint --parallel=3
 
       - name: Test compilation
-        run: npx nx affected --base=origin/staging --head=$PR_BRANCH_NAME --target=type-check --parallel=3
+        run: npx nx affected --base=origin/staging --target=type-check --parallel=3
