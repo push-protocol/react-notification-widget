@@ -18,7 +18,7 @@ jobs:
         run: yarn install --frozen-lockfile
 
       - name: ESLint
-        run: npx nx affected --base=origin/staging --head=$PR_BRANCH_NAME --target=lint --parallel=3
+        run: npx nx affected --base= origin/staging --head=$PR_BRANCH_NAME --target=lint --parallel=3
 
       - name: Test compilation
-        run: npx nx affected --base=origin/staging --head=$PR_BRANCH_NAME --target=type-check --parallel=3
+        run: npx nx affected --base= origin/staging --head=$PR_BRANCH_NAME --target=type-check --parallel=3
