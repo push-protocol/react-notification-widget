@@ -33,7 +33,7 @@ export const VerifyAccount = () => {
     <Screen>
       <Flex direction={'column'}>
         <Text size={'2xl'} mb={2} align={'center'} weight={700}>
-          Hi{userEns || formatAddress(userAddress)} 👋
+          Hi, {userEns || formatAddress(userAddress)} 👋
         </Text>
         <Text size={'lg'} mb={8} align={'center'}>
           Sign a message with your wallet to verify ownership of your account.

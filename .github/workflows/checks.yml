@@ -22,7 +22,8 @@ jobs:
       - name: Install NX for CI
         id: 'setSHAs'
         uses: nrwl/nx-set-shas@v3
-        run: |
+
+      - run: |
           echo "BASE: ${{ steps.setSHAs.outputs.base }}"
           echo "HEAD: ${{ steps.setSHAs.outputs.head }}"
 
