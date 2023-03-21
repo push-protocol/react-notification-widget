@@ -38,7 +38,6 @@ export const Home = () => {
     skip: !slug || !!partnerKey.length,
     variables: { input: { slug } },
   });
-  console.log(loading, data);
 
   if (!data?.partnerInfo.partnerApiKey && !partnerKey) {
     return (
