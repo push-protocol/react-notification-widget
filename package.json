@@ -1,14 +1,11 @@
 {
-  "name": "@wherever/react-notification-feed",
+  "name": "wherever-monorepo",
   "version": "0.4.3",
   "description": "",
   "repository": {
     "type": "git",
     "url": "https://github.com/whereverlabs/react-notification-widget.git"
   },
-  "files": [
-    "dist"
-  ],
   "private": true,
   "author": "Wherever Labs",
   "license": "ISC",
@@ -84,9 +81,7 @@
     "eslint": "8.19.0",
     "eslint-config-next": "12.2.0",
     "eslint-config-prettier": "8.5.0",
-    "eslint-import-resolver-typescript": "3.2.1",
     "eslint-plugin-cypress": "^2.10.3",
-    "eslint-plugin-import": "2.27.5",
     "eslint-plugin-jsx-a11y": "6.7.1",
     "eslint-plugin-prettier": "4.2.1",
     "eslint-plugin-react": "7.32.2",
@@ -111,13 +106,16 @@
     "vitest": "^0.25.8"
   },
   "lint-staged": {
-    "*.{ts,js,tsx,jsx}": "yarn format --uncommited --base=origin/staging"
+    "*.{ts,js,tsx,jsx}": [
+      "yarn format:write --files",
+      "yarn affected:lint --fix --files",
+      "yarn type-check --files"
+    ]
   },
   "scripts": {
     "prepare": "husky install",
     "codegen": "nx run-many --target=codegen --all",
     "type-check": "nx affected --target=type-check",
-    "lint": "nx workspace-lint && nx lint",
     "affected:apps": "nx print-affected --type=app",
     "affected:libs": "nx print-affected --type=lib",
     "affected:build": "nx affected:build",
@@ -125,7 +123,6 @@
     "affected:lint": "nx affected:lint",
     "affected:dep-graph": "nx affected:dep-graph",
     "affected": "nx affected",
-    "format": "nx format:write",
     "format:write": "nx format:write",
     "format:check": "nx format:check",
     "update": "nx migrate latest",

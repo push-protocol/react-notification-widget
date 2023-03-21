@@ -55,8 +55,8 @@
           "type-check",
           "lint"
         ],
-        "token": "oUhzIXZa7AEJ1avNrK5zqMel",
-        "teamId": "team_SyL2gNidVIesQi8TRtyCBnus"
+        "token": "<token>",
+        "teamId": "<teamId>"
       }
     }
   }

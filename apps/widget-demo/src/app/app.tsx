@@ -34,6 +34,8 @@ const keys = {
 
 const DEFAULT_PARTNER_KEY = import.meta.env.PROD ? keys.prod.wTest : keys.staging.myLocal;
 
+const a = 2 || 3;
+
 const App = () => {
   const [partnerKey, setPartnerKey] = useState(DEFAULT_PARTNER_KEY);
   const [iframeUrl, setIframeUrl] = useState('');

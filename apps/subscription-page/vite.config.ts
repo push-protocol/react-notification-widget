@@ -1,5 +1,5 @@
 /// <reference types="vitest" />
-import { defineConfig, loadEnv } from 'vite';
+import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import viteTsConfigPaths from 'vite-tsconfig-paths';
 import inject from '@rollup/plugin-inject';
@@ -8,8 +8,6 @@ import { nodePolyfills } from 'vite-plugin-node-polyfills';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 export default defineConfig(({ mode }) => {
-  const env = loadEnv(mode, __dirname, '');
-
   return {
     cacheDir: '../../node_modules/.vite/subscription-page',
 

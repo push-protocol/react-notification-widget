@@ -52,14 +52,7 @@
         "react/react-in-jsx-scope": "off",
         "jsx-a11y/accessible-emoji": "off",
         "jsx-a11y/alt-text": "off",
-        "prettier/prettier": [
-          "error",
-          {
-            "singleQuote": true,
-            "printWidth": 100,
-            "endOfLine": "auto"
-          }
-        ],
+        "prettier/prettier": ["error"],
         "react-hooks/rules-of-hooks": "error",
         "react-hooks/exhaustive-deps": "warn",
         "no-use-before-define": "off",

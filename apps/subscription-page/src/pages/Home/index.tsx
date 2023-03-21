@@ -55,7 +55,7 @@ export const Home = () => {
         <NotificationFeedProvider
           isOpen
           theme={theme}
-          disableAnalytics={import.meta.env.REACT_APP_VERCEL_ENV !== 'production'}
+          disableAnalytics={import.meta.env.DEV}
           mode={WidgetMode.SubscribeOnly}
           partnerKey={data?.partnerInfo.partnerApiKey || partnerKey}
           discordToken={discordToken}
