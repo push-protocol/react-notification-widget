@@ -6685,27 +6685,6 @@
     undici "^5.8.0"
     web-streams-polyfill "^3.2.0"
 
-"@wherever/react-notification-feed@*":
-  version "0.4.3"
-  resolved "https://registry.yarnpkg.com/@wherever/react-notification-feed/-/react-notification-feed-0.4.3.tgz#03de813dbf208ec9d38a7083cc3fffca25b9706a"
-  integrity sha512-D9AhAxaNvZOxLNw1wNLDGBKVwals7xsDL1eUC/G3zyoVN83spUX17w2FKNZXZ2oETXBi8t3VX7quADNBm4sMJw==
-  dependencies:
-    "@apollo/client" "^3.6.9"
-    "@epnsproject/sdk-restapi" "^0.1.20"
-    "@popperjs/core" "^2.11.6"
-    "@styled-icons/octicons" "^10.47.0"
-    dayjs "^1.11.5"
-    dompurify "^2.4.3"
-    ethers "^5.6.9"
-    graphql "^16.6.0"
-    react-click-away-listener "^2.2.2"
-    react-infinite-scroller "^1.2.6"
-    react-popper "^2.3.0"
-    rudder-sdk-js "^2.18.1"
-    showdown "^2.1.0"
-    siwe "^1.1.6"
-    wagmi "^0.10.1"
-
 "@wry/context@^0.6.0":
   version "0.6.1"
   resolved "https://registry.yarnpkg.com/@wry/context/-/context-0.6.1.tgz#c3c29c0ad622adb00f6a53303c4f965ee06ebeb2"
@@ -9891,7 +9870,7 @@ eslint-plugin-flowtype@^8.0.3:
     lodash "^4.17.21"
     string-natural-compare "^3.0.1"
 
-eslint-plugin-import@^2.25.3:
+eslint-plugin-import@2.27.5, eslint-plugin-import@^2.25.3:
   version "2.27.5"
   resolved "https://registry.yarnpkg.com/eslint-plugin-import/-/eslint-plugin-import-2.27.5.tgz#876a6d03f52608a3e5bb439c2550588e51dd6c65"
   integrity sha512-LmEt3GVofgiGuiE+ORpnvP+kAm3h6MLZJ4Q5HCyHADofsb4VzXFsRiWj3c0OFiV+3DWFh0qg3v9gcPlfc3zRow==

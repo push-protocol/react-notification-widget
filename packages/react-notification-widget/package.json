@@ -41,10 +41,8 @@
     "wagmi": "^0.10.1"
   },
   "scripts": {
-    "prepublishOnly": "yarn build:pkg",
-    "publish:local": "YARN_VERSION_GIT_TAG='' yarn publish --registry=\"http://localhost:4873\"",
-    "_build": "yarn type-check && vite build --config vite.config.demo.ts",
-    "_build:pkg": "yarn type-check && vite build --config vite.config.ts"
+    "dev": "nx serve react-notification-widget",
+    "build": "nx build react-notification-widget"
   },
   "exports": {
     ".": {

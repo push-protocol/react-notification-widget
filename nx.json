@@ -1,4 +1,14 @@
 {
+  "tasksRunnerOptions": {
+    "default": {
+      "runner": "@vercel/remote-nx",
+      "options": {
+        "cacheableOperations": ["build", "type-check", "lint"],
+        "token": "<token>",
+        "teamId": "<teamId>"
+      }
+    }
+  },
   "plugins": ["nx/plugins/package-json"],
   "affected": {
     "defaultBase": "origin/staging"
@@ -36,16 +46,6 @@
     },
     "test": {
       "inputs": ["default", "^default", "{workspaceRoot}/jest.preset.js"]
-    }
-  },
-  "tasksRunnerOptions": {
-    "default": {
-      "runner": "@vercel/remote-nx",
-      "options": {
-        "cacheableOperations": ["build", "type-check", "lint"],
-        "token": "<token>",
-        "teamId": "<teamId>"
-      }
     }
   }
 }
