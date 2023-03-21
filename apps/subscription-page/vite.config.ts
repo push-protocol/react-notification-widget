@@ -2,12 +2,12 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import viteTsConfigPaths from 'vite-tsconfig-paths';
-import inject from '@rollup/plugin-inject';
-import { nodePolyfills } from 'vite-plugin-node-polyfills';
+import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfill';
+import rollupNodePolyFill from 'rollup-plugin-node-polyfills';
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-export default defineConfig(({ mode }) => {
+export default defineConfig(() => {
   return {
     cacheDir: '../../node_modules/.vite/subscription-page',
 
@@ -21,14 +21,26 @@ export default defineConfig(({ mode }) => {
       viteTsConfigPaths({
         root: '../../',
       }),
-      nodePolyfills({
-        protocolImports: true,
-      }),
     ],
 
     build: {
       rollupOptions: {
-        plugins: [inject({ Buffer: ['Buffer', 'Buffer'] })],
+        plugins: [rollupNodePolyFill()],
+      },
+    },
+
+    optimizeDeps: {
+      esbuildOptions: {
+        // Node.js global to browser globalThis
+        define: {
+          global: 'globalThis',
+        },
+        // Enable esbuild polyfill plugins
+        plugins: [
+          NodeGlobalsPolyfillPlugin({
+            buffer: true,
+          }),
+        ],
       },
     },
 
