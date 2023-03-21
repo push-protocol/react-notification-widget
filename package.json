@@ -109,7 +109,8 @@
     "*.{ts,js,tsx,jsx}": [
       "yarn format:write --files",
       "yarn affected:lint --fix --files",
-      "yarn type-check --files"
+      "yarn type-check --files",
+      "git add"
     ]
   },
   "scripts": {
