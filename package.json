@@ -74,6 +74,7 @@
     "@types/styled-components": "5.1.26",
     "@typescript-eslint/eslint-plugin": "^5.55.0",
     "@typescript-eslint/parser": "5.55.0",
+    "@vercel/remote-nx": "^1.0.1",
     "@vitejs/plugin-react": "^3.0.0",
     "@vitest/coverage-c8": "~0.25.8",
     "@vitest/ui": "^0.25.8",
