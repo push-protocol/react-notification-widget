@@ -16,6 +16,7 @@ import { theme } from './theme';
 import Router from './Router';
 
 const root = createRoot(document.getElementById('root') as HTMLElement);
+console.log(IS_PROD, import.meta.env);
 
 if (IS_PROD) {
   posthog.init(import.meta.env.VITE_PUBLIC_POSTHOG_KEY!, {
