@@ -73,7 +73,7 @@ const App = () => {
       </S.BackgroundLogoContainer>
       <S.TopBar>
         <Logo />
-        <S.Text>Widget Demo</S.Text>
+        <S.Text>Widget Demo.</S.Text>
       </S.TopBar>
       {/****************WIDGET****************/}
       <S.WidgetContainer top={coordinates.top} left={coordinates.left}>
