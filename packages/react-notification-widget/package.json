@@ -1,10 +1,10 @@
 {
-  "name": "@wherever/react-notification-widget",
+  "name": "@wherever/react-notification-feed",
   "version": "0.4.3",
   "main": "./index.js",
   "types": "./index.d.ts",
   "module": "./index.js",
-  "author": "Wherever.im",
+  "author": "Wherever Labs",
   "license": "ISC",
   "peerDependencies": {
     "react": ">=16.8.0",
@@ -13,6 +13,10 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/whereverlabs/react-notification-widget.git"
   },
   "devDependencies": {
     "@types/dompurify": "^2.4.0",

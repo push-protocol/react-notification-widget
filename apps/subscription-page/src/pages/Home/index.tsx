@@ -7,7 +7,7 @@ import {
   NotificationFeedProvider,
   NotificationFeed,
   WidgetMode,
-} from '@wherever/react-notification-widget';
+} from '@wherever/react-notification-feed';
 import { Loader, NotFound } from '../../components';
 import { IS_PROD } from '../../global/consts';
 import { useGetPartnerInfoQuery } from './operations.generated';

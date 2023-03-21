@@ -5,7 +5,7 @@ import {
   NotificationFeed,
   NotificationFeedProvider,
   WidgetMode,
-} from '@wherever/react-notification-widget';
+} from '@wherever/react-notification-feed';
 import * as S from './styles';
 import FloatingSettings, { Coordinates } from './components/FloatingSettings';
 import Logo from './components/Logo';

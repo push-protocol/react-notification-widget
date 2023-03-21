@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { CustomTheme } from '@wherever/react-notification-widget';
+import { CustomTheme } from '@wherever/react-notification-feed';
 
 export type Coordinates = {
   top: number | string;
