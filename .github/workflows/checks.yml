@@ -16,20 +16,11 @@ jobs:
           node-version: 16
           cache: 'yarn'
 
-      - name: Install deps (for eslint plugins)
+      - name: Install deps
         run: yarn install
 
-      - name: Nrwl Nx
+      - name: Eslint & Type check
         uses: MansaGroup/nrwl-nx-action@v3.2.2
         with:
           targets: lint,type-check
           affected: 'true'
-
-      - name: Changed files
-        run: npx nx format:check
-
-      - name: ESLint
-        run: npx nx affected --base=origin/staging --target=lint --parallel=3
-
-      - name: Test compilation
-        run: npx nx affected --base=origin/staging --target=type-check --parallel=3

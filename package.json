@@ -10,7 +10,7 @@
     "dist"
   ],
   "private": true,
-  "author": "",
+  "author": "Wherever Labs",
   "license": "ISC",
   "dependencies": {
     "@apollo/client": "^3.6.9",
