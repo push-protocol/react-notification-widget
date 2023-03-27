@@ -1,0 +1,53 @@
+{
+  "name": "@wherever/react-notification-feed",
+  "version": "0.4.3",
+  "main": "./index.js",
+  "types": "./index.d.ts",
+  "module": "./index.js",
+  "author": "Wherever Labs",
+  "license": "ISC",
+  "peerDependencies": {
+    "react": ">=16.8.0",
+    "react-dom": ">=16.8.0",
+    "styled-components": ">=5"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/whereverlabs/react-notification-widget.git"
+  },
+  "devDependencies": {
+    "@types/dompurify": "^2.4.0",
+    "@types/react-infinite-scroller": "^1.2.3",
+    "@types/showdown": "^2.0.0",
+    "util": "^0.12.5",
+    "rollup-plugin-exclude-dependencies-from-bundle": "^1.1.23",
+    "@apollo/client": "^3.6.9",
+    "@epnsproject/sdk-restapi": "^0.1.20",
+    "@popperjs/core": "^2.11.6",
+    "@styled-icons/octicons": "^10.47.0",
+    "dayjs": "^1.11.5",
+    "dompurify": "^2.4.3",
+    "ethers": "^5.6.9",
+    "graphql": "^16.6.0",
+    "react-click-away-listener": "^2.2.2",
+    "react-infinite-scroller": "^1.2.6",
+    "react-popper": "^2.3.0",
+    "rudder-sdk-js": "^2.18.1",
+    "showdown": "^2.1.0",
+    "siwe": "^1.1.6",
+    "wagmi": "^0.10.1"
+  },
+  "scripts": {
+    "dev": "nx serve react-notification-widget",
+    "build": "nx build react-notification-widget"
+  },
+  "exports": {
+    ".": {
+      "import": "./index.mjs",
+      "require": "./index.js"
+    }
+  }
+}

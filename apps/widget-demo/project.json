@@ -1,0 +1,79 @@
+{
+  "name": "widget-demo",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/widget-demo/src",
+  "projectType": "application",
+  "targets": {
+    "type-check": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "tsc --noEmit -p apps/widget-demo/tsconfig.json"
+      }
+    },
+    "build": {
+      "executor": "@nrwl/vite:build",
+      "outputs": ["{options.outputPath}"],
+      "dependsOn": ["type-check"],
+      "defaultConfiguration": "production",
+      "options": {
+        "outputPath": "dist/apps/widget-demo"
+      },
+      "configurations": {
+        "development": {
+          "mode": "development"
+        },
+        "production": {
+          "mode": "production"
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/vite:dev-server",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "widget-demo:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "widget-demo:build:development",
+          "hmr": true
+        },
+        "production": {
+          "buildTarget": "widget-demo:build:production",
+          "hmr": false
+        }
+      }
+    },
+    "preview": {
+      "executor": "@nrwl/vite:preview-server",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "widget-demo:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "widget-demo:build:development"
+        },
+        "production": {
+          "buildTarget": "widget-demo:build:production"
+        }
+      }
+    },
+    "test": {
+      "executor": "@nrwl/vite:test",
+      "outputs": ["coverage/apps/widget-demo"],
+      "options": {
+        "passWithNoTests": true,
+        "reportsDirectory": "../../coverage/apps/widget-demo"
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/widget-demo/**/*.{ts,tsx,js,jsx}"]
+      }
+    }
+  },
+  "tags": []
+}

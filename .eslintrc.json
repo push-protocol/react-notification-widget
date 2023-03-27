@@ -1,55 +1,80 @@
 {
-  "env": {
-    "browser": true,
-    "es2021": true,
-    "node": true
-  },
-  "extends": [
-    "plugin:prettier/recommended",
-    "eslint:recommended",
-    "plugin:react/recommended",
-    "plugin:@typescript-eslint/recommended",
-    "prettier",
-    "plugin:import/typescript",
-    "plugin:import/recommended"
-  ],
-  "parser": "@typescript-eslint/parser",
-  "parserOptions": {
-    "ecmaFeatures": {
-      "jsx": true
+  "root": true,
+  "plugins": ["@nrwl/nx", "prettier"],
+  "overrides": [
+    {
+      "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
+      "extends": [
+        "plugin:prettier/recommended",
+        "eslint:recommended",
+        "plugin:react/recommended",
+        "plugin:@typescript-eslint/recommended",
+        "prettier"
+      ],
+      "rules": {
+        "@nrwl/nx/enforce-module-boundaries": [
+          "error",
+          {
+            "enforceBuildableLibDependency": true,
+            "allow": [],
+            "depConstraints": [
+              {
+                "sourceTag": "*",
+                "onlyDependOnLibsWithTags": ["*"]
+              }
+            ]
+          }
+        ],
+        "object-shorthand": ["error", "always"],
+        "prefer-const": "error",
+        "no-debugger": "warn",
+        "@typescript-eslint/no-unused-vars": "warn",
+        "import/no-unused-modules": "error",
+        "import/newline-after-import": "error",
+        "@typescript-eslint/no-explicit-any": "off",
+        "padding-line-between-statements": [
+          "error",
+          {
+            "blankLine": "always",
+            "prev": "block-like",
+            "next": "*"
+          },
+          {
+            "blankLine": "always",
+            "prev": "*",
+            "next": "block-like"
+          }
+        ],
+        "import/named": "off",
+        "import/namespace": "off",
+        "import/order": "off",
+        "react/prop-types": "off",
+        "react/react-in-jsx-scope": "off",
+        "jsx-a11y/accessible-emoji": "off",
+        "jsx-a11y/alt-text": "off",
+        "prettier/prettier": ["error"],
+        "react-hooks/rules-of-hooks": "error",
+        "react-hooks/exhaustive-deps": "warn",
+        "no-use-before-define": "off",
+        "@typescript-eslint/no-var-requires": "off"
+      }
     },
-    "ecmaVersion": 2021,
-    "sourceType": "module"
-  },
-  "plugins": ["react", "@typescript-eslint", "prettier", "react-hooks"],
-  "rules": {
-    "object-shorthand": ["error", "always"],
-    "prefer-const": "error",
-    "no-debugger": "warn",
-    "@typescript-eslint/no-unused-vars": "warn",
-    "import/no-unused-modules": "error",
-    "import/newline-after-import": "error",
-    "@typescript-eslint/no-explicit-any": "off",
-    "padding-line-between-statements": [
-      "error",
-      { "blankLine": "always", "prev": "block-like", "next": "*" },
-      { "blankLine": "always", "prev": "*", "next": "block-like" }
-    ],
-    "import/named": "off",
-    "import/namespace": "off",
-    "import/order": "error",
-    "react/prop-types": "off",
-    "react/react-in-jsx-scope": "off",
-    "prettier/prettier": ["error", {"singleQuote":  true, "printWidth":  100, "endOfLine": "auto"}],
-    "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "warn",
-    "no-use-before-define": "off",
-    "@typescript-eslint/no-var-requires": "off"
-  },
-  "settings": {
-    "import/resolver": {
-      "typescript": {}
+    {
+      "files": ["*.ts", "*.tsx"],
+      "extends": ["plugin:@nrwl/nx/typescript"],
+      "rules": {}
+    },
+    {
+      "files": ["*.js", "*.jsx"],
+      "extends": ["plugin:@nrwl/nx/javascript"],
+      "rules": {}
+    },
+    {
+      "files": ["*.spec.ts", "*.spec.tsx", "*.spec.js", "*.spec.jsx"],
+      "env": {
+        "jest": true
+      },
+      "rules": {}
     }
-  },
-  "ignorePatterns": ["README.MD", "*.svg", "*.png", "*.html", "*.graphql", "*.generated.ts*","public/*", "demo/*"]
+  ]
 }

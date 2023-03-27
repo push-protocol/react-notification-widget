@@ -1,0 +1,10 @@
+mutation UserPreferencesUpdate($input: UserPreferenceUpdateInput!) {
+  userPreferencesUpdate(input: $input) {
+    id
+    commsChannelTagId
+    email
+    telegram
+    discord
+    enabled
+  }
+}
