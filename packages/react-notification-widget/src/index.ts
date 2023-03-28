@@ -1,7 +1,7 @@
 import NotificationBell, { type NotificationBellProps } from './components/NotificationBell';
 import NotificationFeedProvider, {
   NotificationFeedProviderProps,
-} from './components/NotificationFeedProvider';
+} from 'components/NotificationFeedProvider';
 import { ThemeMode, type CustomTheme } from './theme';
 import type { Notification } from 'context/UserContext/types';
 import NotificationFeed, { NotificationFeedProps } from './components/NotificationFeed';
