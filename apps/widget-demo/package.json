@@ -1,7 +1,0 @@
-{
-  "name": "widget-demo",
-  "scripts": {
-    "dev": "nx serve widget-demo",
-    "build": "nx build widget-demo"
-  }
-}

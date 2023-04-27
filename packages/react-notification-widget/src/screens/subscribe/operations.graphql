@@ -1,5 +1,0 @@
-mutation UserSubscribe($input: UserSubscribeToChannelInput!) {
-  userSubscribeToChannel(input: $input) {
-    ...userInfo
-  }
-}

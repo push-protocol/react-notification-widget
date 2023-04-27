@@ -1,7 +1,0 @@
-{
-  "name": "subscription-page",
-  "scripts": {
-    "dev": "nx serve subscription-page",
-    "build": "nx build subscription-page"
-  }
-}

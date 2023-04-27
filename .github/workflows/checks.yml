@@ -8,19 +8,17 @@ jobs:
   checks:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 16
-          cache: 'yarn'
+    - uses: actions/checkout@v3
+    - uses: actions/setup-node@v3
+      with:
+        node-version: 16
+        cache: 'yarn'
 
-      - name: Install deps
-        run: yarn install
+    - name: Install deps (for eslint plugins)
+      run: yarn install --frozen-lockfile
 
-      - name: Eslint & Type check
-        uses: MansaGroup/nrwl-nx-action@v3.2.2
-        with:
-          targets: lint,type-check
-          affected: 'true'
+    - name: ESLint
+      run: yarn eslint '*/**/*.{js,ts,tsx}' --quiet
+
+    - name: Test compiliation
+      run: yarn tsc --noEmit

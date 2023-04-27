@@ -1,0 +1,12 @@
+mutation NonceGenerate($input: NonceGenerateInput!){
+    nonceGenerate(input: $input){
+        nonce
+    }
+}
+
+mutation UserLogin($input: UserLoginInput!){
+    userLogin(input: $input){
+        token,
+        refreshToken
+    }
+}

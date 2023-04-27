@@ -1,6 +1,0 @@
-mutation UpdateLastRead {
-  userUpdateLastReadAt {
-    id
-    lastReadAt
-  }
-}
