@@ -1,4 +1,4 @@
-const formatAddress = (address?: string | null) => {
+const formatAddress = (address?: string) => {
   if (!address) {
     return '';
   }

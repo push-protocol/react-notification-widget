@@ -36,7 +36,7 @@ export const VerifyAccount = () => {
           Hi, {userEns || formatAddress(userAddress)} 👋
         </Text>
         <Text size={'lg'} mb={8} align={'center'}>
-          Sign a message with your wallet to verify ownership of your account.
+          TEST: Sign a message with your wallet to verify ownership of your account.
         </Text>
       </Flex>
       <Button

@@ -38,7 +38,6 @@ const FromWalletIcon = styled.div`
   justify-content: center;
   text-align: center;
   overflow: hidden;
-
   img {
     height: 100%;
     width: 100%;
@@ -115,9 +114,7 @@ const ChannelToUserIcons = () => {
           <UserWalletIcon />
         </WalletIcon>
         <WalletText>
-          <Text size={'sm'}>
-            {!address ? 'Your wallet' : formatAddress(userEns) || formatAddress(address)}
-          </Text>
+          <Text size={'sm'}>{!address ? 'Your wallet' : userEns || formatAddress(address)}</Text>
         </WalletText>
       </WalletContainer>
     </Container>
