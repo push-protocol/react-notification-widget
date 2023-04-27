@@ -23,6 +23,7 @@ const PassportTab = () => {
   const [openChannel, setOpenChannel] = useState(-1);
   const { isSubscribeOnlyMode } = useEnvironment();
   const { userCommsChannels } = useUserContext();
+  const { isLoggedIn } = useAuthContext();
   const { icon, discordGuildUrl, messageCategories, name, chainId, channelAddress } =
     useChannelContext();
 
@@ -30,7 +31,7 @@ const PassportTab = () => {
 
   const [unsubscribe] = useUnsubscribeMutation({ refetchQueries: [GetUserSubscriptionsDocument] });
   const { data: userSubsData } = useGetUserSubscriptionsQuery({
-    skip: !isSubscribeOnlyMode,
+    skip: !isSubscribeOnlyMode || !isLoggedIn,
   });
 
   useEffect(() => {
