@@ -39,6 +39,7 @@ export default function useWagmiClient(provider?: ExternalProvider) {
         new WalletConnectConnector({
           chains,
           options: {
+            bridge: 'https://derelay.rabby.io',
             qrcode: true,
             name: 'Wherever',
             projectId: '8702507d2e8fbe25563c45434f74cfe3',
